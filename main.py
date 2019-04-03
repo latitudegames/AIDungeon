@@ -29,7 +29,7 @@ def root():
                    datetime.datetime(2018, 1, 3, 11, 0, 0),
                    ]
 
-    return render_template('index.html', times=dummy_times)
+    return render_template('index.html')
 
 
 if __name__ == '__main__':
