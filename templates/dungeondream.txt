@@ -1,0 +1,6 @@
+<span id="a">jeff@weisbein</span>:<span id="b">~</span><span id="c">$</span> cat jeffweisbein.txt<br/><br/>
+Hi, I'm Jeff Weisbein.<!-- laglaglaglaglaglaglaglaglaglaglaglag --><p>I majored in Business Administration with a concentration in Finance.  I graduated Summa Cum Laude.</p><!-- qowifjqwoeijfoqweijfqweoifjqweofijqweoqwoijefoqwijefoijfqiwoefjj -->
+<p>I'm the founder and CEO of <a href="http://www.besttechie.com">BestTechie</a> and <a href="https://getkya.com">KYA</a>.</p><!- oqwipjefqwioefjwioqfjoiqwjfeioqwjefoi -->
+<p>I love to read, listen to music, and travel.</p><!-- owlsqweoifjqwoefijqwoeifjqwoefijwef -->
+If you would like to get in touch with me, whether it be for tech support, a business venture, or to just say hi<!-- slightdelayhere-->, feel free to send me an email or a tweet.<!-- longlongcomment --> My email address is: <a href="mailto:jeff@besttechie.com">jeff@besttechie.com</a> and my Twitter is: <a href="http://twitter.com/jeffweisbein">@jeffweisbein</a>.
+<p>And if you haven't already, be sure to check out my tech publication <a href="http://www.besttechie.com">http://www.besttechie.com</a> and analytics startup <a href="https://getkya.com">https://getkya.com</a>.</p>
