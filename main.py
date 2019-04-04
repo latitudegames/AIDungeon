@@ -15,7 +15,7 @@
 # [START gae_python37_render_template]
 import datetime
 
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
@@ -25,6 +25,14 @@ def root():
     # For the sake of example, use static information to inflate the template.
     # This will be replaced with real information in later steps.
     return render_template('index.html')
+
+
+@app.route('/generate', methods=['POST'])
+def story_request():
+    is_story_block = request.form["story_block"] # is it a full story block or just an action?
+    prompt = request.form["prompt"] # given prompt
+
+    return "Greetings from the planet Zenon!"
 
 
 if __name__ == '__main__':
