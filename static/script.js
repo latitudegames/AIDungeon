@@ -3,110 +3,73 @@ var Typer={
 	accessCountimer:null,
 	index:0, 
 	speed:2,
-	file:"", 
-	accessCount:0,
-	deniedCount:0, 
 	init: function(){
-		accessCountimer=setInterval(function(){Typer.updLstChr();},500); 
-		$.get(Typer.file,function(data){
-			Typer.text=data;
-			Typer.text = Typer.text.slice(0, Typer.text.length-1);
-		});
+		accessCountimer=setInterval(function(){Typer.blinkCursor();},500); 
 	},
  
 	content:function(){
 		return $("#console").html();
 	},
  
-	write:function(str){
-		$("#console").append(str);
-		return false;
+	addText:function(){
+		var cont=Typer.content(); 
+		if(cont.substring(cont.length-1,cont.length)=="|") 
+			$("#console").html($("#console").html().substring(0,cont.length-1)); 
+
+		Typer.index+=Typer.speed;	
+		var text=Typer.text.substring(0,Typer.index)
+		var rtn= new RegExp("\n", "g"); 
+
+		$("#console").html(text.replace(rtn,"<br/>"));
+		window.scrollBy(0,50); 
+		
 	},
  
-	addText:function(key){
-		
-		if(key.keyCode==18){
-			Typer.accessCount++; 
-			
-			if(Typer.accessCount>=3){
-				Typer.makeAccess(); 
-			}
-		}
-		
-    		else if(key.keyCode==20){
-			Typer.deniedCount++; 
-			
-			if(Typer.deniedCount>=3){
-				Typer.makeDenied(); 
-			}
-		}
-		
-    		else if(key.keyCode==27){ 
-			Typer.hidepop(); 
-		}
-		
-    		else if(Typer.text){ 
-			var cont=Typer.content(); 
-			if(cont.substring(cont.length-1,cont.length)=="|") 
-				$("#console").html($("#console").html().substring(0,cont.length-1)); 
-			if(key.keyCode!=8){ 
-				Typer.index+=Typer.speed;	
-			}
-      		else {
-			if(Typer.index>0) 
-				Typer.index-=Typer.speed;
-			}
-			var text=Typer.text.substring(0,Typer.index)
-			var rtn= new RegExp("\n", "g"); 
-	
-			$("#console").html(text.replace(rtn,"<br/>"));
-			window.scrollBy(0,50); 
-		}
-		
-		if (key.preventDefault && key.keyCode != 122) { 
-			key.preventDefault()
-		};  
-		
-		if(key.keyCode != 122){ // otherway prevent keys default behavior
-			key.returnValue = false;
-		}
-	},
- 
-	updLstChr:function(){ 
+	blinkCursor:function(){ 
 		var cont=this.content(); 
 		
 		if(cont.substring(cont.length-1,cont.length)=="|") 
 			$("#console").html($("#console").html().substring(0,cont.length-1)); 
 		
 		else
-			this.write("|"); // else write it
-	}
-}
- 
-function replaceUrls(text) {
-	var http = text.indexOf("http://");
-	var space = text.indexOf(".me ", http);
-	
-	if (space != -1) { 
-		var url = text.slice(http, space-1);
-		return text.replace(url, "<a href=\""  + url + "\">" + url + "</a>");
-	} 
-	
-	else {
-		return text
+			$("#console").append("|");
 	}
 }
 
-Typer.speed=1;
-Typer.file="static/dungeondream.txt";
-Typer.init();
+
+// request_story("Hello")
+function requestStory(prompt, callback){
+	$.post("/generate", { story_block: true, prompt},
+	  function(data){
+			alert(data)
+	    return data;
+	  });
+	  
+	  
+}
+
+
+function startTyping(Typer, story){
+    Typer.text=story
+    addTextTimer = setInterval("typeWords();", 40);
  
-var timer = setInterval("t();", 30);
-function t() {
-	Typer.addText({"keyCode": 123748});
+}
+
+function typeWords() {
+	Typer.addText();
 	
 	if (Typer.index > Typer.text.length) {
-		clearInterval(timer);
+		clearInterval(addTextTimer);
+        var choice = prompt("What's your choice?");
+        
+        // Here we probably want to call the request story function with the choice they made
+        
 	}
 }
- 
+
+addTextTimer = null;
+
+Typer.speed=2;
+
+Typer.init(); 
+startTyping(Typer, "<span id='a'>Adventurer@DungeonDream</span>:<span id='b'>~</span><span id='c'>$</span> Hello Adventurer and welcome to my dungeon!");
