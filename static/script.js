@@ -38,18 +38,13 @@ var Typer={
 
 
 // request_story("Hello")
-function requestStory(prompt, callback){
+function requestStory(prompt){
 	$.post("/generate", { story_block: true, prompt},
-	  function(data){
-			alert(data)
-	    return data;
-	  });
-	  
-	  
+	  startTyping);
 }
 
 
-function startTyping(Typer, story){
+function startTyping(story){
     Typer.text=story
     addTextTimer = setInterval("typeWords();", 40);
  
@@ -60,16 +55,21 @@ function typeWords() {
 	
 	if (Typer.index > Typer.text.length) {
 		clearInterval(addTextTimer);
+		
         var choice = prompt("What's your choice?");
         
+        requestStory(prompt);
         // Here we probably want to call the request story function with the choice they made
         
 	}
 }
 
+function start(){
+    Typer.speed=2;
+
+    Typer.init(); 
+    startTyping("<span id='a'>Adventurer@DungeonDream</span>:<span id='b'>~</span><span id='c'>$</span> Hello Adventurer and welcome to my dungeon!");
+}
+
 addTextTimer = null;
-
-Typer.speed=2;
-
-Typer.init(); 
-startTyping(Typer, "<span id='a'>Adventurer@DungeonDream</span>:<span id='b'>~</span><span id='c'>$</span> Hello Adventurer and welcome to my dungeon!");
+start();

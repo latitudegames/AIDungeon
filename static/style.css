@@ -37,6 +37,10 @@ a {
     	color: #888888
 }
 
+#SI{
+    background-color:transparent;
+}
+
 @keyframes change {
     	0%  { color:  #0f0; }
     	50% { color:  #0f0; }

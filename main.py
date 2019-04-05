@@ -14,11 +14,16 @@
 
 # [START gae_python37_render_template]
 import datetime
+from generator import StoryGenerator
+import tensorflow as tf
+from flask import g
 
 from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
+session = None
+generator = None
 
 @app.route('/')
 def root():
@@ -29,10 +34,37 @@ def root():
 
 @app.route('/generate', methods=['POST'])
 def story_request():
+    print("****Beginning Generation****")
     is_story_block = request.form["story_block"] # is it a full story block or just an action?
     prompt = request.form["prompt"] # given prompt
-
-    return "Greetings from the planet Zenon!"
+    
+    generator = get_generator()
+        
+    if is_story_block:
+        response = generator.generate_story_block(prompt)
+    else:
+        response = generator.generate_action_block(prompt)
+        
+    print("\nGenerated response is: \n", response)
+    print("")
+    
+    return response
+    
+    
+def get_generator():
+    if "gen" not in g:
+        if "sess" not in g:
+            g.sess = tf.Session()
+        g.gen = StoryGenerator(g.sess)
+        
+    return g.gen
+    
+@app.teardown_appcontext
+def teardown_sess(_):
+    sess = g.pop("sess",None)
+    
+    if sess is not None:
+        sess.close()
 
 
 if __name__ == '__main__':
@@ -43,5 +75,10 @@ if __name__ == '__main__':
     # the "static" directory. See:
     # http://flask.pocoo.org/docs/1.0/quickstart/#static-files. Once deployed,
     # App Engine itself will serve those files as configured in app.yaml.
-    app.run(host='127.0.0.1', port=8090, debug=True)
+    with tf.Session(graph=tf.Graph()) as sess:
+       app.run(host='127.0.0.1', port=8090, debug=False)
+        
+        
+        
+        
 # [START gae_python37_render_template]
