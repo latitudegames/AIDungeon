@@ -8,6 +8,8 @@ import gpt2.src.sample as sample
 import gpt2.src.encoder as encoder
 from utils import *
 
+pos_action_starts = ["You attack", "You tell", "You use", "You go"]
+
 
 class StoryGenerator():
 
@@ -53,7 +55,7 @@ class StoryGenerator():
         
         return block
         
-    def generate_action_options(self, prompt, action_starts):
+    def generate_action_options(self, prompt, action_starts=pos_action_starts):
     
         possible_actions = []
         for phrase in action_starts:

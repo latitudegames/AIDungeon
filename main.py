@@ -17,7 +17,9 @@ import datetime
 from generator import StoryGenerator
 import tensorflow as tf
 from flask import g
+import pdb
 
+import json
 from flask import Flask, render_template, request
 
 app = Flask(__name__)
@@ -34,16 +36,19 @@ def root():
 
 @app.route('/generate', methods=['POST'])
 def story_request():
-    print("****Beginning Generation****")
-    is_story_block = request.form["story_block"] # is it a full story block or just an action?
+    print("****Generating Story****")
     prompt = request.form["prompt"] # given prompt
+    gen_actions = request.form["actions"] # given prompt
+    
+    print("\n Given prompt is: \n",prompt,"\n")
     
     generator = get_generator()
-        
-    if is_story_block:
-        response = generator.generate_story_block(prompt)
+    
+    if gen_actions == "true":
+        response = generator.generate_action_options(prompt)
+        response = json.dumps(response)
     else:
-        response = generator.generate_action_block(prompt)
+        response = generator.generate_story_block(prompt)
         
     print("\nGenerated response is: \n", response)
     print("")
