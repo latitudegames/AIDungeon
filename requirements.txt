@@ -1,5 +1,5 @@
 regex==2017.4.5
 numpy
-tensorflow
+tensorflow==1.13.1
 flask
-
+gunicorn==19.7.1

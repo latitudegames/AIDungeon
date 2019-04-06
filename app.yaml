@@ -1,5 +1,10 @@
 runtime: python37
 
+instance_class: F4_1G
+entrypoint: gunicorn -b :$PORT main:app
+env: flex
+threadsafe: yes
+
 handlers:
   # This configures Google App Engine to serve the files in the app's static
   # directory.
@@ -11,4 +16,4 @@ handlers:
   # the entire handlers section) when there are no static files defined.
 - url: /.*
   script: auto
-  instance_class: F4
+
