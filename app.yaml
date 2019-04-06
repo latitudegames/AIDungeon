@@ -1,9 +1,15 @@
-runtime: python37
+runtime_config:
+  python_version: 3
 
 instance_class: F4_1G
-entrypoint: gunicorn -b :$PORT main:app
+entrypoint: gunicorn -t 120 -b :$PORT main:app
 env: flex
 threadsafe: yes
+
+resources:
+  cpu: 2
+  memory_gb: 2.0
+  disk_size_gb: 10
 
 handlers:
   # This configures Google App Engine to serve the files in the app's static
