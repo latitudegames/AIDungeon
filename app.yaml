@@ -1,9 +1,7 @@
 runtime: python37
 
 instance_class: F4_1G
-entrypoint: gunicorn -b :$PORT main:app
-env: flex
-threadsafe: yes
+entrypoint: gunicorn -t 120 -b :$PORT main:app
 
 handlers:
   # This configures Google App Engine to serve the files in the app's static
