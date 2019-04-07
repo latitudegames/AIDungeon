@@ -51,6 +51,11 @@ var StoryTracker = {
             Typer.appendToText("\nWhich action do you choose? ")
             StoryTracker.action_int = 0
             acceptInput = true
+            
+            if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
+                inputStr = window.prompt("sometext","defaultText");
+                StoryTracker.processInput()
+            }
         }
     },
     
