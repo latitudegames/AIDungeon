@@ -20,7 +20,7 @@ var StoryTracker = {
     getFirstStory:function(){
         console.log("Requesting first story")
         Typer.appendToText(initial_prompt)
-        StoryTracker.requestStory(initial_prompt, "None")
+        StoryTracker.requestStory(initial_prompt)
     
     },
     
@@ -36,26 +36,33 @@ var StoryTracker = {
     },
     
     addNextAction:function(action_result){
-        var action_result = JSON.parse(action_result)
-        action = action_result[0]
-        result = action_result[1]
-        
-        
-        StoryTracker.actions.push(action)
-        StoryTracker.results.push(result)
-        var print_action = "\n" + String(StoryTracker.action_int) + ") " + action
-        StoryTracker.action_int += 1
-        Typer.appendToText(print_action)
+    
+        var action_results = JSON.parse(action_result)
+    
+        for (i = 0; i < 4; i++){
+            
+            action_result = action_results[i]
 
-        if (StoryTracker.action_int > 3){
-            Typer.appendToText("\nWhich action do you choose? ")
-            StoryTracker.action_int = 0
-            acceptInput = true
+            action = action_result[0]
+            result = action_result[1]
             
-            if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
-                setTimeout(StoryTracker.mobileButton, 1000);
+            
+            StoryTracker.actions.push(action)
+            StoryTracker.results.push(result)
+            var print_action = "\n" + String(StoryTracker.action_int) + ") " + action
+            StoryTracker.action_int += 1
+            Typer.appendToText(print_action)
+
+            if (StoryTracker.action_int > 3){
+                Typer.appendToText("\nWhich action do you choose? ")
+                StoryTracker.action_int = 0
+                acceptInput = true
+                
+                if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
+                    setTimeout(StoryTracker.mobileButton, 1000);
+                }
+                
             }
-            
         }
         
     },
@@ -76,19 +83,18 @@ var StoryTracker = {
         StoryTracker.actions = []
         StoryTracker.results = []
         
-        for (i = 0; i < 4; i++){
-            StoryTracker.requestAction(prompt, action_list[i])
-        }
+        StoryTracker.requestAction(prompt)
+        
 
     },
     
-    requestStory:function(prompt, phrase){
-	    $.post("/generate", {actions: false, prompt, phrase},
+    requestStory:function(prompt){
+	    $.post("/generate", {actions: false, prompt},
 	      StoryTracker.addNextStory)
     },
     
-    requestAction:function(prompt, phrase){
-	    $.post("/generate", {actions: true, prompt, phrase},
+    requestAction:function(prompt){
+	    $.post("/generate", {actions: true, prompt},
 	      StoryTracker.addNextAction)
     },
 
@@ -101,7 +107,7 @@ var StoryTracker = {
             StoryTracker.lastAction = StoryTracker.actions[choice_int]
             StoryTracker.lastStory = StoryTracker.results[choice_int]
             StoryTracker.makeActionRequests(StoryTracker.firstStory + StoryTracker.lastStory)
-            Typer.appendToText("\n\n")
+            Typer.appendToText("\n")
             Typer.appendToText(StoryTracker.lastStory)
             Typer.appendToText("\n\nOptions:")
         }
@@ -187,7 +193,7 @@ function writeAppend(str){
 
 
 function startTyping(){
-    addTextTimer = setInterval("typeWords()", 40)
+    addTextTimer = setInterval("typeWords()", 50)
  
 }
 
