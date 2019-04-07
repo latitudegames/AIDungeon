@@ -6,7 +6,7 @@ instance_class: F4_1G
 entrypoint: gunicorn -t 120 --log-level debug  -b :$PORT main:app
 env: flex
 threadsafe: yes
-max_concurrent_requests: 2
+max_concurrent_requests: 1
 
 resources:
   cpu: 2
