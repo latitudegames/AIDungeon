@@ -1,4 +1,4 @@
-initial_prompt = "You enter a dungeon with your trusty sword and shield. You are searching for the evil necromancer who killed your family. You believe he is at the lowest level of the dungeon. You know you will encounter undead zombies and skeletons. You enter the first door and see"
+initial_prompt = "You enter a dungeon with your trusty sword and shield. You are searching for the evil necromancer who killed your family. You've heard that he resides at the bottom of the dungeon, guarded by legions of the undead. You enter the first door and see"
 
 start_text = "<span id='a'>Adventurer@AIDungeon</span>:<span id='b'>~</span><span id='c'>$</span> ./EnterDungeon \n <br/>"
 
@@ -53,9 +53,21 @@ var StoryTracker = {
             acceptInput = true
             
             if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
-                inputStr = window.prompt("sometext","defaultText");
-                StoryTracker.processInput()
+                setTimeout(StoryTracker.mobileButton, 1000);
             }
+            
+        }
+        
+    },
+    
+    mobileButton:function(){
+    
+        if (Typer.index >= Typer.text.length -1){
+            inputStr = window.prompt("What is your choice?","0");
+            StoryTracker.processInput()
+        }
+        else{
+            setTimeout(StoryTracker.mobileButton, 1000);
         }
     },
     
@@ -89,6 +101,7 @@ var StoryTracker = {
             StoryTracker.lastAction = StoryTracker.actions[choice_int]
             StoryTracker.lastStory = StoryTracker.results[choice_int]
             StoryTracker.makeActionRequests(StoryTracker.firstStory + StoryTracker.lastStory)
+            Typer.appendToText("\n\n")
             Typer.appendToText(StoryTracker.lastStory)
             Typer.appendToText("\n\nOptions:")
         }
@@ -97,6 +110,11 @@ var StoryTracker = {
             Typer.appendToText("Invalid choice. Must be a number from 0 to 3. \n")
             Typer.appendToText("\nWhich action do you choose? ")
             acceptInput=true
+            
+            if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
+                setTimeout(StoryTracker.mobileButton, 1000);
+            }
+            
         }
         
         

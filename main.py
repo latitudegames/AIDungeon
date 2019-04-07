@@ -41,7 +41,7 @@ def story_request():
     phrase = request.form["phrase"]
     gen_actions = request.form["actions"] # given prompt
     
-    print("\n Given prompt is: \n",prompt,"\n")
+    print("\n Given prompt is: \n",prompt," ", phrase,"\n")
     
     generator = get_generator()
     
