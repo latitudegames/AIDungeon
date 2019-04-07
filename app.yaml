@@ -5,6 +5,7 @@ runtime_config:
 instance_class: B8
 entrypoint: gunicorn -t 120 --log-level debug  -b :$PORT main:app
 threadsafe: true
+env: flex
 
 manual_scaling: 
     instances: 4
