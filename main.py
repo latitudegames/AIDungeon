@@ -40,6 +40,14 @@ def server_error(e):
     An internal error occurred: <pre>{}</pre>
     See logs for full stacktrace.
     """.format(e), 500
+    
+@app.errorhandler(400)
+def server_error(e):
+    logging.exception('An error occurred during a request.')
+    return """
+    An internal error occurred: <pre>{}</pre>
+    See logs for full stacktrace.
+    """.format(e), 400
 
 
 @app.route('/generate', methods=['POST'])
