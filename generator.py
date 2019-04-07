@@ -13,7 +13,7 @@ pos_action_starts = ["You attack", "You tell", "You use", "You go"]
 
 class StoryGenerator():
 
-    def __init__(self, sess, length=100, temperature=0.9, top_k=40):
+    def __init__(self, sess, length=80, temperature=0.9, top_k=40):
     
         seed = None
         batch_size=1
