@@ -46,6 +46,7 @@ def server_error(e):
 def story_request():
     print("****Generating Story****")
     prompt = request.form["prompt"] # given prompt
+    phrase = request.form["phrase"]
     gen_actions = request.form["actions"] # given prompt
     
     print("\n Given prompt is: \n",prompt,"\n")
@@ -53,8 +54,8 @@ def story_request():
     generator = get_generator()
     
     if gen_actions == "true":
-        response = generator.generate_action_options(prompt)
-        response = json.dumps(response)
+        action, result = generator.generate_action_result(prompt, phrase)
+        response = json.dumps([action, result])
     else:
         response = generator.generate_story_block(prompt)
         

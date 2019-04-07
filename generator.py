@@ -13,7 +13,7 @@ pos_action_starts = ["You attack", "You tell", "You use", "You go"]
 
 class StoryGenerator():
 
-    def __init__(self, sess, length=80, temperature=0.9, top_k=40):
+    def __init__(self, sess, length=100, temperature=0.9, top_k=40):
     
         seed = None
         batch_size=1
@@ -64,4 +64,15 @@ class StoryGenerator():
             possible_actions.append(action)
             
         return possible_actions
+        
+    def generate_action_result(self, prompt, phrase):
+        action = phrase + self.generate(prompt + phrase)
+        action_result = cut_trailing_sentence(action)
+        action_result = story_replace(action_result)
+        
+        action = first_sentence(action)
+        
+
+        return action, action_result
+
         

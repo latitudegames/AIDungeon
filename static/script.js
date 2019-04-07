@@ -6,18 +6,21 @@ start_text = "<span id='a'>Adventurer@AIDungeon</span>:<span id='b'>~</span><spa
 var acceptInput=false
 var inputStr = ""
 var blinkCounter = 0
+var action_list = ["You attack", "You tell", "You use", "You go"]
 
 var StoryTracker = {
     firstStory: null,
     lastStory: null,
     lastAction: null,
-    actions: null,
+    actions: [],
+    results: [],
+    action_int: 0,
     startPrompt: initial_prompt,
     
     getFirstStory:function(){
         console.log("Requesting first story")
         Typer.appendToText(initial_prompt)
-        StoryTracker.requestStory(initial_prompt)
+        StoryTracker.requestStory(initial_prompt, "")
     
     },
     
@@ -27,31 +30,49 @@ var StoryTracker = {
             StoryTracker.firstStory = StoryTracker.startPrompt + story
         }
             
-        StoryTracker.requestActions(StoryTracker.firstStory + StoryTracker.lastStory)
+        StoryTracker.makeActionRequests(StoryTracker.firstStory + StoryTracker.lastStory)
         Typer.appendToText(story)
-    },
-    
-    addNextActions:function(actions){
-        var actions = JSON.parse(actions)
-        StoryTracker.actions = actions
         Typer.appendToText("\n\nOptions:")
-        Typer.appendToText("\n0) " + actions[0])
-        Typer.appendToText("\n1) " + actions[1])
-        Typer.appendToText("\n2) " + actions[2])
-        Typer.appendToText("\n3) " + actions[3])
-        Typer.appendToText("\nWhich action do you choose? ")
-        
-        acceptInput = true
     },
     
-    requestStory:function(prompt){
-	    $.post("/generate", {actions: false, prompt},
+    addNextAction:function(action_result){
+        var action_result = JSON.parse(action_result)
+        action = action_result[0]
+        result = action_result[1]
+        
+        
+        StoryTracker.actions.push(action)
+        StoryTracker.results.push(result)
+        var print_action = "\n" + String(StoryTracker.action_int) + ") " + action
+        StoryTracker.action_int += 1
+        Typer.appendToText(print_action)
+
+        if (StoryTracker.action_int > 3){
+            Typer.appendToText("\nWhich action do you choose? ")
+            StoryTracker.action_int = 0
+            acceptInput = true
+        }
+    },
+    
+    makeActionRequests:function(prompt){
+    
+        StoryTracker.actions = []
+        StoryTracker.results = []
+        
+        for (i = 0; i < 4; i++){
+            StoryTracker.requestAction(prompt, action_list[i])
+        }
+
+    },
+    
+    requestStory:function(prompt, phrase){
+	    $.post("/generate", {actions: false, prompt, phrase},
 	      StoryTracker.addNextStory)
     },
     
-    requestActions:function(prompt){
-	    $.post("/generate", {actions: true, prompt},
-	      StoryTracker.addNextActions)
+    requestAction:function(prompt, phrase){
+	    $.post("/generate", {actions: true, prompt, phrase},
+	      StoryTracker.addNextAction)
     },
 
     processInput:function(){
@@ -61,8 +82,10 @@ var StoryTracker = {
             
             console.log("choice_int is %d", choice_int)
             StoryTracker.lastAction = StoryTracker.actions[choice_int]
-            StoryTracker.requestStory(StoryTracker.firstStory + StoryTracker.lastStory + StoryTracker.lastAction)
-            
+            StoryTracker.lastStory = StoryTracker.results[choice_int]
+            StoryTracker.makeActionRequests(StoryTracker.firstStory + StoryTracker.lastStory)
+            Typer.appendToText(StoryTracker.lastStory)
+            Typer.appendToText("\n\nOptions:")
         }
         else{
         
@@ -90,7 +113,7 @@ var Typer={
 	},
 	
 	appendToText:function(str){
-	    str = str.replace(".", "." + "<!-- laglaglaglaglaglaglag -->")
+	    str = str.replace(".", "." + "<!-- laglaglaglaglaglaglaglaglaglag -->")
 	    Typer.text = Typer.text + str;
 	},
  
@@ -141,7 +164,7 @@ function writeAppend(str){
 
 
 function startTyping(){
-    addTextTimer = setInterval("typeWords()", 35)
+    addTextTimer = setInterval("typeWords()", 40)
  
 }
 
