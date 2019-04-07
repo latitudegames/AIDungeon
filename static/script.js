@@ -20,7 +20,7 @@ var StoryTracker = {
     getFirstStory:function(){
         console.log("Requesting first story")
         Typer.appendToText(initial_prompt)
-        StoryTracker.requestStory(initial_prompt, "")
+        StoryTracker.requestStory(initial_prompt, "None")
     
     },
     
