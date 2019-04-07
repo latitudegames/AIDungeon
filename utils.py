@@ -65,6 +65,19 @@ def first_sentence(text):
         
     return text
     
+def all_but_first(text):
+    first_period = text.find('.')
+    first_exclamation = text.find('!')
+    
+    if first_exclamation < first_period and first_exclamation > 0:
+        text = text[first_exclamation+1:]
+    elif first_period > 0:
+        text = text[first_period+1:]
+    else:
+        return text[20:]
+        
+    return text
+    
     
 def cut_trailing_sentence(text):
     last_period = text.rfind('.')
