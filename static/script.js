@@ -1,4 +1,4 @@
-initial_prompt = "You enter a dungeon with your trusty sword and shield. You are searching for the evil necromancer who killed your family. You've heard that he resides at the bottom of the dungeon, guarded by legions of the undead. You enter the first door and see"
+var prompts = ["You enter a dungeon with your trusty sword and shield. You are searching for the evil necromancer who killed your family. You've heard that he resides at the bottom of the dungeon, guarded by legions of the undead. You enter the first door and see"]
 
 start_text = "<span id='a'>Adventurer@AIDungeon</span>:<span id='b'>~</span><span id='c'>$</span> ./EnterDungeon \n <br/>"
 
@@ -7,6 +7,10 @@ var acceptInput=false
 var inputStr = ""
 var blinkCounter = 0
 var action_list = ["You attack", "You tell", "You use", "You go"]
+var prompt_num = 0
+var seed_max = 100
+var seed_min = 100
+var seed = Math.floor(Math.random() * (+seed_max - +seed_min)) + +seed_min; 
 
 var StoryTracker = {
     firstStory: null,
@@ -14,13 +18,14 @@ var StoryTracker = {
     lastAction: null,
     actions: [],
     results: [],
+    choices: [],
     action_int: 0,
-    startPrompt: initial_prompt,
+    startPrompt: prompts[prompt_num],
     
     getFirstStory:function(){
         console.log("Requesting first story")
-        Typer.appendToText(initial_prompt)
-        StoryTracker.requestStory(initial_prompt)
+        Typer.appendToText(StoryTracker.startPrompt)
+        StoryTracker.requestFirstStory(StoryTracker.startPrompt)
     
     },
     
@@ -46,7 +51,6 @@ var StoryTracker = {
             action = action_result[0]
             result = action_result[1]
             
-            
             StoryTracker.actions.push(action)
             StoryTracker.results.push(result)
             var print_action = "\n" + String(StoryTracker.action_int) + ") " + action
@@ -58,24 +62,9 @@ var StoryTracker = {
                 StoryTracker.action_int = 0
                 acceptInput = true
                 
-                if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
-                    setTimeout(StoryTracker.mobileButton, 1000);
-                }
-                
             }
         }
         
-    },
-    
-    mobileButton:function(){
-    
-        if (Typer.index >= Typer.text.length -1){
-            inputStr = window.prompt("What is your choice?","0");
-            StoryTracker.processInput()
-        }
-        else{
-            setTimeout(StoryTracker.mobileButton, 1000);
-        }
     },
     
     makeActionRequests:function(prompt){
@@ -83,18 +72,17 @@ var StoryTracker = {
         StoryTracker.actions = []
         StoryTracker.results = []
         
-        StoryTracker.requestAction(prompt)
-        
-
+        StoryTracker.requestActions(prompt, JSON.stringify(StoryTracker.choices))
     },
+
     
-    requestStory:function(prompt){
-	    $.post("/generate", {actions: false, prompt},
+    requestFirstStory:function(prompt){
+	    $.post("/generate", {actions: false, seed, prompt_num},
 	      StoryTracker.addNextStory)
     },
     
-    requestAction:function(prompt){
-	    $.post("/generate", {actions: true, prompt},
+    requestActions:function(prompt, choices){
+	    $.post("/generate", {actions: true, seed, prompt_num, prompt, choices},
 	      StoryTracker.addNextAction)
     },
 
@@ -104,6 +92,7 @@ var StoryTracker = {
         if(choice_int >= 0 && choice_int <= 3){
             
             console.log("choice_int is %d", choice_int)
+            StoryTracker.actions.push(choice_int)
             StoryTracker.lastAction = StoryTracker.actions[choice_int]
             StoryTracker.lastStory = StoryTracker.results[choice_int]
             StoryTracker.makeActionRequests(StoryTracker.firstStory + StoryTracker.lastStory)
@@ -116,10 +105,6 @@ var StoryTracker = {
             Typer.appendToText("Invalid choice. Must be a number from 0 to 3. \n")
             Typer.appendToText("\nWhich action do you choose? ")
             acceptInput=true
-            
-            if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
-                setTimeout(StoryTracker.mobileButton, 1000);
-            }
             
         }
         
@@ -193,7 +178,7 @@ function writeAppend(str){
 
 
 function startTyping(){
-    addTextTimer = setInterval("typeWords()", 50)
+    addTextTimer = setInterval("typeWords()", 40)
  
 }
 

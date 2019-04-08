@@ -31,6 +31,7 @@ from flask import Flask, render_template, request
 app = Flask(__name__)
 
 phrases = [" You attack", " You use", " You tell", " You use"]
+prompts = ["You enter a dungeon with your trusty sword and shield. You are searching for the evil necromancer who killed your family. You've heard that he resides at the bottom of the dungeon, guarded by legions of the undead. You enter the first door and see"]
 
 session = None
 generator = None
@@ -45,17 +46,29 @@ def root():
 @app.route('/generate', methods=['POST'])
 def story_request():
     print("****Generating Story****")
-    prompt = request.form["prompt"] # given prompt
-    gen_actions = request.form["actions"] # given prompt
-    
-    print("\n Given prompt is: \n",prompt," ","\n")
+    seed = request.form["seed"]
+    gen_actions = request.form["actions"] 
     
     generator = get_generator()
     
     if gen_actions == "true":
+        initial_prompt_num = int(request.form["prompt_num"])
+        prompt = request.form["prompt"] 
+        choices = json.loads(request.form["choices"]) # used for caching lookup
+
+        # TODO implement caching based on seed, prompt_num and choices
+
+
+
         action_results = [generator.generate_action_result(prompt, phrase) for phrase in phrases]
         response = json.dumps(action_results)
     else:
+        prompt_num = int(request.form["prompt_num"])
+
+        # TODO implement caching based on seed, and prompt_num
+
+
+        prompt = prompts[prompt_num]
         response = generator.generate_story_block(prompt)
         
     print("\nGenerated response is: \n", response)
