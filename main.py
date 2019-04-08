@@ -18,15 +18,17 @@ from generator import StoryGenerator
 import tensorflow as tf
 from flask import g
 import pdb
+import os
 
-try: 
-    import googleclouddebugger
-    googleclouddebugger.enable()
-except ImportError:
-    pass
+os.environ['GOOGLE_APPLICATION_CREDENTIALS']="/home/nickwalton/git/DM-Server/AI-Adventure-1f64082e4e50.json"
 
+
+from google.cloud import storage
+from google import cloud
 import json
 from flask import Flask, render_template, request
+storage_client = storage.Client()
+bucket = storage_client.get_bucket("dungeon-cache")
 
 app = Flask(__name__)
 
@@ -41,35 +43,75 @@ def root():
     # For the sake of example, use static information to inflate the template.
     # This will be replaced with real information in later steps.
     return render_template('index.html')
+    
+    
+def cache_file(seed, prompt_num, choices, response, tag):
 
+    blob_file_name = "p" + str(prompt_num) + "/seed" + str(seed) + "/" + tag
+    for action in choices:
+        blob_file_name + str(action)
+    blob = bucket.blob(blob_file_name)
+    
+    blob.upload_from_string(response)
+    
+    print("File ", blob_file_name, " cached")
+
+
+def retrieve_from_cache(seed, prompt_num, choices, tag):
+    blob_file_name = "p" + str(prompt_num) + "/seed" + str(seed) + "/" + tag
+    
+    for action in choices:
+        blob_file_name + str(action)
+        
+    blob = bucket.blob(blob_file_name)
+    
+    if blob.exists(storage_client):
+        result = blob.download_as_string()
+        print(blob_file_name, " found in cache")
+    else:
+        result = None
+        print(blob_file_name, " not found in cache")
+        
+    return result.decode("utf-8") 
+    
 
 @app.route('/generate', methods=['POST'])
 def story_request():
     print("****Generating Story****")
     seed = request.form["seed"]
+    prompt_num = int(request.form["prompt_num"])
     gen_actions = request.form["actions"] 
+   
     
     generator = get_generator()
     
     if gen_actions == "true":
-        initial_prompt_num = int(request.form["prompt_num"])
+
         prompt = request.form["prompt"] 
         choices = json.loads(request.form["choices"]) # used for caching lookup
+        print("Getting response for seed ", seed, " prompt_num ", prompt_num, " and choices ", choices)
+    
 
         # TODO implement caching based on seed, prompt_num and choices
-
-
-
-        action_results = [generator.generate_action_result(prompt, phrase) for phrase in phrases]
-        response = json.dumps(action_results)
+        action_results = retrieve_from_cache(seed, prompt_num, choices, "choices")
+        
+        if action_results is not None:
+            response = action_results
+        else:
+            action_results = [generator.generate_action_result(prompt, phrase) for phrase in phrases]
+            response = json.dumps(action_results)
+            cache_file(seed, prompt_num, choices, response, "choices")
     else:
-        prompt_num = int(request.form["prompt_num"])
+        print("Getting response for seed ", seed, " prompt_num ", prompt_num)
 
         # TODO implement caching based on seed, and prompt_num
-
-
-        prompt = prompts[prompt_num]
-        response = generator.generate_story_block(prompt)
+        result = retrieve_from_cache(seed, prompt_num, [], "story")
+        if result is not None:
+            response = result
+        else:
+            prompt = prompts[prompt_num]
+            response = generator.generate_story_block(prompt)
+            cache_file(seed, prompt_num, [], response, "story")
         
     print("\nGenerated response is: \n", response)
     print("")

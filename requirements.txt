@@ -1,6 +1,5 @@
-regex==2017.4.5
+regex
+google-cloud-storage
 numpy
-tensorflow
 flask
 gunicorn
-google-python-cloud-debugger
