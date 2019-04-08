@@ -30,6 +30,8 @@ from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
+phrases = [" You attack", " You use", " You tell", " You use"]
+
 session = None
 generator = None
 
@@ -44,16 +46,15 @@ def root():
 def story_request():
     print("****Generating Story****")
     prompt = request.form["prompt"] # given prompt
-    phrase = request.form["phrase"]
     gen_actions = request.form["actions"] # given prompt
     
-    print("\n Given prompt is: \n",prompt," ", phrase,"\n")
+    print("\n Given prompt is: \n",prompt," ","\n")
     
     generator = get_generator()
     
     if gen_actions == "true":
-        action, result = generator.generate_action_result(prompt, phrase)
-        response = json.dumps([action, result])
+        action_results = [generator.generate_action_result(prompt, phrase) for phrase in phrases]
+        response = json.dumps(action_results)
     else:
         response = generator.generate_story_block(prompt)
         
