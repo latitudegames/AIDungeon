@@ -1,4 +1,2 @@
-__pychache__/*
-gpt2/__pycache__/*
+**/__pychache__
 gpt2/models/*
-regex
