@@ -1,9 +1,7 @@
 runtime: python
 runtime_config:
         python_version: 3
-
-instance_class: B8
-entrypoint: gunicorn -t 120 --log-level debug  -b :$PORT main:app
+entrypoint: gunicorn -t 240 --log-level debug --debug  -b :$PORT main:app
 threadsafe: true
 env: flex
 
