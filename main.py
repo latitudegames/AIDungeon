@@ -19,6 +19,12 @@ import tensorflow as tf
 from flask import g
 import pdb
 
+try: 
+    import googleclouddebugger
+    googleclouddebugger.enable()
+except ImportError:
+    pass
+
 import json
 from flask import Flask, render_template, request
 

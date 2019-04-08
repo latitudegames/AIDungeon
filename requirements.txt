@@ -3,3 +3,4 @@ numpy
 tensorflow
 flask
 gunicorn
+google-python-cloud-debugger
