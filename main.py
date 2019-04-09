@@ -135,7 +135,10 @@ def teardown_sess(_):
         sess.close()
 
 def generate_cache():
-    
+   
+
+    generator = StoryGenerator(tf.Session())
+    prompt_num = 0
     for seed in range(100):
         result = retrieve_from_cache(seed, prompt_num, [], "story")
         if result is not None:
@@ -160,6 +163,11 @@ def generate_cache():
         if action_results is not None:
             response = action_results
         else:
+            if len(choices) is 0:
+                prompt = retrieve_from_cache(seed, prompt_num, [], "story")
+            else:
+                prompt = retrieve_from_cache(seed, prompt_num, choices[:-1], "choices")
+
             action_results = [generator.generate_action_result(prompt, phrase) for phrase in phrases]
             response = json.dumps(action_results)
             cache_file(seed, prompt_num, choices, response, "choices")
@@ -180,7 +188,7 @@ if __name__ == '__main__':
     # App Engine itself will serve those files as configured in app.yaml.
     #with tf.Session(graph=tf.Graph()) as sess:
     #   app.run(host='127.0.0.1', port=8090, debug=False)
-    
+    generate_cache() 
     
         
     
