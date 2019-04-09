@@ -32,7 +32,7 @@ bucket = storage_client.get_bucket("dungeon-cache")
 
 app = Flask(__name__)
 
-phrases = [" You attack", " You use", " You tell", " You use"]
+phrases = [" You attack", " You use", " You tell", " You go"]
 prompts = ["You enter a dungeon with your trusty sword and shield. You are searching for the evil necromancer who killed your family. You've heard that he resides at the bottom of the dungeon, guarded by legions of the undead. You enter the first door and see"]
 
 session = None
@@ -49,7 +49,7 @@ def cache_file(seed, prompt_num, choices, response, tag):
 
     blob_file_name = "p" + str(prompt_num) + "/seed" + str(seed) + "/" + tag
     for action in choices:
-        blob_file_name + str(action)
+        blob_file_name = blob_file_name + str(action)
     blob = bucket.blob(blob_file_name)
     
     blob.upload_from_string(response)
@@ -61,18 +61,18 @@ def retrieve_from_cache(seed, prompt_num, choices, tag):
     blob_file_name = "p" + str(prompt_num) + "/seed" + str(seed) + "/" + tag
     
     for action in choices:
-        blob_file_name + str(action)
+        blob_file_name = blob_file_name + str(action)
         
     blob = bucket.blob(blob_file_name)
     
     if blob.exists(storage_client):
-        result = blob.download_as_string()
+        result = blob.download_as_string().decode("utf-8")
         print(blob_file_name, " found in cache")
     else:
         result = None
         print(blob_file_name, " not found in cache")
         
-    return result.decode("utf-8") 
+    return result
     
 
 @app.route('/generate', methods=['POST'])
