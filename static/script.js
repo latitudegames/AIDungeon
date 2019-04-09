@@ -1,16 +1,19 @@
-var prompts = ["You enter a dungeon with your trusty sword and shield. You are searching for the evil necromancer who killed your family. You've heard that he resides at the bottom of the dungeon, guarded by legions of the undead. You enter the first door and see"]
+var prompts = ["You enter a dungeon with your trusty sword and shield. You are searching for the evil necromancer who killed your family and have heard that he resides at the bottom of the dungeon, guarded by legions of the undead. You enter the first door and see"]
 
-start_text = "<span id='a'>Adventurer@AIDungeon</span>:<span id='b'>~</span><span id='c'>$</span> ./EnterDungeon \n <br/>"
+start_text = "<span id='a'>Adventurer@AIDungeon</span>:<span id='b'>~</span><span id='c'>$</span> ./EnterDungeon \n <br/><!-- laglaglaglaglaglaglaglaglaglaglag-->"
 
 
 var acceptInput=false
+var action_waiting = false
 var inputStr = ""
+var typing = false
 var blinkCounter = 0
 var action_list = ["You attack", "You tell", "You use", "You go"]
 var prompt_num = 0
 var seed_max = 100
 var seed_min = 0
-var seed = Math.floor(Math.random() * (+seed_max - +seed_min)) + +seed_min; 
+//var seed = Math.floor(Math.random() * (+seed_max - +seed_min)) + +seed_min; 
+var seed = 108
 console.log("Seed is ", seed)
 
 var StoryTracker = {
@@ -41,7 +44,21 @@ var StoryTracker = {
         Typer.appendToText("\n\nOptions:")
     },
     
+    actionWait:function(){
+        console.log("action waiting ", action_waiting)
+        console.log("typing ", typing)
+        if(action_waiting == true || typing){
+            setTimeout(StoryTracker.actionWait, 2000);
+        }
+        else{
+            Typer.appendToText(" Generating...")
+        }
+    
+    },
+    
     addNextAction:function(action_result){
+    
+        action_waiting = false
     
         var action_results = JSON.parse(action_result)
     
@@ -97,6 +114,8 @@ var StoryTracker = {
             StoryTracker.lastAction = StoryTracker.actions[choice_int]
             StoryTracker.lastStory = StoryTracker.results[choice_int]
             StoryTracker.makeActionRequests(StoryTracker.firstStory + StoryTracker.lastStory)
+            action_waiting = true
+            setTimeout(StoryTracker.actionWait, 2000);
             Typer.appendToText("\n")
             Typer.appendToText(StoryTracker.lastStory)
             Typer.appendToText("\n\nOptions:")
@@ -128,7 +147,8 @@ var Typer={
 	},
 	
 	appendToText:function(str){
-	    str = str.replace(".", "." + "<!-- laglaglaglaglaglaglaglaglaglag -->")
+	    str = str.replace(".", "." + "<!-- laglag-->")
+	    typing = true
 	    Typer.text = Typer.text + str;
 	},
  
@@ -150,6 +170,9 @@ var Typer={
 
 		    $("#console").html(text.replace(rtn,"<br/>"))
 		    window.scrollBy(0,50) 
+		}
+		else{
+		    typing = false
 		}
 		
 	},
@@ -179,7 +202,7 @@ function writeAppend(str){
 
 
 function startTyping(){
-    addTextTimer = setInterval("typeWords()", 30)
+    addTextTimer = setInterval("typeWords()", 25)
  
 }
 
