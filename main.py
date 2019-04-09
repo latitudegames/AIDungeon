@@ -20,8 +20,8 @@ from flask import g
 import pdb
 import os
 
-os.environ['GOOGLE_APPLICATION_CREDENTIALS']="/home/nickwalton/git/DM-Server/AI-Adventure-1f64082e4e50.json"
-#os.environ['GOOGLE_APPLICATION_CREDENTIALS']="/home/nickwalton00/DM-Server/AI-Adventure-1f64082e4e50.json"
+#os.environ['GOOGLE_APPLICATION_CREDENTIALS']="/home/nickwalton/git/DM-Server/AI-Adventure-1f64082e4e50.json"
+os.environ['GOOGLE_APPLICATION_CREDENTIALS']="/home/nickwalton00/DM-Server/AI-Adventure-1f64082e4e50.json"
 
 from google.cloud import storage
 from google import cloud
@@ -134,6 +134,41 @@ def teardown_sess(_):
     if sess is not None:
         sess.close()
 
+def generate_cache():
+    
+    for seed in range(100):
+        result = retrieve_from_cache(seed, prompt_num, [], "story")
+        if result is not None:
+            response = result
+        else:
+            prompt = prompts[prompt_num]
+            response = generator.generate_story_block(prompt)
+            cache_file(seed, prompt_num, [], response, "story")
+            
+            
+    action_queue = [[i, 0, []] for i in range(100)]    
+    
+    while(True):
+        
+        next_gen = action_queue.pop(0)
+        seed = next_gen[0]
+        prompt_num = next_gen[1]
+        choices = next_gen[2]
+        
+        action_results = retrieve_from_cache(seed, prompt_num, choices, "choices")
+        
+        if action_results is not None:
+            response = action_results
+        else:
+            action_results = [generator.generate_action_result(prompt, phrase) for phrase in phrases]
+            response = json.dumps(action_results)
+            cache_file(seed, prompt_num, choices, response, "choices")
+            
+        for j in range(4):
+            new_choices = choices[:]
+            new_choices.append(j)
+            action_queue.append([seed, 0, new_choices])
+
 
 if __name__ == '__main__':
     # This is used when running locally only. When deploying to Google App
@@ -143,8 +178,17 @@ if __name__ == '__main__':
     # the "static" directory. See:
     # http://flask.pocoo.org/docs/1.0/quickstart/#static-files. Once deployed,
     # App Engine itself will serve those files as configured in app.yaml.
-    with tf.Session(graph=tf.Graph()) as sess:
-       app.run(host='127.0.0.1', port=8090, debug=False)
+    #with tf.Session(graph=tf.Graph()) as sess:
+    #   app.run(host='127.0.0.1', port=8090, debug=False)
+    
+    
+        
+    
+    
+    
+    
+    # Run Caching
+    
         
         
         
