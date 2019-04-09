@@ -135,7 +135,10 @@ def teardown_sess(_):
         sess.close()
 
 def generate_cache():
-    
+   
+
+    generator = StoryGenerator(tf.Session())
+    prompt_num = 0
     for seed in range(100):
         result = retrieve_from_cache(seed, prompt_num, [], "story")
         if result is not None:
