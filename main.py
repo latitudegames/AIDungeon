@@ -17,7 +17,7 @@ import datetime
 from flask import g
 import os
 
-os.environ['GOOGLE_APPLICATION_CREDENTIALS']="./AI-Adventure-1f64082e4e50.json"
+os.environ['GOOGLE_APPLICATION_CREDENTIALS']="./AI-Adventure-2bb65e3a4e2f.json"
 
 from google.cloud import storage
 from google import cloud
@@ -31,7 +31,8 @@ app = Flask(__name__)
 
 
 # App Info
-gen_ip = "0.0.0.0:8090"
+#gen_ip = "http://35.192.97.36:8010/"
+gen_ip = "http://0.0.0.0:8090"
 phrases = [" You attack", " You use", " You tell", " You go"]
 prompts = ["You enter a dungeon with your trusty sword and shield. You are searching for the evil necromancer who killed your family. You've heard that he resides at the bottom of the dungeon, guarded by legions of the undead. You enter the first door and see"]
 requested_map = {}
@@ -91,9 +92,9 @@ def story_request():
         if action_results is not None:
             response = action_results
         else:
-
-            response = requests.post(gen_ip + "/generate", request.form)
-            response = response.json()
+            response = requests.post(gen_ip + "/generate",
+                                     data={"actions":"true","seed":seed, "prompt_num":prompt_num, "prompt": prompt, "choices": json.dumps(choices)})
+            response = response.text
             cache_file(seed, prompt_num, choices, response, "choices")
     else:
     
@@ -103,8 +104,8 @@ def story_request():
         if result is not None:
             response = result
         else:
-            response = requests.post(gen_ip + "/generate", request.form)
-            response = response.json()
+            response = requests.post(gen_ip + "/generate", data={"actions":"false","seed":seed, "prompt_num":prompt_num})
+            response=response.text
             cache_file(seed, prompt_num, [], response, "story")
         
     print("\nGenerated response is: \n", response)
@@ -118,8 +119,6 @@ def teardown_sess(_):
     
     if sess is not None:
         sess.close()
-
-
 
 if __name__ == '__main__':
       app.run(host='0.0.0.0', port=8080)

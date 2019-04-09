@@ -2,3 +2,4 @@
 gpt2/models/*
 .idea
 RL
+*.json
