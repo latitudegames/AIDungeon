@@ -10,8 +10,8 @@ var action_list = ["You attack", "You tell", "You use", "You go"]
 var prompt_num = 0
 var seed_max = 100
 var seed_min = 0
-var seed = 100
-//var seed = Math.floor(Math.random() * (+seed_max - +seed_min)) + +seed_min; 
+var seed = Math.floor(Math.random() * (+seed_max - +seed_min)) + +seed_min; 
+console.log("Seed is ", seed)
 
 var StoryTracker = {
     firstStory: null,
