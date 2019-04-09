@@ -9,8 +9,9 @@ var blinkCounter = 0
 var action_list = ["You attack", "You tell", "You use", "You go"]
 var prompt_num = 0
 var seed_max = 100
-var seed_min = 100
-var seed = Math.floor(Math.random() * (+seed_max - +seed_min)) + +seed_min; 
+var seed_min = 0
+var seed = 100
+//var seed = Math.floor(Math.random() * (+seed_max - +seed_min)) + +seed_min; 
 
 var StoryTracker = {
     firstStory: null,
@@ -92,7 +93,7 @@ var StoryTracker = {
         if(choice_int >= 0 && choice_int <= 3){
             
             console.log("choice_int is %d", choice_int)
-            StoryTracker.actions.push(choice_int)
+            StoryTracker.choices.push(choice_int)
             StoryTracker.lastAction = StoryTracker.actions[choice_int]
             StoryTracker.lastStory = StoryTracker.results[choice_int]
             StoryTracker.makeActionRequests(StoryTracker.firstStory + StoryTracker.lastStory)
@@ -178,7 +179,7 @@ function writeAppend(str){
 
 
 function startTyping(){
-    addTextTimer = setInterval("typeWords()", 40)
+    addTextTimer = setInterval("typeWords()", 30)
  
 }
 
