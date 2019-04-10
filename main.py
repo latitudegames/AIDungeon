@@ -39,9 +39,15 @@ requested_map = {}
 
 @app.route('/')
 def root():
-    # For the sake of example, use static information to inflate the template.
-    # This will be replaced with real information in later steps.
     return render_template('index.html')
+    
+@app.route('/index.html')
+def index():
+    return render_template('index.html')
+    
+@app.route('/about.html')
+def about():
+    return render_template('about.html')
     
     
 def cache_file(seed, prompt_num, choices, response, tag):
