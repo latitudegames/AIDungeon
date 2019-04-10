@@ -2,11 +2,14 @@ var prompts = ["You enter a dungeon with your trusty sword and shield. You are s
 
 start_text = "<span id='a'>Adventurer@AIDungeon</span>:<span id='b'>~</span><span id='c'>$</span> ./EnterDungeon \n <br/><!-- laglaglaglaglaglaglaglaglaglaglag-->"
 
+input_form = '<form><input type="text" choice="your_choice"></form>'
+
 
 var acceptInput=false
 var action_waiting = false
 var inputStr = ""
 var typing = false
+var should_blink = false
 var blinkCounter = 0
 var action_list = ["You attack", "You tell", "You use", "You go"]
 var prompt_num = 0
@@ -15,6 +18,10 @@ var seed_min = 0
 var seed = Math.floor(Math.random() * (+seed_max - +seed_min)) + +seed_min; 
 //var seed = 108
 console.log("Seed is ", seed)
+
+function isMobileDevice() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
+};
 
 var StoryTracker = {
     firstStory: null,
@@ -45,8 +52,6 @@ var StoryTracker = {
     },
     
     actionWait:function(){
-        console.log("action waiting ", action_waiting)
-        console.log("typing ", typing)
         if(action_waiting == true || typing){
             setTimeout(StoryTracker.actionWait, 2000);
         }
@@ -77,9 +82,8 @@ var StoryTracker = {
 
             if (StoryTracker.action_int > 3){
                 Typer.appendToText("\nWhich action do you choose? ")
-                StoryTracker.action_int = 0
+                StoryTracker.action_int = 0      
                 acceptInput = true
-                
             }
         }
         
@@ -124,7 +128,8 @@ var StoryTracker = {
         
             Typer.appendToText("Invalid choice. Must be a number from 0 to 3. \n")
             Typer.appendToText("\nWhich action do you choose? ")
-            acceptInput=true
+            acceptInput = true
+            
             
         }
         
@@ -179,17 +184,21 @@ var Typer={
  
 	blinkCursor:function(){ 
 	
-	    if(blinkCounter > 10){
-		    var cont=this.content() 
+	    if(should_blink == true){
+	
+	        if(blinkCounter > 10){
+		        var cont=this.content() 
 		
-		    if(cont.substring(cont.length-1,cont.length)=="|") 
-			    $("#console").html($("#console").html().substring(0,cont.length-1)) 
+		        if(cont.substring(cont.length-1,cont.length)=="|") 
+			        $("#console").html($("#console").html().substring(0,cont.length-1)) 
 		
-		    else
-			    $("#console").append("|")
-		}
-		else{
-		    blinkCounter += 1
+		        else
+			        $("#console").append("|")
+		    }
+		    else{
+		        blinkCounter += 1
+		    }
+		
 		}
 	}
 }
@@ -206,6 +215,7 @@ function startTyping(){
  
 }
 
+
 function typeWords() {
 	Typer.addText()
 }
@@ -218,7 +228,7 @@ document.onkeypress = function(evt) {
 
         if(charCode == 13){
             acceptInput = false
-            Typer.appendToText("\n\n")
+            Typer.appendToText("\n")
             StoryTracker.processInput(inputStr)
         }
         else{
@@ -228,6 +238,18 @@ document.onkeypress = function(evt) {
             inputStr = inputStr + charStr
         }
         
+    }
+}
+
+function onButtonClick(num){
+
+    if (acceptInput == true){
+        acceptInput = false
+        num = String(num)
+        Typer.appendToText(num)
+        Typer.appendToText("\n")
+        inputStr = num
+        StoryTracker.processInput()
     }
 }
 
@@ -241,12 +263,11 @@ function start(){
 
     startTyping()
     Typer.startBlinker()
+    
 }
 
 
 $(document).ready(function() {
     start()
 })
-
-
 
