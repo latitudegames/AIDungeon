@@ -1,7 +1,9 @@
 runtime: python37
-entrypoint: gunicorn --timeout=300 --graceful-timeout=300 --log-level debug --debug  -b :$PORT main:app
+entrypoint: gunicorn --timeout=300 --graceful-timeout=300  -b :$PORT main:app
 instance_class: F1
 
+automatic_scaling:
+        min_instances: 2
 
 handlers:
   # This configures Google App Engine to serve the files in the app's static
