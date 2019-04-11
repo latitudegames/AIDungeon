@@ -62,11 +62,14 @@ var StoryTracker = {
     },
     
     actionWait:function(){
-        if(action_waiting == true || typing){
-            setTimeout(StoryTracker.actionWait, 4000);
-        }
-        else{
-            Typer.appendToText(" Generating...")
+    
+        if(action_waiting == true){
+            if(typing == true || acceptInput == true){
+                setTimeout(StoryTracker.actionWait, 5000);
+            }
+            else{
+                Typer.appendToText(" Generating...")
+            }
         }
     
     },
