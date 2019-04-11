@@ -63,7 +63,7 @@ var StoryTracker = {
     
     actionWait:function(){
         if(action_waiting == true || typing){
-            setTimeout(StoryTracker.actionWait, 2000);
+            setTimeout(StoryTracker.actionWait, 4000);
         }
         else{
             Typer.appendToText(" Generating...")
@@ -133,7 +133,7 @@ var StoryTracker = {
             StoryTracker.lastStory = StoryTracker.results[choice_int]
             StoryTracker.makeActionRequests(StoryTracker.firstStory + StoryTracker.lastStory)
             action_waiting = true
-            setTimeout(StoryTracker.actionWait, 2000);
+            setTimeout(StoryTracker.actionWait, 4000);
             Typer.appendToText("\n")
             Typer.appendToText(StoryTracker.lastStory)
             Typer.appendToText("\n\nOptions:")
