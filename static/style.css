@@ -92,18 +92,13 @@ button {
     font-size:30px;
 
 }
-@media screen and (min-width: 1000px) {
-  #buttons {
-    visibility: hidden;
-    display: none;
-  }
-}
 
 /* Add a black background color to the top navigation */
 .topnav {
     background-color: #000;
     overflow: hidden;
-    width:750px;
+    max-width: 800px;
+	width:80%;
 	margin-left:auto;
 	margin-right:auto;
 	
