@@ -23,6 +23,16 @@ function isMobileDevice() {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
 };
 
+
+function buttonCheck(){
+    if(typing == true){
+        setTimeout(buttonCheck, 500);
+    }
+    else{
+        document.getElementById('buttons').style.visibility='visible';
+    }
+}
+
 var StoryTracker = {
     firstStory: null,
     lastStory: null,
@@ -84,6 +94,10 @@ var StoryTracker = {
                 Typer.appendToText("\nWhich action do you choose? ")
                 StoryTracker.action_int = 0      
                 acceptInput = true
+                
+                if(isMobileDevice()){
+                    setTimeout(buttonCheck, 500);
+                }
             }
         }
         
@@ -130,6 +144,11 @@ var StoryTracker = {
             Typer.appendToText("\nWhich action do you choose? ")
             acceptInput = true
             
+                        
+            if(isMobileDevice()){
+                setTimeout(buttonCheck, 500);
+            }
+        
             
         }
         
@@ -243,6 +262,8 @@ document.onkeypress = function(evt) {
 
 function onButtonClick(num){
 
+    document.getElementById('buttons').style.visibility='hidden'; 
+
     if (acceptInput == true){
         acceptInput = false
         num = String(num)
@@ -263,15 +284,9 @@ function start(){
 
     startTyping()
     Typer.startBlinker()
-    
-    if(isMobileDevice()){
-        console.log("Mobile device");
-    }
-    else{
-        console.log("Not mobile device");
-        document.getElementById('buttons').style.visibility='hidden';
-    }
-    
+
+    console.log("Not mobile device");
+    document.getElementById('buttons').style.visibility='hidden'; 
 }
 
 
