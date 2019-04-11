@@ -264,6 +264,14 @@ function start(){
     startTyping()
     Typer.startBlinker()
     
+    if(isMobileDevice()){
+        console.log("Mobile device");
+    }
+    else{
+        console.log("Not mobile device");
+        document.getElementById('buttons').style.visibility='hidden';
+    }
+    
 }
 
 
