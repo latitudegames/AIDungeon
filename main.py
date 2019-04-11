@@ -31,8 +31,7 @@ app = Flask(__name__)
 
 
 # App Info
-#gen_ip = "http://35.192.97.36:8010/"
-gen_ip = "http://0.0.0.0:8090"
+gen_ip = "http://35.192.97.36:8010"
 phrases = [" You attack", " You use", " You tell", " You go"]
 prompts = ["You enter a dungeon with your trusty sword and shield. You are searching for the evil necromancer who killed your family. You've heard that he resides at the bottom of the dungeon, guarded by legions of the undead. You enter the first door and see"]
 requested_map = {}
