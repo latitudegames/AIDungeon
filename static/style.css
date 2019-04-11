@@ -118,7 +118,7 @@ button:focus{
   text-align: center;
   padding: 10px 5px;
   text-decoration: none;
-  font-size:calc(2.0vh + 0.5vw);
+  font-size:calc(12px + 1.0vh );
   min-font-size: 
 }
 
