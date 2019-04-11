@@ -9,7 +9,7 @@ body {
 	width:80%;
 	margin-left:auto;
 	margin-right:auto;
-	margin-top:100px;
+	margin-top:calc(30px + 4.0vh);
 	font-size:14px;
 	background-color: #000;
 }
@@ -103,7 +103,6 @@ button:focus{
 /* Add a black background color to the top navigation */
 .topnav {
     background-color: #000;
-    overflow: hidden;
     max-width: 800px;
 	width:80%;
 	margin-left:auto;
@@ -113,13 +112,14 @@ button:focus{
 
 /* Style the links inside the navigation bar */
 .topnav a {
-    font-family: courier, monospace;
+  font-family: courier, monospace;
   display: inline-block;
   color: #0bc;
   text-align: center;
   padding: 10px 5px;
   text-decoration: none;
-  font-size: 16px;
+  font-size:calc(2.0vh + 0.5vw);
+  min-font-size: 
 }
 
 /* Change the color of links on hover */
