@@ -5,7 +5,8 @@ body {
 #console {
 	font-family: courier, monospace;
 	color: #fff;
-	width:750px;
+    max-width: 800px;
+	width:80%;
 	margin-left:auto;
 	margin-right:auto;
 	margin-top:100px;
@@ -67,7 +68,7 @@ a {
 
 #buttons {
     position: absolute;
-    bottom: 0;
+    bottom: 80px;
     height: 60px;
     width: 100%;
     color: 334;
@@ -79,17 +80,19 @@ a {
 
 button {
     border-color: #000
-    bottom: 0;
+    bottom: 40px;
     color: #fff;
     margin-left: 4%;
     margin-right: 4%;
     background-color: #111;
     width: 18%;
-    height: 40px;
+    height: 100px;
     text-align: center;
+    border-radius: 25px;
+    font-size:30px;
 
 }
-@media screen and (min-width: 600px) {
+@media screen and (min-width: 1000px) {
   #buttons {
     visibility: hidden;
     display: none;
