@@ -185,6 +185,47 @@ def story_request():
     print("")
 
     return response
+    
+    
+def generate_cache():   
+
+
+    # Generate story sections
+    """
+    prompt_num = 0
+    generator = StoryGenerator(tf.Session())
+    for seed in range(100):
+        result = retrieve_from_cache(seed, prompt_num, [], "story")
+        if result is not None:
+            response = result
+        else:
+            prompt = prompts[prompt_num]
+            response = generator.generate_story_block(prompt)
+            cache_file(seed, prompt_num, [], response, "story")
+            
+    """       
+    action_queue = [[i, 0, []] for i in range(100)]    
+    
+    while(True):
+        
+        next_gen = action_queue.pop(0)
+        seed = next_gen[0]
+        prompt_num = next_gen[1]
+        choices = next_gen[2]
+        
+        action_results = retrieve_from_cache(seed, prompt_num, choices, "choices")
+        
+        if action_results is not None:
+            response = action_results
+        else:
+            action_results = [generate_action_result(prompt, phrase) for phrase in phrases]
+            response = json.dumps(action_results)
+            cache_file(seed, prompt_num, choices, response, "choices")
+            
+        for j in range(4):
+            new_choices = choices[:]
+            new_choices.append(j)
+            action_queue.append([seed, 0, new_choices])
 
 if __name__ == '__main__':
 
