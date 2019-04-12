@@ -28,14 +28,58 @@ bucket = storage_client.get_bucket("dungeon-cache")
 from flask import Response
 import requests
 app = Flask(__name__)
+import gpt2.src.encoder as encoder
 
 
 # App Info
-#gen_ip = "http://35.192.97.36:8010/"
-gen_ip = "http://0.0.0.0:8090"
 phrases = [" You attack", " You use", " You tell", " You go"]
 prompts = ["You enter a dungeon with your trusty sword and shield. You are searching for the evil necromancer who killed your family. You've heard that he resides at the bottom of the dungeon, guarded by legions of the undead. You enter the first door and see"]
 requested_map = {}
+
+encoder_path='gpt2/models/117M'
+
+enc = encoder.get_encoder(encoder_path)
+
+project = "ai-adventure"
+model = "generator_v1"
+version = "version2"
+
+def predict(context_tokens):
+    
+    # Create the ML Engine service object.
+    # To authenticate set the environment variable
+    # GOOGLE_APPLICATION_CREDENTIALS=<path_to_service_account_file>
+    service = googleapiclient.discovery.build('ml', 'v1')
+    name = 'projects/{}/models/{}'.format(project, model)
+    instance = json.loads(context_tokens)
+
+    if version is not None:
+        name += '/versions/{}'.format(version)
+
+    response = service.projects(). predict(
+        name=name,
+        body={'instances': [instance]}
+    ).execute()
+
+    if 'error' in response:
+        raise RuntimeError(response['error'])
+
+    return response['predictions']
+
+
+
+def generate(prompt):
+    context_tokens = [enc.encode(prompt)]
+    
+    
+    pred = predict(context_tokens)
+    
+    
+    output = enc.decode(pred[0])
+    return output
+
+
+
 
 @app.route('/')
 def root():
@@ -119,13 +163,6 @@ def story_request():
     
     return response
     
-@app.teardown_appcontext
-def teardown_sess(_):
-    sess = g.pop("sess",None)
-    
-    if sess is not None:
-        sess.close()
-
 if __name__ == '__main__':
       app.run(host='0.0.0.0', port=8080)
         
