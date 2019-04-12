@@ -88,15 +88,27 @@ def generate_action_result(prompt, phrase):
     
 
     return action, action_result
-
-
+    
 @app.route('/')
 def root():
-    return render_template('index.html')
+    seed = -1
+    data = {'seed': seed}
+    return render_template('index.html', data=data)
+
+
+@app.route('/<seed>')
+def rootseed(seed):
+    if seed == "":
+        seed = -1
+    else:
+        seed = int(seed)
+    data = {'seed': seed}
+    return render_template('index.html', data=data)
 
 @app.route('/index.html')
 def index():
-    return render_template('index.html')
+    data = {'seed': -1}
+    return render_template('index.html', data=data)
 
 @app.route('/about.html')
 def about():
