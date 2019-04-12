@@ -68,7 +68,7 @@ def predict(context_tokens):
 def generate(prompt):
     context_tokens = enc.encode(prompt)
     pred = predict(context_tokens)
-    pred = pred[0][len(context_tokens):]
+    pred = pred[0]["output"][len(context_tokens):]
     output = enc.decode(pred)
     return output
 
