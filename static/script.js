@@ -13,9 +13,14 @@ var should_blink = false
 var blinkCounter = 0
 var action_list = ["You attack", "You tell", "You use", "You go"]
 var prompt_num = 0
-var seed_max = 1000
-var seed_min = 0
-var seed = Math.floor(Math.random() * (+seed_max - +seed_min)) + +seed_min; 
+var seed_max = 100
+var seed_min = 0;
+
+if(seed == -1){
+    var seed = Math.floor(Math.random() * (+seed_max - +seed_min)) + +seed_min;
+}
+
+ 
 //var seed = 999
 console.log("Seed is ", seed)
 
