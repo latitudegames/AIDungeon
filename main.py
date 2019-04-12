@@ -16,69 +16,78 @@
 import datetime
 from flask import g
 import os
-
-os.environ['GOOGLE_APPLICATION_CREDENTIALS']="./AI-Adventure-2bb65e3a4e2f.json"
-
+import googleapiclient.discovery
+from utils import *
 from google.cloud import storage
 from google import cloud
 import json
 from flask import Flask, render_template, request, abort
-storage_client = storage.Client()
-bucket = storage_client.get_bucket("dungeon-cache")
 from flask import Response
 import requests
-app = Flask(__name__)
+import pdb
 import gpt2.src.encoder as encoder
 
 
 # App Info
 phrases = [" You attack", " You use", " You tell", " You go"]
 prompts = ["You enter a dungeon with your trusty sword and shield. You are searching for the evil necromancer who killed your family. You've heard that he resides at the bottom of the dungeon, guarded by legions of the undead. You enter the first door and see"]
-requested_map = {}
+app = Flask(__name__)
 
+# Encoder Info
 encoder_path='gpt2/models/117M'
-
 enc = encoder.get_encoder(encoder_path)
 
+# Model/Cache Info
 project = "ai-adventure"
 model = "generator_v1"
 version = "version2"
+os.environ['GOOGLE_APPLICATION_CREDENTIALS']="./AI-Adventure-2bb65e3a4e2f.json"
+storage_client = storage.Client()
+bucket = storage_client.get_bucket("dungeon-cache")
+
 
 def predict(context_tokens):
-    
-    # Create the ML Engine service object.
-    # To authenticate set the environment variable
-    # GOOGLE_APPLICATION_CREDENTIALS=<path_to_service_account_file>
     service = googleapiclient.discovery.build('ml', 'v1')
     name = 'projects/{}/models/{}'.format(project, model)
-    instance = json.loads(context_tokens)
+    instance = context_tokens
 
     if version is not None:
         name += '/versions/{}'.format(version)
 
     response = service.projects(). predict(
         name=name,
-        body={'instances': [instance]}
+        body={'instances': [{'context': instance}]}
     ).execute()
 
     if 'error' in response:
         raise RuntimeError(response['error'])
 
     return response['predictions']
-
-
-
+    
+    
 def generate(prompt):
-    context_tokens = [enc.encode(prompt)]
-    
-    
+    context_tokens = enc.encode(prompt)
     pred = predict(context_tokens)
-    
-    
-    output = enc.decode(pred[0])
+    pred = pred[0][len(context_tokens):]
+    output = enc.decode(pred)
     return output
 
+def generate_story_block(prompt):
+    block = generate(prompt)
+    block = cut_trailing_sentence(block)
+    block = story_replace(block)
+    
+    return block
+    
+def generate_action_result(prompt, phrase):
+    action = phrase + generate(prompt + phrase)
+    action_result = cut_trailing_sentence(action)
+    action_result = story_replace(action_result)
+    
+    action = first_sentence(action)
+    
 
+    return action, action_result
 
 
 @app.route('/')
@@ -146,9 +155,8 @@ def story_request():
         if action_results is not None:
             response = action_results
         else:
-            response = requests.post(gen_ip + "/generate",
-                                     data={"actions":"true","seed":seed, "prompt_num":prompt_num, "prompt": prompt, "choices": json.dumps(choices)})
-            response = response.text
+            action_results = [generate_action_result(prompt, phrase) for phrase in phrases]
+            response = json.dumps(action_results)
             cache_file(seed, prompt_num, choices, response, "choices")
     else:
 
@@ -158,8 +166,7 @@ def story_request():
         if result is not None:
             response = result
         else:
-            response = requests.post(gen_ip + "/generate", data={"actions":"false","seed":seed, "prompt_num":prompt_num})
-            response=response.text
+            response = generate_story_block(prompts[prompt_num])
             cache_file(seed, prompt_num, [], response, "story")
 
     print("\nGenerated response is: \n", response)
@@ -168,7 +175,8 @@ def story_request():
     return response
 
 if __name__ == '__main__':
-      app.run(host='0.0.0.0', port=8080)
+
+    app.run(host='0.0.0.0', port=8080)
 
 
 
