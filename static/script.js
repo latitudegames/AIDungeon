@@ -15,25 +15,21 @@ var action_list = ["You attack", "You tell", "You use", "You go"]
 var prompt_num = 0
 var seed_max = 1000
 var seed_min = 0
-var seed = Math.floor(Math.random() * (+seed_max - +seed_min)) + +seed_min; 
-//var seed = 108
+//var seed = Math.floor(Math.random() * (+seed_max - +seed_min)) + +seed_min; 
+var seed = 999
 console.log("Seed is ", seed)
 
 function isMobileDevice() {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
 };
 
-    
-function checkButtonDisplay()
-    if(typing==false){
-        console.log("Mobile device");
-        document.getElementById('buttons').style.visibility='visible';
+
+function buttonCheck(){
+    if(typing == true){
+        setTimeout(buttonCheck, 500);
     }
     else{
-        setTimeout(checkButtonDisplay, 1000);
-        console.log("Not mobile device");
-        document.getElementById('buttons').style.visibility='hidden';
-
+        document.getElementById('buttons').style.visibility='visible';
     }
 }
 
@@ -62,29 +58,29 @@ var StoryTracker = {
             
         StoryTracker.makeActionRequests(StoryTracker.firstStory + StoryTracker.lastStory)
         Typer.appendToText(story)
-        Typer.appendToText("\n\nOptions:")
+        action_waiting = true
+        setTimeout(StoryTracker.actionWait, 10000);
     },
     
     actionWait:function(){
     
         if(action_waiting == true){
             if(typing == true || acceptInput == true){
-                setTimeout(StoryTracker.actionWait, 5000);
+                setTimeout(StoryTracker.actionWait, 10000);
             }
             else{
-                Typer.appendToText(" Generating...")
+                Typer.appendToText("\n\n Generating options... (~20s)")
             }
         }
     
     },
-
     
     addNextAction:function(action_result){
     
         action_waiting = false
     
         var action_results = JSON.parse(action_result)
-    
+        Typer.appendToText("\n\nOptions:")
         for (i = 0; i < 4; i++){
             
             action_result = action_results[i]
@@ -102,10 +98,9 @@ var StoryTracker = {
                 Typer.appendToText("\nWhich action do you choose? ")
                 StoryTracker.action_int = 0      
                 acceptInput = true
-
-                if(isMobileDevice(){
-                    setTimeout(checkButtonDisplay, 1000);
-
+                
+                if(isMobileDevice()){
+                    setTimeout(buttonCheck, 500);
                 }
             }
         }
@@ -133,7 +128,6 @@ var StoryTracker = {
 
     processInput:function(){
         var choice_int = parseInt(inputStr, 10)
-        
         if(choice_int >= 0 && choice_int <= 3){
             
             console.log("choice_int is %d", choice_int)
@@ -142,10 +136,9 @@ var StoryTracker = {
             StoryTracker.lastStory = StoryTracker.results[choice_int]
             StoryTracker.makeActionRequests(StoryTracker.firstStory + StoryTracker.lastStory)
             action_waiting = true
-            setTimeout(StoryTracker.actionWait, 4000);
+            setTimeout(StoryTracker.actionWait, 10000);
             Typer.appendToText("\n")
             Typer.appendToText(StoryTracker.lastStory)
-            Typer.appendToText("\n\nOptions:")
         }
         else{
         
@@ -200,7 +193,7 @@ var Typer={
 		    }	
 		    var text=Typer.text.substring(0,Typer.index)
 		    var rtn= new RegExp("\n", "g") 
-A solution would be to add position: relative for the button. This will move it above the label.
+
 		    $("#console").html(text.replace(rtn,"<br/>"))
 		}
 		else{
@@ -293,6 +286,8 @@ function start(){
     startTyping()
     Typer.startBlinker()
 
+    console.log("Not mobile device");
+    document.getElementById('buttons').style.visibility='hidden'; 
 }
 
 

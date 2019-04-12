@@ -14,7 +14,7 @@ replacements:
 
 
 def remove_profanity(text):
-    remove_words = ["fuck", "Fuck"]
+    remove_words = ["fuck", "Fuck", "shit", "rape", "bastard", "bitch"]
     for word in remove_words:
         text = text.replace(word, "****")
         

@@ -2,3 +2,4 @@ google-cloud-storage
 numpy
 flask
 gunicorn
+google-api-python-client
