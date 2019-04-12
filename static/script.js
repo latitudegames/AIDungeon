@@ -13,7 +13,7 @@ var should_blink = false
 var blinkCounter = 0
 var action_list = ["You attack", "You tell", "You use", "You go"]
 var prompt_num = 0
-var seed_max = 100
+var seed_max = 1000
 var seed_min = 0
 var seed = Math.floor(Math.random() * (+seed_max - +seed_min)) + +seed_min; 
 //var seed = 108
@@ -33,6 +33,7 @@ function checkButtonDisplay()
         setTimeout(checkButtonDisplay, 1000);
         console.log("Not mobile device");
         document.getElementById('buttons').style.visibility='hidden';
+
     }
 }
 
@@ -65,11 +66,14 @@ var StoryTracker = {
     },
     
     actionWait:function(){
-        if(action_waiting == true || typing){
-            setTimeout(StoryTracker.actionWait, 2000);
-        }
-        else{
-            Typer.appendToText(" Generating...")
+    
+        if(action_waiting == true){
+            if(typing == true || acceptInput == true){
+                setTimeout(StoryTracker.actionWait, 5000);
+            }
+            else{
+                Typer.appendToText(" Generating...")
+            }
         }
     
     },
@@ -98,8 +102,10 @@ var StoryTracker = {
                 Typer.appendToText("\nWhich action do you choose? ")
                 StoryTracker.action_int = 0      
                 acceptInput = true
+
                 if(isMobileDevice(){
                     setTimeout(checkButtonDisplay, 1000);
+
                 }
             }
         }
@@ -136,7 +142,7 @@ var StoryTracker = {
             StoryTracker.lastStory = StoryTracker.results[choice_int]
             StoryTracker.makeActionRequests(StoryTracker.firstStory + StoryTracker.lastStory)
             action_waiting = true
-            setTimeout(StoryTracker.actionWait, 2000);
+            setTimeout(StoryTracker.actionWait, 4000);
             Typer.appendToText("\n")
             Typer.appendToText(StoryTracker.lastStory)
             Typer.appendToText("\n\nOptions:")
@@ -147,6 +153,11 @@ var StoryTracker = {
             Typer.appendToText("\nWhich action do you choose? ")
             acceptInput = true
             
+                        
+            if(isMobileDevice()){
+                setTimeout(buttonCheck, 500);
+            }
+        
             
         }
         
@@ -191,7 +202,6 @@ var Typer={
 		    var rtn= new RegExp("\n", "g") 
 A solution would be to add position: relative for the button. This will move it above the label.
 		    $("#console").html(text.replace(rtn,"<br/>"))
-		    window.scrollBy(0,50) 
 		}
 		else{
 		    typing = false
@@ -239,7 +249,7 @@ function typeWords() {
 
 document.onkeypress = function(evt) {
 
-    if(acceptInput){
+    if(acceptInput && !isMobileDevice()){
         evt = evt || window.event
         var charCode = evt.keyCode || evt.which
 
@@ -259,6 +269,8 @@ document.onkeypress = function(evt) {
 }
 
 function onButtonClick(num){
+
+    document.getElementById('buttons').style.visibility='hidden'; 
 
     if (acceptInput == true){
         acceptInput = false
@@ -280,7 +292,7 @@ function start(){
 
     startTyping()
     Typer.startBlinker()
-    
+
 }
 
 
