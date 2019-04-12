@@ -22,7 +22,7 @@ os.environ['GOOGLE_APPLICATION_CREDENTIALS']="./AI-Adventure-2bb65e3a4e2f.json"
 from google.cloud import storage
 from google import cloud
 import json
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, abort
 storage_client = storage.Client()
 bucket = storage_client.get_bucket("dungeon-cache")
 from flask import Response
@@ -84,61 +84,65 @@ def generate(prompt):
 @app.route('/')
 def root():
     return render_template('index.html')
-    
+
 @app.route('/index.html')
 def index():
     return render_template('index.html')
-    
+
 @app.route('/about.html')
 def about():
     return render_template('about.html')
-    
-    
+
+
 def cache_file(seed, prompt_num, choices, response, tag):
 
     blob_file_name = "p" + str(prompt_num) + "/seed" + str(seed) + "/" + tag
     for action in choices:
         blob_file_name = blob_file_name + str(action)
     blob = bucket.blob(blob_file_name)
-    
+
     blob.upload_from_string(response)
-    
+
     print("File ", blob_file_name, " cached")
 
 
 def retrieve_from_cache(seed, prompt_num, choices, tag):
     blob_file_name = "p" + str(prompt_num) + "/seed" + str(seed) + "/" + tag
-    
+
     for action in choices:
         blob_file_name = blob_file_name + str(action)
-        
+
     blob = bucket.blob(blob_file_name)
-    
+
     if blob.exists(storage_client):
         result = blob.download_as_string().decode("utf-8")
         print(blob_file_name, " found in cache")
     else:
         result = None
         print(blob_file_name, " not found in cache")
-        
+
     return result
-    
+
 
 @app.route('/generate', methods=['POST'])
 def story_request():
     print("****Generating Story****")
     seed = request.form["seed"]
     prompt_num = int(request.form["prompt_num"])
-    gen_actions = request.form["actions"] 
-    
+    gen_actions = request.form["actions"]
+
+    if int(seed) < 0 or int(seed) > 1000:
+        print("Invalid seed: " + seed)
+        abort(404)
+
     if gen_actions == "true":
 
-        prompt = request.form["prompt"] 
+        prompt = request.form["prompt"]
         choices = json.loads(request.form["choices"])
         print("Getting response for seed ", seed, " prompt_num ", prompt_num, " and choices ", choices)
-    
+
         action_results = retrieve_from_cache(seed, prompt_num, choices, "choices")
-        
+
         if action_results is not None:
             response = action_results
         else:
@@ -147,25 +151,25 @@ def story_request():
             response = response.text
             cache_file(seed, prompt_num, choices, response, "choices")
     else:
-    
+
         print("Getting response for seed ", seed, " prompt_num ", prompt_num)
         result = retrieve_from_cache(seed, prompt_num, [], "story")
-        
+
         if result is not None:
             response = result
         else:
             response = requests.post(gen_ip + "/generate", data={"actions":"false","seed":seed, "prompt_num":prompt_num})
             response=response.text
             cache_file(seed, prompt_num, [], response, "story")
-        
+
     print("\nGenerated response is: \n", response)
     print("")
-    
+
     return response
-    
+
 if __name__ == '__main__':
       app.run(host='0.0.0.0', port=8080)
-        
-        
-        
+
+
+
 # [START gae_python37_render_template]
