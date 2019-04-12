@@ -9,7 +9,7 @@ body {
 	width:80%;
 	margin-left:auto;
 	margin-right:auto;
-	margin-top:10px;
+	margin-top:calc(30px + 4.0vh);;
 	font-size:14px;
 	background-color: #000;
 }
