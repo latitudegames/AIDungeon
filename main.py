@@ -124,7 +124,7 @@ def about():
 
 def cache_file(seed, prompt_num, choices, response, tag):
 
-    blob_file_name = "prompt" + str(prompt_num) + "/seed" + str(seed) + "/" + tag
+    blob_file_name = "fixed-prompt" + str(prompt_num) + "/seed" + str(seed) + "/" + tag
     for action in choices:
         blob_file_name = blob_file_name + str(action)
     blob = bucket.blob(blob_file_name)
@@ -135,7 +135,7 @@ def cache_file(seed, prompt_num, choices, response, tag):
 
 
 def retrieve_from_cache(seed, prompt_num, choices, tag):
-    blob_file_name = "prompt" + str(prompt_num) + "/seed" + str(seed) + "/" + tag
+    blob_file_name = "fixed-prompt" + str(prompt_num) + "/seed" + str(seed) + "/" + tag
 
     for action in choices:
         blob_file_name = blob_file_name + str(action)
@@ -230,6 +230,7 @@ def generate_cache():
             response = action_results
             
         else:
+            prompt = initial_prompt + last_action_result
             action_results = [generate_action_result(prompt, phrase) for phrase in phrases]
             response = json.dumps(action_results)
             cache_file(seed, prompt_num, choices, response, "choices")
@@ -238,7 +239,7 @@ def generate_cache():
         for j in range(4):
             new_choices = choices[:]
             new_choices.append(j)
-            action_queue.append([seed, 0, new_choices, initial_prompt, un_jsoned[j]])
+            action_queue.append([seed, 0, new_choices, initial_prompt, un_jsoned[j][1]])
 
 if __name__ == '__main__':
     if(len(sys.argv) > 1):
