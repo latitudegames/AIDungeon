@@ -1,6 +1,7 @@
 #!/bin/bash
-END=25
+START=25
+END=50
 for ((I=0;I<END;I++));
 do
-	python3 main.py "$(($I * 4))" "$(( ($I + 1) * 4 ))" &
+	python3 main.py "$(($I * 2))" "$(( ($I + 1) * 2 ))" &
 done
