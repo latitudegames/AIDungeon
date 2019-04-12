@@ -67,11 +67,17 @@ def predict(context_tokens):
     
     
 def generate(prompt):
-    context_tokens = enc.encode(prompt)
-    pred = predict(context_tokens)
-    pred = pred[0]["output"][len(context_tokens):]
-    output = enc.decode(pred)
-    return output
+
+    while(True):
+        context_tokens = enc.encode(prompt)
+        try:
+            pred = predict(context_tokens)
+            pred = pred[0]["output"][len(context_tokens):]
+            output = enc.decode(pred)
+            return output
+        except:
+            print("generate request failed, trying again")
+            continue
 
 def generate_story_block(prompt):
     block = generate(prompt)
