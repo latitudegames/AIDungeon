@@ -23,6 +23,19 @@ function isMobileDevice() {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
 };
 
+    
+function checkButtonDisplay()
+    if(typing==false){
+        console.log("Mobile device");
+        document.getElementById('buttons').style.visibility='visible';
+    }
+    else{
+        setTimeout(checkButtonDisplay, 1000);
+        console.log("Not mobile device");
+        document.getElementById('buttons').style.visibility='hidden';
+    }
+}
+
 var StoryTracker = {
     firstStory: null,
     lastStory: null,
@@ -60,6 +73,7 @@ var StoryTracker = {
         }
     
     },
+
     
     addNextAction:function(action_result){
     
@@ -84,6 +98,9 @@ var StoryTracker = {
                 Typer.appendToText("\nWhich action do you choose? ")
                 StoryTracker.action_int = 0      
                 acceptInput = true
+                if(isMobileDevice(){
+                    setTimeout(checkButtonDisplay, 1000);
+                }
             }
         }
         
@@ -172,7 +189,7 @@ var Typer={
 		    }	
 		    var text=Typer.text.substring(0,Typer.index)
 		    var rtn= new RegExp("\n", "g") 
-
+A solution would be to add position: relative for the button. This will move it above the label.
 		    $("#console").html(text.replace(rtn,"<br/>"))
 		    window.scrollBy(0,50) 
 		}
@@ -263,14 +280,6 @@ function start(){
 
     startTyping()
     Typer.startBlinker()
-    
-    if(isMobileDevice()){
-        console.log("Mobile device");
-    }
-    else{
-        console.log("Not mobile device");
-        document.getElementById('buttons').style.visibility='hidden';
-    }
     
 }
 
