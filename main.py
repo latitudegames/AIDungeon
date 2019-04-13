@@ -32,6 +32,7 @@ import gpt2.src.encoder as encoder
 # App Info
 phrases = [" You attack", " You use", " You tell", " You go"]
 prompts = ["You enter a dungeon with your trusty sword and shield. You are searching for the evil necromancer who killed your family. You've heard that he resides at the bottom of the dungeon, guarded by legions of the undead. You enter the first door and see"]
+continuing_prompts = ["You are in a dungeon with your sword and shield. You are on a quest to defeat the necromancer. This dungeon is full of zombie and skeletons."]
 app = Flask(__name__)
 
 # Encoder Info
@@ -124,7 +125,7 @@ def about():
 
 def cache_file(seed, prompt_num, choices, response, tag):
 
-    blob_file_name = "fixed-prompt" + str(prompt_num) + "/seed" + str(seed) + "/" + tag
+    blob_file_name = "prompt" + str(prompt_num) + "/seed" + str(seed) + "/" + tag
     for action in choices:
         blob_file_name = blob_file_name + str(action)
     blob = bucket.blob(blob_file_name)
@@ -135,7 +136,7 @@ def cache_file(seed, prompt_num, choices, response, tag):
 
 
 def retrieve_from_cache(seed, prompt_num, choices, tag):
-    blob_file_name = "fixed-prompt" + str(prompt_num) + "/seed" + str(seed) + "/" + tag
+    blob_file_name = "prompt" + str(prompt_num) + "/seed" + str(seed) + "/" + tag
 
     for action in choices:
         blob_file_name = blob_file_name + str(action)
@@ -165,15 +166,18 @@ def story_request():
 
     if gen_actions == "true":
 
-        prompt = request.form["prompt"]
+        #prompt = request.form["prompt"]
         choices = json.loads(request.form["choices"])
         print("Getting response for seed ", seed, " prompt_num ", prompt_num, " and choices ", choices)
-
+        
         action_results = retrieve_from_cache(seed, prompt_num, choices, "choices")
 
         if action_results is not None:
             response = action_results
         else:
+            last_action_result = request.form["last_action_result"]
+            prompt = continuing_prompts[prompt_num] + last_action_result
+            print("\n\nAction prompt is \n ", prompt)
             action_results = [generate_action_result(prompt, phrase) for phrase in phrases]
             response = json.dumps(action_results)
             cache_file(seed, prompt_num, choices, response, "choices")
@@ -185,7 +189,8 @@ def story_request():
         if result is not None:
             response = result
         else:
-            response = generate_story_block(prompts[prompt_num])
+            prompt = prompts[prompt_num]
+            response = generate_story_block(prompt)
             cache_file(seed, prompt_num, [], response, "story")
 
     print("\nGenerated response is: \n", response)
@@ -199,6 +204,7 @@ def generate_cache():
     start_seed = int(sys.argv[1])
     end_seed = int(sys.argv[2])
 
+    if len(sys.argv)
 
     # Generate story sections
     prompt_num = 0
@@ -210,10 +216,12 @@ def generate_cache():
             response = result
         else:
             prompt = prompts[prompt_num]
+            #print("\n Story prompt is ", prompt)
             response = generate_story_block(prompt)
+            #print("\n Story response is ", response)
             cache_file(seed, prompt_num, [], response, "story")
             
-        action_queue.append([seed,0,[],prompt+response, ""])
+        action_queue.append([seed,0,[],response])
     
     while(True):
         
@@ -221,8 +229,7 @@ def generate_cache():
         seed = next_gen[0]
         prompt_num = next_gen[1]
         choices = next_gen[2]
-        initial_prompt = next_gen[3]
-        last_action_result = next_gen[4]
+        last_action_result = next_gen[3]
         
         action_results = retrieve_from_cache(seed, prompt_num, choices, "choices")
         
@@ -230,16 +237,22 @@ def generate_cache():
             response = action_results
             
         else:
-            prompt = initial_prompt + last_action_result
+            if len(choices) is 0:
+                prompt = prompts[prompt_num] + last_action_result
+            else:
+                prompt = continuing_prompts[prompt_num] + last_action_result
+            #print("\n\n Action prompt is \n ", prompt)
             action_results = [generate_action_result(prompt, phrase) for phrase in phrases]
             response = json.dumps(action_results)
+            
+            #print("\n\n Action 
             cache_file(seed, prompt_num, choices, response, "choices")
             
         un_jsoned = json.loads(response)
         for j in range(4):
             new_choices = choices[:]
             new_choices.append(j)
-            action_queue.append([seed, 0, new_choices, initial_prompt, un_jsoned[j][1]])
+            action_queue.append([seed, 0, new_choices,  un_jsoned[j][1]])
 
 if __name__ == '__main__':
     if(len(sys.argv) > 1):
