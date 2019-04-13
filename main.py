@@ -204,8 +204,6 @@ def generate_cache():
     start_seed = int(sys.argv[1])
     end_seed = int(sys.argv[2])
 
-    if len(sys.argv)
-
     # Generate story sections
     prompt_num = 0
     action_queue = []
