@@ -16,7 +16,8 @@ body {
 
 .about {
     font-family: courier, monospace;
-	width:750px;
+	max-width: 800px;
+	width:80%;
 	margin-left:auto;
 	margin-right:auto;
 	margin-top:100px;
