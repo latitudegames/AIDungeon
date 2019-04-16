@@ -160,7 +160,7 @@ def story_request():
     prompt_num = int(request.form["prompt_num"])
     gen_actions = request.form["actions"]
 
-    if int(seed) < 0 or int(seed) > 1000:
+    if int(seed) < 0 or int(seed) > 100:
         print("Invalid seed: " + seed)
         abort(404)
 
