@@ -4,8 +4,6 @@ var acceptInput=false
 var action_waiting = false
 var inputStr = ""
 var typing = false
-var should_blink = false
-var blinkCounter = 0
 var action_list = ["You attack", "You tell", "You use", "You go"]
 var prompt_num = 0
 var seed_max = 100
@@ -155,13 +153,9 @@ var StoryTracker = {
 // Used to control the terminal like screen typing 
 var Typer={
 	text: null,
-	accessBlinktimer:null,
 	index:0, 
 	speed:2,
-	startBlinker: function(){
-		accessBlinktimer=setInterval(function(){Typer.blinkCursor()},500) 
-	},
- 
+	
 	content:function(){
 		return $("#console").html()
 	},
@@ -195,26 +189,6 @@ var Typer={
 		}
 		
 	},
- 
-	blinkCursor:function(){ 
-	
-	    if(should_blink == true){
-	
-	        if(blinkCounter > 10){
-		        var cont=this.content() 
-		
-		        if(cont.substring(cont.length-1,cont.length)=="|") 
-			        $("#console").html($("#console").html().substring(0,cont.length-1)) 
-		
-		        else
-			        $("#console").append("|")
-		    }
-		    else{
-		        blinkCounter += 1
-		    }
-		
-		}
-	}
 }
 
 
@@ -277,7 +251,6 @@ function start(){
     StoryTracker.getFirstStory()
 
     startTyping()
-    Typer.startBlinker()
 
     console.log("Not mobile device");
     document.getElementById('buttons').style.visibility='hidden'; 
