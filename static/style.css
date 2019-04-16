@@ -88,7 +88,7 @@ button {
     margin-bottom: 20px;
     background-color: #111;
     width: 18%;
-    height: 100px;
+    height: 60px;
     text-align: center;
     border-radius: 25px;
     font-size:30px;
@@ -118,8 +118,7 @@ button:focus{
   text-align: center;
   padding: 10px 5px;
   text-decoration: none;
-  font-size:calc(14px + 0.5vh );
-  min-font-size: 
+  font-size:18px;
 }
 
 /* Change the color of links on hover */
