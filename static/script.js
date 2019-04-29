@@ -220,7 +220,6 @@ function KeyCheck(evt) {
     evt = evt || window.event
     var charCode = evt.keyCode || evt.which
     if(charCode == 8){
-        console.log("delete pressed")
         if(inputStr.length > 0){
             console.log(inputStr)
             inputStr = inputStr.substring(0, inputStr.length-1)
@@ -236,9 +235,6 @@ document.onkeypress = function(evt) {
     if(acceptInput && !isMobileDevice()){
         evt = evt || window.event
         var charCode = evt.keyCode || evt.which
-        
-        console.log(typeof charCode)     
-        console.log("Char code is " + charCode)
 
         if(charCode == 13){
             acceptInput = false
