@@ -161,9 +161,16 @@ var Typer={
 	},
 	
 	appendToText:function(str){
-	    str = str.replace(".", "." + "<!-- laglag-->")
+	    str = str.replace(".", "." + "<!-- laglaglag-->")
 	    typing = true
 	    Typer.text = Typer.text + str;
+	},
+	
+	removeChar:function(){
+	   var cont=Typer.content() 
+	   $("#console").html($("#console").html().substring(0,cont.length-1))
+	   Typer.text = Typer.text.substring(0, Typer.text.length-1)
+	   Typer.index = Typer.index - 1
 	},
  
 	addText:function(){
@@ -199,7 +206,7 @@ function writeAppend(str){
 
 
 function startTyping(){
-    addTextTimer = setInterval("typeWords()", 25)
+    addTextTimer = setInterval("typeWords()", 20)
 }
 
 
@@ -207,11 +214,31 @@ function typeWords() {
 	Typer.addText()
 }
 
+document.addEventListener("keydown", KeyCheck);
+
+function KeyCheck(evt) {
+    evt = evt || window.event
+    var charCode = evt.keyCode || evt.which
+    if(charCode == 8){
+        console.log("delete pressed")
+        if(inputStr.length > 0){
+            console.log(inputStr)
+            inputStr = inputStr.substring(0, inputStr.length-1)
+            console.log(inputStr)
+            Typer.removeChar()
+        }
+    }
+}
+
+
 document.onkeypress = function(evt) {
 
     if(acceptInput && !isMobileDevice()){
         evt = evt || window.event
         var charCode = evt.keyCode || evt.which
+        
+        console.log(typeof charCode)     
+        console.log("Char code is " + charCode)
 
         if(charCode == 13){
             acceptInput = false
@@ -219,7 +246,6 @@ document.onkeypress = function(evt) {
             StoryTracker.processInput(inputStr)
         }
         else{
-        
             var charStr = String.fromCharCode(charCode)
             Typer.appendToText(charStr)
             inputStr = inputStr + charStr
