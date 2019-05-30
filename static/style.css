@@ -9,14 +9,15 @@ body {
 	width:80%;
 	margin-left:auto;
 	margin-right:auto;
-	margin-top:calc(30px + 4.0vh);;
+	margin-top:calc(30px + 4.0vh);
 	font-size:14px;
 	background-color: #000;
 }
 
 .about {
     font-family: courier, monospace;
-	width:750px;
+	max-width: 800px;
+	width:80%;
 	margin-left:auto;
 	margin-right:auto;
 	margin-top:100px;
@@ -28,7 +29,7 @@ body {
 }
 .about h2{
     color: #0bc;
-    font-size:20px;
+    font-size:16px;
 }
 
 a {
@@ -69,26 +70,26 @@ a {
 #buttons {
     position: relative;
     bottom: 0px;
-    height: 60px;
-    width: 100%;
+    height: calc(100px + 12.0vw);
+    max-width: 800px;
+	width:80%;
     color: 334;
     background-color:#000;
-    text-align: center;
-      display: flex;
-  justify-content: space-between;
+    margin-left:auto;
+	margin-right:auto;
+    display: flex;
 } 
 
 button {
     border-color: #fff;
-    bottom: 40px;
     color: #fff;
-    margin-top: 40px;
-    margin-left: 4%;
-    margin-right: 4%;
-    margin-bottom: 20px;
+    margin-top: 60px;
+    margin-left: 3.0vw;
+    margin-right: 3.0vw;
+    margin-bottom: 30px;
     background-color: #111;
-    width: 18%;
-    height: 100px;
+    width: 14.0vw;
+    height: 12.0vw;
     text-align: center;
     border-radius: 25px;
     font-size:30px;
@@ -118,8 +119,7 @@ button:focus{
   text-align: center;
   padding: 10px 5px;
   text-decoration: none;
-  font-size:calc(14px + 0.5vh );
-  min-font-size: 
+  font-size:18px;
 }
 
 /* Change the color of links on hover */
