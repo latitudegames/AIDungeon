@@ -3,17 +3,16 @@ import os
 import numpy as np
 import tensorflow as tf
 
-import gpt2.src.model as model
+from src.model import *
 from tensorflow.contrib import predictor
-import gpt2.src.sample as sample
-import gpt2.src.encoder as encoder
-from story.utils import *
+from src.sample import *
+from src.encoder import *
 import pdb
 
 pos_action_starts = ["You attack", "You tell", "You use", "You go"]
 
 
-class StoryGenerator():
+class LocalGenerator():
 
     def __init__(self, sess, length=75, temperature=0.9, top_k=40):
     
@@ -51,51 +50,25 @@ class StoryGenerator():
         text = self.enc.decode(out[0])
         return text
 
-    def generate_story_block(self, prompt):
-        block = self.generate(prompt)
-        block = cut_trailing_sentence(block)
-        block = story_replace(block)
-
-        return block
-
-    def generate_action_options(self, prompt, action_starts=pos_action_starts):
-
-        possible_actions = []
-        for phrase in action_starts:
-            action = phrase + self.generate(prompt + phrase)
-            action = first_sentence(action)
-            possible_actions.append(action)
-
-        return possible_actions
-
-    def generate_action_result(self, prompt, phrase):
-        action = phrase + self.generate(prompt + phrase)
-        action_result = cut_trailing_sentence(action)
-        action_result = story_replace(action_result)
-
-        action = first_sentence(action)
-
-        return action, action_result
-
-
 def save_model():
     length=75
     temperature=0.9
     top_k=40
+    os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
     
     with tf.Session() as sess:
         seed = None
         batch_size=None
-        model_path='gpt2/models/117M'
+        model_path='models/774M'
 
-        hparams = model.default_hparams()
+        hparams = default_hparams()
         with open(os.path.join(model_path, 'hparams.json')) as f:
             hparams.override_from_dict(json.load(f))  
 
         context = tf.placeholder(tf.int32, [batch_size, None])
         np.random.seed(seed)
         tf.set_random_seed(seed)
-        output = sample.sample_sequence(
+        output = sample_sequence(
             hparams=hparams, length=length,
             context=context,
             batch_size=batch_size,
@@ -106,14 +79,20 @@ def save_model():
         ckpt = tf.train.latest_checkpoint(model_path)
         saver.restore(sess, ckpt)
 
-        tf.saved_model.simple_save(sess, "./saved2", inputs={"context": context}, outputs={"output": output})
+        tf.saved_model.simple_save(sess, "./saved_model", inputs={"context": context}, outputs={"output": output})
 
 def load_model():
-    # Set your memory fraction equal to a value less than 1, 0.6 is a good starting point.
-    # If no fraction is defined, the tensorflow algorithm may run into gpu out of memory problems.
     fraction = 0.6
+    config = config = generate_gpu_config(fraction)
     path_to_graph = "./saved"
 
+    # tf.saved_model.loader.load(
+    #   session,
+    #  [tf.saved_model.tag_constants.SERVING],
+    # path_to_graph)
+
+    # output = session.graph.get_tensor_by_name('output:0')
+    # context = session.graph.get_tensor_by_name('context:0')
     model_path = 'gpt2/models/117M'
     enc = encoder.get_encoder(model_path)
 
@@ -124,6 +103,7 @@ def load_model():
     print(output)
 
     return (output, session)
+
 
 if __name__ == '__main__':
    save_model()

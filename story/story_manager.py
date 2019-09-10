@@ -31,9 +31,14 @@ class Story():
         return sum(story_list)
 
 
-class UnconstrainedStoryGenerator():
+class UnconstrainedStoryManager():
 
-    def __init__(self, generator, story_start):
+    def __init__(self, generator, story_prompt):
+        block = self.generator.generate(story_prompt)
+        block = cut_trailing_sentence(block)
+        block = story_replace(block)
+        story_start = story_prompt + block
+
         self.story = Story(story_start)
         self.generator = generator
 
@@ -53,9 +58,14 @@ class UnconstrainedStoryGenerator():
         return block
 
 
-class ConstrainedStoryGenerator():
+class ConstrainedStoryManager():
 
-    def __init__(self, generator, story_start):
+    def __init__(self, generator, story_prompt):
+        block = self.generator.generate(story_prompt)
+        block = cut_trailing_sentence(block)
+        block = story_replace(block)
+        story_start = story_prompt + block
+
         self.story = Story(story_start)
         self.generator = generator
         self.possible_action_results = self.get_action_results()
