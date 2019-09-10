@@ -52,18 +52,19 @@ def text_replace(text):
     return text
     
     
-def first_sentence(text):
+def split_first_sentence(text):
     first_period = text.find('.')
     first_exclamation = text.find('!')
     
     if first_exclamation < first_period and first_exclamation > 0:
-        text = text[0:first_exclamation+1]
+        split_point = first_exclamation+1
     elif first_period > 0:
-        text = text[0:first_period+1]
+        split_point = first_period+1
     else:
-        return text[0:20]
+        split_point = text[0:20]
         
-    return text
+    return text[0:split_point], text[split_point:]
+
     
 def all_but_first(text):
     first_period = text.find('.')

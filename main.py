@@ -1,17 +1,11 @@
-import datetime
 from flask import g
 from flask import session
 import os
 import googleapiclient.discovery
-from utils import *
+from story.utils import *
 from google.cloud import storage
-from google import cloud
 import json
 from flask import Flask, render_template, request, abort
-from flask import Response
-import requests
-import pdb
-import sys
 from generator import StoryGenerator
 import gpt2.src.encoder as encoder
 

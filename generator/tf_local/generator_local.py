@@ -7,7 +7,7 @@ import gpt2.src.model as model
 from tensorflow.contrib import predictor
 import gpt2.src.sample as sample
 import gpt2.src.encoder as encoder
-from utils import *
+from story.utils import *
 import pdb
 
 pos_action_starts = ["You attack", "You tell", "You use", "You go"]
@@ -50,29 +50,29 @@ class StoryGenerator():
 
         text = self.enc.decode(out[0])
         return text
-        
+
     def generate_story_block(self, prompt):
         block = self.generate(prompt)
         block = cut_trailing_sentence(block)
         block = story_replace(block)
-        
+
         return block
-        
+
     def generate_action_options(self, prompt, action_starts=pos_action_starts):
-    
+
         possible_actions = []
         for phrase in action_starts:
             action = phrase + self.generate(prompt + phrase)
             action = first_sentence(action)
             possible_actions.append(action)
-            
+
         return possible_actions
-        
+
     def generate_action_result(self, prompt, phrase):
         action = phrase + self.generate(prompt + phrase)
         action_result = cut_trailing_sentence(action)
         action_result = story_replace(action_result)
-        
+
         action = first_sentence(action)
 
         return action, action_result
