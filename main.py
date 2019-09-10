@@ -1,20 +1,6 @@
-# Copyright 2018 Google LLC
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
-# [START gae_python37_render_template]
 import datetime
 from flask import g
+from flask import session
 import os
 import googleapiclient.discovery
 from utils import *
@@ -35,6 +21,7 @@ phrases = [" You attack", " You use", " You tell", " You go"]
 prompts = ["You enter a dungeon with your trusty sword and shield. You are searching for the evil necromancer who killed your family. You've heard that he resides at the bottom of the dungeon, guarded by legions of the undead. You enter the first door and see"]
 continuing_prompts = ["You are in a dungeon with your sword and shield. You are on a quest to defeat the necromancer. This dungeon is full of zombie and skeletons."]
 app = Flask(__name__)
+app.secret_key = '#d\xe0\xd1\xfb\xee\xa4\xbb\xd0\xf0/e)\xb5g\xdd<`\xc7\xa5\xb0-\xb8d0S'
 
 # Encoder Info
 encoder_path='gpt2/models/117M'
@@ -49,8 +36,7 @@ storage_client = storage.Client()
 bucket = storage_client.get_bucket("dungeon-cache")
 
 # Local generator functionality
-RUN_LOCAL = True
-session = None
+RUN_LOCAL = False
 local_generator = None
 def get_local_generator():
     if "gen" not in g:
@@ -134,7 +120,6 @@ def root():
     data = {'seed': seed}
     return render_template('index.html', data=data)
 
-
 @app.route('/<seed>')
 def rootseed(seed):
     if seed == "":
@@ -142,6 +127,7 @@ def rootseed(seed):
     else:
         seed = int(seed)
     data = {'seed': seed}
+    session["seed"] = seed
     return render_template('index.html', data=data)
 
 @app.route('/index.html')
@@ -192,15 +178,17 @@ def story_request():
     prompt_num = int(request.form["prompt_num"])
     gen_actions = request.form["actions"]
 
+    print("Session Seed is ", session["seed"])
+
     if int(seed) < 0 or int(seed) > 100:
-        print("Invalid seed: " + seed)
+        #print("Invalid seed: " + seed)
         abort(404)
 
     if gen_actions == "true":
 
         #prompt = request.form["prompt"]
         choices = json.loads(request.form["choices"])
-        print("Getting response for seed ", seed, " prompt_num ", prompt_num, " and choices ", choices)
+        #print("Getting response for seed ", seed, " prompt_num ", prompt_num, " and choices ", choices)
         
         action_results = retrieve_from_cache(seed, prompt_num, choices, "choices")
 
@@ -209,13 +197,13 @@ def story_request():
         else:
             last_action_result = request.form["last_action_result"]
             prompt = continuing_prompts[prompt_num] + last_action_result
-            print("\n\nAction prompt is \n ", prompt)
+            #print("\n\nAction prompt is \n ", prompt)
             action_results = [generate_action_result(prompt, phrase, local=RUN_LOCAL) for phrase in phrases]
             response = json.dumps(action_results)
             cache_file(seed, prompt_num, choices, response, "choices")
     else:
 
-        print("Getting response for seed ", seed, " prompt_num ", prompt_num)
+        #print("Getting response for seed ", seed, " prompt_num ", prompt_num)
         result = retrieve_from_cache(seed, prompt_num, [], "story")
 
         if result is not None:
@@ -225,68 +213,10 @@ def story_request():
             response = generate_story_block(prompt, local=RUN_LOCAL)
             cache_file(seed, prompt_num, [], response, "story")
 
-    print("\nGenerated response is: \n", response)
-    print("")
+    #print("\nGenerated response is: \n", response)
+    #print("")
 
     return response
-    
-    
-def generate_cache():   
-
-    start_seed = int(sys.argv[1])
-    end_seed = int(sys.argv[2])
-
-    # Generate story sections
-    prompt_num = 0
-    action_queue = []
-    prompt = prompts[prompt_num]
-    for seed in range(start_seed,end_seed):
-        result = retrieve_from_cache(seed, prompt_num, [], "story")
-        if result is not None:
-            response = result
-        else:
-            prompt = prompts[prompt_num]
-            #print("\n Story prompt is ", prompt)
-            response = generate_story_block(prompt)
-            #print("\n Story response is ", response)
-            cache_file(seed, prompt_num, [], response, "story")
-            
-        action_queue.append([seed,0,[],response])
-    
-    while(True):
-        
-        next_gen = action_queue.pop(0)
-        seed = next_gen[0]
-        prompt_num = next_gen[1]
-        choices = next_gen[2]
-        last_action_result = next_gen[3]
-        
-        action_results = retrieve_from_cache(seed, prompt_num, choices, "choices")
-        
-        if action_results is not None:
-            response = action_results
-            
-        else:
-            if len(choices) is 0:
-                prompt = prompts[prompt_num] + last_action_result
-            else:
-                prompt = continuing_prompts[prompt_num] + last_action_result
-            #print("\n\n Action prompt is \n ", prompt)
-            action_results = [generate_action_result(prompt, phrase) for phrase in phrases]
-            response = json.dumps(action_results)
-            
-            #print("\n\n Action 
-            cache_file(seed, prompt_num, choices, response, "choices")
-            
-        un_jsoned = json.loads(response)
-        for j in range(4):
-            new_choices = choices[:]
-            new_choices.append(j)
-            action_queue.append([seed, 0, new_choices,  un_jsoned[j][1]])
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080)
-
-
-
-# [START gae_python37_render_template]

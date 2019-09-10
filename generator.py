@@ -8,6 +8,7 @@ from tensorflow.contrib import predictor
 import gpt2.src.sample as sample
 import gpt2.src.encoder as encoder
 from utils import *
+import pdb
 
 pos_action_starts = ["You attack", "You tell", "You use", "You go"]
 
@@ -24,7 +25,9 @@ class StoryGenerator():
         self.enc = encoder.get_encoder(model_path)
         hparams = model.default_hparams()
         with open(os.path.join(model_path, 'hparams.json')) as f:
-            hparams.override_from_dict(json.load(f))  
+            hparams.override_from_dict(json.load(f))
+
+        pdb.set_trace()
 
         self.context = tf.placeholder(tf.int32, [batch_size, None])
         np.random.seed(seed)
@@ -38,8 +41,7 @@ class StoryGenerator():
         saver = tf.train.Saver()
         ckpt = tf.train.latest_checkpoint(model_path)
         saver.restore(self.sess, ckpt)
-            
-        
+
     def generate(self, prompt):
         context_tokens = self.enc.encode(prompt)
         out = self.sess.run(self.output, feed_dict={
@@ -72,7 +74,6 @@ class StoryGenerator():
         action_result = story_replace(action_result)
         
         action = first_sentence(action)
-        
 
         return action, action_result
 
@@ -107,31 +108,12 @@ def save_model():
 
         tf.saved_model.simple_save(sess, "./saved2", inputs={"context": context}, outputs={"output": output})
 
-
-def generate_gpu_config(memory_fraction):
-    config = tf.ConfigProto()
-    config.gpu_options.allow_growth = True
-    config.gpu_options.per_process_gpu_memory_fraction = memory_fraction
-    return config
-
-def run_interactive():
-    pass
-
-
 def load_model():
     # Set your memory fraction equal to a value less than 1, 0.6 is a good starting point.
     # If no fraction is defined, the tensorflow algorithm may run into gpu out of memory problems.
     fraction = 0.6
-    config = config=generate_gpu_config(fraction)
     path_to_graph = "./saved"
 
-    #tf.saved_model.loader.load(
-     #   session,
-      #  [tf.saved_model.tag_constants.SERVING],
-       # path_to_graph)
-
-    #output = session.graph.get_tensor_by_name('output:0')
-    #context = session.graph.get_tensor_by_name('context:0')
     model_path = 'gpt2/models/117M'
     enc = encoder.get_encoder(model_path)
 
