@@ -26,6 +26,7 @@ from flask import Response
 import requests
 import pdb
 import sys
+from generator import StoryGenerator
 import gpt2.src.encoder as encoder
 
 
@@ -47,6 +48,25 @@ os.environ['GOOGLE_APPLICATION_CREDENTIALS']="./AI-Adventure-2bb65e3a4e2f.json"
 storage_client = storage.Client()
 bucket = storage_client.get_bucket("dungeon-cache")
 
+# Local generator functionality
+RUN_LOCAL = True
+session = None
+local_generator = None
+def get_local_generator():
+    if "gen" not in g:
+        if "sess" not in g:
+            g.sess = tf.Session()
+        g.gen = StoryGenerator(g.sess)
+
+    return g.gen
+
+
+@app.teardown_appcontext
+def teardown_sess(_):
+    sess = g.pop("sess", None)
+
+    if sess is not None:
+        sess.close()
 
 def predict(context_tokens):
     service = googleapiclient.discovery.build('ml', 'v1')
@@ -80,20 +100,31 @@ def generate(prompt):
             print("generate request failed, trying again")
             continue
 
-def generate_story_block(prompt):
-    block = generate(prompt)
+
+def generate_story_block(prompt, local=False):
+
+    if local:
+        generator = get_local_generator()
+        block = generator.generate(prompt)
+    else:
+        block = generate(prompt)
+
     block = cut_trailing_sentence(block)
     block = story_replace(block)
-    
     return block
-    
-def generate_action_result(prompt, phrase):
-    action = phrase + generate(prompt + phrase)
+
+
+def generate_action_result(prompt, phrase, local=False):
+
+    if local:
+        generator = get_local_generator()
+        action = phrase + generator.generate(prompt + phrase)
+    else:
+        action = phrase + generate(prompt + phrase)
+
     action_result = cut_trailing_sentence(action)
     action_result = story_replace(action_result)
-    
     action = first_sentence(action)
-    
 
     return action, action_result
     
@@ -124,33 +155,34 @@ def about():
 
 
 def cache_file(seed, prompt_num, choices, response, tag):
-
-    blob_file_name = "prompt" + str(prompt_num) + "/seed" + str(seed) + "/" + tag
-    for action in choices:
-        blob_file_name = blob_file_name + str(action)
-    blob = bucket.blob(blob_file_name)
-
-    blob.upload_from_string(response)
-
-    print("File ", blob_file_name, " cached")
+    return
+    # blob_file_name = "prompt" + str(prompt_num) + "/seed" + str(seed) + "/" + tag
+    # for action in choices:
+    #     blob_file_name = blob_file_name + str(action)
+    # blob = bucket.blob(blob_file_name)
+    #
+    # blob.upload_from_string(response)
+    #
+    # print("File ", blob_file_name, " cached")
 
 
 def retrieve_from_cache(seed, prompt_num, choices, tag):
-    blob_file_name = "prompt" + str(prompt_num) + "/seed" + str(seed) + "/" + tag
-
-    for action in choices:
-        blob_file_name = blob_file_name + str(action)
-
-    blob = bucket.blob(blob_file_name)
-
-    if blob.exists(storage_client):
-        result = blob.download_as_string().decode("utf-8")
-        print(blob_file_name, " found in cache")
-    else:
-        result = None
-        print(blob_file_name, " not found in cache")
-
-    return result
+    return None
+    # blob_file_name = "prompt" + str(prompt_num) + "/seed" + str(seed) + "/" + tag
+    #
+    # for action in choices:
+    #     blob_file_name = blob_file_name + str(action)
+    #
+    # blob = bucket.blob(blob_file_name)
+    #
+    # if blob.exists(storage_client):
+    #     result = blob.download_as_string().decode("utf-8")
+    #     print(blob_file_name, " found in cache")
+    # else:
+    #     result = None
+    #     print(blob_file_name, " not found in cache")
+    #
+    # return result
 
 
 @app.route('/generate', methods=['POST'])
@@ -178,7 +210,7 @@ def story_request():
             last_action_result = request.form["last_action_result"]
             prompt = continuing_prompts[prompt_num] + last_action_result
             print("\n\nAction prompt is \n ", prompt)
-            action_results = [generate_action_result(prompt, phrase) for phrase in phrases]
+            action_results = [generate_action_result(prompt, phrase, local=RUN_LOCAL) for phrase in phrases]
             response = json.dumps(action_results)
             cache_file(seed, prompt_num, choices, response, "choices")
     else:
@@ -190,7 +222,7 @@ def story_request():
             response = result
         else:
             prompt = prompts[prompt_num]
-            response = generate_story_block(prompt)
+            response = generate_story_block(prompt, local=RUN_LOCAL)
             cache_file(seed, prompt_num, [], response, "story")
 
     print("\nGenerated response is: \n", response)
@@ -253,10 +285,7 @@ def generate_cache():
             action_queue.append([seed, 0, new_choices,  un_jsoned[j][1]])
 
 if __name__ == '__main__':
-    if(len(sys.argv) > 1):
-        generate_cache()
-    else:
-        app.run(host='0.0.0.0', port=8080)
+    app.run(host='0.0.0.0', port=8080)
 
 
 
