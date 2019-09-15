@@ -134,37 +134,6 @@ def about():
     return render_template('about.html')
 
 
-def cache_file(seed, prompt_num, choices, response, tag):
-    return
-    # blob_file_name = "prompt" + str(prompt_num) + "/seed" + str(seed) + "/" + tag
-    # for action in choices:
-    #     blob_file_name = blob_file_name + str(action)
-    # blob = bucket.blob(blob_file_name)
-    #
-    # blob.upload_from_string(response)
-    #
-    # print("File ", blob_file_name, " cached")
-
-
-def retrieve_from_cache(seed, prompt_num, choices, tag):
-    return None
-    # blob_file_name = "prompt" + str(prompt_num) + "/seed" + str(seed) + "/" + tag
-    #
-    # for action in choices:
-    #     blob_file_name = blob_file_name + str(action)
-    #
-    # blob = bucket.blob(blob_file_name)
-    #
-    # if blob.exists(storage_client):
-    #     result = blob.download_as_string().decode("utf-8")
-    #     print(blob_file_name, " found in cache")
-    # else:
-    #     result = None
-    #     print(blob_file_name, " not found in cache")
-    #
-    # return result
-
-
 @app.route('/generate', methods=['POST'])
 def story_request():
     print("****Generating Story****")

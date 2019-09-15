@@ -1,5 +1,6 @@
 from story.utils import *
 
+
 class Story():
 
     def __init__(self, story_start):
@@ -28,19 +29,20 @@ class Story():
             story_list.append(self.actions[i])
             story_list.append(self.results[i])
 
-        return sum(story_list)
+        return "".join(story_list)
 
 
 class UnconstrainedStoryManager():
 
     def __init__(self, generator, story_prompt):
+        self.generator = generator
+
         block = self.generator.generate(story_prompt)
         block = cut_trailing_sentence(block)
         block = story_replace(block)
         story_start = story_prompt + block
 
         self.story = Story(story_start)
-        self.generator = generator
 
     def act(self, action_choice):
 
