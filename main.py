@@ -1,118 +1,23 @@
 from flask import g
 from flask import session
 import os
-import googleapiclient.discovery
 from story.utils import *
-from google.cloud import storage
 import json
 from flask import Flask, render_template, request, abort
-from generator import StoryGenerator
-import gpt2.src.encoder as encoder
+from story.story_manager import *
+from generator.web.web_generator import *
+from other.caching import *
 
-
-# App Info
-phrases = [" You attack", " You use", " You tell", " You go"]
-prompts = ["You enter a dungeon with your trusty sword and shield. You are searching for the evil necromancer who killed your family. You've heard that he resides at the bottom of the dungeon, guarded by legions of the undead. You enter the first door and see"]
-continuing_prompts = ["You are in a dungeon with your sword and shield. You are on a quest to defeat the necromancer. This dungeon is full of zombie and skeletons."]
 app = Flask(__name__)
 app.secret_key = '#d\xe0\xd1\xfb\xee\xa4\xbb\xd0\xf0/e)\xb5g\xdd<`\xc7\xa5\xb0-\xb8d0S'
 
-# Encoder Info
-encoder_path='gpt2/models/117M'
-enc = encoder.get_encoder(encoder_path)
 
-# Model/Cache Info
-project = "ai-adventure"
-model = "generator_v1"
-version = "version2"
-os.environ['GOOGLE_APPLICATION_CREDENTIALS']="./AI-Adventure-2bb65e3a4e2f.json"
-storage_client = storage.Client()
-bucket = storage_client.get_bucket("dungeon-cache")
-
-# Local generator functionality
-RUN_LOCAL = False
-local_generator = None
-def get_local_generator():
-    if "gen" not in g:
-        if "sess" not in g:
-            g.sess = tf.Session()
-        g.gen = StoryGenerator(g.sess)
-
-    return g.gen
-
-
-@app.teardown_appcontext
-def teardown_sess(_):
-    sess = g.pop("sess", None)
-
-    if sess is not None:
-        sess.close()
-
-def predict(context_tokens):
-    service = googleapiclient.discovery.build('ml', 'v1')
-    name = 'projects/{}/models/{}'.format(project, model)
-    instance = context_tokens
-
-    if version is not None:
-        name += '/versions/{}'.format(version)
-
-    response = service.projects(). predict(
-        name=name,
-        body={'instances': [{'context': instance}]}
-    ).execute()
-
-    if 'error' in response:
-        raise RuntimeError(response['error'])
-
-    return response['predictions']
-    
-    
-def generate(prompt):
-
-    while(True):
-        context_tokens = enc.encode(prompt)
-        try:
-            pred = predict(context_tokens)
-            pred = pred[0]["output"][len(context_tokens):]
-            output = enc.decode(pred)
-            return output
-        except:
-            print("generate request failed, trying again")
-            continue
-
-
-def generate_story_block(prompt, local=False):
-
-    if local:
-        generator = get_local_generator()
-        block = generator.generate(prompt)
-    else:
-        block = generate(prompt)
-
-    block = cut_trailing_sentence(block)
-    block = story_replace(block)
-    return block
-
-
-def generate_action_result(prompt, phrase, local=False):
-
-    if local:
-        generator = get_local_generator()
-        action = phrase + generator.generate(prompt + phrase)
-    else:
-        action = phrase + generate(prompt + phrase)
-
-    action_result = cut_trailing_sentence(action)
-    action_result = story_replace(action_result)
-    action = first_sentence(action)
-
-    return action, action_result
-    
 @app.route('/')
 def root():
     seed = -1
     data = {'seed': seed}
     return render_template('index.html', data=data)
+
 
 @app.route('/<seed>')
 def rootseed(seed):
@@ -124,10 +29,12 @@ def rootseed(seed):
     session["seed"] = seed
     return render_template('index.html', data=data)
 
+
 @app.route('/index.html')
 def index():
     data = {'seed': -1}
     return render_template('index.html', data=data)
+
 
 @app.route('/about.html')
 def about():
