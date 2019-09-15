@@ -63,22 +63,37 @@ class UnconstrainedStoryManager():
 class ConstrainedStoryManager():
 
     def __init__(self, generator, story_prompt):
+        self.generator = generator
+        self.action_phrases = ["You attack", "You tell", "You use", "You go"]
         block = self.generator.generate(story_prompt)
         block = cut_trailing_sentence(block)
         block = story_replace(block)
         story_start = story_prompt + block
-
         self.story = Story(story_start)
-        self.generator = generator
-        self.possible_action_results = self.get_action_results()
-        self.action_phrases = ["You attack", "You tell", "You use", "You go"]
+        self.possible_action_results = None
 
-    def act(self, action_choice):
+    def get_possible_actions(self):
+        if self.possible_action_results is None:
+            self.possible_action_results = self.get_action_results()
+
+        return [action_result[0] for action_result in self.possible_action_results]
+
+    def act(self, action_choice_str):
+
+        try:
+            action_choice = int(action_choice_str)
+        except:
+            print("Error invalid choice.")
+            return None, None
+
+        if action_choice < 0 or action_choice >= len(self.action_phrases):
+            print("Error invalid choice.")
+            return None, None
 
         action, result = self.possible_action_results[action_choice]
         self.story.add_to_story(action, result)
         self.possible_action_results = self.get_action_results()
-        return result, self.possible_action_results
+        return result, self.get_possible_actions()
 
     def story_context(self):
         return self.story.latest_result()
