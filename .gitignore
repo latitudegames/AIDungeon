@@ -1,3 +1,5 @@
 **/__pychache__
 .idea
 *.json
+*.pyc
+*.pyo
