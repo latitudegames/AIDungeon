@@ -1,5 +1,9 @@
 from story.utils import *
+from other.cacher import *
+import json
 
+prompts = [
+    "You enter a dungeon with your trusty sword and shield. You are searching for the evil necromancer who killed your family. You've heard that he resides at the bottom of the dungeon, guarded by legions of the undead. You enter the first door and see"]
 
 class Story():
 
@@ -32,26 +36,35 @@ class Story():
         return "".join(story_list)
 
 
-class UnconstrainedStoryManager():
+class StoryManager():
 
     def __init__(self, generator, story_prompt):
         self.generator = generator
+        self.story_prompt = story_prompt
+        self.action_phrases = ["You attack", "You tell", "You use", "You go"]
 
-        block = self.generator.generate(story_prompt)
+    def init_story(self):
+        block = self.generator.generate(self.story_prompt)
         block = cut_trailing_sentence(block)
         block = story_replace(block)
-        story_start = story_prompt + block
-
+        story_start = self.story_prompt + block
         self.story = Story(story_start)
-
-    def act(self, action_choice):
-
-        result = self.generate_result(action_choice)
-        self.story.add_to_story(action_choice, result)
-        return result
+        return story_start
 
     def story_context(self):
         return self.story.latest_result()
+
+
+class UnconstrainedStoryManager(StoryManager):
+
+    def __init__(self, generator, story_prompt):
+        super().__init__(generator, story_prompt)
+        self.init_story()
+
+    def act(self, action_choice):
+        result = self.generate_result(action_choice)
+        self.story.add_to_story(action_choice, result)
+        return result
 
     def generate_result(self, action):
         block = self.generator.generate(self.story_context() + action)
@@ -60,16 +73,12 @@ class UnconstrainedStoryManager():
         return block
 
 
-class ConstrainedStoryManager():
+class ConstrainedStoryManager(StoryManager):
 
     def __init__(self, generator, story_prompt):
-        self.generator = generator
-        self.action_phrases = ["You attack", "You tell", "You use", "You go"]
-        block = self.generator.generate(story_prompt)
-        block = cut_trailing_sentence(block)
-        block = story_replace(block)
-        story_start = story_prompt + block
-        self.story = Story(story_start)
+        super().__init__(generator, story_prompt)
+
+        self.init_story()
         self.possible_action_results = None
 
     def get_possible_actions(self):
@@ -95,9 +104,6 @@ class ConstrainedStoryManager():
         self.possible_action_results = self.get_action_results()
         return result, self.get_possible_actions()
 
-    def story_context(self):
-        return self.story.latest_result()
-
     def get_action_results(self):
         return [self.generate_action_result(self.story_context(), phrase) for phrase in self.action_phrases]
 
@@ -112,17 +118,26 @@ class ConstrainedStoryManager():
         return action, result
 
 
-class CachedStoryManager():
+class CachedStoryManager(ConstrainedStoryManager):
 
-    def __init__(self, generator, prompt_num, seed):
-        # self.generator = generator
-        # self.action_phrases = ["You attack", "You tell", "You use", "You go"]
-        # block = self.generator.generate(story_prompt)
-        # block = cut_trailing_sentence(block)
-        # block = story_replace(block)
-        # story_start = story_prompt + block
-        # self.story = Story(story_start)
-        # self.possible_action_results = None
+    def __init__(self, generator, prompt_num, seed, credentials_file):
+        self.cacher = cacher(credentials_file)
+        prompt = prompts[prompt_num]
+        super().__init__(generator, prompt)
+        self.seed = seed
+        self.prompt_num = prompt_num
+        self.choices = []
+
+        result = self.cacher.retrieve_from_cache(seed, prompt_num, [], "story")
+        if result is not None:
+            story_start = result
+            self.story = Story(story_start)
+        else:
+
+            story_start = self.init_story()
+            self.cacher.cache_file(seed, prompt_num, [], story_start, "story")
+
+        self.possible_action_results = None
 
     def get_possible_actions(self):
         if self.possible_action_results is None:
@@ -142,23 +157,23 @@ class CachedStoryManager():
             print("Error invalid choice.")
             return None, None
 
+        self.choices.append(action_choice)
         action, result = self.possible_action_results[action_choice]
         self.story.add_to_story(action, result)
         self.possible_action_results = self.get_action_results()
         return result, self.get_possible_actions()
 
-    def story_context(self):
-        return self.story.latest_result()
-
     def get_action_results(self):
-        return [self.generate_action_result(self.story_context(), phrase) for phrase in self.action_phrases]
 
-    def generate_action_result(self, prompt, phrase):
-        action = phrase + self.generator.generate(prompt + phrase)
-        action_result = cut_trailing_sentence(action)
+        response = self.cacher.retrieve_from_cache(self.seed, self.prompt_num, self.choices, "choices")
 
-        action, result = split_first_sentence(action_result)
-        result = story_replace(action_result)
-        action = action_replace(action)
+        if response is not None:
+            action_results = json.loads(response)
+        else:
+            action_results = super().get_action_results()
+            response = json.dumps(action_results)
+            self.cacher.cache_file(self.seed, self.prompt_num, self.choices, response, "choices")
 
-        return action, result
+        return action_results
+
+
