@@ -16,7 +16,6 @@ GOOGLE_CRED_LOCATION = "./AI-Adventure-2bb65e3a4e2f.json"
 def story_init(session, seed):
     pass
 
-
 # Routes to index
 @app.route('/')
 def root():
@@ -46,6 +45,7 @@ def index():
 @app.route('/about.html')
 def about():
     return render_template('about.html')
+
 
 # Bread and butter of app, updates story and returns based on choice
 @app.route('/choose', methods=['POST'])
