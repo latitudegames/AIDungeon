@@ -56,7 +56,7 @@ def play_cached():
     console_print(str(story_manager.story))
     possible_actions = story_manager.get_possible_actions()
     while (True):
-        console_print("\nOptions:")
+        console_print("\n\nOptions:")
         for i, action in enumerate(possible_actions):
             console_print(str(i) + ") " + action)
 
@@ -70,7 +70,7 @@ def play_cached():
 
 
 if __name__ == '__main__':
-    play_cached()
+    play_unconstrained()
 
 
 
