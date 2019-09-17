@@ -1,12 +1,10 @@
 from story.utils import *
 from other.cacher import *
 import json
-<<<<<<< HEAD
-=======
 
 prompts = [
     "You enter a dungeon with your trusty sword and shield. You are searching for the evil necromancer who killed your family. You've heard that he resides at the bottom of the dungeon, guarded by legions of the undead. You enter the first door and see"]
->>>>>>> cc28b3787ca6c0614066ca4af4501b4d9ece8ff7
+
 
 prompts = [
     "You enter a dungeon with your trusty sword and shield. You are searching for the evil necromancer who killed your family. You've heard that he resides at the bottom of the dungeon, guarded by legions of the undead. You enter the first door and see"]
