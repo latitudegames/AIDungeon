@@ -6,4 +6,4 @@ else
     URL="gs://sf-ctrl/seqlen256_v1.ckpt/"
 fi
 
-gsutil -m cp -r "$URL" .
+gsutil -m cp -r "$URL" model

@@ -16,6 +16,7 @@ cd fastBPE
 python setup.py install
 cd ..
 
+pip install tensorflow-gpu==1.14
 # Download the 512-length model if specified, 256-length otherwise
 #if [ "$1" = "512" ]
 #then
