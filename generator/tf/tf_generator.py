@@ -12,7 +12,7 @@ import pdb
 pos_action_starts = ["You attack", "You tell", "You use", "You go"]
 
 
-class LocalGenerator():
+class TFGenerator():
 
     def __init__(self, sess, length=75, temperature=0.9, top_k=40):
     
