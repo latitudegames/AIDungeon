@@ -4,6 +4,7 @@ from google.cloud import storage
 import json
 from story.story_manager import *
 from generator.web.web_generator import *
+from generator.ctrl.ctrl_generator import *
 import tensorflow as tf
 import textwrap
 
@@ -18,7 +19,7 @@ def console_print(str):
 
 
 def play_unconstrained():
-    generator = WebGenerator(CRED_FILE)
+    generator = CTRLGenerator()
     story_manager = UnconstrainedStoryManager(generator, prompt)
 
     console_print(str(story_manager.story))
