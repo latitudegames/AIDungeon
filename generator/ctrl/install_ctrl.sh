@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# Gather CTRL and copy to working directory
-git clone https://github.com/salesforce/ctrl.git model
 cd model
 # Cython is needed to compile fastBPE
 pip install Cython
