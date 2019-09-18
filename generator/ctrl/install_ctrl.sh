@@ -17,6 +17,11 @@ python setup.py install
 cd ..
 
 pip install tensorflow-gpu==1.14
+
+curl https://sdk.cloud.google.com | bash
+exec -l $SHELL
+gcloud init
+
 # Download the 512-length model if specified, 256-length otherwise
 #if [ "$1" = "512" ]
 #then
