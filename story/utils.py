@@ -54,9 +54,9 @@ def cut_trailing_sentence(text):
 
 def replace_outside_quotes(text, current_word, repl_word):
 
-    reg_expr = '[^"]+"|(' + current_word + ')'
+    reg_expr = re.compile(current_word + '(?=([^"]*"[^"]*")*[^"]*$)')
 
-    output = re.sub(reg_expr, repl_word, text)
+    output = reg_expr.sub(repl_word, text)
     return output
 
 
@@ -102,7 +102,6 @@ def first_to_second_person(text):
     return capitalize_first_letters(text)
 
 
-
 def second_to_first_person(text):
     for pair in second_to_first_mappings:
         text = replace_outside_quotes(text, pair[0], pair[1])
@@ -110,7 +109,11 @@ def second_to_first_person(text):
     return capitalize_first_letters(text)
 
 if __name__ == '__main__':
-    test_text = "You enter a dungeon with your trusty sword and shield. You are searching for the evil necromancer who killed your family. You've heard that he resides at the bottom of the dungeon, guarded by legions of the undead. You enter the first door and see"
+    f = open("test.txt", "r")
+    test_text = f.read()
+
+    print("Text is \n\n",test_text)
+
     print("First person: ")
     converted = second_to_first_person(test_text)
     print(converted)
