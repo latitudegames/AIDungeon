@@ -149,12 +149,13 @@ class CTRLGenerator():
         # tokenize provided prompt
         split_prompt = self.bpe.apply([prompt])[0].split()
         text = [self.word2idx[i] for i in split_prompt]
+        total_text_len = len(text) + self.generate_num
 
         # pad with 0s and create a mini-batch of 2 (arbitrary, for ease of code)
-        padded_text = text + [0] * (self.generate_num - len(text))
+        padded_text = text + [0] * (self.total_text_len - len(text))
         tokens_generated = np.tile(padded_text, (1, 1))
         result = ""
-        for token in range(len(text) - 1, self.generate_num - 1):
+        for token in range(len(text) - 1, total_text_len - 1):
             # get the logits from the prediction function
             # the logic here is a bit convoluted because we are allowing generation past 512 tokens
             # this is done by sliding the window over (past 512 tokens) and continuing prediction
@@ -251,8 +252,6 @@ class CTRLGenerator():
             # os.system("clear")
 
             tokens_generated_so_far = ' '.join([self.idx2word[c] for c in tokens_generated[0].squeeze()[:token + 2]])
-            tokens_generated_so_far = re.sub('(@@ )', '', string=tokens_generated_so_far)
-            tokens_generated_so_far = re.sub('(@@ ?$)', '', string=tokens_generated_so_far)
 
             result = tokens_generated_so_far[prompt_length:]
 
