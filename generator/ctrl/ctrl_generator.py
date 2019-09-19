@@ -19,10 +19,11 @@ def loss(labels, logits):
 
 class CTRLGenerator():
 
-    def __init__(self):
+    def __init__(self, control_code="Horror Text: "):
 
         generate_num=256
         model_dir = "generator/ctrl/model/seqlen256_v1.ckpt/"
+        self.control_code = control_code
 
         # load the vocabulary from file
         vocab = open('generator/ctrl/model/vocab', encoding='utf-8').read().split('\n')
@@ -125,7 +126,7 @@ class CTRLGenerator():
 
         # almost there, we now take the user prompt and tokenize with BPE
         # load BPE codes
-        self.bpe = fastBPE.fastBPE('codes', 'vocab')
+        self.bpe = fastBPE('codes', 'vocab')
 
         self.temperature = 0
         self.nucleusprob = 0
@@ -134,6 +135,7 @@ class CTRLGenerator():
 
 
     def generate(self, prompt):
+        prompt = self.control_code + prompt
 
         # tokenize provided prompt
         split_prompt = self.bpe.apply([prompt])[0].split()
