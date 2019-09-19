@@ -254,8 +254,6 @@ class CTRLGenerator():
             tokens_generated_so_far = re.sub('(@@ )', '', string=tokens_generated_so_far)
             tokens_generated_so_far = re.sub('(@@ ?$)', '', string=tokens_generated_so_far)
 
-            print(tokens_generated_so_far)
-
             result = tokens_generated_so_far[prompt_length:]
 
         return result
