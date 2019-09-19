@@ -20,9 +20,9 @@ def loss(labels, logits):
 
 class CTRLGenerator():
 
-    def __init__(self, control_code="Horror Text: "):
+    def __init__(self, control_code="Horror Text: ", generate_num=128, temperature=0.3):
 
-        self.generate_num=256
+        self.generate_num=generate_num
         model_dir = "generator/ctrl/model/seqlen256_v1.ckpt/"
         self.control_code = control_code
         vocab_file = 'generator/ctrl/model/vocab'
@@ -131,7 +131,7 @@ class CTRLGenerator():
         # load BPE codes
         self.bpe = fastBPE.fastBPE(code_file, vocab_file)
 
-        self.temperature = 0
+        self.temperature=temperature
         self.nucleusprob = 0
         self.penalty = 1.2
         self.topk = 0
