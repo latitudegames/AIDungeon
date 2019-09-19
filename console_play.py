@@ -20,6 +20,7 @@ def console_print(str):
 
 def play_unconstrained():
     generator = CTRLGenerator()
+    #generator = WebGenerator(CRED_FILE)
     story_manager = UnconstrainedStoryManager(generator, prompt)
 
     console_print(str(story_manager.story))
