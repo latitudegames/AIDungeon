@@ -152,7 +152,7 @@ class CTRLGenerator():
         total_text_len = len(text) + self.generate_num
 
         # pad with 0s and create a mini-batch of 2 (arbitrary, for ease of code)
-        padded_text = text + [0] * (self.total_text_len - len(text))
+        padded_text = text + [0] * (total_text_len - len(text))
         tokens_generated = np.tile(padded_text, (1, 1))
         result = ""
         for token in range(len(text) - 1, total_text_len - 1):
