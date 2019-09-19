@@ -259,7 +259,5 @@ class CTRLGenerator():
 
                 result = tokens_generated_so_far[prompt_length:]
 
-        except:
-            print("Error in generation")
 
         return result

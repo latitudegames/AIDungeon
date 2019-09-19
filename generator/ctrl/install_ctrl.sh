@@ -15,13 +15,7 @@ patch -b "$FILE" estimator.patch
 git clone https://github.com/glample/fastBPE.git
 cd fastBPE
 python setup.py install
-cd ..
-
-curl https://sdk.cloud.google.com | bash
-exec -l $SHELL
-gcloud init
-export CUDA_VISIBLE_DEVICES=0
-cd ..
+cd ../..
 
 # Download the 512-length model if specified, 256-length otherwise
 #if [ "$1" = "512" ]
