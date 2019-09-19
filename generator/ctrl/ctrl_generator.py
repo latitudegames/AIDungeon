@@ -24,9 +24,11 @@ class CTRLGenerator():
         generate_num=256
         model_dir = "generator/ctrl/model/seqlen256_v1.ckpt/"
         self.control_code = control_code
+        vocab_file = 'generator/ctrl/model/vocab'
+        code_file = 'generator/ctrl/model/codes'
 
         # load the vocabulary from file
-        vocab = open('generator/ctrl/model/vocab', encoding='utf-8').read().split('\n')
+        vocab = open(vocab_file, encoding='utf-8').read().split('\n')
         vocab = list(map(lambda x: x.split(' ')[0], vocab)) + ['<unk>'] + ['\n']
         print('{} unique words'.format(len(vocab)))
 
@@ -126,7 +128,7 @@ class CTRLGenerator():
 
         # almost there, we now take the user prompt and tokenize with BPE
         # load BPE codes
-        self.bpe = fastBPE.fastBPE('codes', 'vocab')
+        self.bpe = fastBPE.fastBPE(code_file, vocab_file)
 
         self.temperature = 0
         self.nucleusprob = 0
