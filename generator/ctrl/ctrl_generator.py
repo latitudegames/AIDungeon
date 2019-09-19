@@ -9,6 +9,7 @@ from tensorflow.python import debug as tf_debug
 from tensorflow.python.ops import math_ops
 from tensorflow.python.ops import embedding_ops
 import fastBPE
+from story.utils import *
 
 pos_action_starts = ["You attack", "You tell", "You use", "You go"]
 
@@ -137,7 +138,10 @@ class CTRLGenerator():
 
 
     def generate(self, prompt):
+        prompt = second_to_first_person(prompt)
+
         prompt = self.control_code + prompt
+        prompt_length = len(prompt)
 
         # tokenize provided prompt
         split_prompt = self.bpe.apply([prompt])[0].split()
@@ -248,7 +252,7 @@ class CTRLGenerator():
                 tokens_generated_so_far = re.sub('(@@ )', '', string=tokens_generated_so_far)
                 tokens_generated_so_far = re.sub('(@@ ?$)', '', string=tokens_generated_so_far)
 
-                result = tokens_generated_so_far
+                result = tokens_generated_so_far[prompt_length:]
 
         except:
             print("Error in generation")
