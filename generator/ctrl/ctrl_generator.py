@@ -21,7 +21,7 @@ class CTRLGenerator():
 
     def __init__(self, control_code="Horror Text: "):
 
-        generate_num=256
+        self.generate_num=256
         model_dir = "generator/ctrl/model/seqlen256_v1.ckpt/"
         self.control_code = control_code
         vocab_file = 'generator/ctrl/model/vocab'
@@ -44,7 +44,7 @@ class CTRLGenerator():
         # sequence length to use for the transformer
         # the model is trained with a self.seq_length of 512
         # so, any value <= 512 should work
-        self.seq_length = min(generate_num, 256)
+        self.seq_length = min(self.generate_num, 256)
 
         # the dimension of the transformer
         embedding_dim = 1280
