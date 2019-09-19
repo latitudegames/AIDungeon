@@ -8,7 +8,7 @@ from collections import Counter
 from tensorflow.python import debug as tf_debug
 from tensorflow.python.ops import math_ops
 from tensorflow.python.ops import embedding_ops
-import generator.ctrl.model.fastBPE as fastBPE
+import fastBPE
 
 pos_action_starts = ["You attack", "You tell", "You use", "You go"]
 
