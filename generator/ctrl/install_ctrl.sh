@@ -21,6 +21,7 @@ curl https://sdk.cloud.google.com | bash
 exec -l $SHELL
 gcloud init
 export CUDA_VISIBLE_DEVICES=0
+cd ..
 
 # Download the 512-length model if specified, 256-length otherwise
 #if [ "$1" = "512" ]
