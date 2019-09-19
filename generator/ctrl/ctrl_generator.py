@@ -141,6 +141,9 @@ class CTRLGenerator():
         prompt = second_to_first_person(prompt)
 
         prompt = self.control_code + prompt
+
+        print("\n\n Prompt to generate by is \n", prompt)
+
         prompt_length = len(prompt)
 
         # tokenize provided prompt
@@ -251,6 +254,8 @@ class CTRLGenerator():
                 tokens_generated_so_far = ' '.join([self.idx2word[c] for c in tokens_generated[0].squeeze()[:token + 2]])
                 tokens_generated_so_far = re.sub('(@@ )', '', string=tokens_generated_so_far)
                 tokens_generated_so_far = re.sub('(@@ ?$)', '', string=tokens_generated_so_far)
+
+                print(tokens_generated_so_far)
 
                 result = tokens_generated_so_far[prompt_length:]
 
