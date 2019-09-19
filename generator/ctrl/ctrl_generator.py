@@ -233,8 +233,8 @@ class CTRLGenerator():
             else:
                 # else,
                 # sample from the pruned_list with the logits
-                chosen_idx = int(tf.random.categorical(np.expand_dims(prompt_logits[0][_token][pruned_list], 0),
-                                                       num_samples=1).numpy())
+                chosen_idx = int(
+                    tf.random.categorical(np.expand_dims(prompt_logits[_token][pruned_list], 0), num_samples=1).numpy())
                 idx = pruned_list[chosen_idx]
 
             # if you want to do some debugging,
