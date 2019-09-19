@@ -126,7 +126,7 @@ class CTRLGenerator():
 
         # almost there, we now take the user prompt and tokenize with BPE
         # load BPE codes
-        self.bpe = fastBPE('codes', 'vocab')
+        self.bpe = fastBPE.fastBPE('codes', 'vocab')
 
         self.temperature = 0
         self.nucleusprob = 0
