@@ -14,7 +14,7 @@ pos_action_starts = ["You attack", "You tell", "You use", "You go"]
 
 # the loss function is a simple categorical crossentropy between the logits and the labels
 def loss(labels, logits):
-    return tf.keras.losses.spae_categorical_crossentropy(labels, logits, from_logits=True)
+    return tf.keras.losses.sparse_categorical_crossentropy(labels, logits, from_logits=True)
 
 
 class CTRLGenerator():
