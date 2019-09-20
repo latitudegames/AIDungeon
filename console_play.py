@@ -4,14 +4,14 @@ from google.cloud import storage
 import json
 from story.story_manager import *
 from generator.web.web_generator import *
-#from generator.ctrl.ctrl_generator import *
+from generator.ctrl.ctrl_generator import *
 import tensorflow as tf
 import textwrap
 
 CRED_FILE = "./AI-Adventure-2bb65e3a4e2f.json"
 
 # Set the key
-def console_print(str, pycharm=False):
+def console_print(str, pycharm=True):
     if pycharm:
         LINE_WIDTH=80
 
@@ -28,7 +28,6 @@ def play_unconstrained():
 
     console_print(str(story_manager.story))
     while (True):
-        print("\n")
         action = ""
         while(action == ""):
             action = input("> ")
@@ -39,9 +38,10 @@ def play_unconstrained():
 
 
 def play_constrained():
-    generator = WebGenerator(CRED_FILE)
+    #generator = WebGenerator(CRED_FILE)
+    generator = CTRLGenerator()
     story_start = "classic"
-    verbs_key = "any"
+    verbs_key = "anything"
     prompt = get_story_start(story_start)
     story_manager = ConstrainedStoryManager(generator, prompt, action_verbs_key=verbs_key)
 
@@ -82,7 +82,7 @@ def play_cached():
 
 
 if __name__ == '__main__':
-    play_unconstrained()
+    play_constrained()
 
 
 
