@@ -146,7 +146,9 @@ class CTRLGenerator():
 
         prompt = self.control_code + prompt
 
-        print("\n\n Prompt to generate by is \n", prompt)
+        print("******************************")
+        print(" DEBUG:: Prompt to generate by is \n", prompt)
+        print("******************************")
 
         prompt_length = len(prompt)
 
@@ -246,7 +248,7 @@ class CTRLGenerator():
             # like which one was chosen,
             # what the top25 were,
             # here is your opportunity.
-            # print('chosen:', idx2word[idx])
+            print('chosen:', self.idx2word[idx])
             # print('top25 alternatives:', pruned_list[:25])
 
             # assign the token for generation
