@@ -10,6 +10,8 @@ from tensorflow.python.ops import math_ops
 from tensorflow.python.ops import embedding_ops
 import fastBPE
 from story.utils import *
+import warnings
+warnings.filterwarnings("ignore")
 
 pos_action_starts = ["You attack", "You tell", "You use", "You go"]
 
@@ -20,7 +22,7 @@ def loss(labels, logits):
 
 class CTRLGenerator():
 
-    def __init__(self, control_code="Horror Text: ", generate_num=64, temperature=0.3):
+    def __init__(self, control_code="Horror Text: ", generate_num=64, temperature=0.5):
 
         self.generate_num=generate_num
         model_dir = "generator/ctrl/model/seqlen256_v1.ckpt/"
@@ -147,9 +149,9 @@ class CTRLGenerator():
 
         prompt = self.control_code + prompt
 
-        # print("******************************")
-        # print(" DEBUG:: Prompt to generate by is \n", prompt)
-        # print("******************************")
+        print("******************************")
+        print(" DEBUG:: Prompt to generate by is \n", prompt)
+        print("******************************")
 
         prompt_length = len(prompt)
 
@@ -162,6 +164,8 @@ class CTRLGenerator():
         padded_text = text + [0] * (total_text_len - len(text))
         tokens_generated = np.tile(padded_text, (1, 1))
         result = ""
+        max_new_lines = 5
+        num_new_lines = 0
         for token in range(len(text) - 1, total_text_len - 1):
 
             if first_token:
@@ -205,14 +209,18 @@ class CTRLGenerator():
                     prompt_logits[_token][generated_token] /= self.penalty
 
             # disallow some tokens
-            forbidden_tokens = ['<unk>', 'Sco@@', '\n']
+            forbidden_tokens = ['<unk>', 'Sco@@']
+
+            if num_new_lines >= max_new_lines:
+                forbidden_tokens.append('\n')
+
             for forbidden_token in forbidden_tokens:
                 prompt_logits[_token][self.word2idx[forbidden_token]] = -1e8
 
             # Make sure only a possible verb is chosen.
             if first_token:
                 for word in get_possible_verbs():
-                    prompt_logits[_token][self.word2idx[word]] += 10
+                    prompt_logits[_token][self.word2idx[word]] += 5
 
             # compute probabilities from logits
             prompt_probs = np.exp(prompt_logits[_token])
@@ -257,8 +265,11 @@ class CTRLGenerator():
             # like which one was chosen,
             # what the top25 were,
             # here is your opportunity.
-            #print('chosen:', repr(self.idx2word[idx]))
+            print('chosen:', repr(self.idx2word[idx]))
             # print('top25 alternatives:', pruned_list[:25])
+
+            if self.idx2word[idx] == "\n":
+                num_new_lines += 1
 
             # assign the token for generation
             tokens_generated[0][token + 1] = idx
