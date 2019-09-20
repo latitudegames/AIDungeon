@@ -29,8 +29,9 @@ def play_unconstrained():
 
     console_print(str(story_manager.story))
     while (True):
+        print("\n")
         action = input("> ")
-        action = "You " + action
+        action = " You " + action + "."
         result = story_manager.act(action)
         console_print(action + result)
 
