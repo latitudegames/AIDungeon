@@ -201,8 +201,8 @@ class CTRLGenerator():
 
             # disallow some tokens
             forbidden_tokens = ['<unk>', 'Sco@@', '\n']
-            for token in forbidden_tokens:
-                prompt_logits[_token][self.word2idx[token]] = -1e8
+            for forbidden_token in forbidden_tokens:
+                prompt_logits[_token][self.word2idx[forbidden_token]] = -1e8
 
             # Make sure only a possible verb is chosen.
             if first_token:
