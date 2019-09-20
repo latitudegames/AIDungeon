@@ -102,6 +102,7 @@ second_to_first_mappings = [
     ("You are ", "I am "),
     ("You ", "I "),
     ("you ", "I "),
+    (" you.", " me."),
 ]
 
 def capitalize_helper(string):
