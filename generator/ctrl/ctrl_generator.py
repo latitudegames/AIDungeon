@@ -212,7 +212,7 @@ class CTRLGenerator():
             # Make sure only a possible verb is chosen.
             if first_token:
                 for word in get_possible_verbs():
-                    prompt_logits[_token][self.word2idx[word]] += max(prompt_logits)
+                    prompt_logits[_token][self.word2idx[word]] += 10
 
             # compute probabilities from logits
             prompt_probs = np.exp(prompt_logits[_token])
