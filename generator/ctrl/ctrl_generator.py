@@ -137,10 +137,12 @@ class CTRLGenerator():
         self.topk = 0
 
 
-    def generate(self, prompt):
+    def generate(self, prompt, first_verb_whitelist=True):
 
         if prompt[-1] != " ":
             prompt = prompt + " "
+
+        first_token = True
 
         prompt = second_to_first_person(prompt)
 
@@ -198,13 +200,15 @@ class CTRLGenerator():
                     prompt_logits[_token][generated_token] /= self.penalty
 
             # disallow some tokens
-            prompt_logits[_token][self.word2idx['<unk>']] = -1e8
-            prompt_logits[_token][self.word2idx['\n']] = -1e8
+            forbidden_tokens = ['<unk>', 'Sco@@']
+            for token in forbidden_tokens:
+                prompt_logits[_token][self.word2idx[token]] = -1e8
 
-            # sometimes, when generating from reddit,
-            # it tries to generate the Score (reddit Karma) immediately after generating the Title:
-            # to disallow this, we can just prevent it from generating Score
-            prompt_logits[_token][self.word2idx['Sco@@']] = -1e8
+            # Make sure only a possible verb is chosen. 
+            if first_token:
+                for word in get_possible_verbs():
+                    prompt_logits[_token][self.word2idx[word]] += 0.1
+                first_token = False
 
             # compute probabilities from logits
             prompt_probs = np.exp(prompt_logits[_token])
@@ -228,7 +232,7 @@ class CTRLGenerator():
             # for instance, if you want to disallow anything with the phrase `http`,
             # you can delete theme from the pruned_list
             # you can comment this out, I'm keeping it in for demonstration purpose
-            tokens_to_disallow = []
+            tokens_to_disallow = ["\n\n"]
             for _ in range(len(pruned_list)):
                 if 'http' in self.idx2word[pruned_list[_]]:
                     tokens_to_disallow.append(_)

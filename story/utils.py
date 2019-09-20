@@ -133,6 +133,12 @@ def second_to_first_person(text):
 
     return capitalize_first_letters(text)
 
+
+possible_verbs = ["go", "run", "open", "look", "walk", "make", "try", "say", "tell", "attack", "use", "turn", "fight", "scream", "yell"]
+
+def get_possible_verbs():
+    return possible_verbs
+
 if __name__ == '__main__':
     f = open("test.txt", "r")
     test_text = f.read()
