@@ -6,5 +6,5 @@ prompts:
 action_verbs:
   classic: ["You attack", "You tell", "You use", "You go"]
 
-  anything: ["You ", "You ", "You ", "You "]
+  anything: ["You", "You", "You", "You"]
 
