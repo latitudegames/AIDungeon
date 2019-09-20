@@ -109,7 +109,7 @@ class ConstrainedStoryManager(StoryManager):
         return [self.generate_action_result(self.story_context(), phrase) for phrase in self.action_phrases]
 
     def generate_action_result(self, prompt, phrase):
-        action = phrase + self.generator.generate(prompt + phrase)
+        action = phrase + " " + self.generator.generate(prompt + phrase)
         action_result = cut_trailing_sentence(action)
 
         action, result = split_first_sentence(action_result)

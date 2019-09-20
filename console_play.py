@@ -40,7 +40,7 @@ def play_unconstrained():
 def play_constrained():
     #generator = WebGenerator(CRED_FILE)
     generator = CTRLGenerator()
-    story_start = "classic"
+    story_start = "haunted"
     verbs_key = "anything"
     prompt = get_story_start(story_start)
     story_manager = ConstrainedStoryManager(generator, prompt, action_verbs_key=verbs_key)
