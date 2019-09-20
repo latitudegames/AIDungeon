@@ -1,7 +1,7 @@
 from generator.tf.src.encoder import *
 import googleapiclient.discovery
+import traceback
 
-pos_action_starts = ["You attack", "You tell", "You use", "You go"]
 project = "ai-adventure"
 model = "generator_v1"
 version = "version2"
@@ -40,5 +40,6 @@ class WebGenerator():
                 output = self.enc.decode(pred)
                 return output
             except:
+                traceback.print_exc()
                 print("generate request failed, trying again")
                 continue

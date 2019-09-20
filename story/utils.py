@@ -1,4 +1,21 @@
 import re
+import yaml
+
+YAML_FILE = "story/story_data.yaml"
+
+
+def get_story_start(key):
+    with open(YAML_FILE, 'r') as stream:
+        data_loaded = yaml.safe_load(stream)
+
+    return data_loaded["prompts"][key]
+
+
+def get_action_verbs(key):
+    with open(YAML_FILE, 'r') as stream:
+        data_loaded = yaml.safe_load(stream)
+
+    return data_loaded["action_verbs"][key]
 
 
 def remove_profanity(text):
