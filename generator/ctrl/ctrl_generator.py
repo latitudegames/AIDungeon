@@ -200,11 +200,11 @@ class CTRLGenerator():
                     prompt_logits[_token][generated_token] /= self.penalty
 
             # disallow some tokens
-            forbidden_tokens = ['<unk>', 'Sco@@']
+            forbidden_tokens = ['<unk>', 'Sco@@', '\n']
             for token in forbidden_tokens:
                 prompt_logits[_token][self.word2idx[token]] = -1e8
 
-            # Make sure only a possible verb is chosen. 
+            # Make sure only a possible verb is chosen.
             if first_token:
                 for word in get_possible_verbs():
                     prompt_logits[_token][self.word2idx[word]] += 0.1
@@ -232,7 +232,7 @@ class CTRLGenerator():
             # for instance, if you want to disallow anything with the phrase `http`,
             # you can delete theme from the pruned_list
             # you can comment this out, I'm keeping it in for demonstration purpose
-            tokens_to_disallow = ["\n\n"]
+            tokens_to_disallow = []
             for _ in range(len(pruned_list)):
                 if 'http' in self.idx2word[pruned_list[_]]:
                     tokens_to_disallow.append(_)
