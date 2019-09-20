@@ -270,7 +270,8 @@ while True:
 
           tokens_generated_so_far = ' '.join([idx2word[c] for c in tokens_generated[0].squeeze()[:token+2]])
           tokens_generated_so_far = re.sub('(@@ )', '', string=tokens_generated_so_far)
-          tokens_generated_so_far = re.sub('(@@ ?$)', '', string=tokens_generated_so_far)              
+          tokens_generated_so_far = re.sub('(@@ ?$)', '', string=tokens_generated_so_far)
+          tokens_generated_so_far = re.sub('(\n\n)', '', string=tokens_generated_so_far)
           print(tokens_generated_so_far)
           print()
 
