@@ -207,7 +207,7 @@ class CTRLGenerator():
             # Make sure only a possible verb is chosen.
             if first_token:
                 for word in get_possible_verbs():
-                    prompt_logits[_token][self.word2idx[word]] += 0.1
+                    prompt_logits[_token][self.word2idx[word]] *= 1000
                 first_token = False
 
             # compute probabilities from logits

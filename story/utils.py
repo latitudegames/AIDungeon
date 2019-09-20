@@ -90,7 +90,7 @@ first_to_second_mappings = [
     (" me", " you"),
     (" us ", " you "),
     (" us.", " you."),
-    ("our ", "your ")
+    (" our", " your")
 ]
 
 second_to_first_mappings = [
@@ -134,7 +134,7 @@ def second_to_first_person(text):
     return capitalize_first_letters(text)
 
 
-possible_verbs = ["go", "run", "open", "look", "walk", "make", "try", "say", "tell", "attack", "use", "turn", "fight", "scream", "yell"]
+possible_verbs = ["ask", "go", "run", "open", "look", "walk", "make", "try", "say", "tell", "attack", "use", "turn", "fight", "scream", "yell"]
 
 def get_possible_verbs():
     return possible_verbs
