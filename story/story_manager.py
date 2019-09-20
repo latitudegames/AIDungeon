@@ -66,7 +66,6 @@ class UnconstrainedStoryManager(StoryManager):
         return result
 
     def generate_result(self, action):
-        print("Story context is ", self.story_context())
         block = self.generator.generate(self.story_context() + action)
         block = cut_trailing_sentence(block)
         block = story_replace(block)

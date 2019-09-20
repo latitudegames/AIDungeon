@@ -21,11 +21,12 @@ def console_print(str, pycharm=True):
 
 
 def play_unconstrained():
-    #generator = CTRLGenerator()
-    generator = WebGenerator(CRED_FILE)
-    prompt = get_story_start("classic")
+    generator = CTRLGenerator()
+    #generator = WebGenerator(CRED_FILE)
+    prompt = get_story_start("haunted")
     story_manager = UnconstrainedStoryManager(generator, prompt)
 
+    print("\n")
     console_print(str(story_manager.story))
     while (True):
         action = ""
@@ -38,6 +39,7 @@ def play_unconstrained():
 
 
 def play_constrained():
+    print("\n")
     #generator = WebGenerator(CRED_FILE)
     generator = CTRLGenerator()
     story_start = "haunted"

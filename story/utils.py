@@ -17,7 +17,7 @@ def get_action_verbs(key):
 
     return data_loaded["action_verbs"][key]
 
-
+# TODO add capital words to remove words
 def remove_profanity(text):
     remove_words = ["fuck", "Fuck", "shit", "rape", "bastard", "bitch"]
     for word in remove_words:
@@ -87,7 +87,8 @@ first_to_second_mappings = [
     ("we ","you "),
     ("We ","You "),
     (" mine"," yours"),
-    (" me", " you"),
+    (" me ", " you "),
+    (" me.", " you."),
     (" us ", " you "),
     (" us.", " you."),
     (" our", " your")
