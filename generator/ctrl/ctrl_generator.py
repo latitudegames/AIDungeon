@@ -141,7 +141,6 @@ class CTRLGenerator():
 
         if prompt[-1] != " ":
             prompt = prompt + " "
-
         first_token = True
 
         prompt = second_to_first_person(prompt)
@@ -164,13 +163,19 @@ class CTRLGenerator():
         tokens_generated = np.tile(padded_text, (1, 1))
         result = ""
         for token in range(len(text) - 1, total_text_len - 1):
+
+            if first_token:
+                temperature = 0.9
+            else:
+                temperature = self.temperature
+
             # get the logits from the prediction function
             # the logic here is a bit convoluted because we are allowing generation past 512 tokens
             # this is done by sliding the window over (past 512 tokens) and continuing prediction
             # I'm sure this can be simplified (TODO)
             if token <= self.seq_length:
                 prompt_logits = self.predict_fn({'input_1': tokens_generated[:, :self.seq_length]})[
-                                    'tied_embedding_softmax'].squeeze() / (self.temperature if self.temperature > 0 else 1.)
+                                    'tied_embedding_softmax'].squeeze() / (temperature if temperature > 0 else 1.)
                 _token = token if token < self.seq_length else -1
             else:
                 _token = -1
@@ -178,7 +183,7 @@ class CTRLGenerator():
                 start = token - self.seq_length + 2
                 prompt_logits = \
                     self.predict_fn({'input_1': np.hstack((tokens_generated[:, 0:1], tokens_generated[:, start:end]))})[
-                        'tied_embedding_softmax'].squeeze() / (self.temperature if self.temperature > 0 else 1.)
+                        'tied_embedding_softmax'].squeeze() / (temperature if temperature > 0 else 1.)
 
             # if penalty (for repetition) is non-zero,
             # discount the logits from already generated tokens
@@ -208,7 +213,6 @@ class CTRLGenerator():
             if first_token:
                 for word in get_possible_verbs():
                     prompt_logits[_token][self.word2idx[word]] += max(prompt_logits)
-                first_token = False
 
             # compute probabilities from logits
             prompt_probs = np.exp(prompt_logits[_token])
@@ -240,7 +244,7 @@ class CTRLGenerator():
 
             # if temperature is 0
             # just pick the first (most probable) token
-            if self.temperature == 0:
+            if temperature == 0:
                 idx = pruned_list[0]
             else:
                 # else,
@@ -267,5 +271,6 @@ class CTRLGenerator():
             tokens_generated_so_far = re.sub('(@@ ?$)', '', string=tokens_generated_so_far)
 
             result = tokens_generated_so_far[prompt_length:]
+            first_token = False
 
         return result
