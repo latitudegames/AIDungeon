@@ -2,12 +2,6 @@ from story.utils import *
 from other.cacher import *
 import json
 
-prompts = [
-    "You enter a dungeon with your trusty sword and shield. You are searching for the evil necromancer who killed your family. You've heard that he resides at the bottom of the dungeon, guarded by legions of the undead. You enter the first door and see"]
-
-
-prompts = [
-    "You enter a dungeon with your trusty sword and shield. You are searching for the evil necromancer who killed your family. You've heard that he resides at the bottom of the dungeon, guarded by legions of the undead. You enter the first door and see"]
 
 class Story():
 
@@ -47,7 +41,6 @@ class StoryManager():
     def __init__(self, generator, story_prompt):
         self.generator = generator
         self.story_prompt = story_prompt
-        self.action_phrases = ["You attack", "You tell", "You use", "You go"]
 
     def init_story(self):
         block = self.generator.generate(self.story_prompt)
@@ -82,11 +75,12 @@ class UnconstrainedStoryManager(StoryManager):
 
 class ConstrainedStoryManager(StoryManager):
 
-    def __init__(self, generator, story_prompt):
+    def __init__(self, generator, story_prompt, action_verbs_key="classic"):
         super().__init__(generator, story_prompt)
 
         self.init_story()
         self.possible_action_results = None
+        self.action_phrases = get_action_verbs(action_verbs_key)
 
     def get_possible_actions(self):
         if self.possible_action_results is None:
@@ -127,10 +121,10 @@ class ConstrainedStoryManager(StoryManager):
 
 class CachedStoryManager(ConstrainedStoryManager):
 
-    def __init__(self, generator, prompt_num, seed, credentials_file):
+    def __init__(self, generator, prompt_num, seed, credentials_file, action_verbs_key="classic", ):
         self.cacher = cacher(credentials_file)
-        prompt = prompts[prompt_num]
-        super().__init__(generator, prompt)
+        prompt = get_story_start("classic")
+        super().__init__(generator, prompt, action_verbs_key)
         self.seed = seed
         self.prompt_num = prompt_num
         self.choices = []

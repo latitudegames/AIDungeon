@@ -4,13 +4,11 @@ from google.cloud import storage
 import json
 from story.story_manager import *
 from generator.web.web_generator import *
-from generator.ctrl.ctrl_generator import *
+#from generator.ctrl.ctrl_generator import *
 import tensorflow as tf
 import textwrap
 
 CRED_FILE = "./AI-Adventure-2bb65e3a4e2f.json"
-prompt = "You enter a dungeon with your trusty sword and shield. You are searching for the evil necromancer who killed your family. You've heard that he resides at the bottom of the dungeon, guarded by legions of the undead. You enter the first door and see "
-
 
 # Set the key
 def console_print(str, pycharm=False):
@@ -23,14 +21,18 @@ def console_print(str, pycharm=False):
 
 
 def play_unconstrained():
-    generator = CTRLGenerator()
-    #generator = WebGenerator(CRED_FILE)
+    #generator = CTRLGenerator()
+    generator = WebGenerator(CRED_FILE)
+    prompt = get_story_start("classic")
     story_manager = UnconstrainedStoryManager(generator, prompt)
 
     console_print(str(story_manager.story))
     while (True):
         print("\n")
-        action = input("> ")
+        action = ""
+        while(action == ""):
+            action = input("> ")
+
         action = " You " + action + "."
         result = story_manager.act(action)
         console_print(action + result)
@@ -38,7 +40,10 @@ def play_unconstrained():
 
 def play_constrained():
     generator = WebGenerator(CRED_FILE)
-    story_manager = ConstrainedStoryManager(generator, prompt)
+    story_start = "classic"
+    verbs_key = "any"
+    prompt = get_story_start(story_start)
+    story_manager = ConstrainedStoryManager(generator, prompt, action_verbs_key=verbs_key)
 
     console_print(str(story_manager.story))
     possible_actions = story_manager.get_possible_actions()
