@@ -57,6 +57,9 @@ def play_constrained():
         result = None
         while(result == None):
             action_choice = input("Which action do you choose? ")
+            if action_choice is "print story":
+                print(story_manager.story)
+                continue
             print("\n")
             result, possible_actions = story_manager.act(action_choice)
 
@@ -84,7 +87,7 @@ def play_cached():
 
 
 if __name__ == '__main__':
-    play_constrained()
+    play_unconstrained()
 
 
 

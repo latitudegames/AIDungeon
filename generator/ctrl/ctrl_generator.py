@@ -22,7 +22,7 @@ def loss(labels, logits):
 
 class CTRLGenerator():
 
-    def __init__(self, control_code="Horror Text: ", generate_num=64, temperature=0.5):
+    def __init__(self, control_code="Horror Text: ", generate_num=64, temperature=0.75):
 
         self.generate_num=generate_num
         model_dir = "generator/ctrl/model/seqlen256_v1.ckpt/"
