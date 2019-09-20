@@ -199,6 +199,7 @@ class CTRLGenerator():
 
             # disallow some tokens
             prompt_logits[_token][self.word2idx['<unk>']] = -1e8
+            prompt_logits[_token][self.word2idx['\n']] = -1e8
 
             # sometimes, when generating from reddit,
             # it tries to generate the Score (reddit Karma) immediately after generating the Title:
