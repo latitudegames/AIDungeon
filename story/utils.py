@@ -26,6 +26,15 @@ def remove_profanity(text):
     return text
 
 
+def cut_trailing_quotes(text):
+    num_quotes = text.count('"')
+    if num_quotes % 2 is 0:
+        return text
+    else:
+        final_ind = text.rfind('"')
+        return text[:final_ind]
+
+
 def all_replace(text):
     text = first_to_second_person(text)
     text = text.replace("#","")
