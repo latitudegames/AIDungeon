@@ -41,7 +41,7 @@ class TFGenerator():
         ckpt = tf.train.latest_checkpoint(model_path)
         saver.restore(self.sess, ckpt)
 
-    def generate(self, prompt):
+    def generate(self, prompt, options={}):
         context_tokens = self.enc.encode(prompt)
         out = self.sess.run(self.output, feed_dict={
                 self.context: [context_tokens for _ in range(1)]
