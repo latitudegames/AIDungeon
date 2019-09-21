@@ -139,7 +139,23 @@ class CTRLGenerator():
         self.topk = 0
 
 
-    def generate(self, prompt, first_verb_whitelist=True):
+    def configure_verb_probs(self, probabilities, options):
+
+        # Make sure only a possible verb is chosen.
+        for word in get_possible_verbs():
+                probabilities[self.word2idx[word]] += 100
+
+        # Disallow used verbs
+        if "used_verbs" in options:
+            for verb in options["used_verbs"]:
+                probabilities[self.word2idx[verb]] = -1e8
+
+        return probabilities
+
+    def generate(self, prompt, options=None):
+
+        if options is None:
+            options = {}
 
         if prompt[-1] != " ":
             prompt = prompt + " "
@@ -217,10 +233,8 @@ class CTRLGenerator():
             for forbidden_token in forbidden_tokens:
                 prompt_logits[_token][self.word2idx[forbidden_token]] = -1e8
 
-            # Make sure only a possible verb is chosen.
             if first_token:
-                for word in get_possible_verbs():
-                    prompt_logits[_token][self.word2idx[word]] += 5
+                prompt_logits[_token] = self.configure_verb_probs(prompt_logits[_token], options)
 
             # compute probabilities from logits
             prompt_probs = np.exp(prompt_logits[_token])

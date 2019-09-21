@@ -31,7 +31,7 @@ class WebGenerator():
 
         return response['predictions']
 
-    def generate(self, prompt):
+    def generate(self, prompt, options={}):
         while (True):
             context_tokens = self.enc.encode(prompt)
             try:

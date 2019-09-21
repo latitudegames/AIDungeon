@@ -107,8 +107,11 @@ class ConstrainedStoryManager(StoryManager):
     def get_action_results(self):
         return [self.generate_action_result(self.story_context(), phrase) for phrase in self.action_phrases]
 
-    def generate_action_result(self, prompt, phrase):
-        action = phrase + " " + self.generator.generate(prompt + phrase)
+    def generate_action_result(self, prompt, phrase, options=None):
+        if options is None:
+            options = {}
+
+        action = phrase + " " + self.generator.generate(prompt + phrase, options)
         action_result = cut_trailing_sentence(action)
 
         action, result = split_first_sentence(action_result)
@@ -116,6 +119,27 @@ class ConstrainedStoryManager(StoryManager):
         action = action_replace(action)
 
         return action, result
+
+
+class CTRLStoryManager(ConstrainedStoryManager):
+    def __init__(self, generator, story_prompt, action_verbs_key="classic"):
+        super().__init__(generator, story_prompt)
+        self.action_phrases = get_action_verbs("anything")
+
+    def get_action_results(self):
+
+        used_verbs = []
+        results = []
+        for phrase in self.action_phrases:
+            options = {}
+            options["used_verbs"] = used_verbs
+            result = self.generate_action_result(self.story_context(), phrase, options=options)
+
+            used_verb = result[0].split()[1]
+            used_verbs.append(used_verb)
+
+            results.append(result)
+        return results
 
 
 class CachedStoryManager(ConstrainedStoryManager):
