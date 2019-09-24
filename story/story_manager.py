@@ -164,7 +164,7 @@ class CTRLStoryManager(ConstrainedStoryManager):
         results = []
         for phrase in self.action_phrases:
             options = dict()
-            options["used_verbs"] = used_verbs
+            options["used_verbs"] = set(used_verbs)
             result = self.generate_action_result(self.story_context(), phrase, options=options)
 
             used_verb = result[0].split()[1]

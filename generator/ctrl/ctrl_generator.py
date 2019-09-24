@@ -22,7 +22,7 @@ def loss(labels, logits):
 
 class CTRLGenerator():
 
-    def __init__(self, control_code="Horror Text: ", generate_num=100, temperature=0.75):
+    def __init__(self, control_code="Horror Text: ", generate_num=100, temperature=0.3):
 
         self.generate_num=generate_num
         model_dir = "generator/ctrl/model/seqlen256_v1.ckpt/"
@@ -185,6 +185,11 @@ class CTRLGenerator():
     def generate(self, prompt, options=None):
         prompt = self.prompt_replace(prompt)
 
+        if options is None:
+            options = dict()
+            if "used_verbs" not in options:
+                options["used_verbs"] = set()
+
         if prompt[-1] != " ":
             prompt = prompt + " "
         first_token = True
@@ -192,11 +197,6 @@ class CTRLGenerator():
         prompt = second_to_first_person(prompt)
 
         prompt = self.control_code + prompt
-
-        print("******************************")
-        print(" DEBUG:: Prompt to generate by is \n", prompt)
-        print("******************************")
-
         prompt_length = len(prompt)
 
         # tokenize provided prompt
@@ -264,7 +264,8 @@ class CTRLGenerator():
             # Make sure only a possible verb is chosen.
             if first_token:
                 for word in get_possible_verbs():
-                    prompt_logits[_token][self.word2idx[word]] += 5
+                    if word not in options["used_verbs"]:
+                        prompt_logits[_token][self.word2idx[word]] += 5
 
             # compute probabilities from logits
             prompt_probs = np.exp(prompt_logits[_token])
@@ -324,7 +325,6 @@ class CTRLGenerator():
             tokens_generated_so_far = ' '.join([self.idx2word[c] for c in tokens_generated[0].squeeze()[:token + 2]])
             tokens_generated_so_far = re.sub('(@@ )', '', string=tokens_generated_so_far)
             tokens_generated_so_far = re.sub('(@@ ?$)', '', string=tokens_generated_so_far)
-            print(tokens_generated_so_far)
 
             result = tokens_generated_so_far[prompt_length:]
             first_token = False
