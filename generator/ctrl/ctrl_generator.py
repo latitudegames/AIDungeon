@@ -138,7 +138,6 @@ class CTRLGenerator():
         self.penalty = 1.2
         self.topk = 0
 
-
     def configure_verb_probs(self, probabilities, options):
 
         # Make sure only a possible verb is chosen.
@@ -168,6 +167,8 @@ class CTRLGenerator():
         print("******************************")
         print(" DEBUG:: Prompt to generate by is \n", prompt)
         print("******************************")
+
+        print("Disallowed used verbs: ", options["used_verbs"])
 
         prompt_length = len(prompt)
 
@@ -294,7 +295,7 @@ class CTRLGenerator():
             tokens_generated_so_far = ' '.join([self.idx2word[c] for c in tokens_generated[0].squeeze()[:token + 2]])
             tokens_generated_so_far = re.sub('(@@ )', '', string=tokens_generated_so_far)
             tokens_generated_so_far = re.sub('(@@ ?$)', '', string=tokens_generated_so_far)
-            print(tokens_generated_so_far)
+            #print(tokens_generated_so_far)
 
             result = tokens_generated_so_far[prompt_length:]
             first_token = False

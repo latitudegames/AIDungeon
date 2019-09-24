@@ -3,6 +3,9 @@ import yaml
 
 YAML_FILE = "story/story_data.yaml"
 
+from profanityfilter import ProfanityFilter
+pf = ProfanityFilter()
+
 
 def get_story_start(key):
     with open(YAML_FILE, 'r') as stream:
@@ -19,12 +22,7 @@ def get_action_verbs(key):
 
 # TODO add capital words to remove words
 def remove_profanity(text):
-    remove_words = ["fuck", "Fuck", "shit", "rape", "bastard", "bitch"]
-    for word in remove_words:
-        text = text.replace(word, "****")
-        
-    return text
-
+    return pf.censor(text)
 
 def cut_trailing_quotes(text):
     num_quotes = text.count('"')
@@ -149,16 +147,3 @@ possible_verbs = ["ask", "go", "run", "open", "look", "walk", "make", "try", "sa
 
 def get_possible_verbs():
     return possible_verbs
-
-if __name__ == '__main__':
-    f = open("test.txt", "r")
-    test_text = f.read()
-
-    print("Text is \n\n",test_text)
-
-    print("First person: ")
-    converted = second_to_first_person(test_text)
-    print(converted)
-
-    print("Back to second person: ")
-    print(first_to_second_person(converted))

@@ -173,6 +173,7 @@ class CTRLStoryManager(ConstrainedStoryManager):
             result = self.generate_action_result(self.story_context(), phrase, options=options)
 
             used_verb = result[0].split()[1]
+            print("Used verb is ", used_verb)
             used_verbs.append(used_verb)
 
             results.append(result)
