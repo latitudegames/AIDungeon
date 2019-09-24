@@ -22,14 +22,14 @@ def loss(labels, logits):
 
 class CTRLGenerator():
 
-    def __init__(self, control_code="Horror Text: ", generate_num=64, temperature=0.75, topk=40):
+    def __init__(self, control_code="Horror Text: ", generate_num=64, temperature=0.75, topk=0):
 
         self.generate_num=generate_num
         model_dir = "generator/ctrl/model/seqlen256_v1.ckpt/"
         self.control_code = control_code
         vocab_file = 'generator/ctrl/model/vocab'
         code_file = 'generator/ctrl/model/codes'
-        self.topk=40
+        self.topk=topk
 
         # load the vocabulary from file
         vocab = open(vocab_file, encoding='utf-8').read().split('\n')
@@ -153,7 +153,7 @@ class CTRLGenerator():
         return probabilities
 
     def prompt_replace(self, prompt):
-        print("BEFORE PROMPT_REPLACE:")
+        print("\n\nBEFORE PROMPT_REPLACE:")
         print(repr(prompt))
         if prompt[-1] != " ":
             prompt = prompt + " "
@@ -161,14 +161,20 @@ class CTRLGenerator():
         prompt = second_to_first_person(prompt)
 
         prompt = self.control_code + prompt
-        print("AFTER PROMPT_REPLACE")
+        print("\n\nAFTER PROMPT_REPLACE")
         print(repr(prompt))
         return prompt
 
     def result_replace(self, result):
+        print("\n\nBEFORE RESULT_REPLACE:")
+        print(repr(result))
         result = result.replace("#", "")
         result = first_to_second_person(result)
         result = remove_profanity(result)
+
+        print("\n\nAFTER RESULT_REPLACE:")
+        print(repr(result))
+
         return result
 
     def generate(self, prompt, options=None):
