@@ -11,8 +11,8 @@ class cacher():
         self.bucket = self.storage_client.get_bucket("dungeon-cache")
         pass
 
-    def cache_file(self, seed, prompt_num, choices, response, tag, print_result=False):
-
+    def cache_file(self, seed,  choices, response, tag, print_result=False):
+        prompt_num=0
         blob_file_name = "prompt" + str(prompt_num) + "/seed" + str(seed) + "/" + tag
         for action in choices:
             blob_file_name = blob_file_name + str(action)
@@ -22,7 +22,8 @@ class cacher():
 
         if print_result: print("File ", blob_file_name, " cached")
 
-    def retrieve_from_cache(self, seed, prompt_num, choices, tag, print_result=False):
+    def retrieve_from_cache(self, seed, choices, tag, print_result=False):
+        prompt_num = 0
         blob_file_name = "prompt" + str(prompt_num) + "/seed" + str(seed) + "/" + tag
 
         for action in choices:

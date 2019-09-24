@@ -12,13 +12,17 @@ import numpy as np
 app = Flask(__name__)
 app.secret_key = '#d\xe0\xd1\xfb\xee\xa4\xbb\xd0\xf0/e)\xb5g\xdd<`\xc7\xa5\xb0-\xb8d0S'
 CRED_FILE = "./AI-Adventure-2bb65e3a4e2f.json"
+generator = WebGenerator(CRED_FILE)
+story_manager = CachedStoryManager(generator, CRED_FILE)
 
+def get_response_string(story_text, possible_actions):
+    string_list = ["\n\n", story_text, "\n\nOptions:" + "\n"]
+    for i, action in enumerate(possible_actions):
+        string_list.append(str(i) + ") " + action + "\n")
+    string_list.append("\nWhich action do you choose? ")
 
-# Initializes everything for a session
-def story_init(session, seed):
-    session["generator"] = WebGenerator(CRED_FILE)
-    session["seed"] = seed
-    session["story_manager"] = CachedStoryManager(generator, 0, session["seed"], CRED_FILE)
+    response = "".join(string_list)
+    return response
 
 # Shows about. (Should also link to paper when published)
 @app.route('/about.html')
@@ -28,38 +32,37 @@ def about():
 # Bread and butter of app, updates story and returns based on choice
 @app.route('/generate', methods=['POST'])
 def generate():
-    print("Entered generate")
+    action = request.form["action"]
 
-    if "story_manager" not in session:
-        print("not initialized")
+    # If there is no story in session, make a new one
+    if "story" not in session or session["story"] is None:
+        print("Starting new story")
         seed = np.random.randint(100)
-        story_init(session, seed)
-        story_manager = session["story_manager"]
+        prompt = get_story_start("classic")
+        story_manager.start_new_story(prompt, seed)
         possible_actions = story_manager.get_possible_actions()
-        string_list = [str(story_manager.story), "\n\nOptions:" + "\n"]
-        for i, action in enumerate(possible_actions):
-            string_list.append(str(i) + ") " + action)
+        response = get_response_string(str(story_manager.story), possible_actions)
 
-        response = "".join(string_list)
-
+    # If there is a story in session continue from it.
     else:
-        print("initialized")
-        story_manager = session["story_manager"]
-        action = request.form["action"]
-        result, possible_actions = story_manager.act(action_choice)
-        if result is None:
-            response = "Invalid choice. Must be a number from 0 to 3. \n"
-        else:
-            string_list = [response]
-            for i, action in enumerate(possible_actions):
-                string_list.append(str(i) + ") " + action)
-            response = "".join(string_list)
+        print("Using existing story")
+        story = session["story"]
+        story_manager.load_story(story, from_json=True)
 
+        result, possible_actions = story_manager.act(action)
+        if result is None:
+            response = "\nInvalid choice. Must be a number from 0 to 3. \n" + "\nWhich action do you choose? "
+        else:
+            response = get_response_string(result, possible_actions)
+
+    session["story"] = story_manager.json_story()
+    print("Returning response")
     return response
 
 # Routes to index
 @app.route('/')
 def root():
+    session["story"] = None
     return render_template('index.html')
 
 if __name__ == '__main__':
