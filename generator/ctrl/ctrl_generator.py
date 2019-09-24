@@ -185,13 +185,114 @@ class CTRLGenerator():
 
         return result
 
+
+    def generate_next_token(self, token, tokens_generated, options, first_token=False):
+
+        # get the logits from the prediction function
+        # the logic here is a bit convoluted because we are allowing generation past 512 tokens
+        # this is done by sliding the window over (past 512 tokens) and continuing prediction
+        # I'm sure this can be simplified (TODO)
+        if token <= self.seq_length:
+            prompt_logits = self.predict_fn({'input_1': tokens_generated[:, :self.seq_length]})[
+                                'tied_embedding_softmax'].squeeze() / (self.temperature if self.temperature > 0 else 1.)
+            _token = token if token < self.seq_length else -1
+        else:
+            _token = -1
+            end = token + 1
+            start = token - self.seq_length + 2
+            prompt_logits = \
+                self.predict_fn({'input_1': np.hstack((tokens_generated[:, 0:1], tokens_generated[:, start:end]))})[
+                    'tied_embedding_softmax'].squeeze() / (self.temperature if self.temperature > 0 else 1.)
+
+        # if penalty (for repetition) is non-zero,
+        # discount the logits from already generated tokens
+        if self.penalty > 0:
+            penalized_so_far = set()
+            for _ in range(token + 1):
+                generated_token = tokens_generated[0][_]
+                # don't penalize newlines
+                # you could also choose not to penalize frequent words
+                # (which incidentally are sorted in the vocab file)
+                # but I don't do that
+                # if it prints too many new lines instead of continuing generating text,
+                # you might want to comment this out
+                if self.idx2word[generated_token] == '\n':
+                    continue
+                if generated_token in penalized_so_far:
+                    continue
+                penalized_so_far.add(generated_token)
+                prompt_logits[_token][generated_token] /= self.penalty
+
+        # disallow some tokens
+        forbidden_tokens = ['<unk>', 'Sco@@']
+
+        for forbidden_token in forbidden_tokens:
+            prompt_logits[_token][self.word2idx[forbidden_token]] = -1e8
+
+        # Make sure only a possible verb is chosen.
+        if first_token:
+            for word in get_possible_verbs():
+                if word not in options["used_verbs"]:
+                    prompt_logits[_token][self.word2idx[word]] += 100
+
+        # compute probabilities from logits
+        prompt_probs = np.exp(prompt_logits[_token])
+        prompt_probs = prompt_probs / sum(prompt_probs)
+        pruned_list = np.argsort(prompt_probs)[::-1]
+        # if you are using nucleus prob, then compute the nucleus probability size
+        if self.nucleusprob > 0.:
+            minimum_topk = 1
+            nucleus = max(np.where(np.cumsum(np.sort(prompt_probs)[::-1]) > self.nucleusprob)[0][0], minimum_topk)
+        elif self.topk > 0:
+            # we are over-loading notation here
+            # if you choose to specify a topk instead of a nucleus,
+            # we will hardcode the nucleus to be just that
+            nucleus = self.topk
+        else:
+            # if you specify neither nucleus or topk,
+            # then we will use the whole list
+            nucleus = len(pruned_list)
+
+        # if you want to disallow more complex tokens, you can do so here
+        # for instance, if you want to disallow anything with the phrase `http`,
+        # you can delete theme from the pruned_list
+        # you can comment this out, I'm keeping it in for demonstration purpose
+        tokens_to_disallow = []
+        for _ in range(len(pruned_list)):
+            if 'http' in self.idx2word[pruned_list[_]]:
+                tokens_to_disallow.append(_)
+        pruned_list = np.delete(pruned_list, tokens_to_disallow)
+
+        # if temperature is 0
+        # just pick the first (most probable) token
+        if self.temperature == 0:
+            idx = pruned_list[0]
+        else:
+            # else,
+            # sample from the pruned_list with the logits
+            chosen_idx = int(
+                tf.random.categorical(np.expand_dims(prompt_logits[_token][pruned_list], 0), num_samples=1).numpy())
+            idx = pruned_list[chosen_idx]
+
+        # if you want to do some debugging,
+        # like which one was chosen,
+        # what the top25 were,
+        # here is your opportunity.
+        # print('chosen:', repr(self.idx2word[idx]))
+        # print('top25 alternatives:', pruned_list[:25])
+
+        # assign the token for generation
+        tokens_generated[0][token + 1] = idx
+
+        # clear screen if you want to
+        # os.system("clear")
+
     def generate(self, prompt, options=None):
         prompt = self.prompt_replace(prompt)
 
-        if options is None:
-            options = dict()
-            if "used_verbs" not in options:
-                options["used_verbs"] = set()
+        if options is None: options = dict()
+        if "used_verbs" not in options:
+            options["used_verbs"] = set()
 
         first_token = True
 
@@ -204,116 +305,9 @@ class CTRLGenerator():
         padded_text = text + [0] * (total_text_len - len(text))
         tokens_generated = np.tile(padded_text, (1, 1))
         result = ""
-        max_new_lines = 5
-        num_new_lines = 0
+
         for token in range(len(text) - 1, total_text_len - 1):
-
-            temperature = self.temperature
-
-            # get the logits from the prediction function
-            # the logic here is a bit convoluted because we are allowing generation past 512 tokens
-            # this is done by sliding the window over (past 512 tokens) and continuing prediction
-            # I'm sure this can be simplified (TODO)
-            if token <= self.seq_length:
-                prompt_logits = self.predict_fn({'input_1': tokens_generated[:, :self.seq_length]})[
-                                    'tied_embedding_softmax'].squeeze() / (temperature if temperature > 0 else 1.)
-                _token = token if token < self.seq_length else -1
-            else:
-                _token = -1
-                end = token + 1
-                start = token - self.seq_length + 2
-                prompt_logits = \
-                    self.predict_fn({'input_1': np.hstack((tokens_generated[:, 0:1], tokens_generated[:, start:end]))})[
-                        'tied_embedding_softmax'].squeeze() / (temperature if temperature > 0 else 1.)
-
-            # if penalty (for repetition) is non-zero,
-            # discount the logits from already generated tokens
-            if self.penalty > 0:
-                penalized_so_far = set()
-                for _ in range(token + 1):
-                    generated_token = tokens_generated[0][_]
-                    # don't penalize newlines
-                    # you could also choose not to penalize frequent words
-                    # (which incidentally are sorted in the vocab file)
-                    # but I don't do that
-                    # if it prints too many new lines instead of continuing generating text,
-                    # you might want to comment this out
-                    if self.idx2word[generated_token] == '\n':
-                        continue
-                    if generated_token in penalized_so_far:
-                        continue
-                    penalized_so_far.add(generated_token)
-                    prompt_logits[_token][generated_token] /= self.penalty
-
-            # disallow some tokens
-            forbidden_tokens = ['<unk>', 'Sco@@']
-
-            if num_new_lines >= max_new_lines:
-                forbidden_tokens.append('\n')
-
-            for forbidden_token in forbidden_tokens:
-                prompt_logits[_token][self.word2idx[forbidden_token]] = -1e8
-
-            # Make sure only a possible verb is chosen.
-            if first_token:
-                for word in get_possible_verbs():
-                    if word not in options["used_verbs"]:
-                        prompt_logits[_token][self.word2idx[word]] += 100
-
-            # compute probabilities from logits
-            prompt_probs = np.exp(prompt_logits[_token])
-            prompt_probs = prompt_probs / sum(prompt_probs)
-            pruned_list = np.argsort(prompt_probs)[::-1]
-            # if you are using nucleus prob, then compute the nucleus probability size
-            if self.nucleusprob > 0.:
-                minimum_topk = 1
-                nucleus = max(np.where(np.cumsum(np.sort(prompt_probs)[::-1]) > self.nucleusprob)[0][0], minimum_topk)
-            elif self.topk > 0:
-                # we are over-loading notation here
-                # if you choose to specify a topk instead of a nucleus,
-                # we will hardcode the nucleus to be just that
-                nucleus = self.topk
-            else:
-                # if you specify neither nucleus or topk,
-                # then we will use the whole list
-                nucleus = len(pruned_list)
-
-            # if you want to disallow more complex tokens, you can do so here
-            # for instance, if you want to disallow anything with the phrase `http`,
-            # you can delete theme from the pruned_list
-            # you can comment this out, I'm keeping it in for demonstration purpose
-            tokens_to_disallow = []
-            for _ in range(len(pruned_list)):
-                if 'http' in self.idx2word[pruned_list[_]]:
-                    tokens_to_disallow.append(_)
-            pruned_list = np.delete(pruned_list, tokens_to_disallow)
-
-            # if temperature is 0
-            # just pick the first (most probable) token
-            if temperature == 0:
-                idx = pruned_list[0]
-            else:
-                # else,
-                # sample from the pruned_list with the logits
-                chosen_idx = int(
-                    tf.random.categorical(np.expand_dims(prompt_logits[_token][pruned_list], 0), num_samples=1).numpy())
-                idx = pruned_list[chosen_idx]
-
-            # if you want to do some debugging,
-            # like which one was chosen,
-            # what the top25 were,
-            # here is your opportunity.
-            # print('chosen:', repr(self.idx2word[idx]))
-            # print('top25 alternatives:', pruned_list[:25])
-
-            if self.idx2word[idx] == "\n":
-                num_new_lines += 1
-
-            # assign the token for generation
-            tokens_generated[0][token + 1] = idx
-
-            # clear screen if you want to
-            # os.system("clear")
+            self.generate_next_token(token, tokens_generated, options, first_token=first_token)
 
             tokens_generated_so_far = ' '.join([self.idx2word[c] for c in tokens_generated[0][len(text):].squeeze()[:token + 2]])
             tokens_generated_so_far = re.sub('(@@ )', '', string=tokens_generated_so_far)
