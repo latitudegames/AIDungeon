@@ -318,12 +318,14 @@ class CTRLGenerator():
             tokens_generated_so_far = re.sub('(@@ )', '', string=tokens_generated_so_far)
             tokens_generated_so_far = re.sub('(@@ ?$)', '', string=tokens_generated_so_far)
 
-            result = tokens_generated_so_far[prompt_length_wout_code:]
             first_token = False
 
+        print("prompt length is ", prompt_length)
+        print("\n\nPrmopt is ", prompt)
+        result = tokens_generated_so_far[prompt_length_wout_code:]
         print("\n\ntokens generated so far is:")
         print(repr(tokens_generated_so_far))
         print("\n\nCut off")
-        print(result)
-        
+        print(repr(result))
+
         return self.result_replace(result)
