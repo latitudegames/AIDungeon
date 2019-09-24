@@ -22,13 +22,14 @@ def loss(labels, logits):
 
 class CTRLGenerator():
 
-    def __init__(self, control_code="Horror Text: ", generate_num=64, temperature=0.75):
+    def __init__(self, control_code="Horror Text: ", generate_num=64, temperature=0.75, topk=40):
 
         self.generate_num=generate_num
         model_dir = "generator/ctrl/model/seqlen256_v1.ckpt/"
         self.control_code = control_code
         vocab_file = 'generator/ctrl/model/vocab'
         code_file = 'generator/ctrl/model/codes'
+        self.topk=40
 
         # load the vocabulary from file
         vocab = open(vocab_file, encoding='utf-8').read().split('\n')
@@ -136,7 +137,6 @@ class CTRLGenerator():
         self.temperature=temperature
         self.nucleusprob = 0
         self.penalty = 1.2
-        self.topk = 0
 
     def configure_verb_probs(self, probabilities, options):
 
@@ -152,22 +152,32 @@ class CTRLGenerator():
 
         return probabilities
 
+    def prompt_replace(self, prompt):
+        print("BEFORE PROMPT_REPLACE:")
+        print(repr(prompt))
+        if prompt[-1] != " ":
+            prompt = prompt + " "
+
+        prompt = second_to_first_person(prompt)
+
+        prompt = self.control_code + prompt
+        print("AFTER PROMPT_REPLACE")
+        print(repr(prompt))
+        return prompt
+
+    def result_replace(self, result):
+        result = result.replace("#", "")
+        result = first_to_second_person(result)
+        result = remove_profanity(result)
+        return result
+
     def generate(self, prompt, options=None):
 
         if options is None:
             options = {}
 
-        if prompt[-1] != " ":
-            prompt = prompt + " "
         first_token = True
-
-        prompt = second_to_first_person(prompt)
-
-        prompt = self.control_code + prompt
-
-        print("******************************")
-        print(" DEBUG:: Prompt to generate by is \n", repr(prompt))
-        print("******************************")
+        prompt = self.prompt_replace(prompt)
 
         if "used_verbs" in options:
             print("Disallowed used verbs: ", options["used_verbs"])
@@ -183,8 +193,6 @@ class CTRLGenerator():
         padded_text = text + [0] * (total_text_len - len(text))
         tokens_generated = np.tile(padded_text, (1, 1))
         result = ""
-        max_new_lines = 0
-        num_new_lines = 0
         for token in range(len(text) - 1, total_text_len - 1):
 
             if first_token:
@@ -214,14 +222,6 @@ class CTRLGenerator():
                 penalized_so_far = set()
                 for _ in range(token + 1):
                     generated_token = tokens_generated[0][_]
-                    # don't penalize newlines
-                    # you could also choose not to penalize frequent words
-                    # (which incidentally are sorted in the vocab file)
-                    # but I don't do that
-                    # if it prints too many new lines instead of continuing generating text,
-                    # you might want to comment this out
-                    if self.idx2word[generated_token] == '\n':
-                        continue
                     if generated_token in penalized_so_far:
                         continue
                     penalized_so_far.add(generated_token)
@@ -229,9 +229,6 @@ class CTRLGenerator():
 
             # disallow some tokens
             forbidden_tokens = ['<unk>', 'Sco@@']
-
-            if num_new_lines >= max_new_lines:
-                forbidden_tokens.append('\n')
 
             for forbidden_token in forbidden_tokens:
                 prompt_logits[_token][self.word2idx[forbidden_token]] = -1e8
@@ -257,16 +254,6 @@ class CTRLGenerator():
                 # then we will use the whole list
                 nucleus = len(pruned_list)
 
-            # if you want to disallow more complex tokens, you can do so here
-            # for instance, if you want to disallow anything with the phrase `http`,
-            # you can delete theme from the pruned_list
-            # you can comment this out, I'm keeping it in for demonstration purpose
-            tokens_to_disallow = []
-            for _ in range(len(pruned_list)):
-                if 'http' in self.idx2word[pruned_list[_]]:
-                    tokens_to_disallow.append(_)
-            pruned_list = np.delete(pruned_list, tokens_to_disallow)
-
             # if temperature is 0
             # just pick the first (most probable) token
             if temperature == 0:
@@ -277,16 +264,6 @@ class CTRLGenerator():
                 chosen_idx = int(
                     tf.random.categorical(np.expand_dims(prompt_logits[_token][pruned_list], 0), num_samples=1).numpy())
                 idx = pruned_list[chosen_idx]
-
-            # if you want to do some debugging,
-            # like which one was chosen,
-            # what the top25 were,
-            # here is your opportunity.
-            #print('chosen:', repr(self.idx2word[idx]))
-            # print('top25 alternatives:', pruned_list[:25])
-
-            if self.idx2word[idx] == "\n":
-                num_new_lines += 1
 
             # assign the token for generation
             tokens_generated[0][token + 1] = idx
@@ -302,4 +279,4 @@ class CTRLGenerator():
             result = tokens_generated_so_far[prompt_length:]
             first_token = False
 
-        return result
+        return self.result_replace(result)
