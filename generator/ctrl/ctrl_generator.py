@@ -168,7 +168,8 @@ class CTRLGenerator():
         print(" DEBUG:: Prompt to generate by is \n", prompt)
         print("******************************")
 
-        print("Disallowed used verbs: ", options["used_verbs"])
+        if "used_verbs" in options:
+            print("Disallowed used verbs: ", options["used_verbs"])
 
         prompt_length = len(prompt)
 
