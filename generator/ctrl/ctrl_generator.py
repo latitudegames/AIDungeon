@@ -147,7 +147,8 @@ class CTRLGenerator():
         # Disallow used verbs
         if "used_verbs" in options:
             for verb in options["used_verbs"]:
-                probabilities[self.word2idx[verb]] = -1e8
+                if verb in self.word2idx:
+                    probabilities[self.word2idx[verb]] = -1e8
 
         return probabilities
 
@@ -155,6 +156,9 @@ class CTRLGenerator():
 
         if options is None:
             options = {}
+
+        if prompt[-2:] == ".I":
+            prompt = prompt[:-1] + " I"
 
         if prompt[-1] != " ":
             prompt = prompt + " "
@@ -182,7 +186,7 @@ class CTRLGenerator():
         padded_text = text + [0] * (total_text_len - len(text))
         tokens_generated = np.tile(padded_text, (1, 1))
         result = ""
-        max_new_lines = 5
+        max_new_lines = 0
         num_new_lines = 0
         for token in range(len(text) - 1, total_text_len - 1):
 
