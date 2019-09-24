@@ -71,6 +71,7 @@ def replace_outside_quotes(text, current_word, repl_word):
 
 first_to_second_mappings = [
     ("I'm ", "you're "),
+    (" I'm ", " you're "),
     ("I am ", "you are "),
     ("I ", "you "),
     ("I've ", "You've "),

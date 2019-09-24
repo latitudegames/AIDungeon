@@ -190,13 +190,7 @@ class CTRLGenerator():
             if "used_verbs" not in options:
                 options["used_verbs"] = set()
 
-        if prompt[-1] != " ":
-            prompt = prompt + " "
         first_token = True
-
-        prompt = second_to_first_person(prompt)
-
-        prompt = self.control_code + prompt
         prompt_length = len(prompt)
 
         # tokenize provided prompt
@@ -326,6 +320,6 @@ class CTRLGenerator():
             result = tokens_generated_so_far[prompt_length:]
             first_token = False
 
-        print("tokens generated so far is ")
-        print(tokens_generated_so_far)
+        print("tokens generated so far is \n\n")
+        print(repr(tokens_generated_so_far))
         return self.result_replace(result)
