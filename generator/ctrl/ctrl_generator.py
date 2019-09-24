@@ -157,8 +157,6 @@ class CTRLGenerator():
         if options is None:
             options = {}
 
-        prompt = prompt.replace(".I", ". I")
-
         if prompt[-1] != " ":
             prompt = prompt + " "
         first_token = True
