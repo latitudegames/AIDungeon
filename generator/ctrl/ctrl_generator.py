@@ -22,7 +22,7 @@ def loss(labels, logits):
 
 class CTRLGenerator():
 
-    def __init__(self, control_code="Horror Text: ", generate_num=64, temperature=0.75, topk=0):
+    def __init__(self, control_code="Horror Text: ", generate_num=100, temperature=0.75, topk=0):
 
         self.generate_num=generate_num
         model_dir = "generator/ctrl/model/seqlen256_v1.ckpt/"
@@ -174,11 +174,11 @@ class CTRLGenerator():
         result = first_to_second_person(result)
         result = remove_profanity(result)
 
-        print("\n\nAFTER RESULT_REPLACE:")
-        print(repr(result))
-
         if not first_letter_capitalized:
             result = result[0].upper() + result[1:]
+
+        print("\n\nAFTER RESULT_REPLACE:")
+        print(repr(result))
 
         return result
 
@@ -233,6 +233,8 @@ class CTRLGenerator():
                 penalized_so_far = set()
                 for _ in range(token + 1):
                     generated_token = tokens_generated[0][_]
+                    if self.idx2word[generated_token] == '\n':
+                        continue
                     if generated_token in penalized_so_far:
                         continue
                     penalized_so_far.add(generated_token)
@@ -264,6 +266,16 @@ class CTRLGenerator():
                 # if you specify neither nucleus or topk,
                 # then we will use the whole list
                 nucleus = len(pruned_list)
+
+            # if you want to disallow more complex tokens, you can do so here
+            # for instance, if you want to disallow anything with the phrase `http`,
+            # you can delete theme from the pruned_list
+            # you can comment this out, I'm keeping it in for demonstration purpose
+            tokens_to_disallow = []
+            for _ in range(len(pruned_list)):
+                if 'http' in self.idx2word[pruned_list[_]]:
+                    tokens_to_disallow.append(_)
+            pruned_list = np.delete(pruned_list, tokens_to_disallow)
 
             # if temperature is 0
             # just pick the first (most probable) token
