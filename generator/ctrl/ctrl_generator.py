@@ -212,10 +212,7 @@ class CTRLGenerator():
         num_new_lines = 0
         for token in range(len(text) - 1, total_text_len - 1):
 
-            if first_token:
-                temperature = 0.9
-            else:
-                temperature = self.temperature
+            temperature = self.temperature
 
             # get the logits from the prediction function
             # the logic here is a bit convoluted because we are allowing generation past 512 tokens
@@ -329,4 +326,6 @@ class CTRLGenerator():
             result = tokens_generated_so_far[prompt_length:]
             first_token = False
 
+        print("tokens generated so far is ")
+        print(tokens_generated_so_far)
         return self.result_replace(result)
