@@ -153,21 +153,21 @@ class CTRLGenerator():
         return probabilities
 
     def prompt_replace(self, prompt):
-        print("\n\nBEFORE PROMPT_REPLACE:")
-        print(repr(prompt))
+        # print("\n\nBEFORE PROMPT_REPLACE:")
+        # print(repr(prompt))
         if prompt[-1] != " ":
             prompt = prompt + " "
 
         prompt = second_to_first_person(prompt)
 
         prompt = self.control_code + prompt
-        print("\n\nAFTER PROMPT_REPLACE")
-        print(repr(prompt))
+        # print("\n\nAFTER PROMPT_REPLACE")
+        # print(repr(prompt))
         return prompt
 
     def result_replace(self, result):
-        print("\n\nBEFORE RESULT_REPLACE:")
-        print(repr(result))
+        # print("\n\nBEFORE RESULT_REPLACE:")
+        # print(repr(result))
 
         first_letter_capitalized = result[0].isupper()
         result = result.replace("#", "")
@@ -177,8 +177,8 @@ class CTRLGenerator():
         if not first_letter_capitalized:
             result = result[0].lower() + result[1:]
 
-        print("\n\nAFTER RESULT_REPLACE:")
-        print(repr(result))
+        # print("\n\nAFTER RESULT_REPLACE:")
+        # print(repr(result))
 
         return result
 
@@ -192,6 +192,7 @@ class CTRLGenerator():
 
         first_token = True
         prompt_length = len(prompt)
+        prompt_length_wout_code = len(prompt) - len(self.control_code)
 
         # tokenize provided prompt
         split_prompt = self.bpe.apply([prompt])[0].split()
@@ -317,7 +318,7 @@ class CTRLGenerator():
             tokens_generated_so_far = re.sub('(@@ )', '', string=tokens_generated_so_far)
             tokens_generated_so_far = re.sub('(@@ ?$)', '', string=tokens_generated_so_far)
 
-            result = tokens_generated_so_far[prompt_length:]
+            result = tokens_generated_so_far[prompt_length_wout_code:]
             first_token = False
 
         print("tokens generated so far is \n\n")
