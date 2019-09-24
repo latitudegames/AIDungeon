@@ -4,7 +4,7 @@ from google.cloud import storage
 import json
 from story.story_manager import *
 from generator.web.web_generator import *
-#from generator.ctrl.ctrl_generator import *
+from generator.ctrl.ctrl_generator import *
 import tensorflow as tf
 import textwrap
 
@@ -90,7 +90,7 @@ def play_cached():
 
 
 if __name__ == '__main__':
-    play_constrained()
+    play_unconstrained()
 
 
 
