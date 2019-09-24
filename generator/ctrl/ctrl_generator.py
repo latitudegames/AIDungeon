@@ -22,7 +22,7 @@ def loss(labels, logits):
 
 class CTRLGenerator():
 
-    def __init__(self, control_code="Horror Text: ", generate_num=100, temperature=0.3):
+    def __init__(self, control_code="Horror Text: ", generate_num=64, temperature=0.3):
 
         self.generate_num=generate_num
         model_dir = "generator/ctrl/model/seqlen256_v1.ckpt/"
@@ -30,7 +30,7 @@ class CTRLGenerator():
         vocab_file = 'generator/ctrl/model/vocab'
         code_file = 'generator/ctrl/model/codes'
 
-        self.max_new_lines=5
+        self.max_new_lines = 5
 
         # load the vocabulary from file
         vocab = open(vocab_file, encoding='utf-8').read().split('\n')
@@ -217,8 +217,6 @@ class CTRLGenerator():
                 # but I don't do that
                 # if it prints too many new lines instead of continuing generating text,
                 # you might want to comment this out
-                if self.idx2word[generated_token] == '\n':
-                    continue
                 if generated_token in penalized_so_far:
                     continue
                 penalized_so_far.add(generated_token)
@@ -324,7 +322,7 @@ class CTRLGenerator():
             if self.idx2word[idx] is "\n":
                 num_new_lines += 1
 
-            print("Generated token is ", self.idx2word[idx])
+            #print("Generated token is ", repr(self.idx2word[idx]))
 
             tokens_generated_so_far = ' '.join([self.idx2word[c] for c in tokens_generated[0][len(text):].squeeze()[:token + 2]])
             tokens_generated_so_far = re.sub('(@@ )', '', string=tokens_generated_so_far)
