@@ -41,13 +41,12 @@ def play_unconstrained():
 
 def play_constrained():
     print("\n")
-    generator = WebGenerator(CRED_FILE)
-    #generator = CTRLGenerator()
+    #generator = WebGenerator(CRED_FILE)
+    generator = CTRLGenerator()
     story_start = "haunted"
-    verbs_key = "anything"
     prompt = get_story_start(story_start)
     story_manager = CTRLStoryManager(generator)
-    story_manager.start_new_story(prompt, action_verbs_key=verbs_key)
+    story_manager.start_new_story(prompt)
 
     console_print(str(story_manager.story))
     possible_actions = story_manager.get_possible_actions()
@@ -70,8 +69,8 @@ def play_constrained():
 
 def play_cached():
     generator = WebGenerator(CRED_FILE)
-    story_manager = CachedStoryManager(generator, 0, 0, CRED_FILE)
-    story_manager.start_new_story()
+    story_manager = CachedStoryManager(generator, CRED_FILE)
+    story_manager.start_new_story(get_story_start("classic"), 0)
 
     console_print(str(story_manager.story))
     possible_actions = story_manager.get_possible_actions()
@@ -90,7 +89,7 @@ def play_cached():
 
 
 if __name__ == '__main__':
-    play_unconstrained()
+    play_constrained()
 
 
 
