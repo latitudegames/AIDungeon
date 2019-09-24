@@ -177,6 +177,9 @@ class CTRLGenerator():
         if not first_letter_capitalized:
             result = result[0].lower() + result[1:]
 
+        while("\n \n \n " in result):
+            result = result.replace("\n \n \n ", "\n \n ")
+
         # print("\n\nAFTER RESULT_REPLACE:")
         # print(repr(result))
 
@@ -191,7 +194,6 @@ class CTRLGenerator():
                 options["used_verbs"] = set()
 
         first_token = True
-        prompt_length = len(prompt)
 
         # tokenize provided prompt
         split_prompt = self.bpe.apply([prompt])[0].split()
@@ -256,7 +258,7 @@ class CTRLGenerator():
             if first_token:
                 for word in get_possible_verbs():
                     if word not in options["used_verbs"]:
-                        prompt_logits[_token][self.word2idx[word]] += 5
+                        prompt_logits[_token][self.word2idx[word]] += 100
 
             # compute probabilities from logits
             prompt_probs = np.exp(prompt_logits[_token])
@@ -319,13 +321,5 @@ class CTRLGenerator():
             result = tokens_generated_so_far
 
             first_token = False
-
-
-        print("\n\nPrompt is \n", prompt)
-        print("\n\nCut off")
-        print(repr(result))
-
-        import pdb
-        pdb.set_trace()
 
         return self.result_replace(result)
