@@ -178,7 +178,7 @@ class CTRLGenerator():
         print(repr(result))
 
         if not first_letter_capitalized:
-            result[0] = result[0].lower()
+            result = result[0].upper() + result[1:]
 
         return result
 
