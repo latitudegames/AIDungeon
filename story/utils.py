@@ -33,21 +33,13 @@ def cut_trailing_quotes(text):
         return text[:final_ind]
 
 
-def all_replace(text):
+def text_replace(text):
     text = first_to_second_person(text)
     text = text.replace("#","")
     text = remove_profanity(text)
     
     return text
-    
-    
-def action_replace(text):
-    return all_replace(text)
-    
-    
-def story_replace(text):
-    return all_replace(text)
-    
+
     
 def split_first_sentence(text):
     first_period = text.find('.')
