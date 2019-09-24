@@ -169,7 +169,7 @@ class CTRLGenerator():
         prompt = self.control_code + prompt
 
         print("******************************")
-        print(" DEBUG:: Prompt to generate by is \n", prompt)
+        print(" DEBUG:: Prompt to generate by is \n", repr(prompt))
         print("******************************")
 
         if "used_verbs" in options:
