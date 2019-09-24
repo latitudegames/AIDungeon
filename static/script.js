@@ -1,4 +1,8 @@
-start_text = "<span id='a'>Adventurer@AIDungeon</span>:<span id='b'>~</span><span id='c'>$</span> ./EnterDungeon \n <br/><!-- laglaglaglaglaglaglaglaglaglaglag-->"
+start_text = "<span id='a'>Adventurer@AIDungeon</span>:<span id='b'>~</span><span id='c'>$</span> ./EnterDungeon <br/><!-- laglaglaglaglaglaglaglaglaglaglag-->"
+
+function isMobileDevice() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
+};
 
 // Used to control the terminal like screen typing 
 var Typer={
@@ -76,12 +80,12 @@ var Typer={
 
     onKeyPressFunc:function(evt) {
 
-        if(acceptInput && !isMobileDevice()){
+        if(Typer.acceptInput && !isMobileDevice()){
             evt = evt || window.event
             var charCode = evt.keyCode || evt.which
 
             if(charCode == 13){
-                acceptInput = false
+                Typer.acceptInput = false
                 Typer.sendInput()
             }
             else{
@@ -94,13 +98,12 @@ var Typer={
     },
 }
 
-
 function onButtonClick(num){
 
     document.getElementById('buttons').style.visibility='hidden';
 
-    if (acceptInput == true){
-        acceptInput = false
+    if (Typer.acceptInput == true){
+        Typer.acceptInput = false
         num = String(num)
         Typer.appendToText(num)
         Typer.inputStr = num
@@ -121,9 +124,7 @@ function start(){
     Typer.appendToText(start_text)
     Typer.startTyping()
     request_str = ""
-	$.post("/generate", {text: request_str}, receiveResponse)
-
-    console.log("Not mobile device");
+	$.post("/generate", {action: request_str}, receiveResponse)
     document.getElementById('buttons').style.visibility='hidden';
 }
 
