@@ -30,6 +30,8 @@ class CTRLGenerator():
         vocab_file = 'generator/ctrl/model/vocab'
         code_file = 'generator/ctrl/model/codes'
 
+        self.max_new_lines=5
+
         # load the vocabulary from file
         vocab = open(vocab_file, encoding='utf-8').read().split('\n')
         vocab = list(map(lambda x: x.split(' ')[0], vocab)) + ['<unk>'] + ['\n']
@@ -185,8 +187,7 @@ class CTRLGenerator():
 
         return result
 
-
-    def generate_next_token(self, token, tokens_generated, options, first_token=False):
+    def generate_next_token(self, token, tokens_generated, options, num_new_lines, first_token=False):
 
         # get the logits from the prediction function
         # the logic here is a bit convoluted because we are allowing generation past 512 tokens
@@ -226,6 +227,9 @@ class CTRLGenerator():
         # disallow some tokens
         forbidden_tokens = ['<unk>', 'Sco@@']
 
+        if num_new_lines > self.max_new_lines:
+            forbidden_tokens.append("\n")
+
         for forbidden_token in forbidden_tokens:
             prompt_logits[_token][self.word2idx[forbidden_token]] = -1e8
 
@@ -261,6 +265,12 @@ class CTRLGenerator():
         for _ in range(len(pruned_list)):
             if 'http' in self.idx2word[pruned_list[_]]:
                 tokens_to_disallow.append(_)
+            if 'r/nosleep' in self.idx2word[pruned_list[_]]:
+                tokens_to_disallow.append(_)
+            if 'EDIT' in self.idx2word[pruned_list[_]]:
+                tokens_to_disallow.append(_)
+            if 'UPDATE' in self.idx2word[pruned_list[_]]:
+                tokens_to_disallow.append(_)
         pruned_list = np.delete(pruned_list, tokens_to_disallow)
 
         # if temperature is 0
@@ -287,6 +297,8 @@ class CTRLGenerator():
         # clear screen if you want to
         # os.system("clear")
 
+        return idx
+
     def generate(self, prompt, options=None):
         prompt = self.prompt_replace(prompt)
 
@@ -306,8 +318,11 @@ class CTRLGenerator():
         tokens_generated = np.tile(padded_text, (1, 1))
         result = ""
 
+        num_new_lines = 0
         for token in range(len(text) - 1, total_text_len - 1):
-            self.generate_next_token(token, tokens_generated, options, first_token=first_token)
+            idx = self.generate_next_token(token, tokens_generated, options, num_new_lines, first_token=first_token)
+            if self.idx2word[idx] is "\n":
+                num_new_lines += 1
 
             tokens_generated_so_far = ' '.join([self.idx2word[c] for c in tokens_generated[0][len(text):].squeeze()[:token + 2]])
             tokens_generated_so_far = re.sub('(@@ )', '', string=tokens_generated_so_far)
