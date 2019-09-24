@@ -321,6 +321,9 @@ class CTRLGenerator():
             result = tokens_generated_so_far[prompt_length_wout_code:]
             first_token = False
 
-        print("tokens generated so far is \n\n")
+        print("\n\ntokens generated so far is:")
         print(repr(tokens_generated_so_far))
+        print("\n\nCut off")
+        print(result)
+        
         return self.result_replace(result)
