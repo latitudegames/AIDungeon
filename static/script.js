@@ -2,12 +2,12 @@ start_text = "<span id='a'>Adventurer@AIDungeon</span>:<span id='b'>~</span><spa
 
 // Used to control the terminal like screen typing 
 var Typer={
-	text: null,
-	inputStr: "",
+	text:null,
+	inputStr:"",
 	index:0, 
 	speed:2,
-	acceptInput: false,
-	inputReady: false,
+	acceptInput:false,
+	inputReady:false,
 	
 	content:function(){
 		return $("#console").html()
@@ -50,9 +50,9 @@ var Typer={
 		
 	},
 
-
 	sendInput:function(){
-	    $.post("/generate", {Typer.inputStr}, receiveResponse)
+        request = Typer.inputStr
+	    $.post("/generate", {action: request}, receiveResponse)
 	    Typer.inputStr = ""
 	},
 
@@ -92,19 +92,20 @@ var Typer={
 
         }
     },
+}
 
-    onButtonClick:function(num){
 
-        document.getElementById('buttons').style.visibility='hidden';
+function onButtonClick(num){
 
-        if (acceptInput == true){
-            acceptInput = false
-            num = String(num)
-            Typer.appendToText(num)
-            Typer.inputStr = num
-            Typer.sendInput
-        }
-    },
+    document.getElementById('buttons').style.visibility='hidden';
+
+    if (acceptInput == true){
+        acceptInput = false
+        num = String(num)
+        Typer.appendToText(num)
+        Typer.inputStr = num
+        Typer.sendInput
+    }
 }
 
 function receiveResponse(text){
@@ -119,7 +120,8 @@ function start(){
     Typer.text = ""
     Typer.appendToText(start_text)
     Typer.startTyping()
-	$.post("/generate", {""}, receiveResponse)
+    request_str = ""
+	$.post("/generate", {text: request_str}, receiveResponse)
 
     console.log("Not mobile device");
     document.getElementById('buttons').style.visibility='hidden';
