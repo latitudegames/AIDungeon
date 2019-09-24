@@ -157,8 +157,7 @@ class CTRLGenerator():
         if options is None:
             options = {}
 
-        if prompt[-2:] == ".I":
-            prompt = prompt[:-1] + " I"
+        prompt = prompt.replace(".I", ". I")
 
         if prompt[-1] != " ":
             prompt = prompt + " "

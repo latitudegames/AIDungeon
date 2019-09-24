@@ -6,7 +6,6 @@ YAML_FILE = "story/story_data.yaml"
 from profanityfilter import ProfanityFilter
 pf = ProfanityFilter()
 
-
 def get_story_start(key):
     with open(YAML_FILE, 'r') as stream:
         data_loaded = yaml.safe_load(stream)
@@ -20,9 +19,10 @@ def get_action_verbs(key):
 
     return data_loaded["action_verbs"][key]
 
-# TODO add capital words to remove words
+
 def remove_profanity(text):
     return pf.censor(text)
+
 
 def cut_trailing_quotes(text):
     num_quotes = text.count('"')
@@ -36,7 +36,6 @@ def cut_trailing_quotes(text):
 def all_replace(text):
     text = first_to_second_person(text)
     text = text.replace("#","")
-    
     text = remove_profanity(text)
     
     return text
@@ -120,6 +119,7 @@ def capitalize_helper(string):
 
 
 def capitalize_first_letters(text):
+    print("Text to capitalize is ", text)
     first_letters_regex = re.compile(r'((?<=[\.\?!]\s)(\w+)|(^\w+))')
 
     def cap(match):
