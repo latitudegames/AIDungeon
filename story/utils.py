@@ -103,7 +103,6 @@ def capitalize_helper(string):
 
 
 def capitalize_first_letters(text):
-    print("Text to capitalize is ", text)
     first_letters_regex = re.compile(r'((?<=[\.\?!]\s)(\w+)|(^\w+))')
 
     def cap(match):
