@@ -327,5 +327,8 @@ class CTRLGenerator():
         print(repr(tokens_generated_so_far))
         print("\n\nCut off")
         print(repr(result))
+        
+        import pdb
+        pdb.set_trace()
 
         return self.result_replace(result)
