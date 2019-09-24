@@ -192,7 +192,6 @@ class CTRLGenerator():
 
         first_token = True
         prompt_length = len(prompt)
-        prompt_length_wout_code = len(prompt) - len(self.control_code)
 
         # tokenize provided prompt
         split_prompt = self.bpe.apply([prompt])[0].split()
@@ -314,20 +313,18 @@ class CTRLGenerator():
             # clear screen if you want to
             # os.system("clear")
 
-            tokens_generated_so_far = ' '.join([self.idx2word[c] for c in tokens_generated[0].squeeze()[:token + 2]])
+            tokens_generated_so_far = ' '.join([self.idx2word[c] for c in tokens_generated[0][len(text):].squeeze()[:token + 2]])
             tokens_generated_so_far = re.sub('(@@ )', '', string=tokens_generated_so_far)
             tokens_generated_so_far = re.sub('(@@ ?$)', '', string=tokens_generated_so_far)
+            result = tokens_generated_so_far
 
             first_token = False
 
-        print("prompt length is ", prompt_length)
-        print("\n\nPrmopt is ", prompt)
-        result = tokens_generated_so_far[prompt_length_wout_code:]
-        print("\n\ntokens generated so far is:")
-        print(repr(tokens_generated_so_far))
+
+        print("\n\nPrompt is \n", prompt)
         print("\n\nCut off")
         print(repr(result))
-        
+
         import pdb
         pdb.set_trace()
 
