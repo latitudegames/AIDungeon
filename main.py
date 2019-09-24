@@ -23,17 +23,6 @@ def root():
     data = {'seed': seed}
     return render_template('index.html', data=data)
 
-# Starts an adventure with a specific seed
-@app.route('/<seed>')
-def rootseed(seed):
-    if seed == "":
-        seed = -1
-    else:
-        seed = int(seed)
-    data = {'seed': seed}
-    session["seed"] = seed
-    return render_template('index.html', data=data)
-
 # Starts an adventure
 @app.route('/index.html')
 def index():
