@@ -168,12 +168,17 @@ class CTRLGenerator():
     def result_replace(self, result):
         print("\n\nBEFORE RESULT_REPLACE:")
         print(repr(result))
+
+        first_letter_capitalized = result[0].isupper()
         result = result.replace("#", "")
         result = first_to_second_person(result)
         result = remove_profanity(result)
 
         print("\n\nAFTER RESULT_REPLACE:")
         print(repr(result))
+
+        if not first_letter_capitalized:
+            result[0] = result[0].lower()
 
         return result
 
@@ -284,5 +289,6 @@ class CTRLGenerator():
 
             result = tokens_generated_so_far[prompt_length:]
             first_token = False
+
 
         return self.result_replace(result)

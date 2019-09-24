@@ -61,6 +61,8 @@ def cut_trailing_sentence(text):
 
 def replace_outside_quotes(text, current_word, repl_word):
 
+    current_word = current_word.replace(".", "\.")
+
     reg_expr = re.compile(current_word + '(?=([^"]*"[^"]*")*[^"]*$)')
 
     output = reg_expr.sub(repl_word, text)
