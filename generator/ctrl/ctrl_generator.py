@@ -22,14 +22,13 @@ def loss(labels, logits):
 
 class CTRLGenerator():
 
-    def __init__(self, control_code="Horror Text: ", generate_num=100, temperature=0.75, topk=0):
+    def __init__(self, control_code="Horror Text: ", generate_num=100, temperature=0.75):
 
         self.generate_num=generate_num
         model_dir = "generator/ctrl/model/seqlen256_v1.ckpt/"
         self.control_code = control_code
         vocab_file = 'generator/ctrl/model/vocab'
         code_file = 'generator/ctrl/model/codes'
-        self.topk=topk
 
         # load the vocabulary from file
         vocab = open(vocab_file, encoding='utf-8').read().split('\n')
@@ -137,6 +136,7 @@ class CTRLGenerator():
         self.temperature=temperature
         self.nucleusprob = 0
         self.penalty = 1.2
+        self.topk=0
 
     def configure_verb_probs(self, probabilities, options):
 
@@ -175,7 +175,7 @@ class CTRLGenerator():
         result = remove_profanity(result)
 
         if not first_letter_capitalized:
-            result = result[0].upper() + result[1:]
+            result = result[0].lower() + result[1:]
 
         print("\n\nAFTER RESULT_REPLACE:")
         print(repr(result))
@@ -183,15 +183,19 @@ class CTRLGenerator():
         return result
 
     def generate(self, prompt, options=None):
-
-        if options is None:
-            options = {}
-
-        first_token = True
         prompt = self.prompt_replace(prompt)
 
-        if "used_verbs" in options:
-            print("Disallowed used verbs: ", options["used_verbs"])
+        if prompt[-1] != " ":
+            prompt = prompt + " "
+        first_token = True
+
+        prompt = second_to_first_person(prompt)
+
+        prompt = self.control_code + prompt
+
+        print("******************************")
+        print(" DEBUG:: Prompt to generate by is \n", prompt)
+        print("******************************")
 
         prompt_length = len(prompt)
 
@@ -204,6 +208,8 @@ class CTRLGenerator():
         padded_text = text + [0] * (total_text_len - len(text))
         tokens_generated = np.tile(padded_text, (1, 1))
         result = ""
+        max_new_lines = 5
+        num_new_lines = 0
         for token in range(len(text) - 1, total_text_len - 1):
 
             if first_token:
@@ -233,6 +239,12 @@ class CTRLGenerator():
                 penalized_so_far = set()
                 for _ in range(token + 1):
                     generated_token = tokens_generated[0][_]
+                    # don't penalize newlines
+                    # you could also choose not to penalize frequent words
+                    # (which incidentally are sorted in the vocab file)
+                    # but I don't do that
+                    # if it prints too many new lines instead of continuing generating text,
+                    # you might want to comment this out
                     if self.idx2word[generated_token] == '\n':
                         continue
                     if generated_token in penalized_so_far:
@@ -243,11 +255,16 @@ class CTRLGenerator():
             # disallow some tokens
             forbidden_tokens = ['<unk>', 'Sco@@']
 
+            if num_new_lines >= max_new_lines:
+                forbidden_tokens.append('\n')
+
             for forbidden_token in forbidden_tokens:
                 prompt_logits[_token][self.word2idx[forbidden_token]] = -1e8
 
+            # Make sure only a possible verb is chosen.
             if first_token:
-                prompt_logits[_token] = self.configure_verb_probs(prompt_logits[_token], options)
+                for word in get_possible_verbs():
+                    prompt_logits[_token][self.word2idx[word]] += 5
 
             # compute probabilities from logits
             prompt_probs = np.exp(prompt_logits[_token])
@@ -288,6 +305,16 @@ class CTRLGenerator():
                     tf.random.categorical(np.expand_dims(prompt_logits[_token][pruned_list], 0), num_samples=1).numpy())
                 idx = pruned_list[chosen_idx]
 
+            # if you want to do some debugging,
+            # like which one was chosen,
+            # what the top25 were,
+            # here is your opportunity.
+            # print('chosen:', repr(self.idx2word[idx]))
+            # print('top25 alternatives:', pruned_list[:25])
+
+            if self.idx2word[idx] == "\n":
+                num_new_lines += 1
+
             # assign the token for generation
             tokens_generated[0][token + 1] = idx
 
@@ -297,10 +324,9 @@ class CTRLGenerator():
             tokens_generated_so_far = ' '.join([self.idx2word[c] for c in tokens_generated[0].squeeze()[:token + 2]])
             tokens_generated_so_far = re.sub('(@@ )', '', string=tokens_generated_so_far)
             tokens_generated_so_far = re.sub('(@@ ?$)', '', string=tokens_generated_so_far)
-            #print(tokens_generated_so_far)
+            print(tokens_generated_so_far)
 
             result = tokens_generated_so_far[prompt_length:]
             first_token = False
-
 
         return self.result_replace(result)
