@@ -11,7 +11,7 @@ import textwrap
 CRED_FILE = "./AI-Adventure-2bb65e3a4e2f.json"
 
 # Set the key
-def console_print(str, pycharm=True):
+def console_print(str, pycharm=False):
     if pycharm:
         LINE_WIDTH=80
 

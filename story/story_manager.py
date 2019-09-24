@@ -68,8 +68,7 @@ class StoryManager():
     def start_new_story(self, story_prompt):
         block = self.generator.generate(story_prompt)
         block = cut_trailing_sentence(block)
-        block = text_replace(block)
-        story_start = story_prompt + block
+        story_start = text_replace(story_prompt + block)
         self.story = Story(story_start)
         return story_start
     
@@ -98,7 +97,7 @@ class UnconstrainedStoryManager(StoryManager):
     def generate_result(self, action):
         block = self.generator.generate(self.story_context() + action)
         block = cut_trailing_sentence(block)
-        block = story_replace(block)
+        block = text_replace(block)
         return block
 
 
@@ -151,7 +150,7 @@ class ConstrainedStoryManager(StoryManager):
 
         action = phrase + " " + self.generator.generate(prompt + " " + phrase, options)
         action_result = cut_trailing_sentence(action)
-        actino_result = text_replace(action_result)
+        action_result = text_replace(action_result)
 
         action, result = split_first_sentence(action_result)
 
