@@ -101,17 +101,18 @@ class UnconstrainedStoryManager(StoryManager):
         block = story_replace(block)
         return block
 
+
 class ConstrainedStoryManager(StoryManager):
 
     def __init__(self, generator, action_verbs_key="classic"):
-        self.generator = generator
+        super().__init__(generator)
         self.action_phrases = get_action_verbs(action_verbs_key)
 
     def start_new_story(self, story_prompt):
         super().start_new_story(story_prompt)
         self.story.possible_action_results = self.get_action_results()
         
-        return story.story_start
+        return self.story.story_start
 
     def load_story(self, story, from_json=False):
         story_string = super().load_story(story, from_json=from_json)
@@ -167,7 +168,7 @@ class CTRLStoryManager(ConstrainedStoryManager):
         used_verbs = []
         results = []
         for phrase in self.action_phrases:
-            options = {}
+            options = dict()
             options["used_verbs"] = used_verbs
             result = self.generate_action_result(self.story_context(), phrase, options=options)
 
@@ -184,7 +185,7 @@ class CachedStoryManager(ConstrainedStoryManager):
         super().__init__(generator, action_verbs_key=action_verbs_key)
         self.cacher = cacher(credentials_file)
 
-    def start_new_story(self, prompt, seed):
+    def start_new_story(self, prompt, seed=0):
 
         result = self.cacher.retrieve_from_cache(seed, [], "story")
         if result is not None:
