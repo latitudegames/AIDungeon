@@ -40,9 +40,9 @@ class Story():
 
     def latest_result(self):
         if len(self.results) > 1:
-            return self.results[-2] + self.actions[-1] + self.results[-1]
+            return self.results[-2] + self.actions[-1] + self.results[-1] + self.actions[-1]
         elif len(self.results) == 1:
-            return self.story_start + self.results[-1]
+            return self.story_start + self.results[-1] + self.actions[-1]
         else:
             return self.story_start
 
@@ -208,8 +208,6 @@ class CTRLStoryManager(ConstrainedStoryManager):
         for phrase in self.action_phrases:
             result = self.generate_action_result(self.story_context(), phrase, options=options)
             location = result[0].split()[location_pos+1]
-            print("result is ", result)
-            print("location is ", location)
             options["word_whitelist"][location_pos].remove(location)
 
             results.append(result)
