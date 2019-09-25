@@ -21,7 +21,6 @@ class Story():
 
         if game_state is None:
             game_state = dict()
-            game_state["current_room"] = possible_rooms[0]
         self.game_state = game_state
 
 
@@ -73,10 +72,10 @@ class StoryManager():
     def __init__(self, generator):
         self.generator = generator
         
-    def start_new_story(self, story_prompt):
+    def start_new_story(self, story_prompt, game_state=None):
         block = self.generator.generate(story_prompt)
         block = cut_trailing_sentence(block)
-        self.story = Story(story_prompt + block)
+        self.story = Story(story_prompt + block, game_state=None)
         return self.story
     
     def load_story(self, story, from_json=False):
@@ -113,7 +112,7 @@ class ConstrainedStoryManager(StoryManager):
         super().__init__(generator)
         self.action_phrases = get_action_verbs(action_verbs_key)
 
-    def start_new_story(self, story_prompt):
+    def start_new_story(self, story_prompt, game_state=None):
         super().start_new_story(story_prompt)
         self.story.possible_action_results = self.get_action_results()
         
@@ -166,9 +165,8 @@ class CTRLStoryManager(ConstrainedStoryManager):
     def __init__(self, generator, action_verbs_key="anything"):
         super().__init__(generator, action_verbs_key)
 
-    def start_new_story(self, story_prompt):
+    def start_new_story(self, story_prompt, game_state=None):
         super().start_new_story(story_prompt)
-        self.story.game_state["current_room"] = possible_rooms[0]
 
         return self.story.story_start
 
@@ -178,7 +176,8 @@ class CTRLStoryManager(ConstrainedStoryManager):
         results = []
         for phrase in self.action_phrases:
             options = dict()
-            options["used_verbs"] = set(used_verbs)
+            options["word_blacklist"] = {0: used_verbs}
+            options["word_whitelist"] = {0: get_possible_verbs()}
             result = self.generate_action_result(self.story_context(), phrase, options=options)
 
             used_verb = result[0].split()[1]
@@ -186,23 +185,6 @@ class CTRLStoryManager(ConstrainedStoryManager):
 
             results.append(result)
         return results
-
-    def game_state_text(self):
-        current_room = self.story.game_state["current_room"]
-        text_list = ["You are currently in the ", current_room, ". You could go to the "]
-        for i in range(len(possible_rooms)):
-            if possible_rooms[i] is current_room:
-                continue
-            if i is len(possible_rooms) -1:
-                text_list.append(", or the ")
-            elif i is not 0:
-                text_list.append(", the ")
-            text_list.append(possible_rooms[i])
-        text_list.append(".")
-        return "".join(text_list)
-
-    def story_context(self):
-        return  self.story.latest_result() + " " + self.game_state_text()
 
 
 class CachedStoryManager(ConstrainedStoryManager):
