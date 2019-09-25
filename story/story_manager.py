@@ -178,11 +178,10 @@ class CTRLStoryManager(ConstrainedStoryManager):
         options["word_whitelist"][0] = get_possible_verbs(type="movement")
         options["word_whitelist"][1] = ["to"]
         options["word_whitelist"][2] = ["the"]
-        options["word_whitelist"][3] = ["hospital"]
-        options["word_whitelist"][4] = \
+        options["word_whitelist"][3] = \
             [room for room in possible_rooms if room is not self.story.game_state["current_room"]]
-        options["word_whitelist"][5] = ["and"]
-        options["word_whitelist"][6] = ["see"]
+        options["word_whitelist"][4] = ["and"]
+        options["word_whitelist"][5] = ["see"]
 
         return options
 
@@ -208,8 +207,10 @@ class CTRLStoryManager(ConstrainedStoryManager):
         options = self.get_constrained_movement_options()
         for phrase in self.action_phrases:
             result = self.generate_action_result(self.story_context(), phrase, options=options)
-            location = result[0].split()[4]
-            options["word_whitelist"][4].remove(location)
+            location = result[0].split()[3]
+            print("result is ", result)
+            print("location is ", location)
+            options["word_whitelist"][3].remove(location)
 
             results.append(result)
         return results
