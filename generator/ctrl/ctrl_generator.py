@@ -263,15 +263,11 @@ class CTRLGenerator():
         # you can delete theme from the pruned_list
         # you can comment this out, I'm keeping it in for demonstration purpose
         tokens_to_disallow = []
+        complex_to_dissalow = ["http", "r/nosleep", "EDIT", "UPDATE", "&amp"]
         for _ in range(len(pruned_list)):
-            if 'http' in self.idx2word[pruned_list[_]]:
-                tokens_to_disallow.append(_)
-            if 'r/nosleep' in self.idx2word[pruned_list[_]]:
-                tokens_to_disallow.append(_)
-            if 'EDIT' in self.idx2word[pruned_list[_]]:
-                tokens_to_disallow.append(_)
-            if 'UPDATE' in self.idx2word[pruned_list[_]]:
-                tokens_to_disallow.append(_)
+            for complex in complex_to_dissalow:
+                if complex in self.idx2word[pruned_list[_]]:
+                    tokens_to_disallow.append(_)
         pruned_list = np.delete(pruned_list, tokens_to_disallow)
 
         # if temperature is 0
