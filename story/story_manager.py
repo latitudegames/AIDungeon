@@ -160,14 +160,14 @@ class ConstrainedStoryManager(StoryManager):
 
         return action, result
 
-possible_rooms = ["hospital lobby", "hospital operating room", "hospital hallway", "the hospital parking lot"]
+possible_rooms = ["lobby", "hallway", "parking", "roof", "pharmacy"]
 
 class CTRLStoryManager(ConstrainedStoryManager):
     def __init__(self, generator, action_verbs_key="anything"):
         super().__init__(generator, action_verbs_key)
 
     def start_new_story(self, story_prompt, game_state=None):
-        game_state = {"current_room": "hospital_lobby"}
+        game_state = {"current_room": "lobby"}
         super().start_new_story(story_prompt, game_state=game_state)
 
         return self.story.story_start
@@ -178,10 +178,11 @@ class CTRLStoryManager(ConstrainedStoryManager):
         options["word_whitelist"][0] = get_possible_verbs(type="movement")
         options["word_whitelist"][1] = ["to"]
         options["word_whitelist"][2] = ["the"]
-        options["word_whitelist"][3] = \
+        options["word_whitelist"][3] = ["hospital"]
+        options["word_whitelist"][4] = \
             [room for room in possible_rooms if room is not self.story.game_state["current_room"]]
-        options["word_whitelist"][4] = ["and"]
-        options["word_whitelist"][5] = ["see"]
+        options["word_whitelist"][5] = ["and"]
+        options["word_whitelist"][6] = ["see"]
 
         return options
 
@@ -207,8 +208,8 @@ class CTRLStoryManager(ConstrainedStoryManager):
         options = self.get_constrained_movement_options()
         for phrase in self.action_phrases:
             result = self.generate_action_result(self.story_context(), phrase, options=options)
-            location = result[0].split()[3]
-            options["word_whitelist"][3].remove(location)
+            location = result[0].split()[4]
+            options["word_whitelist"][4].remove(location)
 
             results.append(result)
         return results
