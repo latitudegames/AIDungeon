@@ -21,6 +21,7 @@ class Story():
 
         if game_state is None:
             game_state = dict()
+            game_state["current_room"] = possible_rooms[0]
         self.game_state = game_state
 
 
