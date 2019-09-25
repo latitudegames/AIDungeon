@@ -75,7 +75,7 @@ class StoryManager():
     def start_new_story(self, story_prompt, game_state=None):
         block = self.generator.generate(story_prompt)
         block = cut_trailing_sentence(block)
-        self.story = Story(story_prompt + block, game_state=None)
+        self.story = Story(story_prompt + block, game_state=game_state)
         return self.story
     
     def load_story(self, story, from_json=False):
