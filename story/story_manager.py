@@ -195,14 +195,14 @@ class CTRLStoryManager(ConstrainedStoryManager):
                 continue
             if i is len(possible_rooms) -1:
                 text_list.append(", or the ")
-            else:
+            elif i is not 0:
                 text_list.append(", the ")
             text_list.append(possible_rooms[i])
         text_list.append(".")
         return "".join(text_list)
 
     def story_context(self):
-        return self.game_state_text() + " " + self.story.latest_result()
+        return  self.story.latest_result() + " " + self.game_state_text()
 
 
 class CachedStoryManager(ConstrainedStoryManager):
