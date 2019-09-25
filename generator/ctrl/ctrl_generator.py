@@ -331,4 +331,6 @@ class CTRLGenerator():
 
             first_token = False
 
+        print("PROMPT: \n", prompt)
+        print("RESULT: \n", result)
         return self.result_replace(result)
