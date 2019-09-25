@@ -113,7 +113,7 @@ class ConstrainedStoryManager(StoryManager):
         self.action_phrases = get_action_verbs(action_verbs_key)
 
     def start_new_story(self, story_prompt, game_state=None):
-        super().start_new_story(story_prompt)
+        super().start_new_story(story_prompt, game_state=game_state)
         self.story.possible_action_results = self.get_action_results()
         
         return self.story.story_start
@@ -161,27 +161,54 @@ class ConstrainedStoryManager(StoryManager):
         return action, result
 
 possible_rooms = ["hospital lobby", "hospital operating room", "hospital hallway", "the hospital parking lot"]
+
 class CTRLStoryManager(ConstrainedStoryManager):
     def __init__(self, generator, action_verbs_key="anything"):
         super().__init__(generator, action_verbs_key)
 
     def start_new_story(self, story_prompt, game_state=None):
-        super().start_new_story(story_prompt)
+        game_state = {"current_room": "hospital_lobby"}
+        super().start_new_story(story_prompt, game_state=game_state)
 
         return self.story.story_start
 
+    def get_constrained_movement_options(self):
+        options = {}
+        options["word_whitelist"] = dict()
+        options["word_whitelist"][0] = get_possible_verbs(type="movement")
+        options["word_whitelist"][1] = ["to"]
+        options["word_whitelist"][2] = ["the"]
+        options["word_whitelist"][3] = \
+            [room for room in possible_rooms if room is not self.story.game_state["current_room"]]
+        options["word_whitelist"][4] = ["and"]
+        options["word_whitelist"][5] = ["see"]
+
+        return options
+
+    # def get_action_results(self):
+    #
+    #     used_verbs = []
+    #     results = []
+    #     for phrase in self.action_phrases:
+    #         options = dict()
+    #         options["word_blacklist"] = {0: used_verbs}
+    #         options["word_whitelist"] = {0: get_possible_verbs()}
+    #         result = self.generate_action_result(self.story_context(), phrase, options=options)
+    #
+    #         used_verb = result[0].split()[1]
+    #         used_verbs.append(used_verb)
+    #
+    #         results.append(result)
+    #     return results
+
     def get_action_results(self):
 
-        used_verbs = []
         results = []
+        options = self.get_constrained_movement_options()
         for phrase in self.action_phrases:
-            options = dict()
-            options["word_blacklist"] = {0: used_verbs}
-            options["word_whitelist"] = {0: get_possible_verbs()}
             result = self.generate_action_result(self.story_context(), phrase, options=options)
-
-            used_verb = result[0].split()[1]
-            used_verbs.append(used_verb)
+            location = result[0].split()[3]
+            options["word_whitelist"][3].remove(location)
 
             results.append(result)
         return results

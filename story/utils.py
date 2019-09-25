@@ -134,8 +134,12 @@ def second_to_first_person(text):
 
 
 possible_verbs = ["take", "put", "give", "set", "keep", "help", "show", "pay", "read", "start", "stay", "call",
-                  "change", "ask", "go", "run", "open", "look", "walk", "make", "say", "tell", "attack", "use",
-                  "turn", "fight", "scream", "yell"]
+                  "change", "ask", "open", "look", "make", "say", "tell", "attack", "use", "fight", "scream", "yell"]
 
-def get_possible_verbs():
-    return possible_verbs
+movement_verbs = ["walk", "go", "run", "move"]
+
+def get_possible_verbs(type=""):
+    if type is "movement":
+        return movement_verbs
+    else:
+        return possible_verbs
