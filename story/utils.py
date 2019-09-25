@@ -133,11 +133,9 @@ def second_to_first_person(text):
     return capitalize_first_letters(text)
 
 
-#possible_verbs = ["get", "take", "put", "give","set", "keep", "help", "show", "pay", "read", "start", "stay", "call",
-#                  "change", "ask", "go", "run", "open", "look", "walk", "make", "try", "say", "tell", "attack", "use",
-#                  "turn", "fight", "scream", "yell"]
-
-possible_verbs = ["go", "run", "walk", "leave", "exit"]
+possible_verbs = ["take", "put", "give", "set", "keep", "help", "show", "pay", "read", "start", "stay", "call",
+                  "change", "ask", "go", "run", "open", "look", "walk", "make", "say", "tell", "attack", "use",
+                  "turn", "fight", "scream", "yell"]
 
 def get_possible_verbs():
     return possible_verbs
