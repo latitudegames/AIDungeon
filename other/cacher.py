@@ -4,11 +4,11 @@ import os
 
 class cacher():
 
-    def __init__(self, credentials_file):
+    def __init__(self, credentials_file, bucket_name="dungeon-cache"):
         # Model/Cache Info
         os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = credentials_file
         self.storage_client = storage.Client()
-        self.bucket = self.storage_client.get_bucket("dungeon-cache")
+        self.bucket = self.storage_client.get_bucket(bucket_name)
         pass
 
     def cache_file(self, seed,  choices, response, tag, print_result=False):
