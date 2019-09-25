@@ -13,8 +13,6 @@ from story.utils import *
 import warnings
 warnings.filterwarnings("ignore")
 
-pos_action_starts = ["You attack", "You tell", "You use", "You go"]
-
 # the loss function is a simple categorical crossentropy between the logits and the labels
 def loss(labels, logits):
     return tf.keras.losses.sparse_categorical_crossentropy(labels, logits, from_logits=True)
@@ -187,7 +185,7 @@ class CTRLGenerator():
 
         return result
 
-    def generate_next_token(self, token, tokens_generated, options, num_new_lines, first_token=False):
+    def generate_next_token(self, token, tokens_generated, options, num_new_lines, token_num, first_token=False):
 
         # get the logits from the prediction function
         # the logic here is a bit convoluted because we are allowing generation past 512 tokens
@@ -231,11 +229,15 @@ class CTRLGenerator():
         for forbidden_token in forbidden_tokens:
             prompt_logits[_token][self.word2idx[forbidden_token]] = -1e8
 
-        # Make sure only a possible verb is chosen.
-        if first_token:
-            for word in get_possible_verbs():
-                if word not in options["used_verbs"]:
-                    prompt_logits[_token][self.word2idx[word]] += 100
+        # Set whitelist
+        if "word_whitelist" in options and token_num in options["word_whitelist"].keys():
+            for word in options["word_whitelist"][token_num]:
+                prompt_logits[_token][self.word2idx[word]] += 100
+
+        # Set blacklist, overwrites whitelist
+        if "word_blacklist" in options and token_num in options["word_blacklist"].keys():
+            for word in options["word_blacklist"][token_num]:
+                prompt_logits[_token][self.word2idx[word]] = -1e8
 
         # compute probabilities from logits
         prompt_probs = np.exp(prompt_logits[_token])
@@ -316,9 +318,10 @@ class CTRLGenerator():
         tokens_generated = np.tile(padded_text, (1, 1))
         result = ""
 
+        token_num = 0
         num_new_lines = 0
         for token in range(len(text) - 1, total_text_len - 1):
-            idx = self.generate_next_token(token, tokens_generated, options, num_new_lines, first_token=first_token)
+            idx = self.generate_next_token(token, tokens_generated, options, num_new_lines, token_num, first_token=first_token)
             if self.idx2word[idx] is "\n":
                 num_new_lines += 1
 
@@ -329,7 +332,7 @@ class CTRLGenerator():
             tokens_generated_so_far = re.sub('(@@ ?$)', '', string=tokens_generated_so_far)
             result = tokens_generated_so_far
 
-            first_token = False
+            token_num += 1
 
         print("PROMPT: \n", prompt)
         print("RESULT: \n", result)
