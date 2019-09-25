@@ -183,7 +183,7 @@ class CTRLStoryManager(ConstrainedStoryManager):
         options["word_whitelist"][4] = ["and"]
         options["word_whitelist"][5] = ["see"]
 
-        return options
+        return options, 3
 
     # def get_action_results(self):
     #
@@ -204,13 +204,13 @@ class CTRLStoryManager(ConstrainedStoryManager):
     def get_action_results(self):
 
         results = []
-        options = self.get_constrained_movement_options()
+        options, location_pos = self.get_constrained_movement_options()
         for phrase in self.action_phrases:
             result = self.generate_action_result(self.story_context(), phrase, options=options)
-            location = result[0].split()[3]
+            location = result[0].split()[location_pos+1]
             print("result is ", result)
             print("location is ", location)
-            options["word_whitelist"][3].remove(location)
+            options["word_whitelist"][location_pos].remove(location)
 
             results.append(result)
         return results
