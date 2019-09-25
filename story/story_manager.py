@@ -5,7 +5,7 @@ import json
 
 class Story():
 
-    def __init__(self, story_start, seed=None):
+    def __init__(self, story_start, seed=None, game_state=None):
         self.story_start = story_start
 
         # list of actions. First action is the prompt length should always equal that of story blocks
@@ -19,6 +19,11 @@ class Story():
         self.choices = []
         self.possible_action_results = []
 
+        if game_state is None:
+            game_state = dict()
+        self.game_state = game_state
+
+
     def initialize_from_json(self, json_string):
         story_dict = json.loads(json_string)
         self.story_start = story_dict["story_start"]
@@ -27,6 +32,7 @@ class Story():
         self.results = story_dict["results"]
         self.choices = story_dict["choices"]
         self.possible_action_results = story_dict["possible_action_results"]
+        self.game_state = story_dict["game_state"]
 
     def add_to_story(self, action, story_block):
         self.actions.append(action)
@@ -56,6 +62,7 @@ class Story():
         story_dict["results"] = self.results
         story_dict["choices"] = self.choices
         story_dict["possible_action_results"] = self.possible_action_results
+        story_dict["game_state"] = self.game_state
 
 
         return json.dumps(story_dict)
@@ -153,10 +160,16 @@ class ConstrainedStoryManager(StoryManager):
 
         return action, result
 
-
+possible_rooms = ["hospital lobby", "hospital operating room", "hospital hallway", "the hospital parking lot"]
 class CTRLStoryManager(ConstrainedStoryManager):
     def __init__(self, generator, action_verbs_key="anything"):
         super().__init__(generator, action_verbs_key)
+
+    def start_new_story(self, story_prompt):
+        super().start_new_story(story_prompt)
+        self.story.game_state["current_room"] = possible_rooms[0]
+
+        return self.story.story_start
 
     def get_action_results(self):
 
@@ -172,6 +185,23 @@ class CTRLStoryManager(ConstrainedStoryManager):
 
             results.append(result)
         return results
+
+    def game_state_text(self):
+        current_room = self.story.game_state["current_room"]
+        text_list = ["You are currently in the ", current_room, ". You could go to the "]
+        for i in range(len(possible_rooms)):
+            if possible_rooms[i] is current_room:
+                continue
+            if i is len(possible_rooms) -1:
+                text_list.append(", or the ")
+            else:
+                text_list.append(", the ")
+            text_list.append(possible_rooms[i])
+        text_list.append(".")
+        return "".join(text_list)
+
+    def story_context(self):
+        return self.game_state_text() + " " + self.story.latest_result()
 
 
 class CachedStoryManager(ConstrainedStoryManager):
