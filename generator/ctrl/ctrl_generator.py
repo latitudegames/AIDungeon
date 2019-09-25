@@ -171,6 +171,7 @@ class CTRLGenerator():
 
         first_letter_capitalized = result[0].isupper()
         result = result.replace("#", "")
+        result = result.replace("*", "")
         result = first_to_second_person(result)
         result = remove_profanity(result)
 
