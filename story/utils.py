@@ -125,7 +125,8 @@ second_to_first_mappings = [
     ("you", "I"),
     ("you", "me"),
     ("you'll", "I'll"),
-    ("yourself", "myself")
+    ("yourself", "myself"),
+    ("you've", "I've")
 ]
 
 def capitalize_helper(string):
