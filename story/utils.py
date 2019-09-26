@@ -137,19 +137,27 @@ def capitalize_first_letters(text):
 
 
 def first_to_second_person(text):
+    print("F_TO_S First person text:")
+    print(text)
     for pair in first_to_second_mappings:
         variations = mapping_variation_pairs(pair)
         for variation in variations:
             text = replace_outside_quotes(text, variation[0], variation[1])
 
     return capitalize_first_letters(text)
-
+    print("F_TO_S second person text:")
+    print(text)
 
 def second_to_first_person(text):
+    print("S_TO_F second person text:")
+    print(text)
+    
     for pair in second_to_first_mappings:
         variations = mapping_variation_pairs(pair)
         for variation in variations:
             text = replace_outside_quotes(text, variation[0], variation[1])
 
+    print("S_TO_F first person text:")
+    print(text)
     return capitalize_first_letters(text)
 
