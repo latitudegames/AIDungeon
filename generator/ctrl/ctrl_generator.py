@@ -266,6 +266,8 @@ class CTRLGenerator():
     def generate(self, prompt, options=None):
         prompt = self.prompt_replace(prompt)
         print("\n\n*****DEBUG*****")
+        print("Prompt is:")
+        print(prompt + "\n\n")
 
         if options is None: options = dict()
         if "used_verbs" not in options:
