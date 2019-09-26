@@ -91,10 +91,10 @@ def mapping_variation_pairs(mapping):
     mapping_list = []
     mapping_list.append((" " + mapping[0]+" ", " " + mapping[1]+" "))
     mapping_list.append((" " + capitalize(mapping[0]) + " ", " " + capitalize(mapping[1]) + " "))
-    mapping_list.append((" " + mapping[0]+",", " " + mapping[1]+","))
-    mapping_list.append((" " + mapping[0]+".", " " + mapping[1]+"."))
-    mapping_list.append((" " + mapping[0]+"?", " " + mapping[1]+"?"))
-    mapping_list.append((" " + mapping[0]+"!", " " + mapping[1]+"!"))
+    mapping_list.append((" " + mapping[0]+"\,", " " + mapping[1]+"\,"))
+    mapping_list.append((" " + mapping[0]+"\.", " " + mapping[1]+"\."))
+    mapping_list.append((" " + mapping[0]+"\?", " " + mapping[1]+"\?"))
+    mapping_list.append((" " + mapping[0]+"\!", " " + mapping[1]+"\!"))
     return mapping_list
 
 
@@ -137,27 +137,32 @@ def capitalize_first_letters(text):
 
 
 def first_to_second_person(text):
-    print("\nF_TO_S First person text:")
-    print(text)
+    text = " " + text
     for pair in first_to_second_mappings:
         variations = mapping_variation_pairs(pair)
         for variation in variations:
             text = replace_outside_quotes(text, variation[0], variation[1])
 
-    return capitalize_first_letters(text)
-    print("\nF_TO_S second person text:")
-    print(text)
+    return capitalize_first_letters(text[1:])
 
 def second_to_first_person(text):
-    print("\nS_TO_F second person text:")
-    print(text)
+    text = " " + text
     
     for pair in second_to_first_mappings:
         variations = mapping_variation_pairs(pair)
         for variation in variations:
             text = replace_outside_quotes(text, variation[0], variation[1])
 
-    print("\nS_TO_F first person text:")
-    print(text)
-    return capitalize_first_letters(text)
+    return capitalize_first_letters(text[1:])
+
+if __name__ == '__main__':
+    text = "I wake up in an old rundown hospital with no memory of how I got there. I look around and see a man sitting at the end of one bed"
+    print("second version is ")
+    second = first_to_second_person(text)
+    print(second)
+
+    first = second_to_first_person(second)
+    print("First version again is ")
+    print(first)
+
 
