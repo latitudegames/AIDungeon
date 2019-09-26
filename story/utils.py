@@ -92,7 +92,7 @@ def mapping_variation_pairs(mapping):
     # Change you it's before a punctuation
     if mapping[0] is "you":
         mapping = ("you", "me")
-    mapping_list.append((" " + mapping[0]+"\,", " " + mapping[1]+"\,"))
+    mapping_list.append((" " + mapping[0]+"\,", " " + mapping[1]+","))
     mapping_list.append((" " + mapping[0]+"\?", " " + mapping[1]+"\?"))
     mapping_list.append((" " + mapping[0]+"\!", " " + mapping[1]+"\!"))
     mapping_list.append((" " + mapping[0] + "\.", " " + mapping[1] + "."))
