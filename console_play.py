@@ -36,7 +36,7 @@ def play_unconstrained():
 
         action = " You " + action + "."
         result = story_manager.act(action)
-        console_print(action + result)
+        console_print("\n\n" + action + result)
 
 
 def play_constrained():
