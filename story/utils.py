@@ -81,42 +81,42 @@ def replace_outside_quotes(text, current_word, repl_word):
 
     output = reg_expr.sub(repl_word, text)
     return output
+    
+
+def capitalize(word):
+    return word[0].upper() + word[1:]
+    
+
+def mapping_variation_pairs(mapping):
+    mapping_list = []
+    mapping_list.append((" " + mapping[0]+" "), (" " + mapping[1]+" "))
+    mapping_list.append((" " + capitalize(mapping[0]) + " "), (" " + capitalize(mapping[1]) + " "))
+    mapping_list.append((" " + mapping[0]+","), (" " + mapping[1]+","))
+    mapping_list.append((" " + mapping[0]+"."), (" " + mapping[1]+"."))
+    mapping_list.append((" " + mapping[0]+"?"), (" " + mapping[1]+"?"))
+    mapping_list.append((" " + mapping[0]+"!"), (" " + mapping[1]+"!"))
 
 
 first_to_second_mappings = [
-    ("I'm ", "you're "),
-    (" I'm ", " you're "),
-    (" I'm ", " you're "),
-    ("I am ", "you are "),
-    ("I ", "you "),
-    ("I've ", "You've "),
-    (" I've ", " You've "),
-    ("my ", "your "),
-    (" my ", " your "),
-    ("My ", "Your "),
-    ("we ","you "),
-    ("We ","You "),
-    (" we're ", " you're "),
-    (" mine"," yours"),
-    (" me ", " you "),
-    (" me.", " you."),
-    (" us ", " you "),
-    (" us.", " you."),
-    (" our", " your")
+    ("I'm", "you're"),
+    ("I am", "you are"),
+    ("I", "you"),
+    ("I've", "You've"),
+    ("my", "your"),
+    ("we","you"),
+    ("we're", "you're"),
+    ("mine","yours"),
+    ("me", "you"),
+    ("us", "you"),
+    ("our", "your")
 ]
 
 second_to_first_mappings = [
-    ("You're ", "I'm "),
-    ("you're ", "I'm "),
-    ("Your ", "My "),
+    ("you're", "I'm"),
     ("your ", "my "),
-    (" your ", " my "),
-    ("you are ", "I am "),
-    ("You are ", "I am "),
-    (" you're ", " I'm "),
-    ("You ", "I "),
-    ("you ", "I "),
-    (" you.", " me."),
+    ("you are", "I am"),
+    ("you", "I"),
+    ("you", "me")
 ]
 
 def capitalize_helper(string):
@@ -137,14 +137,18 @@ def capitalize_first_letters(text):
 
 def first_to_second_person(text):
     for pair in first_to_second_mappings:
-        text = replace_outside_quotes(text, pair[0], pair[1])
+        variations = mapping_variation_pairs(pair)
+        for variation in variations:
+            text = replace_outside_quotes(text, variation[0], variation[1])
 
     return capitalize_first_letters(text)
 
 
 def second_to_first_person(text):
     for pair in second_to_first_mappings:
-        text = replace_outside_quotes(text, pair[0], pair[1])
+        variations = mapping_variation_pairs(pair)
+        for variation in variations:
+            text = replace_outside_quotes(text, variation[0], variation[1])
 
     return capitalize_first_letters(text)
 
