@@ -216,7 +216,7 @@ class CTRLGenerator():
                 prompt_logits[_token][generated_token] /= self.penalty
 
         # disallow some tokens
-        forbidden_tokens = ['<unk>', 'Sco@@']#, "UPDATE:", "EDIT", "UPDATE", "EDIT:", "[Part", "&amp", "*EDIT"]
+        forbidden_tokens = ['<unk>', 'Sco@@', "UPDATE", "EDIT", "UPDATE", "EDIT", "[Part", "&amp"]
 
         if num_new_lines > self.max_new_lines:
             forbidden_tokens.append("\n")
@@ -290,7 +290,7 @@ class CTRLGenerator():
             if self.idx2word[idx] is "\n":
                 num_new_lines += 1
 
-            print(self.idx2word[idx], end="_")
+            print(repr(self.idx2word[idx]), end="_")
 
             tokens_generated_so_far = ' '.join([self.idx2word[c] for c in tokens_generated[0][len(text):].squeeze()[:token + 2]])
             tokens_generated_so_far = re.sub('(@@ )', '', string=tokens_generated_so_far)
