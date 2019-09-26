@@ -173,5 +173,5 @@ def second_to_first_person(text):
     return capitalize_first_letters(text[1:])
 
 if __name__ == '__main__':
-    text = '“Hey there, you okay?” She asks. I\'m not sure what to say, “I\'m fine, I\'m sorry.” I say'
+    text = 'You wake up in an old rundown hospital with no memory of how you got there. You look around and see a nurse standing over me. "Hey buddy, you okay?" she asks. She looks at me like I\'m crazy. '
     print(first_to_second_person(text))

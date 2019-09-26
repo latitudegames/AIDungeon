@@ -20,7 +20,7 @@ def loss(labels, logits):
 
 class CTRLGenerator():
 
-    def __init__(self, control_code="Horror Text: ", generate_num=80, temperature=0.3):
+    def __init__(self, control_code="Writing Text: ", generate_num=80, temperature=0.3):
 
         self.generate_num=generate_num
         model_dir = "generator/ctrl/model/seqlen256_v1.ckpt/"
@@ -158,7 +158,7 @@ class CTRLGenerator():
         if prompt[-1] != " ":
             prompt = prompt + " "
 
-        prompt = second_to_first_person(prompt)
+        #prompt = second_to_first_person(prompt)
 
         prompt = self.control_code + prompt
         # print("\n\nAFTER PROMPT_REPLACE")
@@ -172,7 +172,7 @@ class CTRLGenerator():
         first_letter_capitalized = result[0].isupper()
         result = result.replace("#", "")
         result = result.replace("*", "")
-        result = first_to_second_person(result)
+        #result = first_to_second_person(result)
         result = remove_profanity(result)
 
         if not first_letter_capitalized:
