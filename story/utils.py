@@ -74,10 +74,12 @@ def cut_trailing_sentence(text):
 
 
 def replace_outside_quotes(text, current_word, repl_word):
+
     reg_expr = re.compile(current_word + '(?=([^"]*"[^"]*")*[^"]*$)')
 
     output = reg_expr.sub(repl_word, text)
     return output
+
     
 
 def capitalize(word):
@@ -139,11 +141,17 @@ def capitalize_first_letters(text):
     result = first_letters_regex.sub(cap, text)
     return result
 
+def standardize_punctuation(text):
+    text = text.replace("’", "'")
+    text = text.replace("`", "'")
+    text = text.replace('“', '"')
+    text = text.replace('”', '"')
+    return text
+
 
 def first_to_second_person(text):
     text = " " + text
-    text = text.replace("’", "'")
-    text = text.replace("`", "'")
+    text = standardize_punctuation(text)
     for pair in first_to_second_mappings:
         variations = mapping_variation_pairs(pair)
         for variation in variations:
@@ -153,8 +161,7 @@ def first_to_second_person(text):
 
 def second_to_first_person(text):
     text = " " + text
-    text = text.replace("’", "'")
-    text = text.replace("`", "'")
+    text = standardize_punctuation(text)
     for pair in second_to_first_mappings:
         variations = mapping_variation_pairs(pair)
         for variation in variations:
@@ -163,6 +170,5 @@ def second_to_first_person(text):
     return capitalize_first_letters(text[1:])
 
 if __name__ == '__main__':
-    text = 'You ask her what her name is.  "Hello, your name is Debbie." Debbie replies brightly. And you can feel something very familiar about her. Somethingfamiliar,yet new. "Something you already knew. Please tell you what\'s going on."Debra gives you this puzzled look. "If you\'re asking why do you know each other..." She says. "Well that\'s because You\'ve known you ever since we\'ve been friends."   "You mean you\'ve always known?" You ask. "Me? Do you mean...I don\'tknow...have you met? Because if so, we\'d have'
-
-    print(cut_trailing_sentence(text))
+    text = '“Hey there, you okay?” She asks. I\'m not sure what to say, “I\'m fine, I\'m sorry.” I say'
+    print(first_to_second_person(text))
