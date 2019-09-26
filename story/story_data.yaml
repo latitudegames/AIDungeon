@@ -3,8 +3,7 @@ prompts:
 
   hospital: "You wake up in an old rundown hospital with no memory of how you got there. You look around and see "
 
-  starship: "You're the captain of the Magnetar, a giant starship and the last hope of defending earth from the swarms of alien spaceships that are now hurtling towards the planet. You only have a small amount of laser charges left. You must defend earth at all costs."
-
+  alien: "You've crash landed on an alien planet. You don't know if you can get your ship working. You get out to explore your surroundings and see "
 
 action_verbs:
   classic: ["You attack", "You tell", "You use", "You go"]
