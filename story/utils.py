@@ -111,7 +111,8 @@ first_to_second_mappings = [
     ("mine","yours"),
     ("me", "you"),
     ("us", "you"),
-    ("our", "your")
+    ("our", "your"),
+    ("I'll", "you'll")
 ]
 
 second_to_first_mappings = [
@@ -119,7 +120,8 @@ second_to_first_mappings = [
     ("your ", "my "),
     ("you are", "I am"),
     ("you", "I"),
-    ("you", "me")
+    ("you", "me"),
+    ("you'll", "I'll")
 ]
 
 def capitalize_helper(string):
