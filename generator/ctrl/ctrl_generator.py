@@ -216,7 +216,7 @@ class CTRLGenerator():
                 prompt_logits[_token][generated_token] /= self.penalty
 
         # disallow some tokens
-        forbidden_tokens = ['<unk>', 'Sco@@', "EDIT", "[Part", "&amp"]
+        forbidden_tokens = ['<unk>', 'Sco@@', "[Part", "&amp"]
 
         if num_new_lines > self.max_new_lines:
             forbidden_tokens.append("\n")
