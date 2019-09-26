@@ -143,6 +143,7 @@ def capitalize_first_letters(text):
 def first_to_second_person(text):
     text = " " + text
     text = text.replace("’", "'")
+    text = text.replace("`", "'")
     for pair in first_to_second_mappings:
         variations = mapping_variation_pairs(pair)
         for variation in variations:
@@ -153,6 +154,7 @@ def first_to_second_person(text):
 def second_to_first_person(text):
     text = " " + text
     text = text.replace("’", "'")
+    text = text.replace("`", "'")
     for pair in second_to_first_mappings:
         variations = mapping_variation_pairs(pair)
         for variation in variations:
