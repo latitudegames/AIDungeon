@@ -299,5 +299,4 @@ class CTRLGenerator():
 
             token_num += 1
 
-        print("RESULT: \n", result)
         return self.result_replace(result)
