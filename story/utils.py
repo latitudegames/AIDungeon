@@ -70,7 +70,7 @@ def cut_trailing_sentence(text):
     elif last_period > 0:
         text = text[0:last_period+1]
 
-    return text
+    return cut_trailing_quotes(text)
 
 
 def replace_outside_quotes(text, current_word, repl_word):
@@ -104,7 +104,7 @@ first_to_second_mappings = [
     ("I'm", "you're"),
     ("I am", "you are"),
     ("I", "you"),
-    ("I've", "You've"),
+    ("I've", "you've"),
     ("my", "your"),
     ("we","you"),
     ("we're", "you're"),
@@ -160,13 +160,6 @@ def second_to_first_person(text):
     return capitalize_first_letters(text[1:])
 
 if __name__ == '__main__':
-    text = "You wake up in an old rundown hospital with no memory of how you got there? You look around and see a few people sitting on the floor next to me. "
-    print("second version is ")
-    second = first_to_second_person(text)
-    print(second)
+    text = 'You ask her what her name is.  "Hello, your name is Debbie." Debbie replies brightly. And you can feel something very familiar about her. Somethingfamiliar,yet new. "Something you already knew. Please tell you what\'s going on."Debra gives you this puzzled look. "If you\'re asking why do you know each other..." She says. "Well that\'s because You\'ve known you ever since we\'ve been friends."   "You mean you\'ve always known?" You ask. "Me? Do you mean...I don\'tknow...have you met? Because if so, we\'d have'
 
-    first = second_to_first_person(second)
-    print("First version again is ")
-    print(first)
-
-
+    print(cut_trailing_sentence(text))
