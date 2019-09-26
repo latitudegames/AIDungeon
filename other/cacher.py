@@ -2,7 +2,7 @@ from google.cloud import storage
 import os
 
 
-class cacher():
+class Cacher():
 
     def __init__(self, credentials_file, bucket_name="dungeon-cache"):
         # Model/Cache Info

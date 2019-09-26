@@ -117,25 +117,33 @@ class ConstrainedStoryManager(StoryManager):
 
     def enable_caching(self, credentials_file=None, seed=0, bucket_name="dungeon-cache"):
         self.cache = True
-        self.cacher = cacher(credentials_file, bucket_name)
+        self.cacher = Cacher(credentials_file, bucket_name)
         self.seed = seed
 
     def start_new_story(self, story_prompt, game_state=None):
-
         if self.cache:
-            result = self.cacher.retrieve_from_cache(self.seed, [], "story")
-            if result is not None:
-                story_start = story_prompt + result
-                self.story = Story(story_start, seed=self.seed)
-            else:
-                story_start = super().start_new_story(story_prompt)
-                self.story.seed = self.seed
-                self.cacher.cache_file(self.seed, [], story_start, "story")
+            return self.start_new_story_cache(story_prompt, game_state=game_state)
         else:
-            super().start_new_story(story_prompt, game_state=game_state)
+            return self.start_new_story_cache(story_prompt, game_state=game_state)
 
+    def start_new_story_generate(self, story_prompt, game_state=None):
+        super().start_new_story(story_prompt, game_state=game_state)
         self.story.possible_action_results = self.get_action_results()
         return self.story.story_start
+
+    def start_new_story_cache(self, story_prompt, game_state=None):
+
+        response = self.cacher.retrieve_from_cache(self.seed, [], "story")
+        if response is not None:
+            story_start = story_prompt + response
+            self.story = Story(story_start, seed=self.seed)
+            self.story.possible_action_results = self.get_action_results()
+        else:
+            story_start = self.start_new_story_generate(story_prompt, game_state=game_state)
+            self.story.seed = self.seed
+            self.cacher.cache_file(self.seed, [], story_start, "story")
+
+        return story_start
 
     def load_story(self, story, from_json=False):
         story_string = super().load_story(story, from_json=from_json)
@@ -166,30 +174,35 @@ class ConstrainedStoryManager(StoryManager):
         return result, self.get_possible_actions()
 
     def get_action_results(self):
-        return [self.generate_action_result(self.story_context(), phrase) for phrase in self.action_phrases]
+        if self.cache:
+            return self.get_action_results_cache()
+        else:
+            return self.get_action_results_generate()
+
+    def get_action_results_generate(self):
+        action_results = [self.generate_action_result(self.story_context(), phrase) for phrase in self.action_phrases]
+        return action_results
+
+    def get_action_results_cache(self):
+        response = self.cacher.retrieve_from_cache(self.story.seed, self.story.choices, "choices")
+
+        if response is not None:
+            print("Retrieved from cache")
+            return json.loads(response)
+        else:
+            print("Didn't receive from cache")
+            action_results = self.get_action_results_generate()
+            response = json.dumps(action_results)
+            self.cacher.cache_file(self.story.seed, self.story.choices, response, "choices")
+            return action_results
 
     def generate_action_result(self, prompt, phrase, options=None):
-        if self.cache:
-            response = self.cacher.retrieve_from_cache(self.story.seed, self.story.choices, "choices")
-
-            if response is not None:
-                action_results = json.loads(response)
-            else:
-                print("Not found in cache. Generating...")
-                action_results = self.get_action_results()
-                response = json.dumps(action_results)
-                self.cacher.cache_file(self.story.seed, self.story.choices, response, "choices")
-
-        else:
-            
 
         action = phrase + " " + self.generator.generate(prompt + " " + phrase, options)
         action_result = cut_trailing_sentence(action)
         action, result = split_first_sentence(action_result)
-
         return action, result
 
-possible_rooms = ["lobby", "hallway", "parking", "roof", "pharmacy"]
 
 class CTRLStoryManager(ConstrainedStoryManager):
     def __init__(self, generator, action_verbs_key="anything"):
@@ -204,18 +217,17 @@ class CTRLStoryManager(ConstrainedStoryManager):
     def get_constrained_movement_options(self):
         options = {}
         options["word_whitelist"] = dict()
-        options["word_whitelist"][0] = get_possible_verbs(type="movement")
+        options["word_whitelist"][0] = get_ctrl_verbs("movement")
         options["word_whitelist"][1] = ["to"]
         options["word_whitelist"][2] = ["the"]
         options["word_whitelist"][3] = \
-            [room for room in possible_rooms if room is not self.story.game_state["current_room"]]
+            [room for room in get_rooms("haunted_hospital") if room is not self.story.game_state["current_room"]]
         options["word_whitelist"][4] = ["and"]
         options["word_whitelist"][5] = ["see"]
 
         return options, 3
 
-
-    def get_action_results(self):
+    def get_action_results_generate(self):
         results = []
         options, location_pos = self.get_constrained_movement_options()
         for phrase in self.action_phrases:
@@ -225,35 +237,3 @@ class CTRLStoryManager(ConstrainedStoryManager):
 
             results.append(result)
         return results
-
-
-class CachedStoryManager(ConstrainedStoryManager):
-
-    def start_new_story(self, prompt, seed=0):
-
-        result = self.cacher.retrieve_from_cache(seed, [], "story")
-        if result is not None:
-            story_start = prompt + result
-            self.story = Story(story_start, seed=seed)
-        else:
-            story_start = super().start_new_story(prompt)
-            self.story.seed = seed
-            self.cacher.cache_file(seed, [], story_start, "story")
-
-        self.story.possible_action_results = None
-
-        return story_start
-
-    def get_action_results(self):
-
-        response = self.cacher.retrieve_from_cache(self.story.seed, self.story.choices, "choices")
-
-        if response is not None:
-            action_results = json.loads(response)
-        else:
-            print("Not found in cache. Generating...")
-            action_results = super().get_action_results()
-            response = json.dumps(action_results)
-            self.cacher.cache_file(self.story.seed, self.story.choices, response, "choices")
-
-        return action_results
