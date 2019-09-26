@@ -74,9 +74,6 @@ def cut_trailing_sentence(text):
 
 
 def replace_outside_quotes(text, current_word, repl_word):
-
-    current_word = current_word.replace(".", "\.")
-
     reg_expr = re.compile(current_word + '(?=([^"]*"[^"]*")*[^"]*$)')
 
     output = reg_expr.sub(repl_word, text)
@@ -91,10 +88,15 @@ def mapping_variation_pairs(mapping):
     mapping_list = []
     mapping_list.append((" " + mapping[0]+" ", " " + mapping[1]+" "))
     mapping_list.append((" " + capitalize(mapping[0]) + " ", " " + capitalize(mapping[1]) + " "))
+
+    # Change you it's before a punctuation
+    if mapping[0] is "you":
+        mapping = ("you", "me")
     mapping_list.append((" " + mapping[0]+"\,", " " + mapping[1]+"\,"))
-    mapping_list.append((" " + mapping[0]+"\.", " " + mapping[1]+"\."))
     mapping_list.append((" " + mapping[0]+"\?", " " + mapping[1]+"\?"))
     mapping_list.append((" " + mapping[0]+"\!", " " + mapping[1]+"\!"))
+    mapping_list.append((" " + mapping[0] + "\.", " " + mapping[1] + "."))
+
     return mapping_list
 
 
@@ -156,7 +158,7 @@ def second_to_first_person(text):
     return capitalize_first_letters(text[1:])
 
 if __name__ == '__main__':
-    text = "I wake up in an old rundown hospital with no memory of how I got there. I look around and see a man sitting at the end of one bed"
+    text = "You wake up in an old rundown hospital with no memory of how you got there? You look around and see a few people sitting on the floor next to me. "
     print("second version is ")
     second = first_to_second_person(text)
     print(second)
