@@ -8,3 +8,10 @@ action_verbs:
 
   anything: ["You", "You"]
 
+ctrl_verbs:
+  non_movement: ["take", "put", "give", "set", "keep", "help", "show", "pay", "read", "start", "stay", "call",
+                  "change", "ask", "open", "look", "make", "say", "tell", "attack", "use", "fight", "scream", "yell"]
+  movement: ["walk", "go", "run", "move"]
+
+rooms:
+  haunted_hospital: ["lobby", "hallway", "parking", "roof", "pharmacy"]

@@ -20,6 +20,20 @@ def get_action_verbs(key):
     return data_loaded["action_verbs"][key]
 
 
+def get_ctrl_verbs(key):
+    with open(YAML_FILE, 'r') as stream:
+        data_loaded = yaml.safe_load(stream)
+
+    return data_loaded["ctrl_verbs"][key]
+
+
+def get_rooms(key):
+    with open(YAML_FILE, 'r') as stream:
+        data_loaded = yaml.safe_load(stream)
+
+    return data_loaded["rooms"][key]
+
+
 def remove_profanity(text):
     return pf.censor(text)
 
@@ -132,14 +146,3 @@ def second_to_first_person(text):
 
     return capitalize_first_letters(text)
 
-
-possible_verbs = ["take", "put", "give", "set", "keep", "help", "show", "pay", "read", "start", "stay", "call",
-                  "change", "ask", "open", "look", "make", "say", "tell", "attack", "use", "fight", "scream", "yell"]
-
-movement_verbs = ["walk", "go", "run", "move"]
-
-def get_possible_verbs(type=""):
-    if type is "movement":
-        return movement_verbs
-    else:
-        return possible_verbs
