@@ -90,6 +90,35 @@ def play_cached():
 
         console_print(result)
 
+def play_cached_hospital():
+    print("\n")
+    generator = CTRLGenerator()
+    story_start = "haunted"
+    prompt = get_story_start(story_start)
+    story_manager = CTRLStoryManager(generator)
+    story_manager.enable_caching(CRED_FILE, bucket_name="haunted-hospital")
+
+    story_manager.start_new_story(prompt)
+
+    console_print("\n")
+    console_print(str(story_manager.story))
+    possible_actions = story_manager.get_possible_actions()
+    while (True):
+        console_print("\nOptions:")
+        for i, action in enumerate(possible_actions):
+            console_print(str(i) + ") " + action)
+
+        result = None
+        while (result == None):
+            action_choice = input("Which action do you choose? ")
+            if action_choice is "print story":
+                print(story_manager.story)
+                continue
+            print("\n")
+            result, possible_actions = story_manager.act(action_choice)
+
+        console_print(result)
+
 
 if __name__ == '__main__':
     play_unconstrained()

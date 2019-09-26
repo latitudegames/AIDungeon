@@ -298,6 +298,7 @@ class CTRLGenerator():
 
     def generate(self, prompt, options=None):
         prompt = self.prompt_replace(prompt)
+        print("PROMPT: \n", prompt)
 
         if options is None: options = dict()
         if "used_verbs" not in options:
@@ -331,6 +332,5 @@ class CTRLGenerator():
 
             token_num += 1
 
-        print("PROMPT: \n", prompt)
         print("RESULT: \n", result)
         return self.result_replace(result)
