@@ -89,12 +89,12 @@ def capitalize(word):
 
 def mapping_variation_pairs(mapping):
     mapping_list = []
-    mapping_list.append((" " + mapping[0]+" "), (" " + mapping[1]+" "))
-    mapping_list.append((" " + capitalize(mapping[0]) + " "), (" " + capitalize(mapping[1]) + " "))
-    mapping_list.append((" " + mapping[0]+","), (" " + mapping[1]+","))
-    mapping_list.append((" " + mapping[0]+"."), (" " + mapping[1]+"."))
-    mapping_list.append((" " + mapping[0]+"?"), (" " + mapping[1]+"?"))
-    mapping_list.append((" " + mapping[0]+"!"), (" " + mapping[1]+"!"))
+    mapping_list.append((" " + mapping[0]+" ", " " + mapping[1]+" "))
+    mapping_list.append((" " + capitalize(mapping[0]) + " ", " " + capitalize(mapping[1]) + " "))
+    mapping_list.append((" " + mapping[0]+",", " " + mapping[1]+","))
+    mapping_list.append((" " + mapping[0]+".", " " + mapping[1]+"."))
+    mapping_list.append((" " + mapping[0]+"?", " " + mapping[1]+"?"))
+    mapping_list.append((" " + mapping[0]+"!", " " + mapping[1]+"!"))
 
 
 first_to_second_mappings = [
