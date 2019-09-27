@@ -5,6 +5,8 @@ prompts:
 
   forest: "You wake up in an old dark forest with no memory of how you got there. You look around and see "
 
+  vague_police: "You are a police officer. You get to work and "
+
 action_verbs:
   classic: ["You attack", "You tell", "You use", "You go"]
 
