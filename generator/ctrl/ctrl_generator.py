@@ -217,7 +217,7 @@ class CTRLGenerator():
 
         # disallow some tokens
         forbidden_tokens = ['<unk>', 'Sco@@', "&amp@@", "1]@@", "2]@@", "3]@@", "4]@@", "https://www.@@", "[@@", ":@@",
-                            "Edit", "&@@", "2:","1:", ":", "Edit@@", "EDI@@", "EDIT@@", "edit", "TL@@"]
+                            "Edit", "&@@", "2:","1:", ":", "Edit@@", "EDI@@", "EDIT@@", "edit", "TL@@", "tl@@", ";@@", '**']
 
         if num_new_lines > self.max_new_lines:
             forbidden_tokens.append("\n")
