@@ -23,7 +23,7 @@ def console_print(str, pycharm=False):
 def play_unconstrained():
     generator = CTRLGenerator()
     #generator = WebGenerator(CRED_FILE)
-    prompt = get_story_start("forest")
+    prompt = get_story_start("hospital")
     story_manager = UnconstrainedStoryManager(generator)
     story_manager.start_new_story(prompt)
 
