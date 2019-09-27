@@ -3,6 +3,8 @@ prompts:
 
   hospital: "You wake up in an old rundown hospital with no memory of how you got there. You look around and see "
 
+  peasant: "You are a medieval peasant. You just finished the days work in the wheat fields. You get home to your thatched hut and see "
+
   alien: "You've crash landed on an alien planet. You don't know if you can get your ship working. You get out to explore your surroundings and see "
 
 action_verbs:
