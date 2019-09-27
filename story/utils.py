@@ -120,7 +120,7 @@ first_to_second_mappings = [
 
 second_to_first_mappings = [
     ("you're", "I'm"),
-    ("your", "my "),
+    ("your", "my"),
     ("you are", "I am"),
     ("you", "I"),
     ("you", "me"),
