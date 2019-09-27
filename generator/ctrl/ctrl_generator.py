@@ -158,7 +158,7 @@ class CTRLGenerator():
         if prompt[-1] != " ":
             prompt = prompt + " "
 
-        #prompt = second_to_first_person(prompt)
+        prompt = second_to_first_person(prompt)
 
         prompt = self.control_code + prompt
         # print("\n\nAFTER PROMPT_REPLACE")
