@@ -7,7 +7,7 @@ from generator.web.web_generator import *
 from generator.ctrl.ctrl_generator import *
 import tensorflow as tf
 import textwrap
-
+import sys
 CRED_FILE = "./AI-Adventure-2bb65e3a4e2f.json"
 
 # Set the key
@@ -23,7 +23,10 @@ def console_print(str, pycharm=False):
 def play_unconstrained():
     generator = CTRLGenerator()
     #generator = WebGenerator(CRED_FILE)
-    prompt = get_story_start("hospital")
+    if len(sys.argv) is 1:
+        prompt = get_story_start("hospital")
+    else:
+        prompt = sys.argv[1]
     story_manager = UnconstrainedStoryManager(generator)
     story_manager.start_new_story(prompt)
 
