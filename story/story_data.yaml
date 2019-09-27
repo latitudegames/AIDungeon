@@ -3,11 +3,7 @@ prompts:
 
   hospital: "You wake up in an old rundown hospital with no memory of how you got there. You look around and see "
 
-  peasant: "You are a medieval peasant. You just finished the days work in the wheat fields. You get home to your thatched hut and see "
-
-  alien: "You've crash landed on an alien planet. You don't know if you can get your ship working. You get out to explore your surroundings and see "
-
-  fallout: "It's been 13 years since the nuclear bombs went off starting this nuclear apocalypse. You're getting low on food and need to go find some. You leave your shelter and see "
+  forest: "You wake up in an old dark forest with no memory of how you got there. You look around and see "
 
 action_verbs:
   classic: ["You attack", "You tell", "You use", "You go"]
