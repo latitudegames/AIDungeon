@@ -8,7 +8,7 @@ pip install tensorflow-gpu==1.14
 pip install keras
 
 # Patch the TensorFlow estimator package
-FILE="/usr/local/lib/python3.6/dist-packages/tensorflow_estimator/python/estimator/keras.py"
+FILE="/usr/local/lib/python2.7/dist-packages/tensorflow_estimator/python/estimator"
 patch -b "$FILE" estimator.patch
 
 # Install fastBPE
