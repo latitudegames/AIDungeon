@@ -20,7 +20,7 @@ def loss(labels, logits):
 
 class CTRLGenerator():
 
-    def __init__(self, control_code="Writing Text: ", generate_num=80, temperature=0.3):
+    def __init__(self, control_code="Writing Text: ", generate_num=80, temperature=0.2):
 
         self.generate_num=generate_num
         model_dir = "generator/ctrl/model/seqlen256_v1.ckpt/"
@@ -217,7 +217,7 @@ class CTRLGenerator():
 
         # disallow some tokens
         forbidden_tokens = ['<unk>', 'Sco@@', "&amp@@", "1]@@", "2]@@", "3]@@", "4]@@", "https://www.@@", "[@@", ":@@",
-                            "Edit", "&@@", "2:","1:", ":", "Edit@@"]
+                            "Edit", "&@@", "2:","1:", ":", "Edit@@", "EDI@@", "EDIT@@"]
 
         if num_new_lines > self.max_new_lines:
             forbidden_tokens.append("\n")
