@@ -18,6 +18,7 @@ from tensorflow.python.ops import math_ops
 from tensorflow.python.ops import embedding_ops
 import fastBPE
 import platform
+from tensorflow.keras.callbacks import TensorBoard, EarlyStopping
 
 use_py3 = platform.python_version()[0] == '3'
 
