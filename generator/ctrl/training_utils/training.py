@@ -85,7 +85,7 @@ with tf.device('/gpu:0'):
         def __init__(self, vocab_size=vocab_size, embedding_size=embedding_dim, **kwargs):
             super(TiedEmbeddingSoftmax, self).__init__()
             self.w = self.add_weight(name='w', shape=(vocab_size, embedding_size),
-                                     initializer='random_normal',
+                                     initializer='random_uniform',
                                      trainable=True)
             self.b = self.add_weight(name='b', shape=(vocab_size,),
                                      initializer='zeros',
