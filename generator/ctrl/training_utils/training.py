@@ -78,7 +78,6 @@ def input_fn(params=None):
 
     return train_data
 
-
 # the dimension of the transformer
 embedding_dim = 1280
 
@@ -166,7 +165,9 @@ run_config = tf.contrib.tpu.RunConfig(
                                         input_partition_dims=[[1, 1], [1, 1]], per_host_input_for_training=3))
 tf.logging.set_verbosity(tf.logging.INFO)
 
-tf.global_variables_initializer()
-estimator_model = tf.keras.estimator.model_to_estimator(keras_model=model, config=run_config)
+model.fit(input_fn(), epochs=1)
 
-estimator_model.train(input_fn=input_fn, steps=args.iterations)
+
+# estimator_model = tf.keras.estimator.model_to_estimator(keras_model=model, config=run_config)
+#
+# estimator_model.train(input_fn=input_fn, steps=args.iterations)
