@@ -102,7 +102,7 @@ with tf.device('/gpu:0'):
 
 
     # input for the keras model
-    tokens = tf.keras.layers.Input(shape=(seq_length,), dtype='int32')
+    tokens = tf.keras.layers.Input(shape=(seq_length,), dtype='float32')
 
 
     tied_embedding_softmax = TiedEmbeddingSoftmax()
