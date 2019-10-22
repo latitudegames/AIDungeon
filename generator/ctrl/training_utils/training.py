@@ -152,7 +152,7 @@ run_config = tf.contrib.tpu.RunConfig(
 # this step is critical
 # remember to patch the TF 1.14 file before running the code, else you're going to see errors here
 
-run_config = tf.contrib.tpu.RunConfig(
+run_config = tf.estimator.RunConfig(
         model_dir=args.model_dir,
         session_config=tf.ConfigProto(allow_soft_placement=True, log_device_placement=True))
 tf.logging.set_verbosity(tf.logging.INFO)
