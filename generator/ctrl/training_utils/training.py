@@ -18,7 +18,6 @@ from tensorflow.python.ops import math_ops
 from tensorflow.python.ops import embedding_ops
 import fastBPE
 import platform
-from tensorflow.keras.callbacks import TensorBoard, EarlyStopping
 
 use_py3 = platform.python_version()[0] == '3'
 
@@ -72,11 +71,11 @@ def input_fn(params=None):
         blah = tf.io.parse_single_example(example_proto, myfeatures)
         return blah['input'], blah['output']
 
-    train_data = tf_data.map(_parse_text_function).batch(params['batch_size'],
-                                                         drop_remainder=True).repeat().shuffle(
+    train_data = tf_data.map(_parse_text_function).batch(params['batch_size'], drop_remainder=True).repeat().shuffle(
         10000)  # .prefetch(tf.contrib.data.AUTOTUNE)
 
     return train_data
+
 
 # the dimension of the transformer
 embedding_dim = 1280
@@ -111,7 +110,6 @@ class TiedEmbeddingSoftmax(tf.keras.layers.Layer):
 
 # input for the keras model
 tokens = tf.keras.layers.Input(shape=(seq_length,), dtype='int32')
-
 
 # instantiates a tied softmax class
 tied_embedding_softmax = TiedEmbeddingSoftmax()
@@ -165,10 +163,7 @@ run_config = tf.contrib.tpu.RunConfig(
                                         input_partition_dims=[[1, 1], [1, 1]], per_host_input_for_training=3))
 tf.logging.set_verbosity(tf.logging.INFO)
 
-params = {"batch_size": 2}
-model.fit(input_fn(params=params), steps_per_epoch=1000, epochs=1)
+estimator_model = tf.keras.estimator.model_to_estimator(keras_model=model, config=run_config)
 
+estimator_model.train(input_fn=input_fn, steps=args.iterations)
 
-# estimator_model = tf.keras.estimator.model_to_estimator(keras_model=model, config=run_config)
-#
-# estimator_model.train(input_fn=input_fn, steps=args.iterations)
