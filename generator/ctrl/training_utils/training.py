@@ -48,7 +48,6 @@ vocab_size = len(vocab)
 word2idx = {u:i for i, u in enumerate(vocab)}
 idx2word = np.array(vocab)
 
-
 # sequence length to use for the transformer
 # must match the model being fine-tuned
 seq_length = args.sequence_len
@@ -70,7 +69,6 @@ def input_fn(params=None):
     train_data = tf_data.map(_parse_text_function).batch(params['batch_size'], drop_remainder=True).repeat().shuffle(10000)#.prefetch(tf.contrib.data.AUTOTUNE)
     
     return train_data
-
 
 # the dimension of the transformer
 embedding_dim = 1280
@@ -104,10 +102,11 @@ class TiedEmbeddingSoftmax(tf.keras.layers.Layer):
 tokens = tf.keras.layers.Input(shape=(seq_length,), dtype='int32')
 
 # instantiates a tied softmax class
-tied_embedding_softmax = TiedEmbeddingSoftmax()
-
-# embedded tokens, before passing it to the transformer
-embedded = tied_embedding_softmax(tokens, embed=True)
+with tf.device('/cpu:0'):
+    tied_embedding_softmax = TiedEmbeddingSoftmax()
+    
+    # embedded tokens, before passing it to the transformer
+    embedded = tied_embedding_softmax(tokens, embed=True)
 
 # the activations after passing it from the transformer
 # for some odd reason, TPUs don't play well with specifying the arguments of the Encoder() function
@@ -124,7 +123,6 @@ logits = tied_embedding_softmax(transformed, embed=False)
 # finally, define the Keras model with inputs as tokens and outputs as the logits we just computed
 model = tf.keras.Model(inputs=tokens, outputs=logits)
 
-
 # the loss function is a simple categorical crossentropy between the logits and the labels
 def loss(labels, logits):
     return tf.keras.losses.sparse_categorical_crossentropy(labels, logits, from_logits=True)
@@ -134,19 +132,9 @@ def loss(labels, logits):
 optimizer = tf.contrib.estimator.clip_gradients_by_norm(
         tf.train.AdagradOptimizer(learning_rate=1e-2), 0.25)
 
-
 # compile the model with the optimizer and loss            
 model.compile(optimizer=optimizer, loss=loss)
 print(model.summary())
-
-
-# IMPORTANT
-# this is where the saved model is presented to the code
-# the model directory should have the model checkpoint and
-# a checkpoint file
-run_config = tf.estimator.RunConfig(
-        model_dir=args.model_dir)
-
 
 # this converts the Keras model to a TensorFlow estimator
 # this step is critical
