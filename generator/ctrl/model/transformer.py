@@ -100,8 +100,6 @@ class EncoderLayer(tf.keras.layers.Layer):
     return out2
 
 
-
-
 class Encoder(tf.keras.layers.Layer):
   def __init__(self, num_layers=48, d_model_size=1280, num_heads=16, dff=8192, input_vocab_size=50000,
                rate=0.1, **kwargs):
