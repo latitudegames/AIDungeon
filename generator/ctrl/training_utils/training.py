@@ -152,7 +152,6 @@ print(model.summary())
 # this is where the saved model is presented to the code
 # the model directory should have the model checkpoint and
 # a checkpoint file
-tf.global_variables_initializer()
 run_config = tf.contrib.tpu.RunConfig(
     model_dir=args.model_dir)
 
@@ -167,6 +166,7 @@ run_config = tf.contrib.tpu.RunConfig(
                                         input_partition_dims=[[1, 1], [1, 1]], per_host_input_for_training=3))
 tf.logging.set_verbosity(tf.logging.INFO)
 
+tf.global_variables_initializer()
 estimator_model = tf.keras.estimator.model_to_estimator(keras_model=model, config=run_config)
 
 estimator_model.train(input_fn=input_fn, steps=args.iterations)
