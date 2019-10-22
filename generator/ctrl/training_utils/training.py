@@ -152,6 +152,7 @@ print(model.summary())
 # this is where the saved model is presented to the code
 # the model directory should have the model checkpoint and
 # a checkpoint file
+tf.global_variables_initializer()
 run_config = tf.contrib.tpu.RunConfig(
     model_dir=args.model_dir)
 
