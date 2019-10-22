@@ -5,7 +5,7 @@ sys.path.append('../')
 import tensorflow as tf
 import os
 import numpy as np
-tf.enable_eager_execution()
+tf.enable_eager_execution(config=tf.ConfigProto(allow_soft_placement=True, log_device_placement=True))
 import transformer
 import argparse
 import pdb
