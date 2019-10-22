@@ -49,7 +49,6 @@ word2idx = {u:i for i, u in enumerate(vocab)}
 idx2word = np.array(vocab)
 
 
-
 # sequence length to use for the transformer
 # must match the model being fine-tuned
 seq_length = args.sequence_len
@@ -155,8 +154,7 @@ run_config = tf.contrib.tpu.RunConfig(
 
 run_config = tf.contrib.tpu.RunConfig(
         model_dir=args.model_dir,
-        session_config=tf.ConfigProto(allow_soft_placement=True, log_device_placement=True),
-        tpu_config=tf.contrib.tpu.TPUConfig(iterations_per_loop=100, num_cores_per_replica=1, input_partition_dims=[[1, 1], [1, 1]], per_host_input_for_training=3))
+        session_config=tf.ConfigProto(allow_soft_placement=True, log_device_placement=True))
 tf.logging.set_verbosity(tf.logging.INFO)
 
 estimator_model = tf.keras.estimator.model_to_estimator(keras_model=model, config=run_config)
