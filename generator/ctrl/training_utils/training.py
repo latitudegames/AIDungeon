@@ -165,7 +165,8 @@ run_config = tf.contrib.tpu.RunConfig(
                                         input_partition_dims=[[1, 1], [1, 1]], per_host_input_for_training=3))
 tf.logging.set_verbosity(tf.logging.INFO)
 
-model.fit(input_fn(), epochs=1)
+params = {"batch_size": 2}
+model.fit(input_fn(params=params), epochs=1)
 
 
 # estimator_model = tf.keras.estimator.model_to_estimator(keras_model=model, config=run_config)
