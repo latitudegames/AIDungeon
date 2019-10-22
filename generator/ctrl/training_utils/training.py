@@ -94,8 +94,8 @@ with tf.device('/gpu:0'):
         def call(self, inputs, embed=True):
             if embed:
                 dtype = tf.keras.backend.dtype(inputs)
-                if dtype != 'int32' and dtype != 'int64':
-                    inputs = math_ops.cast(inputs, 'int32')
+                # if dtype != 'int32' and dtype != 'int64':
+                #     inputs = math_ops.cast(inputs, 'int32')
                 return embedding_ops.embedding_lookup(self.w, inputs)
             else:
                 return tf.tensordot(inputs, tf.transpose(self.w), 1) + self.b
