@@ -144,7 +144,7 @@ print(model.summary())
 # this is where the saved model is presented to the code
 # the model directory should have the model checkpoint and
 # a checkpoint file
-run_config = tf.contrib.tpu.RunConfig(
+run_config = tf.estimator.RunConfig(
         model_dir=args.model_dir)
 
 
