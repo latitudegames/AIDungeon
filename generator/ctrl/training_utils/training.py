@@ -75,7 +75,7 @@ embedding_dim = 1280
 
 
 # instantiates a tied softmax class
-with tf.device('/cpu:0'):
+with tf.device('/gpu:0'):
     # Now, we begin defining the model
     # we defer the transformer definition to transformer.py
     # here, we only define the tied softmax layer
