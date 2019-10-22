@@ -75,7 +75,7 @@ embedding_dim = 1280
 
 
 # instantiates a tied softmax class
-with tf.device('/gpu:0'):
+with tf.device('/cpu:0'):
     # Now, we begin defining the model
     # we defer the transformer definition to transformer.py
     # here, we only define the tied softmax layer
@@ -83,26 +83,28 @@ with tf.device('/gpu:0'):
     class TiedEmbeddingSoftmax(tf.keras.layers.Layer):
 
         def __init__(self, vocab_size=vocab_size, embedding_size=embedding_dim, **kwargs):
-            super(TiedEmbeddingSoftmax, self).__init__()
-            self.w = self.add_weight(name='w', shape=(vocab_size, embedding_size),
-                                     initializer='random_uniform',
-                                     trainable=True)
-            self.b = self.add_weight(name='b', shape=(vocab_size,),
-                                     initializer='zeros',
-                                     trainable=True)
+            with tf.device('/cpu:0'):
+                super(TiedEmbeddingSoftmax, self).__init__()
+                self.w = self.add_weight(name='w', shape=(vocab_size, embedding_size),
+                                         initializer='random_uniform',
+                                         trainable=True)
+                self.b = self.add_weight(name='b', shape=(vocab_size,),
+                                         initializer='zeros',
+                                         trainable=True)
 
         def call(self, inputs, embed=True):
-            if embed:
-                dtype = tf.keras.backend.dtype(inputs)
-                # if dtype != 'int32' and dtype != 'int64':
-                #     inputs = math_ops.cast(inputs, 'int32')
-                return embedding_ops.embedding_lookup(self.w, inputs)
-            else:
-                return tf.tensordot(inputs, tf.transpose(self.w), 1) + self.b
+            with tf.device('/cpu:0'):
+                if embed:
+                    dtype = tf.keras.backend.dtype(inputs)
+                    if dtype != 'int32' and dtype != 'int64':
+                        inputs = math_ops.cast(inputs, 'int32')
+                    return embedding_ops.embedding_lookup(self.w, inputs)
+                else:
+                    return tf.tensordot(inputs, tf.transpose(self.w), 1) + self.b
 
 
     # input for the keras model
-    tokens = tf.keras.layers.Input(shape=(seq_length,), dtype='float32')
+    tokens = tf.keras.layers.Input(shape=(seq_length,), dtype='int32')
 
 
     tied_embedding_softmax = TiedEmbeddingSoftmax()
@@ -119,7 +121,8 @@ transformed = transformer.Encoder()(embedded, training=True)
 # pass the activations from our tiedsoftmax class
 # this time with embed=False denoting that we are doing the softmax operation
 # and not a lookup
-logits = tied_embedding_softmax(transformed, embed=False)
+with tf.device('/cpu:0'):
+    logits = tied_embedding_softmax(transformed, embed=False)
 
 
 # finally, define the Keras model with inputs as tokens and outputs as the logits we just computed
