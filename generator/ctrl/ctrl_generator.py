@@ -20,7 +20,7 @@ def loss(labels, logits):
 
 class CTRLGenerator():
 
-    def __init__(self, control_code="Fantasy ", generate_num=64, temperature=0.3, topk=40):
+    def __init__(self, control_code="Fantasy ", generate_num=64, temperature=0.3, topk=0, nucleus_prob = 0.9):
 
         self.generate_num=generate_num
         model_dir = "generator/ctrl/training_utils/seqlen256_v1.ckpt/"
@@ -134,7 +134,7 @@ class CTRLGenerator():
         self.bpe = fastBPE.fastBPE(code_file, vocab_file)
 
         self.temperature=temperature
-        self.nucleusprob = 0
+        self.nucleusprob = nucleus_prob
         self.penalty = 1.2
         self.topk=topk
 
