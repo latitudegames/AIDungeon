@@ -4,11 +4,8 @@ cd model
 # Cython is needed to compile fastBPE
 pip install Cython
 
-pip install tensorflow-gpu==1.14
-pip install keras
-
 # Patch the TensorFlow estimator package
-FILE="/usr/local/lib/python2.7/dist-packages/tensorflow_estimator/python/estimator"
+export FILE="/usr/local/lib/python2.7/dist-packages/tensorflow_estimator/python/estimator/keras.py"
 patch -b "$FILE" estimator.patch
 
 # Install fastBPE

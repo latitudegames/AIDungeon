@@ -23,7 +23,7 @@ class CTRLGenerator():
     def __init__(self, control_code="Writing Text: ", generate_num=64, temperature=0.5, topk=40):
 
         self.generate_num=generate_num
-        model_dir = "generator/ctrl/model/seqlen512_v1.ckpt/"
+        model_dir = "generator/ctrl/training_utils/seqlen512_v1.ckpt/"
         self.control_code = control_code
         vocab_file = 'generator/ctrl/model/vocab'
         code_file = 'generator/ctrl/model/codes'
