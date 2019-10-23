@@ -1,3 +1,4 @@
+# coding: utf-8
 import re
 import yaml
 
@@ -104,6 +105,8 @@ def mapping_variation_pairs(mapping):
 
 first_to_second_mappings = [
     ("I'm", "you're"),
+    ("Im", "you're"),
+    ("Ive", "you've"),
     ("I am", "you are"),
     ("I", "you"),
     ("I've", "you've"),
