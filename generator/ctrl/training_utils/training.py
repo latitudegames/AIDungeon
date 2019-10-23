@@ -134,8 +134,10 @@ model = tf.keras.Model(inputs=tokens, outputs=logits)
 # the loss function is a simple categorical crossentropy between the logits and the labels
 def loss(labels, logits):
     loss = tf.keras.losses.sparse_categorical_crossentropy(labels, logits, from_logits=True)
-    loss = tf.Print(loss, [loss])
-    return loss
+    sum = tf.math.reduce_sum(loss)
+    print_op = tf.Print(sum, [sum])
+    with tf.control_dependencies([print_op]):
+        return loss
 
 
 # the optimizer is not used since this code only supports inference
