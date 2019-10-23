@@ -24,7 +24,7 @@ def play_unconstrained():
     generator = CTRLGenerator()
     #generator = WebGenerator(CRED_FILE)
     if len(sys.argv) is 1:
-        prompt = get_story_start("hospital")
+        prompt = get_story_start("forest")
     else:
         prompt = sys.argv[1]
     story_manager = UnconstrainedStoryManager(generator)
