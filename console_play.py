@@ -45,11 +45,11 @@ def play_unconstrained():
 
 def play_constrained():
     print("\n")
-    generator = WebGenerator(CRED_FILE)
-    #generator = CTRLGenerator()
-    story_start = "haunted"
+    #generator = WebGenerator(CRED_FILE)
+    generator = CTRLGenerator()
+    story_start = "forest"
     prompt = get_story_start(story_start)
-    story_manager = CTRLStoryManager(generator)
+    story_manager = ConstrainedStoryManager(generator)
     story_manager.start_new_story(prompt)
 
     console_print("\n")
@@ -125,7 +125,7 @@ def play_cached_hospital():
 
 
 if __name__ == '__main__':
-    play_unconstrained()
+    play_constrained()
 
 
 
