@@ -13,7 +13,7 @@ app = Flask(__name__)
 app.secret_key = '#d\xe0\xd1\xfb\xee\xa4\xbb\xd0\xf0/e)\xb5g\xdd<`\xc7\xa5\xb0-\xb8d0S'
 CRED_FILE = "./AI-Adventure-2bb65e3a4e2f.json"
 generator = WebGenerator(CRED_FILE)
-story_manager = CachedStoryManager(generator, CRED_FILE)
+story_manager = ConstrainedStoryManager(generator)
 
 def get_response_string(story_text, possible_actions):
     string_list = ["\n\n", story_text, "\n\nOptions:" + "\n"]
@@ -38,6 +38,7 @@ def generate():
     if "story" not in session or session["story"] is None:
         print("Starting new story")
         seed = np.random.randint(100)
+        story_manager.enable_caching(credentials_file=CRED_FILE, seed=seed, bucket_name="dungeon-cache")
         prompt = get_story_start("classic")
         story_manager.start_new_story(prompt, seed)
         possible_actions = story_manager.get_possible_actions()
