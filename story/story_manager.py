@@ -124,7 +124,7 @@ class ConstrainedStoryManager(StoryManager):
         if self.cache:
             return self.start_new_story_cache(story_prompt, game_state=game_state)
         else:
-            return self.start_new_story(story_prompt, game_state=game_state)
+            return super().start_new_story(story_prompt, game_state=game_state)
 
     def start_new_story_generate(self, story_prompt, game_state=None):
         super().start_new_story(story_prompt, game_state=game_state)
