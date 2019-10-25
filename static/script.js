@@ -69,10 +69,10 @@ var Typer={
         evt = evt || window.event
         var charCode = evt.keyCode || evt.which
         if(charCode == 8){
-            if(inputStr.length > 0){
-                console.log(inputStr)
-                inputStr = inputStr.substring(0, inputStr.length-1)
-                console.log(inputStr)
+            if(Typer.inputStr.length > 0){
+                console.log(Typer.inputStr)
+                Typer.inputStr = Typer.inputStr.substring(0, Typer.inputStr.length-1)
+                console.log(Typer.inputStr)
                 Typer.removeChar()
             }
         }
@@ -97,6 +97,8 @@ var Typer={
         }
     },
 }
+
+
 
 function onButtonClick(num){
 

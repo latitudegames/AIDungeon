@@ -12,7 +12,6 @@ import numpy as np
 app = Flask(__name__)
 app.secret_key = '#d\xe0\xd1\xfb\xee\xa4\xbb\xd0\xf0/e)\xb5g\xdd<`\xc7\xa5\xb0-\xb8d0S'
 CRED_FILE = "./AI-Adventure-2bb65e3a4e2f.json"
-story = Story("")
 
 # Bread and butter of app, updates story and returns based on choice
 @app.route('/generate', methods=['POST'])
@@ -27,14 +26,15 @@ def generate():
     # If there is a story in session continue from it.
     elif "story" not in session or session["story"] is None:
         story_start = session["prompt"] + action
-        story.story_start = story_start
+        story = Story(story_start)
 
         session["story"] = story.to_json()
         response = "Enter the action then two newlines then the result:\n\n> "
 
     else:
+        story = Story("")
         story = story.initialize_from_json(session["story"])
-        action, result = action.split("\n")
+        action_result = action.split("\n")
         story.add_to_story(action, result)
         session["story"] = story.to_json()
 
