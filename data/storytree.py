@@ -135,6 +135,15 @@ def load_tree(filename):
         tree = json.load(fp)
     return tree
 
+def load_forest(forest_name):
+
+    files = os.listdir("./" + forest_name)
+    forest = []
+    for file in files:
+        forest.append(load_tree("./" + forest_name + "/" + file))
+    return forest
+
+
 def csv_to_dict(file):
     update_dict = {}
     field_names = []
@@ -154,29 +163,53 @@ def csv_to_dict(file):
     return update_dict
 
 
-def update_tree(tree_file, update_file, type="action"):
-    # TODO need to write this and figure out batch files more clearly
-    # Batches should keep track of paths so it's easier to go back in and update them.
-
+def update_forest_with_results(forest_name, update_file):
     update_dict = csv_to_dict(update_file)
+    tree_dict = {}
+    tree_filenames = os.listdir("./" + forest_name)
 
-    print("done")
+    for file_name in tree_filenames:
+        tree = load_tree("./" + forest_name + "/" + file_name)
+        tree_dict[tree["tree_id"]] = tree
+
+    for i in range(len(update_dict["Input.tree_id"])):
+        tree = tree_dict[update_dict["Input.tree_id"][i]]
+        current_action_results = tree
+        for choice in update_dict["Input.path"][i]:
+            choice_num = int(choice)
+            current_action_results = current_action_results["action_results"][choice_num]
+
+        current_action_results["result"] = update_dict["Answer.result"][i]
+
+    return tree_dict.values()
+
+def update_forest_with_actions(forest_name, update_file):
+    update_dict = csv_to_dict(update_file)
+    tree_dict = {}
+    tree_filenames = os.listdir("./" + forest_name)
+
+    for file_name in tree_filenames:
+        tree = load_tree("./" + forest_name + "/" + file_name)
+        tree_dict[tree["tree_id"]] = tree
+
+    for i in range(len(update_dict["Input.tree_id"])):
+        tree = tree_dict[update_dict["Input.tree_id"][i]]
+        current_action_results = tree
+        for choice in update_dict["Input.path"][i]:
+            choice_num = int(choice)
+            current_action_results = current_action_results["action_results"][choice_num]
 
 
-# tree = dungeon_data_to_tree("./data_nick_1.csv")
-# tree["context"] = "The world has ended. The cities are in ruin and few people are left alive."
-# make_write_results_batch(tree, "batch.csv")
+        current_action_results["action_results"].append(
+            {"action": update_dict["Answer.action_1"][i] ,"result": None , "action_results":[]})
+        current_action_results["action_results"].append(
+            {"action": update_dict["Answer.action_2"][i], "result": None, "action_results": []})
+
+    return tree_dict.values()
+
 #
-# save_tree(tree, "tree_data.json")
-# data = load_tree("tree_data.json")
-# tree = dungeon_data_to_tree("./manual_data.csv")
-# tree["context"] = "The world has ended. The cities are in ruin and few people are left alive."
-# make_write_actions_batch(tree, "actions_batch.csv")
-# make_write_results_batch(tree, "results_batch.csv")
-
-forest = data_to_forest("./ai_dungeon_seed.csv")
-save_forest(forest, "seed_forest_1")
-make_write_actions_batch(forest, "actions_batch.csv")
-make_write_results_batch(forest, "results_batch.csv")
+new_forest = update_forest_with_actions("seed_forest_1.1", "./mech_turk_actions1.csv")
+save_forest(new_forest, "seed_forest_1.2")
+make_write_results_batch(new_forest, "results_batch.csv")
 
 print("Done")
