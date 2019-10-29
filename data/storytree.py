@@ -207,18 +207,18 @@ def update_forest_with_actions(forest_name, update_file):
 
     return tree_dict.values()
 
-old_forest_name = "seed_forest_1.2"
-new_forest_name = "seed_forest_1.3"
-update_type = "results"
-update_file = "mech_turk_" + update_type + "2.csv"
+old_forest_name = "seed_forest_1.3"
+new_forest_name = "seed_forest_1.4"
+update_type = "actions"
+update_file = "mech_turk_" + update_type + "3.csv"
 
 if update_type is "results":
     new_forest = update_forest_with_results(old_forest_name, update_file)
     save_forest(new_forest, new_forest_name)
-    make_write_actions_batch(new_forest, "actions_batch2.csv")
+    make_write_actions_batch(new_forest, "actions_batch4.csv")
 else:
     new_forest = update_forest_with_actions(old_forest_name, update_file)
     save_forest(new_forest, new_forest_name)
-    make_write_results_batch(new_forest, "results_batch2.csv")
+    make_write_results_batch(new_forest, "results_batch3.csv")
 
 print("Done")
