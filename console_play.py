@@ -122,7 +122,7 @@ def play_cached_hospital():
 
 
 if __name__ == '__main__':
-    play_constrained()
+    play_unconstrained()
 
 
 
