@@ -7,6 +7,8 @@ prompts:
 
   vague_police: "You are a police officer. You get to work and "
 
+  apocalypse: "You walk for two hours and take a break. You've left the town you were in and are now in a more rural area. There's a building to your right and you see"
+
 action_verbs:
   classic: ["You attack", "You tell", "You use", "You go"]
 
@@ -19,3 +21,6 @@ ctrl_verbs:
 
 rooms:
   haunted_hospital: ["lobby", "hallway", "parking", "roof", "pharmacy"]
+
+contexts:
+  apocalypse: "Long ago the bombs fell and the world ended. You are one of the few who is still alive. You are trying to survive by scavenging among the ruins of what is left behind."

@@ -20,7 +20,7 @@ def loss(labels, logits):
 
 class CTRLGenerator():
 
-    def __init__(self, control_code="Fantasy ", generate_num=100, temperature=0.5, topk=40, nucleus_prob=0):
+    def __init__(self, control_code="Writing Text:", generate_num=60, temperature=0.5, topk=40, nucleus_prob=0):
 
         self.generate_num=generate_num
         model_dir = "generator/ctrl/training_utils/seqlen256_v1.ckpt/"
@@ -158,7 +158,7 @@ class CTRLGenerator():
         if prompt[-1] != " ":
             prompt = prompt + " "
 
-        prompt = second_to_first_person(prompt)
+        #prompt = second_to_first_person(prompt)
 
         prompt = self.control_code + prompt
         # print("\n\nAFTER PROMPT_REPLACE")
@@ -172,7 +172,7 @@ class CTRLGenerator():
         first_letter_capitalized = result[0].isupper()
         result = result.replace("#", "")
         result = result.replace("*", "")
-        result = first_to_second_person(result)
+        #result = first_to_second_person(result)
         result = remove_profanity(result)
 
         if not first_letter_capitalized:
@@ -219,7 +219,7 @@ class CTRLGenerator():
         forbidden_tokens = ['<unk>', 'Sco@@', "&amp@@", "1]@@", "2]@@", "3]@@", "4]@@", "https://www.@@", "[@@", ":@@",
                             "Edit", "&@@", "2:","1:", ":", "Edit@@", "EDI@@", "EDIT@@", "edit", "TL@@", "tl@@", ";@@",
                             '**', "http://@@", "Redd@@", "UP@@", "mom", "Up@@", "Me:", "Update", "mom@@", "Part",
-                            "http://www.@@", "edit@@", "*@@"]
+                            "http://www.@@", "edit@@", "*@@", "\n", "Writing", "Text@@"]
 
         if num_new_lines > self.max_new_lines:
             forbidden_tokens.append("\n")
