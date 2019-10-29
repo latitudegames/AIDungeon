@@ -20,7 +20,7 @@ def make_samples_helper(context, story_block, action_results, path, tree_id):
         new_path = path[:]
         new_path.append(i)
         if action_result["result"] is not None:
-            sample = [context, story_block, "action:", action_result["action"], "result:", action_result["result"]]
+            sample = [context, story_block, action_result["action"], action_result["result"]]
             samples.append(sample)
         if len(action_result["action_results"]) is not 0:
             sub_result = make_samples_helper(context, action_result["result"], action_result["action_results"], new_path, tree_id)
@@ -43,8 +43,8 @@ def build_tokenized_samples(bpe, tree):
     for sample in samples:
         sample = [string.strip() for string in sample]
 
-        sample[3] = sample[3][0].lower() + sample[3][1:]
-        sample[3] = "You " + sample[3]
+        sample[2] = sample[2][0].lower() + sample[2][1:]
+        sample[2] = "You " + sample[2]
         string_samples.append(" ".join(sample))
 
     tokenized_samples = [bpe.apply([sample.encode('ascii', errors='ignore') if not use_py3 else sample])[0] for sample in
