@@ -23,4 +23,4 @@ rooms:
   haunted_hospital: ["lobby", "hallway", "parking", "roof", "pharmacy"]
 
 contexts:
-  apocalypse: "Long ago the bombs fell and the world ended. You are one of the few who is still alive. You are trying to survive by scavenging among the ruins of what is left behind."
+  apocalypse: "Long ago the bombs fell and the world ended. You are one of the few who is still alive. You are trying to survive by scavenging among the ruins of what is left behind. "
