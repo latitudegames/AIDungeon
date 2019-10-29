@@ -50,8 +50,6 @@ def play_constrained():
     story_manager = ConstrainedStoryManager(generator)
     story_manager.start_new_story(prompt, context=context)
 
-    console_print("\n")
-    console_print(str(story_manager.story))
     possible_actions = story_manager.get_possible_actions()
     while (True):
         console_print("\nOptions:")
