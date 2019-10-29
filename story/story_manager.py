@@ -110,7 +110,7 @@ class UnconstrainedStoryManager(StoryManager):
 
 class ConstrainedStoryManager(StoryManager):
 
-    def __init__(self, generator, action_verbs_key="classic"):
+    def __init__(self, generator, action_verbs_key="anything"):
         super().__init__(generator)
         self.action_phrases = get_action_verbs(action_verbs_key)
         self.cache = False
