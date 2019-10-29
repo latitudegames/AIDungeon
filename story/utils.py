@@ -11,7 +11,7 @@ def get_context(key):
     with open(YAML_FILE, 'r') as stream:
         data_loaded = yaml.safe_load(stream)
 
-    return data_loaded["context"][key]
+    return data_loaded["contexts"][key]
 
 def get_story_start(key):
     with open(YAML_FILE, 'r') as stream:
