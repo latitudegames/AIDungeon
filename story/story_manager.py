@@ -207,35 +207,14 @@ class ConstrainedStoryManager(StoryManager):
 
 
 class CTRLStoryManager(ConstrainedStoryManager):
-    def __init__(self, generator, action_verbs_key="anything"):
-        super().__init__(generator, action_verbs_key)
-
-    def start_new_story(self, story_prompt, game_state=None):
-        game_state = {"current_room": "lobby"}
-        super().start_new_story(story_prompt, game_state=game_state)
-
-        return self.story.story_start
-
-    def get_constrained_movement_options(self):
-        options = {}
-        options["word_whitelist"] = dict()
-        options["word_whitelist"][0] = get_ctrl_verbs("movement")
-        options["word_whitelist"][1] = ["to"]
-        options["word_whitelist"][2] = ["the"]
-        options["word_whitelist"][3] = \
-            [room for room in get_rooms("haunted_hospital") if room is not self.story.game_state["current_room"]]
-        options["word_whitelist"][4] = ["and"]
-        options["word_whitelist"][5] = ["see"]
-
-        return options, 3
 
     def get_action_results_generate(self):
         results = []
-        options, location_pos = self.get_constrained_movement_options()
+        options = {}
         for phrase in self.action_phrases:
             result = self.generate_action_result(self.story_context(), phrase, options=options)
-            location = result[0].split()[location_pos+1]
-            options["word_whitelist"][location_pos].remove(location)
-
+            action_verb = result[0].split()
+            print("blacklisted verb is ", action_verb)
+            options["word_blacklist"].append(action_verb)
             results.append(result)
         return results
