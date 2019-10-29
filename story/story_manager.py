@@ -210,11 +210,11 @@ class CTRLStoryManager(ConstrainedStoryManager):
 
     def get_action_results_generate(self):
         results = []
-        options = {"word_blacklist":[]}
+        options = {"word_blacklist": {0:[]}}
         for phrase in self.action_phrases:
             result = self.generate_action_result(self.story_context(), phrase, options=options)
             action_verb = result[0].split()
             print("blacklisted verb is ", action_verb)
-            options["word_blacklist"].append(action_verb)
+            options["word_blacklist"][0].append(action_verb)
             results.append(result)
         return results
