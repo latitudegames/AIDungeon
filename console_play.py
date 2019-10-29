@@ -45,10 +45,10 @@ def play_constrained():
     print("\n")
     #generator = WebGenerator(CRED_FILE)
     generator = CTRLGenerator()
-    story_start = "forest"
-    prompt = get_story_start(story_start)
+    prompt = get_story_start("apocalypse")
+    context = get_context("apocalypse")
     story_manager = ConstrainedStoryManager(generator)
-    story_manager.start_new_story(prompt)
+    story_manager.start_new_story(prompt, context=context)
 
     console_print("\n")
     console_print(str(story_manager.story))

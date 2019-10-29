@@ -122,11 +122,11 @@ class ConstrainedStoryManager(StoryManager):
         self.cacher = Cacher(credentials_file, bucket_name)
         self.seed = seed
 
-    def start_new_story(self, story_prompt, game_state=None):
+    def start_new_story(self, story_prompt, context="", game_state=None):
         if self.cache:
             return self.start_new_story_cache(story_prompt, game_state=game_state)
         else:
-            return super().start_new_story(story_prompt, game_state=game_state)
+            return super().start_new_story(story_prompt, context=context, game_state=game_state)
 
     def start_new_story_generate(self, story_prompt, game_state=None):
         super().start_new_story(story_prompt, game_state=game_state)
