@@ -42,7 +42,7 @@ class Story():
 
     def latest_result(self):
         if len(self.results) >= 2:
-            return self.context + self.results[-1] + self.actions[-1] + self.results[-1]
+            return self.context + self.results[-2] + self.actions[-1] + self.results[-1]
         elif len(self.results) >= 1:
             return self.context + self.actions[-1] + self.results[-1]
         else:
