@@ -201,15 +201,24 @@ def update_forest_with_actions(forest_name, update_file):
 
 
         current_action_results["action_results"].append(
-            {"action": update_dict["Answer.action_1"][i] ,"result": None , "action_results":[]})
+            {"action": update_dict["Answer.action_1"][i], "result": None , "action_results":[]})
         current_action_results["action_results"].append(
             {"action": update_dict["Answer.action_2"][i], "result": None, "action_results": []})
 
     return tree_dict.values()
 
-#
-new_forest = update_forest_with_actions("seed_forest_1.1", "./mech_turk_actions1.csv")
-save_forest(new_forest, "seed_forest_1.2")
-make_write_results_batch(new_forest, "results_batch.csv")
+old_forest_name = "seed_forest_1.2"
+new_forest_name = "seed_forest_1.3"
+update_type = "results"
+update_file = "mech_turk_" + update_type + "2.csv"
+
+if update_type is "results":
+    new_forest = update_forest_with_results(old_forest_name, update_file)
+    save_forest(new_forest, new_forest_name)
+    make_write_actions_batch(new_forest, "actions_batch2.csv")
+else:
+    new_forest = update_forest_with_actions(old_forest_name, update_file)
+    save_forest(new_forest, new_forest_name)
+    make_write_results_batch(new_forest, "results_batch2.csv")
 
 print("Done")
