@@ -49,6 +49,7 @@ def play_constrained():
     context = get_context("apocalypse")
     story_manager = CTRLStoryManager(generator)
     story_manager.start_new_story(prompt, context=context)
+    console_print(story_manager.story_context())
 
     possible_actions = story_manager.get_possible_actions()
     while (True):
