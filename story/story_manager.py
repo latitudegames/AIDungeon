@@ -210,7 +210,7 @@ class CTRLStoryManager(ConstrainedStoryManager):
 
     def get_action_results_generate(self):
         results = []
-        options = {}
+        options = {"word_blacklist":[]}
         for phrase in self.action_phrases:
             result = self.generate_action_result(self.story_context(), phrase, options=options)
             action_verb = result[0].split()
