@@ -42,7 +42,7 @@ def build_tokenized_samples(bpe, tree):
 
     for sample in samples:
         sample[2] = sample[2][0].lower() + sample[2][1:]
-        sample[2] = "You " + sample[2]
+        sample[2] = "Writing Text: You " + sample[2]
         string_samples.append("".join(sample))
 
     tokenized_samples = [bpe.apply([sample.encode('ascii', errors='ignore') if not use_py3 else sample])[0] for sample in
@@ -62,9 +62,8 @@ def build_tokenized_samples(bpe, tree):
 use_py3 = platform.python_version()[0] == '3'
 
 paths_to_train_files = ["apoc_seed1.json","apoc_seed2.json","apoc_seed3.json","apoc_seed4.json"]
-control_code = "Writing"
 seq_length = 256
-domain = [control_code]
+domain = ["Writing", "Text@@", ":"]
 
 
 # Build sequences from JSON
@@ -81,11 +80,6 @@ for fname in paths_to_train_files:
 vocab = open('../vocab').read().decode(encoding='utf-8').split('\n') if not use_py3 else open('../vocab', encoding='utf-8').read().split('\n')
 vocab = list(map(lambda x: x.split(' ')[0], vocab)) + ['<unk>'] + ['\n']
 print ('{} unique words'.format(len(vocab)))
-
-if control_code not in vocab:
-    print('Provided control code is not in the vocabulary')
-    print('Please provide a different one; refer to the vocab file for allowable tokens')
-    sys.exit(1)
     
 # Creating a mapping from unique characters to indices
 word2idx = {u:i for i, u in enumerate(vocab)}
@@ -107,8 +101,9 @@ total = 0
 skipped = 0
 with tf.io.TFRecordWriter(tfrecords_fname) as writer:
     for sample in tokenized_samples:
-        flag_input, inputs = numericalize(domain+sample[:-1])
-        flag_output, outputs = numericalize(sample)
+        domain_seq = (domain+sample)[:256+1]
+        flag_input, inputs = numericalize(domain_seq[:-1])
+        flag_output, outputs = numericalize(domain_seq[1:])
         total += 1
         if flag_input or flag_output:
             skipped += 1
