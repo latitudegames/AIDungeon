@@ -23,12 +23,10 @@ def console_print(str, pycharm=False):
 def play_unconstrained():
     generator = CTRLGenerator()
     #generator = WebGenerator(CRED_FILE)
-    if len(sys.argv) is 1:
-        prompt = get_story_start("forest")
-    else:
-        prompt = sys.argv[1]
+    prompt = get_story_start("apocalypse")
+    context = get_context("apocalypse")
     story_manager = UnconstrainedStoryManager(generator)
-    story_manager.start_new_story(prompt)
+    story_manager.start_new_story(prompt, context=context)
 
     print("\n")
     console_print(str(story_manager.story))

@@ -5,8 +5,9 @@ import json
 
 class Story():
 
-    def __init__(self, story_start, seed=None, game_state=None):
+    def __init__(self, story_start, context ="", seed=None, game_state=None):
         self.story_start = story_start
+        self.context = context
 
         # list of actions. First action is the prompt length should always equal that of story blocks
         self.actions = []
@@ -33,18 +34,19 @@ class Story():
         self.choices = story_dict["choices"]
         self.possible_action_results = story_dict["possible_action_results"]
         self.game_state = story_dict["game_state"]
+        self.context = story_dict["context"]
 
     def add_to_story(self, action, story_block):
         self.actions.append(action)
         self.results.append(story_block)
 
     def latest_result(self):
-        if len(self.results) > 1:
-            return self.actions[-2] + self.results[-2] + self.actions[-1] + self.results[-1]
+        if len(self.results) >= 2:
+            return self.context + self.results[-1] + self.actions[-1] + self.results[-1]
         elif len(self.results) >= 1:
-            return self.story_start + self.actions[-1] + self.results[-1] 
+            return self.context + self.actions[-1] + self.results[-1]
         else:
-            return self.story_start
+            return self.context + self.story_start
 
     def __str__(self):
         story_list = [self.story_start]
@@ -63,7 +65,7 @@ class Story():
         story_dict["choices"] = self.choices
         story_dict["possible_action_results"] = self.possible_action_results
         story_dict["game_state"] = self.game_state
-
+        story_dict["context"] = self.context
 
         return json.dumps(story_dict)
 
@@ -72,10 +74,10 @@ class StoryManager():
     def __init__(self, generator):
         self.generator = generator
         
-    def start_new_story(self, story_prompt, game_state=None):
+    def start_new_story(self, story_prompt, context="", game_state=None):
         block = self.generator.generate(story_prompt)
         block = cut_trailing_sentence(block)
-        self.story = Story(story_prompt + block, game_state=game_state)
+        self.story = Story(story_prompt + block, context=context, game_state=game_state)
         return self.story
     
     def load_story(self, story, from_json=False):

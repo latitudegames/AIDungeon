@@ -7,6 +7,12 @@ YAML_FILE = "story/story_data.yaml"
 from profanityfilter import ProfanityFilter
 pf = ProfanityFilter()
 
+def get_context(key):
+    with open(YAML_FILE, 'r') as stream:
+        data_loaded = yaml.safe_load(stream)
+
+    return data_loaded["context"][key]
+
 def get_story_start(key):
     with open(YAML_FILE, 'r') as stream:
         data_loaded = yaml.safe_load(stream)
