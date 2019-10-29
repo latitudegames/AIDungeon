@@ -263,8 +263,6 @@ class CTRLGenerator():
         # assign the token for generation
         tokens_generated[0][token + 1] = idx
 
-        "\n",
-
         return idx
 
     def generate(self, prompt, options=None):
