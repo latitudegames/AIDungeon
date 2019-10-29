@@ -12,7 +12,7 @@ prompts:
 action_verbs:
   classic: ["You attack", "You tell", "You use", "You go"]
 
-  anything: ["You", "You"]
+  anything: ["You", "You", "You"]
 
 ctrl_verbs:
   non_movement: ["take", "put", "give", "set", "keep", "help", "show", "pay", "read", "start", "stay", "call",
