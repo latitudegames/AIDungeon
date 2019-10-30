@@ -102,7 +102,6 @@ class UnconstrainedStoryManager(StoryManager):
 
     def generate_result(self, action):
         block = self.generator.generate(self.story_context() + action)
-        block = cut_trailing_sentence(block)
         return block
 
 
@@ -199,7 +198,6 @@ class ConstrainedStoryManager(StoryManager):
     def generate_action_result(self, prompt, phrase, options=None):
 
         action = phrase + " " + self.generator.generate(prompt + " " + phrase, options)
-        action_result = cut_trailing_sentence(action)
         action, result = split_first_sentence(action_result)
         return action, result
 
