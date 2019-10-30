@@ -273,9 +273,13 @@ class CTRLGenerator():
 
     def generate(self, prompt, options=None):
         prompt = self.prompt_replace(prompt)
-        print("\n\n*****DEBUG*****")
-        print("Prompt is:")
-        print(prompt + "\n\n")
+
+        debug_print = False
+
+        if debug_print:
+            print("\n\n*****DEBUG*****")
+            print("Prompt is:")
+            print(prompt + "\n\n")
 
         if options is None: options = dict()
         if "used_verbs" not in options:
@@ -303,7 +307,8 @@ class CTRLGenerator():
                 idx = self.generate_next_token(token, tokens_generated, options, num_new_lines, token_num,
                                                first_token=first_token, forbid_newline=True)
 
-            print(repr(self.idx2word[idx]), end="_")
+            if debug_print:
+                print(repr(self.idx2word[idx]), end="_")
 
             tokens_generated_so_far = ' '.join([self.idx2word[c] for c in tokens_generated[0][len(text):].squeeze()[:token + 2]])
             tokens_generated_so_far = re.sub('(@@ )', '', string=tokens_generated_so_far)
@@ -311,6 +316,6 @@ class CTRLGenerator():
             result = tokens_generated_so_far
 
             token_num += 1
-
-        print("\n****END DEBUG*****\n")
+        if debug_print:
+            print("\n****END DEBUG*****\n")
         return self.result_replace(result)
