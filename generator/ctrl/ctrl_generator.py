@@ -291,7 +291,7 @@ class CTRLGenerator():
         num_new_lines = 0
         for token in range(len(text) - 1, total_text_len - 1):
             idx = self.generate_next_token(token, tokens_generated, options, num_new_lines, token_num, first_token=first_token)
-            if self.idx2word[idx] is "\n":
+            if self.idx2word[idx] == '\n':
                 return self.result_replace(result)
 
             print(repr(self.idx2word[idx]), end="_")
