@@ -18,7 +18,7 @@ class Story():
         # Only needed in constrained/cached version
         self.seed = seed
         self.choices = []
-        self.possible_action_results = []
+        self.possible_action_results = None
 
         if game_state is None:
             game_state = dict()
