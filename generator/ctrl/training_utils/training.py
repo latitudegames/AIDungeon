@@ -142,7 +142,7 @@ def loss(labels, logits):
 # the optimizer is not used since this code only supports inference
 # however, to compile the model, we still define it
 optimizer = tf.contrib.estimator.clip_gradients_by_norm(
-    tf.train.AdagradOptimizer(learning_rate=3e-3), 0.25)
+    tf.train.AdagradOptimizer(learning_rate=1e-2), 0.25)
 
 # compile the model with the optimizer and loss
 model.compile(optimizer=optimizer, loss=loss)
