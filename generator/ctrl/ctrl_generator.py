@@ -187,7 +187,7 @@ class CTRLGenerator():
 
         return result
 
-    def generate_next_token(self, token, tokens_generated, options, num_new_lines, token_num, first_token=False):
+    def generate_next_token(self, token, tokens_generated, options, num_new_lines, token_num, first_token=False, forbid_newline=False):
 
         # get the logits from the prediction function
         # the logic here is a bit convoluted because we are allowing generation past 512 tokens
@@ -224,6 +224,9 @@ class CTRLGenerator():
 
         for forbidden_token in forbidden_tokens:
             prompt_logits[_token][self.word2idx[forbidden_token]] = -1e8
+
+        if forbid_newline:
+            prompt_logits[_token][self.word2idx['\n']] = -1e8
 
         # Set whitelist
         if "word_whitelist" in options and token_num in options["word_whitelist"].keys():
@@ -291,9 +294,12 @@ class CTRLGenerator():
         token_num = 0
         num_new_lines = 0
         for token in range(len(text) - 1, total_text_len - 1):
-            idx = self.generate_next_token(token, tokens_generated, options, num_new_lines, token_num, first_token=first_token)
-            if self.idx2word[idx] == '\n':
+            idx = self.generate_next_token(token, tokens_generated, options, num_new_lines, token_num, first_token=first_token, forbid_newline=False)
+            if self.idx2word[idx] == '\n' and token_num < 10:
                 return self.result_replace(result)
+            elif self.idx2word[idx] == '\n':
+                idx = self.generate_next_token(token, tokens_generated, options, num_new_lines, token_num,
+                                               first_token=first_token, forbid_newline=True)
 
             print(repr(self.idx2word[idx]), end="_")
 
