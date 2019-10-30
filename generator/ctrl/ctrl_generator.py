@@ -20,7 +20,7 @@ def loss(labels, logits):
 
 class CTRLGenerator():
 
-    def __init__(self, control_code="Apocalypse ", generate_num=28, temperature=0.3, topk=20, nucleus_prob=0):
+    def __init__(self, control_code="Apocalypse ", generate_num=28, temperature=0.4, topk=20, nucleus_prob=0):
 
         self.generate_num=generate_num
         model_dir = "generator/ctrl/training_utils/seqlen256_v1.ckpt/"
@@ -219,7 +219,7 @@ class CTRLGenerator():
         forbidden_tokens = ['<unk>', 'Sco@@', "&amp@@", "1]@@", "2]@@", "3]@@", "4]@@", "https://www.@@", "[@@", ":@@",
                             "Edit", "&@@", "2:","1:", ":", "Edit@@", "EDI@@", "EDIT@@", "edit", "TL@@", "tl@@", ";@@",
                             '**', "http://@@", "Redd@@", "UP@@", "mom", "Up@@", "Me:", "Update", "mom@@", "Part",
-                            "http://www.@@", "edit@@", "*@@", "Writing", "Text@@", "\\@@", "<br>@@", "<div", "|@@", "\n"]
+                            "http://www.@@", "edit@@", "*@@", "Writing", "Text@@", "\\@@", "<br>@@", "<div", "|@@"]
 
         for forbidden_token in forbidden_tokens:
             prompt_logits[_token][self.word2idx[forbidden_token]] = -1e8
@@ -292,9 +292,7 @@ class CTRLGenerator():
         for token in range(len(text) - 1, total_text_len - 1):
             idx = self.generate_next_token(token, tokens_generated, options, num_new_lines, token_num, first_token=first_token)
             if self.idx2word[idx] is "\n":
-                num_new_lines += 1
-                if num_new_lines > 1:
-                    self.result_replace(result)
+                return self.result_replace(result)
 
             print(repr(self.idx2word[idx]), end="_")
 
