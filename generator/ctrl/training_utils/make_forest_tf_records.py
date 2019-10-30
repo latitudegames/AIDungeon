@@ -11,6 +11,9 @@ import argparse
 import fastBPE
 import platform
 import json
+import sys
+# insert at 1, 0 is the script path (or '' in REPL)
+sys.path.insert(1, '../../..')
 from story.utils import *
 
 def make_samples_helper(context, story_block, action_results, path, tree_id):
