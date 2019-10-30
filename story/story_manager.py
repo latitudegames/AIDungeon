@@ -108,7 +108,7 @@ class UnconstrainedStoryManager(StoryManager):
 
 class ConstrainedStoryManager(StoryManager):
 
-    def __init__(self, generator, action_verbs_key="anything"):
+    def __init__(self, generator, action_verbs_key="classic"):
         super().__init__(generator)
         self.action_phrases = get_action_verbs(action_verbs_key)
         self.cache = False
@@ -209,7 +209,7 @@ class CTRLStoryManager(ConstrainedStoryManager):
     def get_action_results_generate(self):
         results = []
         options = {"word_blacklist": {0:[]}}
-        options["word_whitelist"] = {0: get_allowed_ctrl_verbs()}
+        #options["word_whitelist"] = {0: get_allowed_ctrl_verbs()}
         for phrase in self.action_phrases:
             result = self.generate_action_result(self.story_context(), phrase, options=options)
             action_verb = result[0].split()[1]
