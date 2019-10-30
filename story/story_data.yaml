@@ -10,7 +10,7 @@ prompts:
   apocalypse: "You walk for two hours and take a break. You've left the town you were in and are now in a more rural area. There's a building to your right and you see "
 
 action_verbs:
-  classic: ["You attack", "You tell", "You use", "You go"]
+  classic: ["You tell", "You use", "You go", "You"]
 
   anything: ["You", "You", "You"]
 
