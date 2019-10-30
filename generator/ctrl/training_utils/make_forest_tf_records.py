@@ -11,6 +11,7 @@ import argparse
 import fastBPE
 import platform
 import json
+from story.utils import *
 
 def make_samples_helper(context, story_block, action_results, path, tree_id):
 
@@ -45,7 +46,13 @@ def build_tokenized_samples(bpe, tree):
 
         sample[2] = sample[2][0].lower() + sample[2][1:]
         sample[2] = "You " + sample[2]
-        string_samples.append(" ".join(sample))
+
+        new_sample = []
+
+        for item in sample:
+            new_sample.append(second_to_first_person(item))
+
+        string_samples.append(" ".join(new_sample))
 
     tokenized_samples = [bpe.apply([sample.encode('ascii', errors='ignore') if not use_py3 else sample])[0] for sample in
                          string_samples]  # will NOT work for non-English texts
@@ -65,7 +72,7 @@ use_py3 = platform.python_version()[0] == '3'
 
 paths_to_train_files = ["apoc_seed1.json","apoc_seed2.json","apoc_seed3.json","apoc_seed4.json"]
 seq_length = 256
-domain = ["Writing", "Text@@", ":"]
+domain = ["Apocalypse"]
 
 
 # Build sequences from JSON
