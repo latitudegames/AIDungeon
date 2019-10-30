@@ -297,7 +297,7 @@ class CTRLGenerator():
         num_new_lines = 0
         for token in range(len(text) - 1, total_text_len - 1):
             idx = self.generate_next_token(token, tokens_generated, options, num_new_lines, token_num, first_token=first_token, forbid_newline=False)
-            if self.idx2word[idx] == '\n' and token_num < 10:
+            if self.idx2word[idx] == '\n' and token_num > 7:
                 return self.result_replace(result)
             elif self.idx2word[idx] == '\n':
                 idx = self.generate_next_token(token, tokens_generated, options, num_new_lines, token_num,
