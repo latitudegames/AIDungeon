@@ -170,6 +170,7 @@ class CTRLGenerator():
         # print(repr(result))
 
         first_letter_capitalized = result[0].isupper()
+        result = result.replace('."', '".')
         result = result.replace("#", "")
         result = result.replace("*", "")
         result = first_to_second_person(result)
