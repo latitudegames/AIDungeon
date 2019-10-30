@@ -169,6 +169,7 @@ class CTRLGenerator():
         # print("\n\nBEFORE RESULT_REPLACE:")
         # print(repr(result))
 
+        result = cut_trailing_sentence(result)
         first_letter_capitalized = result[0].isupper()
         result = result.replace('."', '".')
         result = result.replace("#", "")
@@ -274,7 +275,7 @@ class CTRLGenerator():
     def generate(self, prompt, options=None):
         prompt = self.prompt_replace(prompt)
 
-        debug_print = False
+        debug_print = True
 
         if debug_print:
             print("\n\n*****DEBUG*****")
