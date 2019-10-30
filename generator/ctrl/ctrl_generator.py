@@ -229,7 +229,7 @@ class CTRLGenerator():
         if forbid_newline:
             prompt_logits[_token][self.word2idx['\n']] = -1e8
         else:
-            prompt_logits[_token][self.word2idx['\n']] *= 0.75
+            prompt_logits[_token][self.word2idx['\n']] *= 1.0
 
         # Set whitelist
         if "word_whitelist" in options and token_num in options["word_whitelist"].keys():
