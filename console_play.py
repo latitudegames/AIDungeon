@@ -34,6 +34,7 @@ def play_unconstrained():
         action = input("> ")
 
         if action != "":
+            action = action[0].lower() + action[1:]
             action = " You " + action + ". "
             action = first_to_second_person(action)
 
