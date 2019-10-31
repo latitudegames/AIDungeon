@@ -135,7 +135,7 @@ class CTRLGenerator():
 
         self.temperature=temperature
         self.nucleusprob = nucleus_prob
-        self.penalty = 1.2
+        self.penalty = 1.1
         self.topk=topk
 
     def configure_verb_probs(self, probabilities, options):
@@ -212,8 +212,6 @@ class CTRLGenerator():
             penalized_so_far = set()
             for _ in range(token + 1):
                 generated_token = tokens_generated[0][_]
-                if generated_token in penalized_so_far:
-                    continue
                 penalized_so_far.add(generated_token)
                 prompt_logits[_token][generated_token] /= self.penalty
 
