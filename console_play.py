@@ -35,8 +35,11 @@ def play_unconstrained():
         while(action == ""):
             action = input("> ")
 
-        action = " You " + action + ". "
-        action = first_to_second_person(action)
+        if action = "":
+            action = None
+        else:
+            action = " You " + action + ". "
+            action = first_to_second_person(action)
         result = story_manager.act(action)
         console_print("\n\n" + action + result)
 

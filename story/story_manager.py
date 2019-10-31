@@ -96,6 +96,8 @@ class StoryManager():
 class UnconstrainedStoryManager(StoryManager):
 
     def act(self, action_choice):
+        if action_choice is None:
+            action_choice = ""
         result = self.generate_result(action_choice)
         self.story.add_to_story(action_choice, result)
         return result
