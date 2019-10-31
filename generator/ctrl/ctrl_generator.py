@@ -310,7 +310,7 @@ class CTRLGenerator():
                 idx = self.generate_next_token(token, tokens_generated, options, num_new_lines, token_num,
                                                first_token=first_token, forbid_newline=True)
             # assign the token for generation
-            
+
             tokens_generated[0][token + 1] = idx
             if debug_print:
                 print(repr(self.idx2word[idx]), end="_")
@@ -319,6 +319,7 @@ class CTRLGenerator():
             tokens_generated_so_far = re.sub('(@@ )', '', string=tokens_generated_so_far)
             tokens_generated_so_far = re.sub('(@@ ?$)', '', string=tokens_generated_so_far)
             result = tokens_generated_so_far
+            print("\n\nGenerated so far, ", result, "\n\n")
 
             token_num += 1
         if debug_print:
