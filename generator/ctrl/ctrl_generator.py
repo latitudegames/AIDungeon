@@ -166,8 +166,8 @@ class CTRLGenerator():
         return prompt
 
     def result_replace(self, result):
-        # print("\n\nBEFORE RESULT_REPLACE:")
-        # print(repr(result))
+        print("\n\nBEFORE RESULT_REPLACE:")
+        print(repr(result))
 
         result = cut_trailing_sentence(result)
         first_letter_capitalized = result[0].isupper()
@@ -180,11 +180,9 @@ class CTRLGenerator():
         if not first_letter_capitalized:
             result = result[0].lower() + result[1:]
 
-        while("\n \n \n " in result):
-            result = result.replace("\n \n \n ", "\n \n ")
 
-        # print("\n\nAFTER RESULT_REPLACE:")
-        # print(repr(result))
+        print("\n\nAFTER RESULT_REPLACE:")
+        print(repr(result))
 
         return result
 
@@ -221,7 +219,7 @@ class CTRLGenerator():
                             "Edit", "&@@", "2:","1:", ":", "Edit@@", "EDI@@", "EDIT@@", "edit", "TL@@", "tl@@", ";@@",
                             '**', "http://@@", "Redd@@", "UP@@", "mom", "Up@@", "Me:", "Update", "mom@@", "Part",
                             "http://www.@@", "edit@@", "*@@", "Writing", "Text@@", "\\@@", "<br>@@", "<div", "|@@", '...',
-                            '..','…', 'https://@@']
+                            '..','…', 'https://@@', '...@@']
 
         for forbidden_token in forbidden_tokens:
             prompt_logits[_token][self.word2idx[forbidden_token]] = -1e8

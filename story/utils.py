@@ -75,6 +75,7 @@ def split_first_sentence(text):
 
     
 def cut_trailing_sentence(text):
+    text = standardize_punctuation(text)
     last_punc = max(text.rfind('.'), text.rfind("!"), text.rfind("?"))
 
     if last_punc > 0:
@@ -84,6 +85,7 @@ def cut_trailing_sentence(text):
 
 
 def replace_outside_quotes(text, current_word, repl_word):
+    text = standardize_punctuation(text)
 
     reg_expr = re.compile(current_word + '(?=([^"]*"[^"]*")*[^"]*$)')
 
@@ -104,7 +106,7 @@ def mapping_variation_pairs(mapping):
     # Change you it's before a punctuation
     if mapping[0] is "you":
         mapping = ("you", "me")
-    mapping_list.append((" " + mapping[0]+"\,", " " + mapping[1]+","))
+    mapping_list.append((" " + mapping[0]+",", " " + mapping[1]+","))
     mapping_list.append((" " + mapping[0]+"\?", " " + mapping[1]+"\?"))
     mapping_list.append((" " + mapping[0]+"\!", " " + mapping[1]+"\!"))
     mapping_list.append((" " + mapping[0] + "\.", " " + mapping[1] + "."))
