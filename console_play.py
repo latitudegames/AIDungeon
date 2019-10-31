@@ -23,8 +23,8 @@ def console_print(str, pycharm=False):
 def play_unconstrained():
     generator = CTRLGenerator()
     #generator = WebGenerator(CRED_FILE)
-    prompt = get_story_start("zombies")
-    context = get_context("zombies")
+    prompt = get_story_start("apocalypse")
+    context = get_context("apocalypse")
     story_manager = UnconstrainedStoryManager(generator)
     story_manager.start_new_story(prompt, context=context)
 
