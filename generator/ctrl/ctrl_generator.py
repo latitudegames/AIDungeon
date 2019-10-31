@@ -265,9 +265,6 @@ class CTRLGenerator():
                 tf.random.categorical(np.expand_dims(prompt_logits[_token][pruned_list], 0), num_samples=1).numpy())
             idx = pruned_list[chosen_idx]
 
-        # assign the token for generation
-        tokens_generated[0][token + 1] = idx
-
         return idx
 
     def generate(self, prompt, options=None):
@@ -307,6 +304,8 @@ class CTRLGenerator():
                 idx = self.generate_next_token(token, tokens_generated, options, num_new_lines, token_num,
                                                first_token=first_token, forbid_newline=True)
 
+            # assign the token for generation
+            tokens_generated[0][token + 1] = idx
             if debug_print:
                 print(repr(self.idx2word[idx]), end="_")
 
