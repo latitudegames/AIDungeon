@@ -135,7 +135,7 @@ class CTRLGenerator():
 
         self.temperature=temperature
         self.nucleusprob = nucleus_prob
-        self.penalty = 1.2
+        self.penalty = 1.1
         self.topk=topk
 
     def configure_verb_probs(self, probabilities, options):
@@ -169,6 +169,7 @@ class CTRLGenerator():
         # print("\n\nBEFORE RESULT_REPLACE:")
         # print(repr(result))
 
+        result = cut_trailing_sentence(result)
         first_letter_capitalized = result[0].isupper()
         result = result.replace('."', '".')
         result = result.replace("#", "")
@@ -211,8 +212,6 @@ class CTRLGenerator():
             penalized_so_far = set()
             for _ in range(token + 1):
                 generated_token = tokens_generated[0][_]
-                if generated_token in penalized_so_far:
-                    continue
                 penalized_so_far.add(generated_token)
                 prompt_logits[_token][generated_token] /= self.penalty
 
@@ -228,7 +227,7 @@ class CTRLGenerator():
         if forbid_newline:
             prompt_logits[_token][self.word2idx['\n']] = -1e8
         else:
-            prompt_logits[_token][self.word2idx['\n']] *= 0.75
+            prompt_logits[_token][self.word2idx['\n']] *= 1.0
 
         # Set whitelist
         if "word_whitelist" in options and token_num in options["word_whitelist"].keys():
@@ -274,7 +273,7 @@ class CTRLGenerator():
     def generate(self, prompt, options=None):
         prompt = self.prompt_replace(prompt)
 
-        debug_print = False
+        debug_print = True
 
         if debug_print:
             print("\n\n*****DEBUG*****")
@@ -301,7 +300,8 @@ class CTRLGenerator():
         num_new_lines = 0
         for token in range(len(text) - 1, total_text_len - 1):
             idx = self.generate_next_token(token, tokens_generated, options, num_new_lines, token_num, first_token=first_token, forbid_newline=False)
-            if self.idx2word[idx] == '\n' and token_num > 7:
+            is_nothing = len(cut_trailing_sentence(result)) == 0 or len(cut_trailing_quotes(result)) == 0
+            if self.idx2word[idx] == '\n' and token_num > 7 and not is_nothing:
                 return self.result_replace(result)
             elif self.idx2word[idx] == '\n':
                 idx = self.generate_next_token(token, tokens_generated, options, num_new_lines, token_num,

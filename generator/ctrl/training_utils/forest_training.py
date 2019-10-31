@@ -88,22 +88,24 @@ embedding_dim = 1280
 class TiedEmbeddingSoftmax(tf.keras.layers.Layer):
 
     def __init__(self, vocab_size=vocab_size, embedding_size=embedding_dim, **kwargs):
-        super(TiedEmbeddingSoftmax, self).__init__()
-        self.w = self.add_weight(name='w', shape=(vocab_size, embedding_size),
-                                 initializer='random_normal',
-                                 trainable=True)
-        self.b = self.add_weight(name='b', shape=(vocab_size,),
-                                 initializer='zeros',
-                                 trainable=True)
+        with tf.device('/cpu:0'):
+            super(TiedEmbeddingSoftmax, self).__init__()
+            self.w = self.add_weight(name='w', shape=(vocab_size, embedding_size),
+                                     initializer='random_normal',
+                                     trainable=True)
+            self.b = self.add_weight(name='b', shape=(vocab_size,),
+                                     initializer='zeros',
+                                     trainable=True)
 
     def call(self, inputs, embed=True):
-        if embed:
-            dtype = tf.keras.backend.dtype(inputs)
-            if dtype != 'int32' and dtype != 'int64':
-                inputs = math_ops.cast(inputs, 'int32')
-            return embedding_ops.embedding_lookup(self.w, inputs)
-        else:
-            return tf.tensordot(inputs, tf.transpose(self.w), 1) + self.b
+        with tf.device('/cpu:0'):
+            if embed:
+                dtype = tf.keras.backend.dtype(inputs)
+                if dtype != 'int32' and dtype != 'int64':
+                    inputs = math_ops.cast(inputs, 'int32')
+                return embedding_ops.embedding_lookup(self.w, inputs)
+            else:
+                return tf.tensordot(inputs, tf.transpose(self.w), 1) + self.b
 
 
 # input for the keras model
@@ -131,7 +133,10 @@ model = tf.keras.Model(inputs=tokens, outputs=logits)
 
 # the loss function is a simple categorical crossentropy between the logits and the labels
 def loss(labels, logits):
-    return tf.keras.losses.sparse_categorical_crossentropy(labels, logits, from_logits=True)
+    loss = tf.keras.losses.sparse_categorical_crossentropy(labels, logits, from_logits=True)
+    mean = tf.math.reduce_mean(loss)
+    loss = tf.Print(loss, [mean])
+    return loss
 
 
 # the optimizer is not used since this code only supports inference
@@ -164,3 +169,4 @@ tf.logging.set_verbosity(tf.logging.INFO)
 estimator_model = tf.keras.estimator.model_to_estimator(keras_model=model, config=run_config)
 
 estimator_model.train(input_fn=input_fn, steps=args.iterations)
+

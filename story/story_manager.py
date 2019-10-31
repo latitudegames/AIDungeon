@@ -41,7 +41,9 @@ class Story():
         self.results.append(story_block)
 
     def latest_result(self):
-        if len(self.results) >= 1:
+        if len(self.results) >= 2:
+            return self.context + self.actions[-2] + self.results[-2] + self.actions[-1] + self.results[-1]
+        elif len(self.results) >= 1:
             return self.context + self.actions[-1] + self.results[-1]
         else:
             return self.context + self.story_start
@@ -96,13 +98,13 @@ class StoryManager():
 class UnconstrainedStoryManager(StoryManager):
 
     def act(self, action_choice):
+
         result = self.generate_result(action_choice)
         self.story.add_to_story(action_choice, result)
         return result
 
     def generate_result(self, action):
         block = self.generator.generate(self.story_context() + action)
-        block = cut_trailing_sentence(block)
         return block
 
 
@@ -199,7 +201,6 @@ class ConstrainedStoryManager(StoryManager):
     def generate_action_result(self, prompt, phrase, options=None):
 
         action = phrase + " " + self.generator.generate(prompt + " " + phrase, options)
-        action_result = cut_trailing_sentence(action)
         action, result = split_first_sentence(action_result)
         return action, result
 
