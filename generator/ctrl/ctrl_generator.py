@@ -20,7 +20,7 @@ def loss(labels, logits):
 
 class CTRLGenerator():
 
-    def __init__(self, control_code="Apocalypse ", generate_num=28, temperature=0.5, topk=40, nucleus_prob=0):
+    def __init__(self, control_code="Apocalypse ", generate_num=28, temperature=0.3, topk=40, nucleus_prob=0):
 
         self.generate_num=generate_num
         model_dir = "generator/ctrl/training_utils/seqlen256_v1.ckpt/"
@@ -135,7 +135,7 @@ class CTRLGenerator():
 
         self.temperature=temperature
         self.nucleusprob = nucleus_prob
-        self.penalty = 1.1
+        self.penalty = 1.2
         self.topk=topk
 
     def configure_verb_probs(self, probabilities, options):
@@ -212,14 +212,15 @@ class CTRLGenerator():
             penalized_so_far = set()
             for _ in range(token + 1):
                 generated_token = tokens_generated[0][_]
-                penalized_so_far.add(generated_token)
-                prompt_logits[_token][generated_token] /= self.penalty
+                if generated_token not in penalized_so_far:
+                    penalized_so_far.add(generated_token)
+                    prompt_logits[_token][generated_token] /= self.penalty
 
         # disallow some tokens
         forbidden_tokens = ['<unk>', 'Sco@@', "&amp@@", "1]@@", "2]@@", "3]@@", "4]@@", "https://www.@@", "[@@", ":@@",
                             "Edit", "&@@", "2:","1:", ":", "Edit@@", "EDI@@", "EDIT@@", "edit", "TL@@", "tl@@", ";@@",
                             '**', "http://@@", "Redd@@", "UP@@", "mom", "Up@@", "Me:", "Update", "mom@@", "Part",
-                            "http://www.@@", "edit@@", "*@@", "Writing", "Text@@", "\\@@", "<br>@@", "<div", "|@@", '...']
+                            "http://www.@@", "edit@@", "*@@", "Writing", "Text@@", "\\@@", "<br>@@", "<div", "|@@", '...', '..']
 
         for forbidden_token in forbidden_tokens:
             prompt_logits[_token][self.word2idx[forbidden_token]] = -1e8
@@ -270,7 +271,7 @@ class CTRLGenerator():
     def generate(self, prompt, options=None):
         prompt = self.prompt_replace(prompt)
 
-        debug_print = True
+        debug_print = False
 
         if debug_print:
             print("\n\n*****DEBUG*****")
