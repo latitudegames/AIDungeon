@@ -9,6 +9,8 @@ prompts:
 
   apocalypse: "You walk for two hours and take a break. You've left the town you were in and are now in a more rural area. There's a building to your right and you see "
 
+  zombies: "You're on top of a building. You look over the city and see roaming undead everywhere. "
+
 action_verbs:
   classic: ["You tell", "You use", "You go", "You"]
 

@@ -118,6 +118,7 @@ first_to_second_mappings = [
     ("Ive", "you've"),
     ("I am", "you are"),
     ("I", "you"),
+    ("i", "you"),
     ("I've", "you've"),
     ("my", "your"),
     ("we","you"),
