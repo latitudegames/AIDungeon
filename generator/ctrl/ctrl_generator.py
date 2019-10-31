@@ -226,6 +226,10 @@ class CTRLGenerator():
         for forbidden_token in forbidden_tokens:
             prompt_logits[_token][self.word2idx[forbidden_token]] = -1e8
 
+        last_ind = tokens_generated[0][token]
+        if self.idx2word[last_ind] == "the":
+            prompt_logits[_token][self.word2idx["the"]] = -1e8
+
         if forbid_newline:
             prompt_logits[_token][self.word2idx['\n']] = -1e8
         else:
@@ -305,7 +309,6 @@ class CTRLGenerator():
             elif self.idx2word[idx] == '\n':
                 idx = self.generate_next_token(token, tokens_generated, options, num_new_lines, token_num,
                                                first_token=first_token, forbid_newline=True)
-
             # assign the token for generation
             tokens_generated[0][token + 1] = idx
             if debug_print:
