@@ -135,7 +135,7 @@ class CTRLGenerator():
 
         self.temperature=temperature
         self.nucleusprob = nucleus_prob
-        self.penalty = 1.1
+        self.penalty = 1.2
         self.topk=topk
 
     def configure_verb_probs(self, probabilities, options):
@@ -180,9 +180,7 @@ class CTRLGenerator():
         if not first_letter_capitalized:
             result = result[0].lower() + result[1:]
 
-        while("\n \n \n " in result):
-            result = result.replace("\n \n \n ", "\n \n ")
-
+        #
         # print("\n\nAFTER RESULT_REPLACE:")
         # print(repr(result))
 
@@ -212,17 +210,21 @@ class CTRLGenerator():
             penalized_so_far = set()
             for _ in range(token + 1):
                 generated_token = tokens_generated[0][_]
-                penalized_so_far.add(generated_token)
-                prompt_logits[_token][generated_token] /= self.penalty
+                if generated_token not in penalized_so_far:
+                    penalized_so_far.add(generated_token)
+                    prompt_logits[_token][generated_token] /= self.penalty
 
         # disallow some tokens
         forbidden_tokens = ['<unk>', 'Sco@@', "&amp@@", "1]@@", "2]@@", "3]@@", "4]@@", "https://www.@@", "[@@", ":@@",
                             "Edit", "&@@", "2:","1:", ":", "Edit@@", "EDI@@", "EDIT@@", "edit", "TL@@", "tl@@", ";@@",
                             '**', "http://@@", "Redd@@", "UP@@", "mom", "Up@@", "Me:", "Update", "mom@@", "Part",
-                            "http://www.@@", "edit@@", "*@@", "Writing", "Text@@", "\\@@", "<br>@@", "<div", "|@@"]
+                            "http://www.@@", "edit@@", "*@@", "Writing", "Text@@", "\\@@", "<br>@@", "<div", "|@@", '...',
+                            '..','…', 'https://@@', '...@@']
 
         for forbidden_token in forbidden_tokens:
             prompt_logits[_token][self.word2idx[forbidden_token]] = -1e8
+
+        last_ind = tokens_generated[0][token]
 
         if forbid_newline:
             prompt_logits[_token][self.word2idx['\n']] = -1e8
@@ -303,13 +305,15 @@ class CTRLGenerator():
             elif self.idx2word[idx] == '\n':
                 idx = self.generate_next_token(token, tokens_generated, options, num_new_lines, token_num,
                                                first_token=first_token, forbid_newline=True)
-
             # assign the token for generation
+
             tokens_generated[0][token + 1] = idx
             if debug_print:
                 print(repr(self.idx2word[idx]), end="_")
 
-            tokens_generated_so_far = ' '.join([self.idx2word[c] for c in tokens_generated[0][len(text):].squeeze()[:token + 2]])
+            import pdb
+            pdb.set_trace()
+            tokens_generated_so_far = ' '.join([self.idx2word[c] for c in tokens_generated[0][len(text):token+2]])
             tokens_generated_so_far = re.sub('(@@ )', '', string=tokens_generated_so_far)
             tokens_generated_so_far = re.sub('(@@ ?$)', '', string=tokens_generated_so_far)
             result = tokens_generated_so_far

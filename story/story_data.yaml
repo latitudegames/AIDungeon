@@ -7,7 +7,9 @@ prompts:
 
   vague_police: "You are a police officer. You get to work and "
 
-  apocalypse: "You walk for two hours and take a break. You've left the town you were in and are now in a more rural area. There's a building to your right and you see "
+  apocalypse: "You walk for two hours and take a break. You've left the town you were in and are now in a more rural area. You look around you and see "
+
+  zombies: "You're on top of a building. You look over the city and see roaming undead everywhere. "
 
 action_verbs:
   classic: ["You tell", "You use", "You go", "You"]
@@ -23,4 +25,6 @@ rooms:
   haunted_hospital: ["lobby", "hallway", "parking", "roof", "pharmacy"]
 
 contexts:
+  zombies: "A few months ago a zombie outbreak broke out. You now are trying to survive on the ruins of what's left in the midst of zombie hordes. "
+
   apocalypse: "Long ago the bombs fell and the world ended. You are one of the few who is still alive. You are trying to survive by scavenging among the ruins of what is left behind. "
