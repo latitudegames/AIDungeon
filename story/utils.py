@@ -188,5 +188,16 @@ def second_to_first_person(text):
     return capitalize_first_letters(text[1:])
 
 if __name__ == '__main__':
-    text = 'You wake up in an old rundown hospital with no memory of how you got there. You look around and see a nurse standing over me. "Hey buddy, you okay?" she asks. She looks at me like I\'m crazy. '
-    print(first_to_second_person(text))
+
+
+    result = 'The only thing they can tell you is, "We have nowhere else to…"'
+    result = result.replace('."', '".')
+    result = result.replace("#", "")
+    result = result.replace("*", "")
+    result = first_to_second_person(result)
+    result = remove_profanity(result)
+
+    while ("\n \n \n " in result):
+        result = result.replace("\n \n \n ", "\n \n ")
+
+    print(result)
