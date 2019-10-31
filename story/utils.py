@@ -75,13 +75,10 @@ def split_first_sentence(text):
 
     
 def cut_trailing_sentence(text):
-    last_period = text.rfind('.')
-    last_exclamation = text.rfind('!')
-    
-    if last_exclamation > last_period:
-        text = text[0:last_exclamation+1]
-    elif last_period > 0:
-        text = text[0:last_period+1]
+    last_punc = max(text.rfind('.'), text.rfind("!"), text.rfind("?"))
+
+    if last_punc > 0:
+        text = text[0:last_punc+1]
 
     return cut_trailing_quotes(text)
 
