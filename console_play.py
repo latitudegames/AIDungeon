@@ -24,7 +24,7 @@ def play_unconstrained():
     generator = CTRLGenerator()
     #generator = WebGenerator(CRED_FILE)
     prompt = get_story_start("apocalypse")
-    context = get_context("apocalypse")
+    context = get_context("zombies")
     story_manager = UnconstrainedStoryManager(generator)
     story_manager.start_new_story(prompt, context=context)
 
