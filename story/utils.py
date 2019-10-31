@@ -75,18 +75,17 @@ def split_first_sentence(text):
 
     
 def cut_trailing_sentence(text):
-    last_period = text.rfind('.')
-    last_exclamation = text.rfind('!')
-    
-    if last_exclamation > last_period:
-        text = text[0:last_exclamation+1]
-    elif last_period > 0:
-        text = text[0:last_period+1]
+    text = standardize_punctuation(text)
+    last_punc = max(text.rfind('.'), text.rfind("!"), text.rfind("?"))
+
+    if last_punc > 0:
+        text = text[0:last_punc+1]
 
     return cut_trailing_quotes(text)
 
 
 def replace_outside_quotes(text, current_word, repl_word):
+    text = standardize_punctuation(text)
 
     reg_expr = re.compile(current_word + '(?=([^"]*"[^"]*")*[^"]*$)')
 
@@ -107,7 +106,7 @@ def mapping_variation_pairs(mapping):
     # Change you it's before a punctuation
     if mapping[0] is "you":
         mapping = ("you", "me")
-    mapping_list.append((" " + mapping[0]+"\,", " " + mapping[1]+","))
+    mapping_list.append((" " + mapping[0]+",", " " + mapping[1]+","))
     mapping_list.append((" " + mapping[0]+"\?", " " + mapping[1]+"\?"))
     mapping_list.append((" " + mapping[0]+"\!", " " + mapping[1]+"\!"))
     mapping_list.append((" " + mapping[0] + "\.", " " + mapping[1] + "."))
@@ -121,6 +120,7 @@ first_to_second_mappings = [
     ("Ive", "you've"),
     ("I am", "you are"),
     ("I", "you"),
+    ("i", "you"),
     ("I've", "you've"),
     ("my", "your"),
     ("we","you"),

@@ -35,6 +35,14 @@ def play_unconstrained():
 
         if action != "":
             action = action[0].lower() + action[1:]
+
+            if action[-1] == "." or action[-1] == "?" or action[-1] == "!":
+                action = action[:-1]
+            if "you " == action.lower()[0:4]:
+                action = action[4:]
+            if "i " == action.lower()[0:2]:
+                action = action[2:]
+
             action = " You " + action + ". "
             action = first_to_second_person(action)
 
@@ -87,35 +95,6 @@ def play_cached():
         result = None
         while(result == None):
             action_choice = input("Which action do you choose? ")
-            print("\n")
-            result, possible_actions = story_manager.act(action_choice)
-
-        console_print(result)
-
-def play_cached_hospital():
-    print("\n")
-    generator = CTRLGenerator()
-    story_start = "haunted"
-    prompt = get_story_start(story_start)
-    story_manager = CTRLStoryManager(generator)
-    story_manager.enable_caching(CRED_FILE, bucket_name="haunted-hospital")
-
-    story_manager.start_new_story(prompt)
-
-    console_print("\n")
-    console_print(str(story_manager.story))
-    possible_actions = story_manager.get_possible_actions()
-    while (True):
-        console_print("\nOptions:")
-        for i, action in enumerate(possible_actions):
-            console_print(str(i) + ") " + action)
-
-        result = None
-        while (result == None):
-            action_choice = input("Which action do you choose? ")
-            if action_choice is "print story":
-                print(story_manager.story)
-                continue
             print("\n")
             result, possible_actions = story_manager.act(action_choice)
 
