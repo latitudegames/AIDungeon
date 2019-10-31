@@ -166,8 +166,8 @@ class CTRLGenerator():
         return prompt
 
     def result_replace(self, result):
-        print("\n\nBEFORE RESULT_REPLACE:")
-        print(repr(result))
+        # print("\n\nBEFORE RESULT_REPLACE:")
+        # print(repr(result))
 
         result = cut_trailing_sentence(result)
         first_letter_capitalized = result[0].isupper()
@@ -180,9 +180,9 @@ class CTRLGenerator():
         if not first_letter_capitalized:
             result = result[0].lower() + result[1:]
 
-
-        print("\n\nAFTER RESULT_REPLACE:")
-        print(repr(result))
+        #
+        # print("\n\nAFTER RESULT_REPLACE:")
+        # print(repr(result))
 
         return result
 
@@ -225,8 +225,6 @@ class CTRLGenerator():
             prompt_logits[_token][self.word2idx[forbidden_token]] = -1e8
 
         last_ind = tokens_generated[0][token]
-        if self.idx2word[last_ind] == "the":
-            prompt_logits[_token][self.word2idx["the"]] = -1e8
 
         if forbid_newline:
             prompt_logits[_token][self.word2idx['\n']] = -1e8
@@ -303,8 +301,6 @@ class CTRLGenerator():
             idx = self.generate_next_token(token, tokens_generated, options, num_new_lines, token_num, first_token=first_token, forbid_newline=False)
             is_nothing = len(cut_trailing_sentence(result)) == 0 or len(cut_trailing_quotes(result)) == 0
             if self.idx2word[idx] == '\n' and token_num > 7 and not is_nothing:
-                if debug_print:
-                    print("Early stop")
                 return self.result_replace(result)
             elif self.idx2word[idx] == '\n':
                 idx = self.generate_next_token(token, tokens_generated, options, num_new_lines, token_num,
@@ -321,7 +317,6 @@ class CTRLGenerator():
             tokens_generated_so_far = re.sub('(@@ )', '', string=tokens_generated_so_far)
             tokens_generated_so_far = re.sub('(@@ ?$)', '', string=tokens_generated_so_far)
             result = tokens_generated_so_far
-            print("\n\nGenerated so far, ", result, "\n\n")
 
             token_num += 1
         if debug_print:
