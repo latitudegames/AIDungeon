@@ -270,7 +270,7 @@ class CTRLGenerator():
     def generate(self, prompt, options=None):
         prompt = self.prompt_replace(prompt)
 
-        debug_print = True
+        debug_print = False
 
         if debug_print:
             print("\n\n*****DEBUG*****")
