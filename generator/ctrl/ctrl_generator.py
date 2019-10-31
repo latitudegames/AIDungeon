@@ -315,7 +315,9 @@ class CTRLGenerator():
             if debug_print:
                 print(repr(self.idx2word[idx]), end="_")
 
-            tokens_generated_so_far = ' '.join([self.idx2word[c] for c in tokens_generated[0][len(text):token+2].squeeze()[:token + 2]])
+            import pdb
+            pdb.set_trace()
+            tokens_generated_so_far = ' '.join([self.idx2word[c] for c in tokens_generated[0][len(text):].squeeze()[:token + 2]])
             tokens_generated_so_far = re.sub('(@@ )', '', string=tokens_generated_so_far)
             tokens_generated_so_far = re.sub('(@@ ?$)', '', string=tokens_generated_so_far)
             result = tokens_generated_so_far
