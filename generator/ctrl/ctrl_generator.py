@@ -303,11 +303,14 @@ class CTRLGenerator():
             idx = self.generate_next_token(token, tokens_generated, options, num_new_lines, token_num, first_token=first_token, forbid_newline=False)
             is_nothing = len(cut_trailing_sentence(result)) == 0 or len(cut_trailing_quotes(result)) == 0
             if self.idx2word[idx] == '\n' and token_num > 7 and not is_nothing:
+                if debug_print:
+                    print("Early stop")
                 return self.result_replace(result)
             elif self.idx2word[idx] == '\n':
                 idx = self.generate_next_token(token, tokens_generated, options, num_new_lines, token_num,
                                                first_token=first_token, forbid_newline=True)
             # assign the token for generation
+            
             tokens_generated[0][token + 1] = idx
             if debug_print:
                 print(repr(self.idx2word[idx]), end="_")
