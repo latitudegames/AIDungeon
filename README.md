@@ -31,13 +31,13 @@ If you want to change the game in interesting ways you can change the context an
 > You eat the hay then go to sleep. In the morning, you feel much better.
 > \> Go to town
 >
->> You walk for two hours and take a break. You've left the town you were in and are now in a more rural area. You look around you and see some hay that should provide you with enough protein to get through the night.
+> You walk for two hours and take a break. You've left the town you were in and are now in a more rural area. You look around you and see some hay that should provide you with enough protein to get through the night.
 >
->\> eat the hay then go to sleep
+> \> eat the hay then go to sleep
 > 
 > You eat the hay then go to sleep. In the morning, you feel much better.
 >
->\> Go to town
+> \> Go to town
 > 
 > You go to town. The first store that comes into view has a sign in front reading, "Open 24 Hours". Great. Another town over goes under construction.
 >
