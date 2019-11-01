@@ -23,6 +23,7 @@ If you have the massive GPU to run it then you can install it by following the b
 If you want to change the game in interesting ways you can change the context and initial prompt in console_play.py. There's also more finetuned control code in generator/ctrl/ctrl_generator.py you can play around with. 
 
 ## Samples
+```
 Context:
 Long ago the bombs fell and the world ended. You are one of the few who is still alive. You are trying to survive by scavenging among the ruins of what is left behind.
 You walk for two hours and take a break. You've left the town you were in and are now in a more rural area. You look around you and see [Generation begins here] some hay that should provide you with enough protein to get through the night.
@@ -128,3 +129,4 @@ You walk for two hours and take a break. You've left the town you were in and ar
 > go find somewhere to stay the night
 
  You go find somewhere to stay the night. It's dark out, but soon it'll begin to grow light. The light at least will help see your way around in the darkness.
+```
