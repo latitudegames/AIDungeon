@@ -1,7 +1,4 @@
-cd model
-curl -sSL https://sdk.cloud.google.com | bash
-gsutil -m cp gs://aidungeon2model/finetuned_model.tar.gz
 
+URL="gs://aidungeon2model"
 
-tar -xvzf finetuned_model.tar.gz
-cd ..
+gsutil -m cp -r "$URL"  model
