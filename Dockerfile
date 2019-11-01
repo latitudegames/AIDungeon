@@ -5,9 +5,10 @@ WORKDIR $APP_HOME
 COPY . ./
 
 RUN pip install -r requirements.txt
-RUN cd generator/ctrl
+WORKDIR generator/ctrl
 RUN ls
 RUN sh install_ctrl_py3.sh
 RUN sh download_model.sh
+WORKDIR $APP_HOME
 
 CMD exec guincorn --bind :%PORT --workers 1 --threads 8 app:app
