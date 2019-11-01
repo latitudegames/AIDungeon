@@ -1,11 +1,7 @@
-curl https://sdk.cloud.google.com | bash
-exec -l $SHELL
-gcloud init
 
+URL="https://storage.cloud.google.com/aidungoen2model/finetuned_model.tar.gz?folder&organizationId"
 
-URL="gs://aidungeon2model/finetuned_model.tar.gz"
-
-gsutil -m cp -r "$URL" model
+wget -O ./model "$URL"
 cd model
 tar -xvzf finetuned_model.tar.gz
 cd ..
