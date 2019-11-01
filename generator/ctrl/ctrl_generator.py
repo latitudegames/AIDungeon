@@ -219,7 +219,7 @@ class CTRLGenerator():
                             "Edit", "&@@", "2:","1:", ":", "Edit@@", "EDI@@", "EDIT@@", "edit", "TL@@", "tl@@", ";@@",
                             '**', "http://@@", "Redd@@", "UP@@", "mom", "Up@@", "Me:", "Update", "mom@@", "Part",
                             "http://www.@@", "edit@@", "*@@", "Writing", "Text@@", "\\@@", "<br>@@", "<div", "|@@", '...',
-                            '..','…', 'https://@@', '...@@']
+                            '..','…', 'https://@@', '...@@', "http://gutenberg@@"]
 
         encourage_tokens = ["zombie", "radiation", "fallout", "undead", "corpse", "vampire", "virus", "plague"]
         for encourage_token in encourage_tokens:
