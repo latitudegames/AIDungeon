@@ -1,7 +1,8 @@
 FROM nvcr.io/nvidia/tensorflow:19.08-py3
 
-RUN git clone http://github.com/nickwalton/AIDungeon.git
-RUN cd AIDungeon
+ENV APP_HOME /app
+WORKDIR $APP_HOME
+COPY . ./
 
 RUN pip install -r requirements.txt
 RUN cd generator/ctrl
