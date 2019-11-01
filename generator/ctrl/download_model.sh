@@ -1,7 +1,7 @@
-
-URL="https://storage.cloud.google.com/aidungoen2model/finetuned_model.tar.gz?folder&organizationId"
-
-wget -O ./model "$URL"
 cd model
+curl -sSL https://sdk.cloud.google.com | bash
+gsutil -m cp gs://aidungeon2model/finetuned_model.tar.gz
+
+
 tar -xvzf finetuned_model.tar.gz
 cd ..
