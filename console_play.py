@@ -34,6 +34,7 @@ def play_unconstrained():
         action = input("> ")
 
         if action != "":
+            action = action[0].lower() + action[1:]
 
             if action[-1] == "." or action[-1] == "?" or action[-1] == "!":
                 action = action[:-1]
