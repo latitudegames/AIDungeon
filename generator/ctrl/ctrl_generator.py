@@ -221,7 +221,7 @@ class CTRLGenerator():
                             "http://www.@@", "edit@@", "*@@", "Writing", "Text@@", "\\@@", "<br>@@", "<div", "|@@", '...',
                             '..','…', 'https://@@', '...@@']
 
-        encourage_tokens = ["apocalypse", "zombies", "radiation", "fallout", "undead"]
+        encourage_tokens = ["apocalypse", "zombie", "radiation", "fallout", "undead", "corpse", "vampire", "virus", "plague"]
         for encourage_token in encourage_tokens:
             prompt_logits[_token][self.word2idx[encourage_token]] *= 1.5
 
