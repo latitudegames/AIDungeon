@@ -6,7 +6,8 @@ COPY . ./
 
 RUN pip install -r requirements.txt
 RUN cd generator/ctrl
-RUN ./install_ctrl_py3.sh
-RUN ./download_model.sh
+RUN ls
+RUN sh install_ctrl_py3.sh
+RUN sh download_model.sh
 
 CMD exec guincorn --bind :%PORT --workers 1 --threads 8 app:app
