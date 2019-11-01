@@ -54,15 +54,15 @@ If you want to change the game in interesting ways you can change the context an
 >
 > *You eat some of the food. It tastes horrible, like cardboard. Looking for something else to distract you, Ryan looks at his phone.*
 >
-\> tell Ryan he's an idiot
+> \> tell Ryan he's an idiot
 >
 > *You tell Ryan he's an idiot. He hands you back your wallet. Seeing that you're well stocked up, he gives up.*
 >
-\> leave the store and go look for other survivors
+> \> leave the store and go look for other survivors
 >
 > *You leave the store and go look for other survivors. There are plenty around, but they're all in different states of emergency.*
 >
-\> ask someone if they need help
+> \> ask someone if they need help
 >
 > *You ask someone if they need help. They say no, everyone else seems ok, so you sit here alone on a roof with nothing to do. Suddenly, from nowhere, two more sirens blow.*
 >
@@ -72,19 +72,19 @@ If you want to change the game in interesting ways you can change the context an
 >
 > \> run away from the burning building
 >
->*You run away from the burning building. It was completely empty. No sounds reach your ears but for the distant barking of some stray that looks hungry.*
+> *You run away from the burning building. It was completely empty. No sounds reach your ears but for the distant barking of some stray that looks hungry.*
 >
->\> go give the stray some jerky
+> \> go give the stray some jerky
 >
 > *You go give the stray some jerky. As soon as you're done eating, you hear a loud woof in the background.*
 >
 > \> tell the dog you want to be friends and pet him
 >
- >*You tell the dog you want to be friends and pet him. The pooch gives his approval with an enthusiastic yip.*
+> *You tell the dog you want to be friends and pet him. The pooch gives his approval with an enthusiastic yip.*
 >
 > \> leave with your dog to a nearby town
 >
->* You leave with your dog to a nearby town. On your way, you try not to dwell on how much you've let yourself go.*
+> *You leave with your dog to a nearby town. On your way, you try not to dwell on how much you've let yourself go.*
 >
 > \> keep walking to the town
 >
@@ -96,7 +96,7 @@ If you want to change the game in interesting ways you can change the context an
 >
 >\> ask her name
 >
->* You ask her name. She's Julie. Julie told you about a man breaking into an RV she stopped at on the way here.*
+> *You ask her name. She's Julie. Julie told you about a man breaking into an RV she stopped at on the way here.*
 >
 > \> ask Julie if she knows where I can stay the night
 >
