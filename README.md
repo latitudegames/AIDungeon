@@ -24,23 +24,24 @@ If you want to change the game in interesting ways you can change the context an
 
 ## Samples
 
-> Context: Long ago the bombs fell and the world ended. You are one of the few who is still alive. You are trying to survive by scavenging among the ruins of what is left behind. You walk for two hours and take a break. You've left the town you were in and are now in a more rural area. You look around you and see [Generation begins here] some hay that should provide you with enough protein to get through the night.
-\> eat the hay then go to sleep
->You eat the hay then go to sleep. In the morning, you feel much better.
-\> Go to town
-
-> You walk for two hours and take a break. You've left the town you were in and are now in a more rural area. You look around you and see some hay that should provide you with enough protein to get through the night.
-\> eat the hay then go to sleep
- 
+> *Context: Long ago the bombs fell and the world ended. You are one of the few who is still alive. You are trying to survive by scavenging among the ruins of what is left behind. You walk for two hours and take a break. You've left the town you were in and are now in a more rural area. You look around you and see [Generation begins here] some hay that should provide you with enough protein to get through the night.*
+>
+> \> eat the hay then go to sleep
 > You eat the hay then go to sleep. In the morning, you feel much better.
-\> Go to town
- 
+>\> Go to town
+>
+>> You walk for two hours and take a break. You've left the town you were in and are now in a more rural area. You look around you and see some hay that should provide you with enough protein to get through the night.
+>\> eat the hay then go to sleep
+> 
+> You eat the hay then go to sleep. In the morning, you feel much better.
+>\> Go to town
+> 
 > You go to town. The first store that comes into view has a sign in front reading, "Open 24 Hours". Great. Another town over goes under construction.
-\> go checkout the store
- 
+>\> go checkout the store
+> 
 >You go checkout the store. It's full of \*\*\*\*. Bottled Water, non - perishables, canned food, soft drinks, chips, pasta, cookies, candy, coffee, energy bars...
-\> fill your backup up with food
-
+>\> fill your backup up with food
+>
 You fill your backup up with food. You try not to think about it too much, but it's hard when your stomach starts rumbling.
 \> eat some of the food
 
