@@ -119,9 +119,20 @@ first_to_second_mappings = [
     ("Im", "you're"),
     ("Ive", "you've"),
     ("I am", "you are"),
+<<<<<<< HEAD
     ("I", "you"),
     ("i", "you"),
     ("I've", "you've"),
+=======
+    ("was I", "were you"),
+    ("am I", "are you"),
+    ("wasn't I", "weren't you"),
+    ("I", "you"),
+    ("I'd", "you'd"),
+    ("i", "you"),
+    ("I've", "you've"),
+    ("I was", "you were"),
+>>>>>>> 93133cfce7068261e646d47faa0c84119108be4b
     ("my", "your"),
     ("we","you"),
     ("we're", "you're"),
@@ -137,6 +148,11 @@ second_to_first_mappings = [
     ("you're", "I'm"),
     ("your", "my"),
     ("you are", "I am"),
+<<<<<<< HEAD
+=======
+    ("you were", "I was"),
+    ("are you", "am I"),
+>>>>>>> 93133cfce7068261e646d47faa0c84119108be4b
     ("you", "I"),
     ("you", "me"),
     ("you'll", "I'll"),
