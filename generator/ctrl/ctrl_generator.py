@@ -221,6 +221,10 @@ class CTRLGenerator():
                             "http://www.@@", "edit@@", "*@@", "Writing", "Text@@", "\\@@", "<br>@@", "<div", "|@@", '...',
                             '..','…', 'https://@@', '...@@']
 
+        encourage_tokens = ["apocalypse", "zombies", "radiation", "fallout"]
+        for encourage_token in encourage_tokens:
+            prompt_logits[_token][self.word2idx[encourage_token]] *= 1.5
+
         for forbidden_token in forbidden_tokens:
             prompt_logits[_token][self.word2idx[forbidden_token]] = -1e8
 
