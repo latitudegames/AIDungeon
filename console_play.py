@@ -29,11 +29,14 @@ def play_unconstrained():
     story_manager.start_new_story(prompt, context=context)
 
     print("\n")
+    print(context)
     console_print(str(story_manager.story))
     while (True):
         action = input("> ")
 
         if action != "":
+            action = action.strip()
+
             action = action[0].lower() + action[1:]
 
             if action[-1] == "." or action[-1] == "?" or action[-1] == "!":

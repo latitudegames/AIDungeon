@@ -3,6 +3,9 @@ exec -l $SHELL
 gcloud init
 
 
-URL="gs://sf-ctrl/seqlen512_v1.ckpt/"
+URL="gs://aidungeon2model/finetuned_model.tar.gz"
 
 gsutil -m cp -r "$URL" model
+cd model
+tar -xvzf finetuned_model.tar.gz
+cd ..
