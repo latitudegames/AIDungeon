@@ -24,10 +24,7 @@ If you want to change the game in interesting ways you can change the context an
 
 ## Samples
 
-Context:
-Long ago the bombs fell and the world ended. You are one of the few who is still alive. You are trying to survive by scavenging among the ruins of what is left behind.
-You walk for two hours and take a break. You've left the town you were in and are now in a more rural area. You look around you and see [Generation begins here] some hay that should provide you with enough protein to get through the night.
-> eat the hay then go to sleep
+> Context: Long ago the bombs fell and the world ended. You are one of the few who is still alive. You are trying to survive by scavenging among the ruins of what is left behind.You walk for two hours and take a break. You've left the town you were in and are now in a more rural area. You look around you and see [Generation begins here] some hay that should provide you with enough protein to get through the night. > eat the hay then go to sleep
 
  You eat the hay then go to sleep. In the morning, you feel much better.
 \> Go to town
