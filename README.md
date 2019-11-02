@@ -20,8 +20,6 @@ If you have the massive GPU to run it then you can install it by following the b
 ## To Play
 `python console_play.py`
 
-The game expects action commands in the form of "[verb] .....". If you want it to continue generation without any action you can just press enter and it will keep generating. 
-
 If you want to change the game in interesting ways you can change the context and initial prompt in console_play.py. There's also more finetuned control code in generator/ctrl/ctrl_generator.py you can play around with. 
 
 ## Samples
@@ -162,7 +160,6 @@ If you want to change the game in interesting ways you can change the context an
 >
 >\> eat some breakfast
 > *You eat some breakfast. Then, it gets dark. By dark, you're feeling extra hungry again. So, you go look for something else to snack on.*
->
 >\> go find somewhere to stay the night
 >
 > *You go find somewhere to stay the night. It's dark out, but soon it'll begin to grow light. The light at least will help see your way around in the darkness.*
