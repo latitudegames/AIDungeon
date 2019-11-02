@@ -231,7 +231,7 @@ class CTRLGenerator():
             _token = -1
             end = token + 1
             start = token - self.seq_length + 2
-            if self.memory:
+            if self.lower_memory:
                 prompt_logits = self.model.predict_on_batch(
                     np.hstack((tokens_generated[:, 0:1], tokens_generated[:, start:end]))).squeeze() / (
                                     self.temperature if self.temperature > 0 else 1.)
