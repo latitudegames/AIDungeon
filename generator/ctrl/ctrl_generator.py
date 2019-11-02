@@ -23,7 +23,7 @@ def loss(labels, logits):
 
 class CTRLGenerator():
 
-    def __init__(self, control_code="Apocalypse ", generate_num=28, temperature=0.5, topk=40, nucleus_prob=0, lower_memory=False):
+    def __init__(self, control_code="Apocalypse ", generate_num=28, temperature=0.5, topk=40, nucleus_prob=0, lower_memory=True):
 
         self.generate_num=generate_num
         model_dir = "generator/ctrl/model/aidungeon2model/"
