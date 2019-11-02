@@ -37,7 +37,7 @@ def play_unconstrained():
                 action = action[2:]
 
             action = " You " + action + ". "
-            action = remove_profanity(text)
+            action = remove_profanity(action)
             action = first_to_second_person(action)
 
         result = story_manager.act(action)
