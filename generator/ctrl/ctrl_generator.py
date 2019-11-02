@@ -127,6 +127,7 @@ class CTRLGenerator():
         # compile the model with the optimizer and loss
         model.compile(optimizer=optimizer, loss=loss)
         print(model.summary())
+        self.model = model
 
 
         # almost there, we now take the user prompt and tokenize with BPE
