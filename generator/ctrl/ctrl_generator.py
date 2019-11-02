@@ -27,7 +27,7 @@ class CTRLGenerator():
 
         self.generate_num=generate_num
         model_dir = "generator/ctrl/model/aidungeon2model/"
-        checkpoint_path = "generator/ctrl/model/aidungeon2model/checkpoint"
+        checkpoint_path = "generator/ctrl/model/aidungeon2model/model.ckpt-417400.data-00000-of-00002"
         self.control_code = control_code
         vocab_file = 'generator/ctrl/model/vocab'
         code_file = 'generator/ctrl/model/codes'
