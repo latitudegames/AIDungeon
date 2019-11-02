@@ -3,6 +3,7 @@ import numpy as np
 
 tf.enable_eager_execution()
 import generator.ctrl.model.transformer as transformer
+import generator.ctrl.model.low_mem_transformer as low_mem_transformer
 import re
 from collections import Counter
 from tensorflow.python import debug as tf_debug
@@ -11,6 +12,8 @@ from tensorflow.python.ops import embedding_ops
 import fastBPE
 from story.utils import *
 import warnings
+from tensorflow.python import pywrap_tensorflow
+
 warnings.filterwarnings("ignore")
 
 # the loss function is a simple categorical crossentropy between the logits and the labels
@@ -20,13 +23,15 @@ def loss(labels, logits):
 
 class CTRLGenerator():
 
-    def __init__(self, control_code="Apocalypse ", generate_num=28, temperature=0.5, topk=40, nucleus_prob=0):
+    def __init__(self, control_code="Apocalypse ", generate_num=28, temperature=0.5, topk=40, nucleus_prob=0, lower_memory=False):
 
         self.generate_num=generate_num
         model_dir = "generator/ctrl/model/aidungeon2model/"
+        checkpoint_path = "generator/ctrl/model/aidungeon2model/checkpoint"
         self.control_code = control_code
         vocab_file = 'generator/ctrl/model/vocab'
         code_file = 'generator/ctrl/model/codes'
+        self.lower_memory = lower_memory
 
         self.max_new_lines = 5
 
@@ -63,12 +68,23 @@ class CTRLGenerator():
 
             def __init__(self, vocab_size=vocab_size, embedding_size=embedding_dim, **kwargs):
                 super(TiedEmbeddingSoftmax, self).__init__()
-                self.w = self.add_weight(name='w', shape=(vocab_size, embedding_size),
-                                         initializer='random_normal',
-                                         trainable=True)
-                self.b = self.add_weight(name='b', shape=(vocab_size,),
-                                         initializer='zeros',
-                                         trainable=True)
+
+                if lower_memory:
+                    self.w = self.add_weight(name='w', shape=(vocab_size, embedding_size),
+                                             initializer='random_normal', dtype=tf.float32,
+                                             trainable=True)
+                    self.b = self.add_weight(name='b', shape=(vocab_size,),
+                                             initializer='zeros',
+                                             trainable=True)
+
+
+                else:
+                    self.w = self.add_weight(name='w', shape=(vocab_size, embedding_size),
+                                             initializer='random_normal', dtype=tf.float32,
+                                             trainable=True)
+                    self.b = self.add_weight(name='b', shape=(vocab_size,),
+                                             initializer='zeros',
+                                             trainable=True)
 
             def call(self, inputs, embed=True):
                 if embed:
@@ -88,7 +104,10 @@ class CTRLGenerator():
         # the activations after passing it from the transformer
         # for some odd reason, TPUs don't play well with specifying the arguments of the Encoder() function
         # so you have to leave them at their defaults
-        transformed = transformer.Encoder()(embedded, training=False)
+        if self.lower_memory:
+            transformed = low_mem_transformer.Encoder()(embedded, training=False)
+        else:
+            transformed = transformer.Encoder()(embedded, training=False)
 
         # pass the activations from our tiedsoftmax class
         # this time with embed=False denoting that we are doing the softmax operation
@@ -109,25 +128,6 @@ class CTRLGenerator():
         model.compile(optimizer=optimizer, loss=loss)
         print(model.summary())
 
-        # IMPORTANT
-        # this is where the saved model is presented to the code
-        # the model directory should have the model checkpoint and
-        # a checkpoint file
-        run_config = tf.contrib.tpu.RunConfig(
-            model_dir=model_dir)
-
-        # this converts the Keras model to a TensorFlow estimator
-        # this step is critical
-        # remember to patch the TF 1.14 file before running the code, else you're going to see errors here
-        estimator_model = tf.keras.estimator.model_to_estimator(keras_model=model, config=run_config)
-
-        # we now create a serving function from this estimator
-        # this enables us to load the model once and easily query it multiple times
-        def serving_input_fn():
-            inputs = {'input_1': tf.placeholder(tf.int32, [1, self.seq_length])}
-            return tf.estimator.export.ServingInputReceiver(inputs, inputs)
-
-        self.predict_fn = tf.contrib.predictor.from_estimator(estimator_model, serving_input_fn)
 
         # almost there, we now take the user prompt and tokenize with BPE
         # load BPE codes
@@ -138,19 +138,45 @@ class CTRLGenerator():
         self.penalty = 1.2
         self.topk=topk
 
-    def configure_verb_probs(self, probabilities, options):
 
-        # Make sure only a possible verb is chosen.
-        for word in get_possible_verbs():
-                probabilities[self.word2idx[word]] += 100
+        if lower_memory:
+            # Load the model file
+            chkpt_for_reader = '.'.join(checkpoint_path.split('.')[:-1])
+            reader = pywrap_tensorflow.NewCheckpointReader(chkpt_for_reader)
 
-        # Disallow used verbs
-        if "used_verbs" in options:
-            for verb in options["used_verbs"]:
-                if verb in self.word2idx:
-                    probabilities[self.word2idx[verb]] = -1e8
+            # assign weights from the checkpoint to the Keras model
+            # this is super hacky but I couldn't find a better way to do this
+            # PR is highly welcome if you know of a better way
 
-        return probabilities
+            # embedding and softmax
+            # these are fp32
+            model.layers[1].trainable_variables[0].assign(tf.cast(reader.get_tensor('w'), tf.float32))
+            model.layers[1].trainable_variables[1].assign(tf.cast(reader.get_tensor('b'), tf.float32))
+
+            # encoder weights
+            for _ in range(len(model.layers[2].trainable_weights)):
+                tensor = model.layers[2].trainable_weights[_]
+                if 'normalization' in tensor.name[:-2]:  # layernorm is fp32
+                    tensor.assign(tf.cast(reader.get_tensor(tensor.name[:-2]), tf.float32))
+                else:  # everything else is fp16
+                    tensor.assign(tf.cast(reader.get_tensor(tensor.name[:-2]), tf.float16))
+
+        else:
+            run_config = tf.contrib.tpu.RunConfig(
+                model_dir=model_dir)
+
+            # this converts the Keras model to a TensorFlow estimator
+            # this step is critical
+            # remember to patch the TF 1.14 file before running the code, else you're going to see errors here
+            estimator_model = tf.keras.estimator.model_to_estimator(keras_model=model, config=run_config)
+
+            # we now create a serving function from this estimator
+            # this enables us to load the model once and easily query it multiple times
+            def serving_input_fn():
+                inputs = {'input_1': tf.placeholder(tf.int32, [1, self.seq_length])}
+                return tf.estimator.export.ServingInputReceiver(inputs, inputs)
+
+            self.predict_fn = tf.contrib.predictor.from_estimator(estimator_model, serving_input_fn)
 
     def prompt_replace(self, prompt):
         # print("\n\nBEFORE PROMPT_REPLACE:")
@@ -193,16 +219,26 @@ class CTRLGenerator():
         # this is done by sliding the window over (past 512 tokens) and continuing prediction
         # I'm sure this can be simplified (TODO)
         if token <= self.seq_length:
-            prompt_logits = self.predict_fn({'input_1': tokens_generated[:, :self.seq_length]})[
+            if self.lower_memory:
+                prompt_logits = self.model.predict_on_batch(tokens_generated[:, :self.seq_length]).squeeze() / (
+                    self.temperature if self.temperature > 0 else 1.)
+            else:
+                prompt_logits = self.predict_fn({'input_1': tokens_generated[:, :self.seq_length]})[
                                 'tied_embedding_softmax'].squeeze() / (self.temperature if self.temperature > 0 else 1.)
             _token = token if token < self.seq_length else -1
+
         else:
             _token = -1
             end = token + 1
             start = token - self.seq_length + 2
-            prompt_logits = \
-                self.predict_fn({'input_1': np.hstack((tokens_generated[:, 0:1], tokens_generated[:, start:end]))})[
-                    'tied_embedding_softmax'].squeeze() / (self.temperature if self.temperature > 0 else 1.)
+            if self.memory:
+                prompt_logits = self.model.predict_on_batch(
+                    np.hstack((tokens_generated[:, 0:1], tokens_generated[:, start:end]))).squeeze() / (
+                                    self.temperature if self.temperature > 0 else 1.)
+            else:
+                prompt_logits = \
+                    self.predict_fn({'input_1': np.hstack((tokens_generated[:, 0:1], tokens_generated[:, start:end]))})[
+                        'tied_embedding_softmax'].squeeze() / (self.temperature if self.temperature > 0 else 1.)
 
         # if penalty (for repetition) is non-zero,
         # discount the logits from already generated tokens
@@ -219,7 +255,7 @@ class CTRLGenerator():
                             "Edit", "&@@", "2:","1:", ":", "Edit@@", "EDI@@", "EDIT@@", "edit", "TL@@", "tl@@", ";@@",
                             '**', "http://@@", "Redd@@", "UP@@", "mom", "Up@@", "Me:", "Update", "mom@@", "Part",
                             "http://www.@@", "edit@@", "*@@", "Writing", "Text@@", "\\@@", "<br>@@", "<div", "|@@", '...',
-                            '..','…', 'https://@@', '...@@', "http://gutenberg@@"]
+                            '..','…', 'https://@@', '...@@', "http://gutenberg@@", "imag@@"]
 
         encourage_tokens = ["zombie", "radiation", "fallout", "undead", "corpse", "vampire", "virus", "plague"]
         for encourage_token in encourage_tokens:

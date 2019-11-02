@@ -201,9 +201,8 @@ def second_to_first_person(text):
 
     return capitalize_first_letters(text[1:])
 
+
 if __name__ == '__main__':
-
-
     result = 'The only thing they can tell you is, "We have nowhere else to…"'
     result = result.replace('."', '".')
     result = result.replace("#", "")
