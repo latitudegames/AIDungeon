@@ -45,7 +45,8 @@ def play_unconstrained():
 
 
 if __name__ == '__main__':
-    play_unconstrained()
+    import cProfile
+    cProfile.run('play_unconstrained()')
 
 
 
