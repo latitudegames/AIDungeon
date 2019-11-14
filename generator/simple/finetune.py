@@ -16,7 +16,7 @@ gpt2.finetune(sess,
               multi_gpu=True,
               batch_size=4,
               sample_length=256,
-              learning_rate=0.0005,
+              learning_rate=0.0002,
               model_name=model_name,
               steps=1000)
 
