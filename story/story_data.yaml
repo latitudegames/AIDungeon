@@ -25,6 +25,8 @@ rooms:
   haunted_hospital: ["lobby", "hallway", "parking", "roof", "pharmacy"]
 
 contexts:
-  zombies: "A few months ago a zombie outbreak broke out. You now are trying to survive on the ruins of what's left in the midst of zombie hordes. "
+  zombies: "A few months ago a zombie infection broke out. You now are trying to survive on the ruins of what's left in the midst of zombie hordes. "
+
+  hospital: "You forgot everything before the hospital and are now trying to figure out what to do next. "
 
   apocalypse: "Long ago the bombs fell and the world ended. You are one of the few who is still alive. You are trying to survive by scavenging among the ruins of what is left behind. "
