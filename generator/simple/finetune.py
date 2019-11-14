@@ -32,6 +32,7 @@ def get_available_gpus():
     local_device_protos = device_lib.list_local_devices()
     return [x.name for x in local_device_protos if x.device_type == 'GPU']
 
+
 def finetune(sess,
              dataset,
              steps=-1,
@@ -47,7 +48,6 @@ def finetune(sess,
              sample_every=100,
              sample_length=1023,
              sample_num=1,
-             multi_gpu=False,
              save_every=1000,
              print_every=1,
              max_checkpoints=1,
@@ -95,11 +95,6 @@ def finetune(sess,
         accumulate_gradients = 1
 
     context = tf.compat.v1.placeholder(tf.int32, [batch_size, None])
-    gpus = []
-
-    if multi_gpu:
-        gpus = get_available_gpus()
-
     output = model.model(hparams=hparams, X=context)
     loss = tf.reduce_mean(
         input_tensor=tf.nn.sparse_softmax_cross_entropy_with_logits(
