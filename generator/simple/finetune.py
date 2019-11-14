@@ -13,6 +13,9 @@ file_name = "merged-first-person.txt"
 sess = gpt2.start_tf_sess()
 gpt2.finetune(sess,
               file_name,
+              multi_gpu=True,
+              batch_size=16,
+              sample_length=256,
               model_name=model_name,
               steps=10000)
 
