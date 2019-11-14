@@ -69,6 +69,7 @@ class Story():
 
         return json.dumps(story_dict)
 
+
 class StoryManager():
 
     def __init__(self, generator):
