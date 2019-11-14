@@ -14,7 +14,7 @@ sess = gpt2.start_tf_sess()
 gpt2.finetune(sess,
               file_name,
               multi_gpu=True,
-              batch_size=16,
+              batch_size=8,
               learning_rate=0.0001,
               model_name=model_name,
               steps=4000)
