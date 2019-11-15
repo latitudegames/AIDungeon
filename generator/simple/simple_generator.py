@@ -18,7 +18,7 @@ tf.logging.set_verbosity(tf.logging.ERROR)
 
 class SimpleGenerator:
 
-    def __init__(self,  generate_num=40, temperature=0.9, top_k=40, top_p=0.0):
+    def __init__(self,  generate_num=65, temperature=0.9, top_k=40, top_p=0.0):
         self.generate_num=generate_num
         self.temp = temperature
         self.top_k = top_k
