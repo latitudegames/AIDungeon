@@ -18,14 +18,14 @@ tf.logging.set_verbosity(tf.logging.ERROR)
 
 class SimpleGenerator:
 
-    def __init__(self,  generate_num=28, temperature=0.8, top_k=40, top_p=0.0):
+    def __init__(self,  generate_num=40, temperature=0.9, top_k=40, top_p=0.0):
         self.generate_num=generate_num
         self.temp = temperature
         self.top_k = top_k
         self.top_p = top_p
 
-        self.model_name = "1558M"
-        self.model_dir = "generator/simple/models"
+        self.model_name = "run1"
+        self.model_dir = "generator/simple/checkpoint"
         self.checkpoint_path = os.path.join(self.model_dir, self.model_name)
         if not os.path.isdir(os.path.join(self.model_dir, self.model_name)):
             print(f"Downloading {self.model_name} model...")
