@@ -41,7 +41,13 @@ class Story():
         self.results.append(story_block)
 
     def latest_result(self):
-        if len(self.results) >= 2:
+        if len(self.results) >= 4:
+            return self.context + self.actions[-4] + self.results[-4] + self.actions[-3] + self.results[-3] + \
+                   self.actions[-2] + self.results[-2] + self.actions[-1] + self.results[-1]
+        elif len(self.results) >= 3:
+            return self.context + self.actions[-3] + self.results[-3] + self.actions[-2] + self.results[-2] + \
+                   self.actions[-1] + self.results[-1]
+        elif len(self.results) >= 2:
             return self.context + self.actions[-2] + self.results[-2] + self.actions[-1] + self.results[-1]
         elif len(self.results) >= 1:
             return self.context + self.actions[-1] + self.results[-1]
