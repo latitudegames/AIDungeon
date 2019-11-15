@@ -12,6 +12,7 @@ class Scraper:
         chrome_options.add_argument("--window-size=1920x1080")
         exec_path = "/usr/bin/chromedriver"
         self.driver = webdriver.Chrome(chrome_options=chrome_options, executable_path=exec_path)
+        self.max_depth = 20
 
     def GoToURL(self, url):
         self.driver.get(url)
@@ -29,8 +30,14 @@ class Scraper:
         self.GetLinks().click()
 
     def ClickAction(self, action_num):
-        self.GetLinks()[action_num+4].click()
+        link = self.GetLinks()[action_num+4]
+        if link.text != "self.GetLinks()[action_num+4]":
+            self.GetLinks()[action_num+4].click()
+        else:
+            print("at the end so can no longer go forward")
 
+    def NumActions(self):
+        return len(self.GetLinks()) - 4
 
 scraper = Scraper()
 urls = ["http://chooseyourstory.com/story/viewer/default.aspx?StoryId=10638",
@@ -38,4 +45,5 @@ urls = ["http://chooseyourstory.com/story/viewer/default.aspx?StoryId=10638",
 scraper.GoToURL(urls[1])
 scraper.ClickAction(0)
 text = scraper.GatherText()
+links = scraper.GetLinks()
 print("Done")
