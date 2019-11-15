@@ -29,10 +29,12 @@ class Scraper:
         exec_path = "/usr/bin/chromedriver"
         self.driver = webdriver.Chrome(chrome_options=chrome_options, executable_path=exec_path)
         self.max_depth = 10
-        self.end_action = "End Game and Leave Comments"
+        self.end_actions = ["End Game and Leave Comments",
+                            "See How Well You Did (you can still back-page afterwards if you like)"]
         self.texts = set()
 
     def GoToURL(self, url):
+        self.texts = set()
         self.driver.get(url)
         time.sleep(0.5)
 
@@ -85,7 +87,7 @@ class Scraper:
         action_result["action_results"] = []
 
         for i, action in enumerate(actions):
-            if actions[i] != self.end_action and actions[i] != "Epilogue":
+            if actions[i] not in self.end_actions and actions[i] != "Epilogue":
                 sub_action_result = self.BuildTreeHelper(result, i, depth, actions)
                 if action_result is not None:
                     action_result["action_results"].append(sub_action_result)
@@ -105,7 +107,7 @@ class Scraper:
         story_dict["action_results"] = []
 
         for i, action in enumerate(actions):
-            if action != self.end_action:
+            if action not in self.end_actions:
                 action_result = self.BuildTreeHelper(text, i, 0, actions)
                 if action_result is not None:
                     story_dict["action_results"].append(action_result)
@@ -119,8 +121,30 @@ def save_tree(tree, filename):
 scraper = Scraper()
 
 urls = ["http://chooseyourstory.com/story/viewer/default.aspx?StoryId=10638",
-        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=11246"]
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=11246",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=54639",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=7397",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=8041",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=11545",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=7393",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=13875",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=37696",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=31353",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=31013",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=45375",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=41698",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=10634",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=42204",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=6823",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=18988",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=10359",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=5466",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=28030"
+        ]
 
-tree = scraper.BuildStoryTree(urls[0])
-save_tree(tree, "scraped_story.json")
+for i, url in enumerate(urls):
+    print("****** Extracting Adventure ", url, " ***********")
+    tree = scraper.BuildStoryTree(url)
+    save_tree(tree, "stories/story" + str(i) + ".json")
+
 print("done")
