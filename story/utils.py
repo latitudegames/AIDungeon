@@ -33,6 +33,14 @@ def get_action_verbs(key):
     return data_loaded["action_verbs"][key]
 
 
+def player_died(text):
+
+    dead_phrases = ["you died", "you are dead", "You died", "You are dead", "You're dead", "you're dead"]
+    for phrase in dead_phrases:
+        if phrase in text:
+            return True
+
+
 def get_ctrl_verbs(key):
     with open(YAML_FILE, 'r') as stream:
         data_loaded = yaml.safe_load(stream)
