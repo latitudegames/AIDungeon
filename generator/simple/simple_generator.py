@@ -88,10 +88,10 @@ class SimpleGenerator:
 
     def generate(self, prompt, options=None, seed=1):
 
-        debug=True
+        debug_print=False
         prefix = self.prompt_replace(prompt)
 
-        if debug:
+        if debug_print:
             print("******DEBUG******")
             print("Prompt is: ", repr(prefix))
 
@@ -134,9 +134,9 @@ class SimpleGenerator:
                     gen_text = enc.decode(context_tokens[:1]) + gen_text
                 gen_text = gen_text.lstrip('\n')
                 gen_texts.append(gen_text)
-
-        print("Generated result is: ", repr(gen_texts[0]))
-        print("******END DEBUG******")
+        if debug_print:
+            print("Generated result is: ", repr(gen_texts[0]))
+            print("******END DEBUG******")
         result = gen_texts[0][len(prefix):]
 
         result = self.result_replace(result)
