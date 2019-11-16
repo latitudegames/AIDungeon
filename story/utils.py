@@ -78,7 +78,9 @@ def cut_trailing_sentence(text):
     text = standardize_punctuation(text)
     last_punc = max(text.rfind('.'), text.rfind("!"), text.rfind("?"))
 
-    last_punc = min(text.rfind("<|endoftext|>"), last_punc)
+    et_token = text.rfind("<|endoftext|>")
+    if et_token != -1:
+        last_punc = min(last_punc, et_token)
     
     if last_punc > 0:
         text = text[0:last_punc+1]
