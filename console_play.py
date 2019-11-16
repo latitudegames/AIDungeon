@@ -14,8 +14,8 @@ CRED_FILE = "./AI-Adventure-2bb65e3a4e2f.json"
 
 def play_unconstrained():
     generator = SimpleGenerator()
-    prompt = get_story_start("classic")
-    context = get_context("classic")
+    prompt = get_story_start("zombies")
+    context = get_context("zombies")
     story_manager = UnconstrainedStoryManager(generator)
     story_manager.start_new_story(prompt, context=context)
 

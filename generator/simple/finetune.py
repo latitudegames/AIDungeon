@@ -17,6 +17,6 @@ gpt2.finetune(sess,
               batch_size=8,
               learning_rate=0.0001,
               model_name=model_name,
-              steps=1000)
+              steps=100)
 
 gpt2.generate(sess)
