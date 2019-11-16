@@ -31,14 +31,20 @@ def get_stories(filename):
     return stories
 
 
-output_file_path = "text_adventures.csv"
+output_file_path = "text_adventures.txt"
 with open(output_file_path, 'w') as output_file:
-    writer = csv.writer(output_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
     filenames = ["story0.json"]
     stories = []
     for filename in filenames:
         stories += get_stories(filename)
 
+    raw_text = ""
+    start_token = "<|startoftext|>"
+    end_token = "<|endoftext|>"
     for story in stories:
-        writer.writerow([story])
+        raw_text += start_token + story + end_token + "\n"
+
+    output_file.write(raw_text)
+
+
 
