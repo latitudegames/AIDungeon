@@ -18,7 +18,7 @@ tf.logging.set_verbosity(tf.logging.ERROR)
 
 class SimpleGenerator:
 
-    def __init__(self,  generate_num=65, temperature=0.9, top_k=40, top_p=0.0):
+    def __init__(self,  generate_num=65, temperature=0.4, top_k=40, top_p=0.8):
         self.generate_num=generate_num
         self.temp = temperature
         self.top_k = top_k
@@ -70,6 +70,8 @@ class SimpleGenerator:
         # print(repr(result))
 
         result = cut_trailing_sentence(result)
+        if len(result) == 0:
+            return ""
         first_letter_capitalized = result[0].isupper()
         result = result.replace('."', '".')
         result = result.replace("#", "")
@@ -115,7 +117,7 @@ class SimpleGenerator:
             start_token=enc.encoder['<|endoftext|>'] if not prefix else None,
             context=context if prefix else None,
             batch_size=batch_size,
-            temperature=self.temp, top_k=self.top_k, top_p=self.top_p
+            temperature=self.temp, top_p=self.top_p
         )[:, 1:]
 
         generated = 0
@@ -140,4 +142,6 @@ class SimpleGenerator:
         result = gen_texts[0][len(prefix):]
 
         result = self.result_replace(result)
+        if len(result) == 0:
+            return self.generate(prompt)
         return result
