@@ -146,12 +146,36 @@ urls = ["http://chooseyourstory.com/story/viewer/default.aspx?StoryId=10638",
         "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=10359",
         "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=5466",
         "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=28030",
-        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=56515"
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=56515",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=7480",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=7566",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=53134",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=11413",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=470",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=8041",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=22",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=47011",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=45866",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=8",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=55043",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=6376",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=36791",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=34193",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=10885",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=21879",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=7567",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=51926",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=8035",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=8038",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=2276",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=56742",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=14013"
         ]
 
 for i in range(19, len(urls)):
     print("****** Extracting Adventure ", urls[i], " ***********")
     tree = scraper.BuildStoryTree(urls[i])
-    save_tree(tree, "stories/story" + str(i) + ".json")
+,
+save_tree(tree, "stories/story" + str(i) + ".json")
 
 print("done")
