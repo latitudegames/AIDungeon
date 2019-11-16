@@ -84,7 +84,7 @@ def cut_trailing_sentence(text):
 
     act_token = text.find(">")
     if act_token != -1:
-        last_punc = min(last_punc, act_token+1) 
+        last_punc = min(last_punc, act_token-1)
     
     if last_punc > 0:
         text = text[0:last_punc+1]
