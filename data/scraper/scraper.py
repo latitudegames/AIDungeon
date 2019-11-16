@@ -29,8 +29,13 @@ class Scraper:
         exec_path = "/usr/bin/chromedriver"
         self.driver = webdriver.Chrome(chrome_options=chrome_options, executable_path=exec_path)
         self.max_depth = 10
-        self.end_actions = ["End Game and Leave Comments",
-                            "See How Well You Did (you can still back-page afterwards if you like)"]
+        self.end_actions = {"End Game and Leave Comments",
+                            "Click here to End the Game and Leave Comments",
+                            "See How Well You Did (you can still back-page afterwards if you like)",
+                            "You have died.",
+                            "You have died",
+                            "Epilogue",
+                            "Save Game"}
         self.texts = set()
 
     def GoToURL(self, url):
@@ -65,7 +70,7 @@ class Scraper:
         action_result = {}
 
         action = old_actions[action_num]
-        print("Action is ", action)
+        print("Action is ", repr(action))
         action_result["action"] = action
 
         links = self.GetLinks()
@@ -87,7 +92,7 @@ class Scraper:
         action_result["action_results"] = []
 
         for i, action in enumerate(actions):
-            if actions[i] not in self.end_actions and actions[i] != "Epilogue":
+            if actions[i] not in self.end_actions:
                 sub_action_result = self.BuildTreeHelper(result, i, depth, actions)
                 if action_result is not None:
                     action_result["action_results"].append(sub_action_result)
@@ -111,6 +116,8 @@ class Scraper:
                 action_result = self.BuildTreeHelper(text, i, 0, actions)
                 if action_result is not None:
                     story_dict["action_results"].append(action_result)
+            else:
+                print("done")
 
         return story_dict
 
@@ -129,7 +136,6 @@ urls = ["http://chooseyourstory.com/story/viewer/default.aspx?StoryId=10638",
         "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=7393",
         "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=13875",
         "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=37696",
-        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=31353",
         "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=31013",
         "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=45375",
         "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=41698",
@@ -139,12 +145,13 @@ urls = ["http://chooseyourstory.com/story/viewer/default.aspx?StoryId=10638",
         "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=18988",
         "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=10359",
         "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=5466",
-        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=28030"
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=28030",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=56515"
         ]
 
-for i, url in enumerate(urls):
-    print("****** Extracting Adventure ", url, " ***********")
-    tree = scraper.BuildStoryTree(url)
+for i in range(19, len(urls)):
+    print("****** Extracting Adventure ", urls[i], " ***********")
+    tree = scraper.BuildStoryTree(urls[i])
     save_tree(tree, "stories/story" + str(i) + ".json")
 
 print("done")
