@@ -23,6 +23,7 @@ class Story():
         if game_state is None:
             game_state = dict()
         self.game_state = game_state
+        self.memory = 3
 
 
     def initialize_from_json(self, json_string):
@@ -41,12 +42,17 @@ class Story():
         self.results.append(story_block)
 
     def latest_result(self):
-        if len(self.results) >= 2:
-            return self.context + self.actions[-2] + self.results[-2] + self.actions[-1] + self.results[-1]
-        elif len(self.results) >= 1:
-            return self.context + self.actions[-1] + self.results[-1]
-        else:
-            return self.context + self.story_start
+
+        latest_result = self.context
+        mem_ind = self.memory
+        while mem_ind > 0:
+
+            if len(self.results) >= mem_ind:
+                latest_result += (self.actions[-mem_ind] + self.results[-mem_ind])
+
+            mem_ind -= 1
+
+        return latest_result
 
     def __str__(self):
         story_list = [self.story_start]

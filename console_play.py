@@ -28,21 +28,14 @@ def play_unconstrained():
         if action != "":
             action = action.strip()
 
-            action = action[0].lower() + action[1:]
-
-            if action[-1] == "." or action[-1] == "?" or action[-1] == "!":
-                action = action[:-1]
-            if "you " == action.lower()[0:4]:
-                action = action[4:]
-            if "i " == action.lower()[0:2]:
-                action = action[2:]
+            action = action[0].upper() + action[1:]
 
             action = "\n> " + action + ".\n"
             action = remove_profanity(action)
             #action = first_to_second_person(action)
 
         result = story_manager.act(action)
-        print("\n\n" + action + result)
+        print(result)
 
 
 if __name__ == '__main__':
