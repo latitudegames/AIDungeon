@@ -33,13 +33,11 @@ def play_unconstrained():
             action = "\n> " + action + ".\n"
             action = remove_profanity(action)
             #action = first_to_second_person(action)
-
+        
         result = story_manager.act(action)
         print(result)
 
 
 if __name__ == '__main__':
     play_unconstrained()
-
-
 
