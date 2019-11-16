@@ -59,8 +59,8 @@ class SimpleGenerator:
         if prompt[-1] == " ":
             prompt = prompt[:-1]
 
-        prompt = second_to_first_person(prompt)
-
+        #prompt = second_to_first_person(prompt)
+        
         # print("\n\nAFTER PROMPT_REPLACE")
         # print(repr(prompt))
         return prompt
@@ -74,7 +74,7 @@ class SimpleGenerator:
         result = result.replace('."', '".')
         result = result.replace("#", "")
         result = result.replace("*", "")
-        result = first_to_second_person(result)
+        #result = first_to_second_person(result)
         result = remove_profanity(result)
 
         if not first_letter_capitalized:
@@ -137,7 +137,7 @@ class SimpleGenerator:
 
         print("Generated result is: ", repr(gen_texts[0]))
         print("******END DEBUG******")
-        result = gen_texts[0][len(prefix)+1:]
+        result = gen_texts[0][len(prefix):]
 
         result = self.result_replace(result)
         return result
