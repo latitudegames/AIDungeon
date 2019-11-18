@@ -33,7 +33,7 @@ class GPT2Generator:
         hparams = model.default_hparams()
         with open(os.path.join(models_dir, self.model_name, 'hparams.json')) as f:
             hparams.override_from_dict(json.load(f))
-        seed = 20
+        seed = np.random.randint(0, 100000)
 
         config = tf.compat.v1.ConfigProto()
         config.gpu_options.allow_growth = True
