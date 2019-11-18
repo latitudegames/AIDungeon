@@ -59,5 +59,9 @@ def root():
     return render_template('index.html')
 
 
-if __name__ == '__main__':
+def run_app():
     app.run(host='0.0.0.0', port=8092)
+
+
+if __name__ == '__main__':
+    run_app()
