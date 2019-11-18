@@ -30,16 +30,16 @@ def play_unconstrained():
 
             action = action[0].upper() + action[1:]
 
-            action = "\n> " + action + ".\n"
+            action = "\n> " + action + "\n"
             action = remove_profanity(action)
             #action = first_to_second_person(action)
         
         result = story_manager.act(action)
-        if "you die" in result or "you are dead" in result:
+        if player_died(result):
             print(result + "\nGAME OVER")
             break
         else:
-            print("\n" + result)
+            print(result)
 
 
 if __name__ == '__main__':
