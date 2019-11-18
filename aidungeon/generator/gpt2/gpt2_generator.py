@@ -1,4 +1,4 @@
-from story.utils import *
+from aidungeon.story.story.utils import *
 import warnings
 warnings.filterwarnings("ignore")
 import os
