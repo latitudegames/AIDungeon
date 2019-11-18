@@ -15,7 +15,7 @@ tf.logging.set_verbosity(tf.logging.ERROR)
 
 class GPT2Generator:
 
-    def __init__(self,  generate_num=80, temperature=0.3, top_k=40, top_p=0.8):
+    def __init__(self,  generate_num=100, temperature=0.3, top_k=40, top_p=0.8):
         self.generate_num=generate_num
         self.temp = temperature
         self.top_k = top_k
@@ -90,7 +90,7 @@ class GPT2Generator:
 
     def generate(self, prompt, options=None, seed=1):
 
-        debug_print=True
+        debug_print=False
         prefix = self.prompt_replace(prompt)
 
         if debug_print:
