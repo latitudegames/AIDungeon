@@ -11,8 +11,6 @@ from generator.gpt2.src import model, sample, encoder
 import json
 import numpy as np
 
-tf.logging.set_verbosity(tf.logging.ERROR)
-
 class GPT2Generator:
 
     def __init__(self,  generate_num=100, temperature=0.3, top_k=40, top_p=0.8):

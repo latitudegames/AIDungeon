@@ -8,7 +8,18 @@ CRED_FILE = "./AI-Adventure-2bb65e3a4e2f.json"
 
 
 def console_print(text, width=75):
-    print(textwrap.fill(text, width))
+    last_newline = 0
+    i = 0
+    while i < len(text):
+        if text[i] == "\n":
+            last_newline = 0
+        elif last_newline > width:
+            text = text[:i] + "\n" + text[i:]
+        else:
+            last_newline += 1
+        i += 1
+
+
 
 
 def play_unconstrained():
