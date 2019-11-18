@@ -1,6 +1,7 @@
-from story.story_manager import *
-# from generator.web.web_generator import *
-# from generator.ctrl.ctrl_generator import *
+from aidungeon.story.story_manager import *
+from aidungeon.generator.gpt2.gpt2_generator import *
+from aidungeon.story.story_manager import *
+
 
 CRED_FILE = "./AI-Adventure-2bb65e3a4e2f.json"
 

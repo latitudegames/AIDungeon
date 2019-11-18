@@ -1,5 +1,5 @@
-from story.utils import *
-from other.cacher import *
+from aidungeon.story.utils import *
+from aidungeon.other.cacher import *
 import json
 
 
@@ -211,21 +211,6 @@ class ConstrainedStoryManager(StoryManager):
 
     def generate_action_result(self, prompt, phrase, options=None):
 
-        action = phrase + " " + self.generator.generate(prompt + " " + phrase, options)
+        action_result = phrase + " " + self.generator.generate(prompt + " " + phrase, options)
         action, result = split_first_sentence(action_result)
         return action, result
-
-
-class CTRLStoryManager(ConstrainedStoryManager):
-
-    def get_action_results_generate(self):
-        results = []
-        options = {"word_blacklist": {0:[]}}
-        #options["word_whitelist"] = {0: get_allowed_ctrl_verbs()}
-        for phrase in self.action_phrases:
-            result = self.generate_action_result(self.story_context(), phrase, options=options)
-            action_verb = result[0].split()[1]
-        
-            options["word_blacklist"][0].append(action_verb)
-            results.append(result)
-        return results
