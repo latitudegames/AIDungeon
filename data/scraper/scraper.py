@@ -35,7 +35,28 @@ class Scraper:
                             "You have died.",
                             "You have died",
                             "Epilogue",
-                            "Save Game"}
+                            "Save Game",
+                            "Your quest might have been more successful...",
+                            "5 - not the best, certainly not the worst",
+                            "The End! (leave comments on game)",
+                            "6 - it's worth every cent",
+                            "Quit the game.",
+                            "7 - even better than Reeses' Cups®",
+                            "8 - it will bring you enlightenment",
+                            "End of game! Leave a comment!",
+                            "Better luck next time",
+                            "click here to continue",
+                            "Rating And Leaving Comments",
+                            "Your Outlaw Career has come to an end",
+                            "Thank you for taking the time to read my story",
+                            "You have no further part in the story, End Game and Leave Comments",
+                            '',
+                            "You play no further part in this story. End Game and Leave Comments",
+                            "drivers",
+                            "Alas, poor Yorick, they slew you well",
+                            "My heart bleeds for you",
+                            "To End the Game and Leave Comments click here",
+                            "Call it a day"}
         self.texts = set()
 
     def GoToURL(self, url):
@@ -156,26 +177,51 @@ urls = ["http://chooseyourstory.com/story/viewer/default.aspx?StoryId=10638",
         "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=22",
         "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=47011",
         "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=45866",
-        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=8",
         "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=55043",
         "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=6376",
         "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=36791",
         "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=34193",
         "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=10885",
-        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=21879",
         "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=7567",
         "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=51926",
         "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=8035",
         "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=8038",
-        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=2276",
         "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=56742",
-        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=14013"
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=14013",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=53356",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=6382",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=12165",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=49200",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=48393",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=51934",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=42380",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=38774",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=13349",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=8129",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=7426",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=34838",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=54011",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=52961",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=50303",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=60128",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=60232",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=10183",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=23928",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=25548",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=20983",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=17306",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=9918",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=11274",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=58502",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=39055",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=16577",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=52499",
+        "http://chooseyourstory.com/story/viewer/default.aspx?StoryId=29597"
         ]
 
-for i in range(19, len(urls)):
+for i in range(67, len(urls)):
     print("****** Extracting Adventure ", urls[i], " ***********")
     tree = scraper.BuildStoryTree(urls[i])
-,
-save_tree(tree, "stories/story" + str(i) + ".json")
+    save_tree(tree, "stories/story" + str(i) + ".json")
 
 print("done")
