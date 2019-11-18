@@ -35,7 +35,8 @@ class GPT2Generator:
             hparams.override_from_dict(json.load(f))
         seed = 20
 
-        self.sess = tf.Session(graph=tf.Graph())
+        graph = tf.Graph()
+        self.sess = tf.Session(graph=graph)
         self.context = tf.placeholder(tf.int32, [self.batch_size, None])
         np.random.seed(seed)
         tf.set_random_seed(seed)
