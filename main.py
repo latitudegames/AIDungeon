@@ -9,37 +9,8 @@ import numpy as np
 from story.story_manager import *
 from generator.gpt2.gpt2_generator import *
 
-
-"""
-generator = GPT2Generator()
-    prompt = get_story_start("knight")
-    context = get_context("knight")
-    story_manager = UnconstrainedStoryManager(generator)
-    story_manager.start_new_story(prompt, context=context)
-
-    print("\n")
-    print(context)
-    print(str(story_manager.story))
-    while True:
-        action = input("> ")
-
-        if action != "":
-            action = action.strip()
-
-            action = action[0].upper() + action[1:]
-
-            action = "\n> " + action + "\n"
-            action = remove_profanity(action)
-            #action = first_to_second_person(action)
-        
-        result = story_manager.act(action)
-        if player_died(result):
-            print(result + "\nGAME OVER")
-            break
-        else:
-            print(result)"""
-
 app = Flask(__name__)
+app.secret_key = '#d\xe0\xd1\xfb\xee\xa2\xbb\xd2\xf1/e)\xb5g\xdd<`\xc7\xa6\xa0-\xb8d0S'
 generator = GPT2Generator()
 story_manager = UnconstrainedStoryManager(generator)
 
@@ -59,7 +30,7 @@ def generate():
         prompt = get_story_start("knight")
         context = get_context("knight")
         story_manager.start_new_story(prompt, context=context)
-        response = context + str(story_manager.story)
+        response = "\n" + context + str(story_manager.story) + "\n> "
 
     # If there is a story in session continue from it.
     else:
@@ -75,7 +46,7 @@ def generate():
             action = "\n> " + action + "\n"
             #action = remove_profanity(action)
 
-        response = story_manager.act(action)
+        response = story_manager.act(action) + "\n> "
 
     session["story"] = story_manager.json_story()
     print("Returning response")
