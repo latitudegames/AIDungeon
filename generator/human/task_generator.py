@@ -1,6 +1,0 @@
-"""
-Story tree representation
-
-
-
-"""
