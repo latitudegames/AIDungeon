@@ -1,7 +1,4 @@
 google-cloud-storage
 numpy
-flask
 regex
-gunicorn
-google-api-python-client
 profanityfilter
