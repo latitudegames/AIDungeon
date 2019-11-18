@@ -5,24 +5,43 @@ from story.utils import *
 import json
 from flask import Flask, render_template, request, abort
 from story.story_manager import *
-from generator.web.web_generator import *
-from other.cacher import *
 import numpy as np
+from story.story_manager import *
+from generator.gpt2.gpt2_generator import *
+
+
+"""
+generator = GPT2Generator()
+    prompt = get_story_start("knight")
+    context = get_context("knight")
+    story_manager = UnconstrainedStoryManager(generator)
+    story_manager.start_new_story(prompt, context=context)
+
+    print("\n")
+    print(context)
+    print(str(story_manager.story))
+    while True:
+        action = input("> ")
+
+        if action != "":
+            action = action.strip()
+
+            action = action[0].upper() + action[1:]
+
+            action = "\n> " + action + "\n"
+            action = remove_profanity(action)
+            #action = first_to_second_person(action)
+        
+        result = story_manager.act(action)
+        if player_died(result):
+            print(result + "\nGAME OVER")
+            break
+        else:
+            print(result)"""
 
 app = Flask(__name__)
-app.secret_key = '#d\xe0\xd1\xfb\xee\xa4\xbb\xd0\xf0/e)\xb5g\xdd<`\xc7\xa5\xb0-\xb8d0S'
-CRED_FILE = "./AI-Adventure-2bb65e3a4e2f.json"
-generator = WebGenerator(CRED_FILE)
-story_manager = ConstrainedStoryManager(generator)
-
-def get_response_string(story_text, possible_actions):
-    string_list = ["\n\n", story_text, "\n\nOptions:" + "\n"]
-    for i, action in enumerate(possible_actions):
-        string_list.append(str(i) + ") " + action + "\n")
-    string_list.append("\nWhich action do you choose? ")
-
-    response = "".join(string_list)
-    return response
+generator = GPT2Generator()
+story_manager = UnconstrainedStoryManager(generator)
 
 # Shows about. (Should also link to paper when published)
 @app.route('/about.html')
@@ -37,12 +56,10 @@ def generate():
     # If there is no story in session, make a new one
     if "story" not in session or session["story"] is None:
         print("Starting new story")
-        seed = np.random.randint(100)
-        story_manager.enable_caching(credentials_file=CRED_FILE, seed=seed, bucket_name="dungeon-cache")
-        prompt = get_story_start("classic")
-        story_manager.start_new_story(prompt, seed)
-        possible_actions = story_manager.get_possible_actions()
-        response = get_response_string(str(story_manager.story), possible_actions)
+        prompt = get_story_start("knight")
+        context = get_context("knight")
+        story_manager.start_new_story(prompt, context=context)
+        response = context + str(story_manager.story)
 
     # If there is a story in session continue from it.
     else:
@@ -50,11 +67,15 @@ def generate():
         story = session["story"]
         story_manager.load_story(story, from_json=True)
 
-        result, possible_actions = story_manager.act(action)
-        if result is None:
-            response = "\nInvalid choice. Must be a number from 0 to 3. \n" + "\nWhich action do you choose? "
-        else:
-            response = get_response_string(result, possible_actions)
+        if action != "":
+            action = action.strip()
+
+            action = action[0].upper() + action[1:]
+
+            action = "\n> " + action + "\n"
+            #action = remove_profanity(action)
+
+        response = story_manager.act(action)
 
     session["story"] = story_manager.json_story()
     print("Returning response")
@@ -65,6 +86,7 @@ def generate():
 def root():
     session["story"] = None
     return render_template('index.html')
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080)
