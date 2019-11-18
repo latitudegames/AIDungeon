@@ -35,8 +35,10 @@ class GPT2Generator:
             hparams.override_from_dict(json.load(f))
         seed = 20
 
-        graph = tf.Graph()
-        self.sess = tf.Session(graph=graph)
+        config = tf.compat.v1.ConfigProto()
+        config.gpu_options.allow_growth = True
+        self.sess = tf.compat.v1.Session(config=config)
+
         self.context = tf.placeholder(tf.int32, [self.batch_size, None])
         np.random.seed(seed)
         tf.set_random_seed(seed)
@@ -95,9 +97,7 @@ class GPT2Generator:
             print("******DEBUG******")
             print("Prompt is: ", repr(prefix))
 
-        raw_text = input("Model prompt >>> ")
-
-        context_tokens = self.enc.encode(raw_text)
+        context_tokens = self.enc.encode(prompt)
         generated = 0
         for _ in range(self.samples // self.batch_size):
             out = self.sess.run(self.output, feed_dict={
