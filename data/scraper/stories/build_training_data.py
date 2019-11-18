@@ -33,16 +33,19 @@ def get_stories(filename):
 
 output_file_path = "text_adventures.txt"
 with open(output_file_path, 'w') as output_file:
-    filenames = ["story" + str(i) + ".json" for i in range(1,20)]
+    filenames = ["story" + str(i) + ".json" for i in range(0,69)]
+    filenames += ["apoc_seed" + str(i) + ".json" for i in range(1,5)]
     stories = []
     for filename in filenames:
         stories += get_stories(filename)
+        print(len(stories))
 
     raw_text = ""
     start_token = "<|startoftext|>"
     end_token = "<|endoftext|>"
     for story in stories:
         raw_text += start_token + story + end_token + "\n"
+        print(len(raw_text))
 
     output_file.write(raw_text)
 
