@@ -1,3 +1,4 @@
 models
 *.pyc
 __pycache__
+checkpoint
