@@ -1,0 +1,131 @@
+body {
+	background-color: #000
+}
+
+#console {
+	font-family: courier, monospace;
+	color: #fff;
+    max-width: 800px;
+	width:80%;
+	margin-left:auto;
+	margin-right:auto;
+	margin-top:calc(30px + 4.0vh);
+	font-size:14px;
+	background-color: #000;
+}
+
+.about {
+    font-family: courier, monospace;
+	max-width: 800px;
+	width:80%;
+	margin-left:auto;
+	margin-right:auto;
+	margin-top:100px;
+    font-size:14px;
+}
+
+.about text{
+    color: #fff;
+}
+.about h2{
+    color: #0bc;
+    font-size:16px;
+}
+
+a {
+	color: #0bc;
+	text-decoration: none;
+}
+
+#a {
+	color: #0f0;
+}
+
+#c {
+	color: #0bc;
+}
+
+#b {
+	color: #ff0096;
+}
+
+#k {
+    	animation: change 1s;
+}
+
+#op{
+    	color: #888888
+}
+
+#SI{
+    background-color:transparent;
+}
+
+@keyframes change {
+    	0%  { color:  #333; }
+    	50% { color:  #0f0; }
+    	99% { color: black; }
+}
+
+#buttons {
+    position: relative;
+    bottom: 0px;
+    height: calc(100px + 12.0vw);
+    max-width: 800px;
+	width:80%;
+    color: 334;
+    background-color:#000;
+    margin-left:auto;
+	margin-right:auto;
+    display: flex;
+} 
+
+button {
+    border-color: #fff;
+    color: #fff;
+    margin-top: 60px;
+    margin-left: 3.0vw;
+    margin-right: 3.0vw;
+    margin-bottom: 30px;
+    background-color: #111;
+    width: 14.0vw;
+    height: 12.0vw;
+    text-align: center;
+    border-radius: 25px;
+    font-size:30px;
+
+}
+
+button:focus{
+    background-color: #0bc;
+}
+
+
+/* Add a black background color to the top navigation */
+.topnav {
+    background-color: #000;
+    max-width: 800px;
+	width:80%;
+	margin-left:auto;
+	margin-right:auto;
+	
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+  font-family: courier, monospace;
+  display: inline-block;
+  color: #0bc;
+  text-align: center;
+  padding: 10px 5px;
+  text-decoration: none;
+  font-size:18px;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+  background-color: #0bc;
+  color: white;
+}
+
+
