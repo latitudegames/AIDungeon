@@ -14,8 +14,8 @@ CRED_FILE = "./AI-Adventure-2bb65e3a4e2f.json"
 
 def play_unconstrained():
     generator = SimpleGenerator()
-    prompt = get_story_start("zombies")
-    context = get_context("zombies")
+    prompt = get_story_start("knight")
+    context = get_context("knight")
     story_manager = UnconstrainedStoryManager(generator)
     story_manager.start_new_story(prompt, context=context)
 
@@ -35,7 +35,11 @@ def play_unconstrained():
             #action = first_to_second_person(action)
         
         result = story_manager.act(action)
-        print(result)
+        if "you die" in result or "you are dead" in result:
+            print(result + "\nGAME OVER")
+            break
+        else:
+            print("\n" + result)
 
 
 if __name__ == '__main__':

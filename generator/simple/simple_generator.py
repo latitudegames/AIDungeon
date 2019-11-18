@@ -18,7 +18,7 @@ tf.logging.set_verbosity(tf.logging.ERROR)
 
 class SimpleGenerator:
 
-    def __init__(self,  generate_num=65, temperature=0.4, top_k=40, top_p=0.8):
+    def __init__(self,  generate_num=80, temperature=0.3, top_k=40, top_p=0.8):
         self.generate_num=generate_num
         self.temp = temperature
         self.top_k = top_k
@@ -56,7 +56,7 @@ class SimpleGenerator:
     def prompt_replace(self, prompt):
         # print("\n\nBEFORE PROMPT_REPLACE:")
         # print(repr(prompt))
-        if prompt[-1] == " ":
+        if len(prompt) > 0 and prompt[-1] == " ":
             prompt = prompt[:-1]
 
         #prompt = second_to_first_person(prompt)

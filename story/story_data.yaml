@@ -11,18 +11,13 @@ prompts:
 
   zombies: "You're on top of a building. You look over the city and see roaming undead everywhere. "
 
-action_verbs:
-  classic: ["You tell", "You use", "You go", "You"]
+  wanderinginn: "You stumble through the grass, up the hill to the inn. The inn is dark and empty, the ruins of other structures around it. You look around and see "
 
-  anything: ["You", "You", "You"]
+  knight: "You wake up and continue your journey towards Larion Kingdom. You enter a dark forest that you must pass through. "
 
-ctrl_verbs:
-  non_movement: ["take", "put", "give", "set", "keep", "help", "show", "pay", "read", "start", "stay", "call",
-                  "change", "ask", "open", "look", "make", "say", "tell", "attack", "use", "fight", "scream", "yell"]
-  movement: ["walk", "go", "run", "move"]
+  necromancer: "It’s been five years since the Great Lich Lord was defeated and now it’s time to take over again.\nA messenger runs towards you and tells y that your new necromancer lord has already begun laying waste to the lands under your control. You look around at your necromancer captains and ask their advice. "
 
-rooms:
-  haunted_hospital: ["lobby", "hallway", "parking", "roof", "pharmacy"]
+  scifi: "You have crashlanded on an some planet. You have a laser pistol and a pack of supplies. You leave your escape pod and see "
 
 contexts:
   zombies: "A few months ago a zombie infection broke out. You now are trying to survive on the ruins of what's left in the midst of zombie hordes. "
@@ -32,3 +27,11 @@ contexts:
   apocalypse: "Long ago the bombs fell and the world ended. You are one of the few who is still alive. You are trying to survive by scavenging among the ruins of what is left behind. "
 
   classic: "You are a knight in a deep dungeon. "
+
+  wanderinginn: "You are a young woman and an Innkeeper in a world of magic. "
+
+  knight: "You are a knight on a quest to defeat the great dragon of Larion. You are armed with your sword and shield. "
+
+  necromancer: "You are a necromancer in a world where undead spell casters rule and fight one another for power and control. "
+
+  scifi: "You are a UN space marine with information crucial to the war effort that must get back to Earth. "
