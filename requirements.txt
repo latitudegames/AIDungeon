@@ -1,0 +1,4 @@
+google-cloud-storage
+numpy
+regex
+profanityfilter
