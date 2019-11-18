@@ -2,12 +2,8 @@ from story.utils import *
 import warnings
 warnings.filterwarnings("ignore")
 import os
-import requests
-import sys
 import tensorflow as tf
-import requests
-from tqdm import tqdm
-from generator.gpt2.src import model, sample, encoder
+from aidungeon.generator.gpt2.src import sample, encoder, model
 import json
 import numpy as np
 
