@@ -1,6 +1,6 @@
 import tensorflow as tf
 
-import model
+from generator.gpt2.src import model
 
 def penalize_used(logits, output):
 

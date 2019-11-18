@@ -7,7 +7,7 @@ CRED_FILE = "./AI-Adventure-2bb65e3a4e2f.json"
 
 
 def play_unconstrained():
-    generator = SimpleGenerator()
+    generator = GPT2Generator()
     prompt = get_story_start("knight")
     context = get_context("knight")
     story_manager = UnconstrainedStoryManager(generator)
