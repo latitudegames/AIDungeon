@@ -1,0 +1,3 @@
+seqlen256_v1.ckpt
+*.txt
+*.tfrecords

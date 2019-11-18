@@ -1,0 +1,3 @@
+<span id="a">Adventurer@DungeonDream</span>:<span id="b">~</span><span id="c">$</span>
+Welcome to the Dungeon.<!-- laglaglaglag--><p>Here you will embark on an epic journey through the dreams of an AI to claim victory on your quest. </p><!-- qowifjqwoeijfoqweijfqweoifjqweofijqweoqwoijefoqwijefoijfqiwoefjj -->
+<p>Good luck</p>
