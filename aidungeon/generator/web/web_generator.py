@@ -1,4 +1,3 @@
-from generator.tf.src.encoder import *
 import googleapiclient.discovery
 import traceback
 

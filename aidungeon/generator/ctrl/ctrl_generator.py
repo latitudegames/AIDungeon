@@ -2,10 +2,7 @@ import tensorflow as tf
 import numpy as np
 
 tf.enable_eager_execution()
-import generator.ctrl.model.transformer as transformer
-import re
-from collections import Counter
-from tensorflow.python import debug as tf_debug
+import aidungeon.generator.ctrl.model.transformer as transformer
 from tensorflow.python.ops import math_ops
 from tensorflow.python.ops import embedding_ops
 import fastBPE
