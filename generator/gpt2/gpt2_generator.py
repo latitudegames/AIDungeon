@@ -25,7 +25,7 @@ class GPT2Generator:
         self.model_dir = "generator/gpt2/models"
         self.checkpoint_path = os.path.join(self.model_dir, self.model_name)
 
-        models_dir = os.path.expanduser(os.path.expandvars(self.models_dir))
+        models_dir = os.path.expanduser(os.path.expandvars(self.model_dir))
         self.batch_size = 1
         self.samples = 1
 
@@ -36,12 +36,12 @@ class GPT2Generator:
         seed = 20
 
         self.sess = tf.Session(graph=tf.Graph())
-        context = tf.placeholder(tf.int32, [self.batch_size, None])
+        self.context = tf.placeholder(tf.int32, [self.batch_size, None])
         np.random.seed(seed)
         tf.set_random_seed(seed)
         self.output = sample.sample_sequence(
             hparams=hparams, length=self.generate_num,
-            context=context,
+            context=self.context,
             batch_size=self.batch_size,
             temperature=temperature, top_k=top_k, top_p=top_p
         )
