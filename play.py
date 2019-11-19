@@ -2,6 +2,8 @@ from story.story_manager import *
 from generator.gpt2.gpt2_generator import *
 from story.utils import *
 from story.custom_story import *
+from termios import tcflush, TCIFLUSH
+import time,sys
 
 def select_game():
     print("Which game would you like to play?")
@@ -50,6 +52,7 @@ def play_aidungeon_2():
         print("\n")
         console_print(context + str(story_manager.story))
         while True:
+            tcflush(sys.stdin, TCIFLUSH)
             action = input("> ")
             if action == "restart":
                 break
