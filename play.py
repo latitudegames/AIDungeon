@@ -37,15 +37,15 @@ def play_aidungeon_2():
     story_manager = UnconstrainedStoryManager(generator)
     print("\n\n\n\n")
 
-    with open('opening.txt', 'r') as file:
-        starter = file.read()
-    print(starter)
-
     save_story = input("Help improve AIDungeon by enabling story saving? (Y/n) ")
     if save_story.lower() in ["no", "No", "n"]:
         upload_story = True
     else:
         upload_story = True
+
+    with open('opening.txt', 'r') as file:
+        starter = file.read()
+    print(starter)
 
     while True:
 
