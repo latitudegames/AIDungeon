@@ -65,7 +65,11 @@ def play_aidungeon_2():
         if action != "":
             action = action.strip()
 
-            action = action[0].upper() + action[1:]
+            action = first_to_second_person(action)
+
+            if "You" not in action:
+                action = "You " + action
+
             if action[-1] not in [".", "?", "!"]:
                 action = action + "."
 
