@@ -1,9 +1,9 @@
-from aidungeon.story.utils import *
+from story.utils import *
 import warnings
 warnings.filterwarnings("ignore")
 import os
 import tensorflow as tf
-from aidungeon.generator.gpt2.src import sample, encoder, model
+from generator.gpt2.src import sample, encoder, model
 import json
 import numpy as np
 
@@ -18,7 +18,7 @@ class GPT2Generator:
         self.top_p = top_p
 
         self.model_name = "model_v1"
-        self.model_dir = "aidungeon/generator/gpt2/models"
+        self.model_dir = "generator/gpt2/models"
         self.checkpoint_path = os.path.join(self.model_dir, self.model_name)
 
         models_dir = os.path.expanduser(os.path.expandvars(self.model_dir))
