@@ -22,7 +22,7 @@ class Story():
         if game_state is None:
             game_state = dict()
         self.game_state = game_state
-        self.memory = 3
+        self.memory = 5
 
 
     def initialize_from_json(self, json_string):
