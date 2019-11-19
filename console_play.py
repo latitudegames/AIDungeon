@@ -9,11 +9,13 @@ def console_print(text, width=75):
     while i < len(text):
         if text[i] == "\n":
             last_newline = 0
-        elif last_newline > width:
+        elif last_newline > width and text[i] == " ":
             text = text[:i] + "\n" + text[i:]
+            last_newline = 0
         else:
             last_newline += 1
         i += 1
+    print(text)
 
 
 def play_unconstrained():
@@ -22,10 +24,7 @@ def play_unconstrained():
     generator = GPT2Generator()
     prompt = get_story_start("knight")
     context = get_context("knight")
-    print("DEUBUG: Context is ", context)
-    print("DEBUG: Prompt is ", prompt)
     story_manager = UnconstrainedStoryManager(generator)
-    print("Generating initial story.")
     story_manager.start_new_story(prompt, context=context)
 
     with open('opening.txt', 'r') as file:
@@ -34,8 +33,7 @@ def play_unconstrained():
     print(starter)
 
     print("\n")
-    console_print(context)
-    console_print(str(story_manager.story))
+    console_print(context + str(story_manager.story))
     while True:
         action = input("> ")
 

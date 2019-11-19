@@ -72,6 +72,7 @@ class GPT2Generator:
         result = result.replace('."', '".')
         result = result.replace("#", "")
         result = result.replace("*", "")
+        result = result.replace("\n\n", "\n")
         #result = first_to_second_person(result)
         result = remove_profanity(result)
 
@@ -86,7 +87,7 @@ class GPT2Generator:
 
     def generate(self, prompt, options=None, seed=1):
 
-        debug_print = True
+        debug_print = False
         prefix = self.prompt_replace(prompt)
 
         if debug_print:
