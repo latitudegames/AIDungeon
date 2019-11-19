@@ -46,7 +46,7 @@ def play_unconstrained():
             action = remove_profanity(action)
             # action = first_to_second_person(action)
 
-        result = story_manager.act(action)
+        result = "\n" + story_manager.act(action)
         if player_died(result):
             console_print(result + "\nGAME OVER")
             break

@@ -7,7 +7,7 @@ from generator.gpt2.src import sample, encoder, model
 import json
 import numpy as np
 
-tf.logging.set_verbosity(tf.logging.ERROR)
+tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
 class GPT2Generator:
 
@@ -36,8 +36,8 @@ class GPT2Generator:
         self.sess = tf.compat.v1.Session(config=config)
 
         self.context = tf.placeholder(tf.int32, [self.batch_size, None])
-        np.random.seed(seed)
-        tf.set_random_seed(seed)
+        #np.random.seed(seed)
+        # tf.set_random_seed(seed)
         self.output = sample.sample_sequence(
             hparams=hparams, length=self.generate_num,
             context=self.context,
