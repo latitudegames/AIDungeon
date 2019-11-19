@@ -95,6 +95,8 @@ def play_aidungeon_2():
             if player_died(result):
                 console_print(result + "\nGAME OVER")
                 break
+            elif player_won(result):
+                console_print(result + "\n CONGRATS YOU WIN")
             else:
                 console_print(result)
 
