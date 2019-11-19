@@ -34,7 +34,7 @@ def play_aidungeon_2():
 
     save_story = input("Help improve AIDungeon by enabling story saving? (Y/n) ")
     if save_story.lower() in ["no", "No", "n"]:
-        upload_story = True
+        upload_story = False
     else:
         upload_story = True
 
