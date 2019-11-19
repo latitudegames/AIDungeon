@@ -20,7 +20,7 @@ class Story():
         self.seed = seed
         self.choices = []
         self.possible_action_results = None
-        self.uuid = uuid.uuid1()
+        self.uuid = str(uuid.uuid1())
 
         if game_state is None:
             game_state = dict()
