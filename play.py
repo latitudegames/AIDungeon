@@ -66,6 +66,7 @@ def play_aidungeon_2():
                     try:
                         rating_float = float(rating)
                         story_manager.story.rating = rating_float
+                        story_manager.story.save_to_storage()
                     except:
                         pass
                 break
