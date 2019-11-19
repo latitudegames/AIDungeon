@@ -42,9 +42,9 @@ def select_game():
 def instructions():
     text = "AI Dungeon 2 Instructions:"
     text += '\n* Enter actions starting with a verb ex. "go to the place" or "attack the orc"'
-    text += '\n* Just press enter with no action if you want to let the story continue.'
-    text += '\n* Enter "restart" for any action to end your game and start a new one'
-    text += '\n* Enjoy!'
+    text += '\n* If you want to say something then enter \'say "(thing you want to say)"\''
+    text += '\n* You can also just press enter with no action if you want to let the story continue.'
+    text += '\n* Finally if you want to end your game and start a new one just enter "restart" for any action. '
     return text
 
 def play_aidungeon_2():

@@ -1,9 +1,9 @@
 prompts:
   classic: "You enter a dungeon with your trusty sword and shield. You are searching for the evil necromancer who killed your family. You've heard that he resides at the bottom of the dungeon, guarded by legions of the undead. You enter the first door and see "
 
-  hospital: "You wake up in an old rundown hospital with no memory of how you got there. You look around and see "
+  hospital: "You wake up in an old rundown hospital with no memory of how you got there. You take a look around the room. "
 
-  peasant: "You were kicked out of your home and have set out to see if you can find work in the next town. You step onto the road and see "
+  peasant: "You were kicked out of your home and have set out to see if you can find work in the next town. You step onto the road and look around you. "
 
   apocalypse: "You walk for two hours and take a break. You've left the town you were in and are now in a more rural area. You look around you and see "
 
