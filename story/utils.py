@@ -35,10 +35,19 @@ def get_action_verbs(key):
 
 def player_died(text):
 
-    dead_phrases = ["you died", "you are dead", "You died", "You are dead", "You're dead", "you're dead"]
+    dead_phrases = ["you died", "you are dead", "You died", "You are dead", "You're dead", "you're dead", "you have died", "You have died"]
     for phrase in dead_phrases:
         if phrase in text:
             return True
+    return False
+
+def player_won(text):
+
+    won_phrases = ["live happily ever after"]
+    for phrase in won_phrases:
+        if phrase in text:
+            return True
+    return False
 
 
 def get_ctrl_verbs(key):
