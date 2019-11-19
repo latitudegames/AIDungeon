@@ -3,11 +3,10 @@ import warnings
 warnings.filterwarnings("ignore")
 import os
 import tensorflow as tf
+tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 from generator.gpt2.src import sample, encoder, model
 import json
 import numpy as np
-
-tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
 class GPT2Generator:
 

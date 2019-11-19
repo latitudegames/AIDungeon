@@ -34,8 +34,7 @@ def select_game():
     print("Which game would you like to play?")
     options = ["zombies", "hospital", "peasant", "apocalypse", "classic", "knight", "necromancer", "vague"]
     for i, option in enumerate(options):
-        console_print(str(i) + ") " + option + ": " + get_context(option))
-        print("\n")
+        console_print(str(i) + ") " + option + ": " + get_context(option) + "\n")
 
     choice = get_num_options(len(options))
     return options[choice]
@@ -46,7 +45,7 @@ def instructions():
     text += '\n* Just press enter with no action if you want to let the story continue.'
     text += '\n* Enter "restart" for any action to end your game and start a new one'
     text += '\n* Enjoy!'
-
+    return text
 
 def play_aidungeon_2():
 
