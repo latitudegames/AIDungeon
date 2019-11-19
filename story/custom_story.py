@@ -26,7 +26,7 @@ def make_custom_story():
     character = data["settings"][setting_key]["characters"][character_key]
 
     context = "You are " + name + ", a " + character_key + " " + setting_description + \
-              "You have a " + character["item1"] + " and a " + character["item2"] + "."
+              "You have a " + character["item1"] + " and a " + character["item2"] + ". "
     prompt_num = np.random.randint(0,len(character["prompts"]))
     prompt = character["prompts"][prompt_num]
 

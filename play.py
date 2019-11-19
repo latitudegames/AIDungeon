@@ -16,7 +16,7 @@ def select_game():
         context, prompt = make_custom_story()
 
     else:
-        game = options["choice"]
+        game = options[choice]
         prompt = get_story_start(game)
         context = get_context(game)
 
