@@ -32,7 +32,7 @@ def get_num_options(num):
 
 def select_game():
     print("Which game would you like to play?")
-    options = ["zombies", "hospital", "peasant", "apocalypse", "classic", "knight", "necromancer", "scifi", "vague"]
+    options = ["zombies", "hospital", "peasant", "apocalypse", "classic", "knight", "necromancer", "vague"]
     for i, option in enumerate(options):
         console_print(str(i) + ") " + option + ": " + get_context(option))
         print("\n")
