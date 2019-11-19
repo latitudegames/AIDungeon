@@ -41,6 +41,12 @@ def play_aidungeon_2():
         starter = file.read()
     print(starter)
 
+    save_story = input("Help improve AIDungeon by enabling story saving? (Y/n)")
+    if save_story.lower() in ["no", "No", "n"]:
+        upload_story = True
+    else:
+        upload_story = True
+
     while True:
 
         print("\n\n")
@@ -55,6 +61,13 @@ def play_aidungeon_2():
             tcflush(sys.stdin, TCIFLUSH)
             action = input("> ")
             if action == "restart":
+                if upload_story:
+                    rating = input("Please rate the story quality from 1-10: ")
+                    try:
+                        rating_float = float(rating)
+                        story_manager.story.rating = rating_float
+                    except:
+                        pass
                 break
 
             if action != "" and action.lower() != "continue":
@@ -73,6 +86,10 @@ def play_aidungeon_2():
                 #action = first_to_second_person(action)
 
             result = "\n" + story_manager.act(action)
+
+            if upload_story:
+                story_manager.story.save_to_storage()
+
             if player_died(result):
                 console_print(result + "\nGAME OVER")
                 break
