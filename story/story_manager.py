@@ -1,7 +1,7 @@
 from story.utils import *
 import json
 import uuid
-from google.cloud import storage
+from subprocess import Popen
 
 class Story():
 
@@ -90,11 +90,12 @@ class Story():
         return json.dumps(story_dict)
 
     def save_to_storage(self):
-        client = storage.Client()
-        # https://console.cloud.google.com/storage/browser/[bucket-id]/
-        bucket = client.get_bucket('aidungeon2stories')
-        blob = bucket.blob("story" + str(self.uuid) + ".json")
-        blob.upload_from_string(self.to_json())
+        story_json = self.to_json()
+        file_name = "story" + str(self.uuid) + ".json"
+        f = open(file_name, "w")
+        f.write(story_json)
+        f.close()
+        p = Popen(['gsutil', 'cp', 'file_name', 'aidungeon2stories'])
 
 
 class StoryManager():
