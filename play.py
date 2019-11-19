@@ -32,16 +32,16 @@ def instructions():
 
 def play_aidungeon_2():
 
-    print("Initializing AI Dungeon! (This might take a few minutes)")
-    generator = GPT2Generator()
-    story_manager = UnconstrainedStoryManager(generator)
-    print("\n\n\n\n")
-
     save_story = input("Help improve AIDungeon by enabling story saving? (Y/n) ")
     if save_story.lower() in ["no", "No", "n"]:
         upload_story = True
     else:
         upload_story = True
+
+    print("Initializing AI Dungeon! (This might take a few minutes)")
+    generator = GPT2Generator()
+    story_manager = UnconstrainedStoryManager(generator)
+    print("\n\n\n\n")
 
     with open('opening.txt', 'r') as file:
         starter = file.read()
