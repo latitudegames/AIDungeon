@@ -99,7 +99,7 @@ class Story():
         f.close()
 
         FNULL = open(os.devnull, 'w')
-        p = Popen(['gsutil', 'cp', file_name, 'aidungeon2stories'], stdout=FNULL, stderr=subprocess.STDOUT)
+        p = Popen(['gsutil', 'cp', file_name, 'aidungeonstories'], stdout=FNULL, stderr=subprocess.STDOUT)
 
 
 class StoryManager():
