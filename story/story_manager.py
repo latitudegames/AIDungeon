@@ -116,10 +116,10 @@ class StoryManager():
     def __init__(self, generator):
         self.generator = generator
         
-    def start_new_story(self, story_prompt, context="", game_state=None):
+    def start_new_story(self, story_prompt, context="", game_state=None, upload_story=False):
         block = self.generator.generate(context + story_prompt)
         block = cut_trailing_sentence(block)
-        self.story = Story(story_prompt + block, context=context, game_state=game_state)
+        self.story = Story(story_prompt + block, context=context, game_state=game_state, upload_story=upload_story)
         return self.story
     
     def load_story(self, story, from_json=False):
