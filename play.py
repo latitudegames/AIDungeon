@@ -70,13 +70,13 @@ def play_aidungeon_2():
 
 
         print("\n")
-        console_print(context + "\n\n" + str(story_manager.story))
+        console_print(context + str(story_manager.story))
         while True:
             action = input("> ")
             if action == "restart":
                 break
 
-            if action != "":
+            if action != "" and action.lower() != "continue":
                 action = action.strip()
 
                 action = first_to_second_person(action)
