@@ -7,6 +7,34 @@ YAML_FILE = "story/story_data.yaml"
 from profanityfilter import ProfanityFilter
 pf = ProfanityFilter()
 
+def console_print(text, width=75):
+    last_newline = 0
+    i = 0
+    while i < len(text):
+        if text[i] == "\n":
+            last_newline = 0
+        elif last_newline > width and text[i] == " ":
+            text = text[:i] + "\n" + text[i:]
+            last_newline = 0
+        else:
+            last_newline += 1
+        i += 1
+    print(text)
+
+
+def get_num_options(num):
+
+    while True:
+        choice = input("Enter the number of your choice: ")
+        try:
+            result = int(choice)
+            if result >= 0 and result < num:
+                return result
+            else:
+                print("Error invalid choice. ")
+        except ValueError:
+            print("Error invalid choice. ")
+
 def get_context(key):
     with open(YAML_FILE, 'r') as stream:
         data_loaded = yaml.safe_load(stream)
@@ -35,7 +63,8 @@ def get_action_verbs(key):
 
 def player_died(text):
 
-    dead_phrases = ["you died", "you are dead", "You died", "You are dead", "You're dead", "you're dead", "you have died", "You have died"]
+    dead_phrases = ["you die", "You die", "you died", "you are dead", "You died", "You are dead", "You're dead",
+                    "you're dead", "you have died", "You have died"]
     for phrase in dead_phrases:
         if phrase in text:
             return True
@@ -43,7 +72,7 @@ def player_died(text):
 
 def player_won(text):
 
-    won_phrases = ["live happily ever after"]
+    won_phrases = ["live happily ever after", "you live forever"]
     for phrase in won_phrases:
         if phrase in text:
             return True
