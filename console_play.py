@@ -22,6 +22,8 @@ def play_unconstrained():
     generator = GPT2Generator()
     prompt = get_story_start("knight")
     context = get_context("knight")
+    print("DEUBUG: Context is ", context)
+    print("DEBUG: Prompt is ", prompt)
     story_manager = UnconstrainedStoryManager(generator)
     print("Generating initial story.")
     story_manager.start_new_story(prompt, context=context)
