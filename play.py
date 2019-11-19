@@ -9,7 +9,7 @@ def select_game():
     print("Which game would you like to play?")
     options = ["zombies", "hospital", "apocalypse", "classic", "knight", "necromancer", "custom"]
     for i, option in enumerate(options):
-        console_print(str(i) + ") " + option + ": " + get_context(option) + "\n")
+        console_print(str(i) + ") " + option + "\n")
 
     choice = get_num_options(len(options))
     if options[choice] == "custom":
