@@ -1,7 +1,7 @@
 from story.utils import *
 import numpy as np
 
-YAML_FILE = "story_data.yaml"
+YAML_FILE = "story/story_data.yaml"
 
 
 def make_custom_story():
