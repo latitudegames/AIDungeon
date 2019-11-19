@@ -1,8 +1,6 @@
 from story.story_manager import *
 from generator.gpt2.gpt2_generator import *
 
-
-
 def console_print(text, width=75):
     last_newline = 0
     i = 0
