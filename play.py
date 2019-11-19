@@ -40,6 +40,13 @@ def select_game():
     choice = get_num_options(len(options))
     return options[choice]
 
+def instructions():
+    text = "AI Dungeon 2 Instructions:"
+    text += '\n* Enter actions starting with a verb ex. "go to the place" or "attack the orc"'
+    text += '\n* Just press enter with no action if you want to let the story continue.'
+    text += '\n* Enter "restart" for any action to end your game and start a new one'
+    text += '\n* Enjoy!'
+
 
 def play_aidungeon_2():
 
@@ -57,7 +64,7 @@ def play_aidungeon_2():
 
         print("\n\n")
         game = select_game()
-        print('Enter "restart" for any action to start a new game')
+        console_print(instructions())
         prompt = get_story_start(game)
         context = get_context(game)
         story_manager.start_new_story(prompt, context=context)
