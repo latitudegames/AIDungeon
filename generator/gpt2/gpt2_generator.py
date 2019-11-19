@@ -17,7 +17,7 @@ class GPT2Generator:
         self.top_k = top_k
         self.top_p = top_p
 
-        self.model_name = "model_v3"
+        self.model_name = "model_v4"
         self.model_dir = "generator/gpt2/models"
         self.checkpoint_path = os.path.join(self.model_dir, self.model_name)
 
