@@ -1,19 +1,19 @@
 prompts:
-  classic: "You enter a dungeon with your trusty sword and shield. You are searching for the evil necromancer who killed your family. You've heard that he resides at the bottom of the dungeon, guarded by legions of the undead. You enter the first door and see "
+  classic: "You enter a dungeon with your trusty sword and shield. You are searching for the evil necromancer who killed your family. You've heard that he resides at the bottom of the dungeon, guarded by legions of the undead. You enter the first door and see"
 
-  hospital: "You wake up in an old rundown hospital with no memory of how you got there. You take a look around the room. "
+  hospital: "You wake up in an old rundown hospital with no memory of how you got there. You take a look around the room and see"
 
-  peasant: "You were kicked out of your home and have set out to see if you can find work in the next town. You step onto the road and look around you and see"
+  peasant: "You were kicked out of your home and have set out to see if you can find work in the next town. You step onto the road and see"
 
   apocalypse: "You walk for two hours and take a break. You've left the town you were in and are now in a more rural area. You look around you and see "
 
-  zombies: "You're on top of a building. You look over the city and see roaming undead everywhere. "
+  zombies: "You're on top of a building. You look over the city and see"
 
   knight: "You wake up and continue your journey towards Larion Kingdom. You enter a dark forest that you must pass through. "
 
   necromancer: "It’s been five years since the Great Lich Lord was defeated and now it’s time to take over again.\nA messenger runs towards you and tells y that your new necromancer lord has already begun laying waste to the lands under your control. You look around at your necromancer captains and ask their advice. "
 
-  scifi: "You have crashlanded on an some planet. You have a laser pistol and a pack of supplies. You leave your escape pod and see "
+  scifi: "You have crashlanded on an some planet. You have a laser pistol and a pack of supplies. You leave your escape pod and see"
 
   vague: "You are a "
 

@@ -40,7 +40,7 @@ def select_game():
     return options[choice]
 
 def instructions():
-    text = "AI Dungeon 2 Instructions:"
+    text = "\nAI Dungeon 2 Instructions:"
     text += '\n* Enter actions starting with a verb ex. "go to the tavern" or "attack the orc."'
     text += '\n* If you want to say something then enter \'say "(thing you want to say)"\'.'
     text += '\n* You can also just press enter with no action if you want to let the story continue.'
