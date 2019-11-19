@@ -43,46 +43,54 @@ def select_game():
 
 def play_aidungeon_2():
 
-    game = select_game()
 
     print("Initializing AI Dungeon! (This might take a few minutes)")
     generator = GPT2Generator()
-    prompt = get_story_start(game)
-    context = get_context(game)
     story_manager = UnconstrainedStoryManager(generator)
-    story_manager.start_new_story(prompt, context=context)
+    print("\n\n\n\n")
 
     with open('opening.txt', 'r') as file:
         starter = file.read()
-
     print(starter)
 
-    print("\n")
-    console_print(context + "\n\n" + str(story_manager.story))
     while True:
-        action = input("> ")
 
-        if action != "":
-            action = action.strip()
+        print("\n\n")
+        game = select_game()
+        print('Enter "restart" for any action to start a new game')
+        prompt = get_story_start(game)
+        context = get_context(game)
+        story_manager.start_new_story(prompt, context=context)
 
-            action = first_to_second_person(action)
 
-            if "You" not in action:
-                action = "You " + action
+        print("\n")
+        console_print(context + "\n\n" + str(story_manager.story))
+        while True:
+            action = input("> ")
+            if action == "restart":
+                break
 
-            if action[-1] not in [".", "?", "!"]:
-                action = action + "."
+            if action != "":
+                action = action.strip()
 
-            action = "\n> " + action + "\n"
-            # action = remove_profanity(action)
-            #action = first_to_second_person(action)
+                action = first_to_second_person(action)
 
-        result = "\n" + story_manager.act(action)
-        if player_died(result):
-            console_print(result + "\nGAME OVER")
-            break
-        else:
-            console_print(result)
+                if "You" not in action:
+                    action = "You " + action
+
+                if action[-1] not in [".", "?", "!"]:
+                    action = action + "."
+
+                action = "\n> " + action + "\n"
+                # action = remove_profanity(action)
+                #action = first_to_second_person(action)
+
+            result = "\n" + story_manager.act(action)
+            if player_died(result):
+                console_print(result + "\nGAME OVER")
+                break
+            else:
+                console_print(result)
 
 
 if __name__ == '__main__':
