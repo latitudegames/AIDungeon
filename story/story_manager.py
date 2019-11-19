@@ -1,12 +1,14 @@
 from story.utils import *
 import json
-
+import uuid
+from google.cloud import storage
 
 class Story():
 
     def __init__(self, story_start, context ="", seed=None, game_state=None):
         self.story_start = story_start
         self.context = context
+        self.rating = -1
 
         # list of actions. First action is the prompt length should always equal that of story blocks
         self.actions = []
@@ -18,6 +20,7 @@ class Story():
         self.seed = seed
         self.choices = []
         self.possible_action_results = None
+        self.uuid = uuid.uuid1()
 
         if game_state is None:
             game_state = dict()
@@ -35,6 +38,12 @@ class Story():
         self.possible_action_results = story_dict["possible_action_results"]
         self.game_state = story_dict["game_state"]
         self.context = story_dict["context"]
+        self.uuid = story_dict["uuid"]
+
+        if "rating" in story_dict.keys():
+            self.rating = story_dict["rating"]
+        else:
+            self.rating = -1
 
     def add_to_story(self, action, story_block):
         self.actions.append(action)
@@ -75,8 +84,17 @@ class Story():
         story_dict["possible_action_results"] = self.possible_action_results
         story_dict["game_state"] = self.game_state
         story_dict["context"] = self.context
+        story_dict["uuid"] = self.uuid
+        story_dict["rating"] = self.rating
 
         return json.dumps(story_dict)
+
+    def save_to_storage(self):
+        client = storage.Client()
+        # https://console.cloud.google.com/storage/browser/[bucket-id]/
+        bucket = client.get_bucket('aidungeon2stories')
+        blob = bucket.blob("story" + str(self.uuid) + ".json")
+        blob.upload_from_string(self.to_json())
 
 
 class StoryManager():
