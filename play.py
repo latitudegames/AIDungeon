@@ -32,7 +32,13 @@ def instructions():
 
 def play_aidungeon_2():
 
-    print("Initializing AI Dungeon! (This might take a few minutes)")
+    save_story = input("Help improve AIDungeon by enabling story saving? (Y/n) ")
+    if save_story.lower() in ["no", "No", "n"]:
+        upload_story = False
+    else:
+        upload_story = True
+
+    print("\nInitializing AI Dungeon! (This might take a few minutes)\n")
     generator = GPT2Generator()
     story_manager = UnconstrainedStoryManager(generator)
     print("\n\n\n\n")
@@ -55,6 +61,14 @@ def play_aidungeon_2():
             tcflush(sys.stdin, TCIFLUSH)
             action = input("> ")
             if action == "restart":
+                if upload_story:
+                    rating = input("Please rate the story quality from 1-10: ")
+                    try:
+                        rating_float = float(rating)
+                        story_manager.story.rating = rating_float
+                        story_manager.story.save_to_storage()
+                    except:
+                        pass
                 break
 
             if action != "" and action.lower() != "continue":
@@ -73,6 +87,10 @@ def play_aidungeon_2():
                 #action = first_to_second_person(action)
 
             result = "\n" + story_manager.act(action)
+
+            if upload_story:
+                story_manager.story.save_to_storage()
+
             if player_died(result):
                 console_print(result + "\nGAME OVER")
                 break

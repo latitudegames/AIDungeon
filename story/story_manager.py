@@ -1,12 +1,16 @@
 from story.utils import *
 import json
-
+import uuid
+from subprocess import Popen
+import subprocess
+import os
 
 class Story():
 
     def __init__(self, story_start, context ="", seed=None, game_state=None):
         self.story_start = story_start
         self.context = context
+        self.rating = -1
 
         # list of actions. First action is the prompt length should always equal that of story blocks
         self.actions = []
@@ -18,6 +22,7 @@ class Story():
         self.seed = seed
         self.choices = []
         self.possible_action_results = None
+        self.uuid = str(uuid.uuid1())
 
         if game_state is None:
             game_state = dict()
@@ -35,6 +40,12 @@ class Story():
         self.possible_action_results = story_dict["possible_action_results"]
         self.game_state = story_dict["game_state"]
         self.context = story_dict["context"]
+        self.uuid = story_dict["uuid"]
+
+        if "rating" in story_dict.keys():
+            self.rating = story_dict["rating"]
+        else:
+            self.rating = -1
 
     def add_to_story(self, action, story_block):
         self.actions.append(action)
@@ -75,8 +86,20 @@ class Story():
         story_dict["possible_action_results"] = self.possible_action_results
         story_dict["game_state"] = self.game_state
         story_dict["context"] = self.context
+        story_dict["uuid"] = self.uuid
+        story_dict["rating"] = self.rating
 
         return json.dumps(story_dict)
+
+    def save_to_storage(self):
+        story_json = self.to_json()
+        file_name = "story" + str(self.uuid) + ".json"
+        f = open(file_name, "w")
+        f.write(story_json)
+        f.close()
+
+        FNULL = open(os.devnull, 'w')
+        p = Popen(['gsutil', 'cp', file_name, 'gs://aidungeonstories'], stdout=FNULL, stderr=subprocess.STDOUT)
 
 
 class StoryManager():
