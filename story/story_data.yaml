@@ -3,15 +3,11 @@ prompts:
 
   hospital: "You wake up in an old rundown hospital with no memory of how you got there. You look around and see "
 
-  forest: "You wake up in an old dark forest with no memory of how you got there. You look around and see "
-
-  vague_police: "You are a police officer. You get to work and "
+  peasant: "You were kicked out of your home and have set out to see if you can find work in the next town. You step onto the road and see "
 
   apocalypse: "You walk for two hours and take a break. You've left the town you were in and are now in a more rural area. You look around you and see "
 
   zombies: "You're on top of a building. You look over the city and see roaming undead everywhere. "
-
-  wanderinginn: "You stumble through the grass, up the hill to the inn. The inn is dark and empty, the ruins of other structures around it. You look around and see "
 
   knight: "You wake up and continue your journey towards Larion Kingdom. You enter a dark forest that you must pass through. "
 
@@ -19,16 +15,20 @@ prompts:
 
   scifi: "You have crashlanded on an some planet. You have a laser pistol and a pack of supplies. You leave your escape pod and see "
 
+  vague: "You are a "
+
 contexts:
   zombies: "A few months ago a zombie infection broke out. You now are trying to survive on the ruins of what's left in the midst of zombie hordes. "
 
   hospital: "You forgot everything before the hospital and are now trying to figure out what to do next. "
 
+  peasant: "You are a poor medieval peasant. "
+
+  vague: ""
+
   apocalypse: "Long ago the bombs fell and the world ended. You are one of the few who is still alive. You are trying to survive by scavenging among the ruins of what is left behind. "
 
   classic: "You are a knight in a deep dungeon. "
-
-  wanderinginn: "You are a young woman and an Innkeeper in a world of magic. "
 
   knight: "You are a knight on a quest to defeat the great dragon of Larion. You are armed with your sword and shield. "
 

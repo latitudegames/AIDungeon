@@ -16,12 +16,39 @@ def console_print(text, width=75):
     print(text)
 
 
+def get_num_options(num):
+
+    while True:
+        choice = input("Which do you choose? ")
+        try:
+            result = int(choice)
+            if result >= 0 and result < num:
+                return result
+            else:
+                print("Error invalid choice. ")
+        except ValueError:
+            print("Error invalid choice. ")
+
+
+def select_game():
+    print("Which game would you like to play?")
+    options = ["zombies", "hospital", "peasant", "apocalypse", "classic", "knight", "necromancer", "scifi", "vague"]
+    for i, option in enumerate(options):
+        console_print(str(i) + ") " + option + ": " + get_context(option))
+        print("\n")
+
+    choice = get_num_options(len(options))
+    return options[choice]
+
+
 def play_aidungeon_2():
+
+    game = select_game()
 
     print("Initializing AI Dungeon! (This might take a few minutes)")
     generator = GPT2Generator()
-    prompt = get_story_start("knight")
-    context = get_context("knight")
+    prompt = get_story_start(game)
+    context = get_context(game)
     story_manager = UnconstrainedStoryManager(generator)
     story_manager.start_new_story(prompt, context=context)
 
