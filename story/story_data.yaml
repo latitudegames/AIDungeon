@@ -5,7 +5,7 @@ prompts:
 
   peasant: "You were kicked out of your home and have set out to see if you can find work in the next town. You step onto the road and see"
 
-  apocalypse: "You walk for two hours and take a break. You've left the town you were in and are now in a more rural area. You look around you and see "
+  apocalypse: "You walk for two hours and take a break. You've left the town you were in and are now in a more rural area. You look around and see "
 
   zombies: "You're on top of a building. You look over the city and see"
 
@@ -35,3 +35,66 @@ contexts:
   necromancer: "You are a necromancer in a world where undead spell casters rule and fight one another for power and control. "
 
   scifi: "You are a UN space marine with information crucial to the war effort that must get back to Earth. "
+
+custom:
+  settings:
+#    apocalyptic:
+#      description: "You live in a post apocalyptic world trying to survive by scavenging among the ruins of what is left behind. "
+#
+#    zombies:
+#      description: "A few months ago a zombie infection broke out. You now are trying to survive on the ruins of what's left in the midst of zombie hordes. "
+#
+#    modern:
+#      description: ""
+
+#   context is "you are [name] a [character] [description]. You have a [item1] and [item2].
+
+    fantasy:
+      description: "living in the kingdom of Larion. "
+      characters:
+
+        noble:
+          prompts: ["You are awakened by one of your servants who tells you that your keep is under attack. You look out the window and see"]
+
+          item1: "pouch of gold"
+          item2: "small dagger"
+
+        knight:
+          prompts: ["You enter the forest where you believe the ogre that has been terrorizing your home has been hiding. You step inside and"]
+
+          item1: "steel longsword"
+          item2: "wooden shield"
+
+        squire:
+          prompts: ["You follow Sir Theo as he enters the forest, he turns to you and says"]
+
+          item1: "spear"
+          item2: "pack of supplies"
+
+        wizard:
+          prompts: ["You finish your long journey and finally arrive at the ruin you've been looking for. You look around and see"]
+
+          item1: "staff"
+          item2: "spellbook"
+
+        ranger:
+          prompt: ["You spot the deer and are ready to finish your hunt when suddenly"]
+
+          item1: "hunting bow"
+          item2: "quiver of arrows"
+
+        peasant:
+          prompt: ["You wake up and begin working in the fields. You see"]
+
+          item1: "pitchfork"
+          item2: "nothing else"
+
+        rogue:
+          prompt: ["You successfully sneak into the merchant's house. You look around and see"]
+
+          item1: "long steel dagger"
+          item2: "length of rope"
+
+
+
+
