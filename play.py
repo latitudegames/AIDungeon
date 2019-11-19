@@ -29,6 +29,15 @@ def instructions():
     text += '\n* Finally if you want to end your game and start a new one just enter "restart" for any action. '
     return text
 
+def upload_story_to_cloud(story):
+    rating = input("Please rate the story quality from 1-10: ")
+    try:
+        rating_float = float(rating)
+        story.rating = rating_float
+        story.save_to_storage()
+    except:
+        pass
+
 
 def play_aidungeon_2():
 
@@ -52,8 +61,9 @@ def play_aidungeon_2():
         print("\n\n")
         context, prompt = select_game()
         console_print(instructions())
+        print("\nGenerating story...")
 
-        story_manager.start_new_story(prompt, context=context)
+        story_manager.start_new_story(prompt, context=context, upload_story=upload_story)
 
         print("\n")
         console_print(context + str(story_manager.story))
@@ -62,14 +72,12 @@ def play_aidungeon_2():
             action = input("> ")
             if action == "restart":
                 if upload_story:
-                    rating = input("Please rate the story quality from 1-10: ")
-                    try:
-                        rating_float = float(rating)
-                        story_manager.story.rating = rating_float
-                        story_manager.story.save_to_storage()
-                    except:
-                        pass
+                    upload_story_to_cloud(story_manager.story)
                 break
+            elif action == "quit":
+                if upload_story:
+                    upload_story_to_cloud(story_manager.story)
+                exit()
 
             if action != "" and action.lower() != "continue":
                 action = action.strip()
@@ -88,14 +96,16 @@ def play_aidungeon_2():
 
             result = "\n" + story_manager.act(action)
 
-            if upload_story:
-                story_manager.story.save_to_storage()
-
             if player_died(result):
                 console_print(result + "\nGAME OVER")
+                if upload_story:
+                    upload_story_to_cloud(story_manager.story)
                 break
             elif player_won(result):
                 console_print(result + "\n CONGRATS YOU WIN")
+                if upload_story:
+                    upload_story_to_cloud(story_manager.story)
+                break
             else:
                 console_print(result)
 
