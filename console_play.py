@@ -1,8 +1,7 @@
 from story.story_manager import *
 from generator.gpt2.gpt2_generator import *
-
-CRED_FILE = "./AI-Adventure-2bb65e3a4e2f.json"
-
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 def console_print(text, width=75):
     last_newline = 0

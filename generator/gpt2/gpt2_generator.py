@@ -86,7 +86,7 @@ class GPT2Generator:
 
     def generate(self, prompt, options=None, seed=1):
 
-        debug_print=True
+        debug_print = False
         prefix = self.prompt_replace(prompt)
 
         if debug_print:
