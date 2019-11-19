@@ -40,11 +40,13 @@ def play_unconstrained():
         if action != "":
             action = action.strip()
 
-            action = action[0].upper() + action[1:]
+            action = first_to_second_person(action)
+
+            if "You" not in action:
+                action = "You " + action
 
             action = "\n> " + action + "\n"
-            # action = remove_profanity(action)
-            # action = first_to_second_person(action)
+
 
         result = "\n" + story_manager.act(action)
         if player_died(result):
