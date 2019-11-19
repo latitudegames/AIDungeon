@@ -95,7 +95,7 @@ class Story():
         f = open(file_name, "w")
         f.write(story_json)
         f.close()
-        p = Popen(['gsutil', 'cp', file_name, 'aidungeon2stories'])
+        p = Popen(['gsutil', 'cp', file_name, 'aidungeon2stories', ">", "/dev/null"])
 
 
 class StoryManager():

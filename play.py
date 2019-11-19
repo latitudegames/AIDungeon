@@ -38,7 +38,7 @@ def play_aidungeon_2():
     else:
         upload_story = True
 
-    print("Initializing AI Dungeon! (This might take a few minutes)")
+    print("\nInitializing AI Dungeon! (This might take a few minutes)\n")
     generator = GPT2Generator()
     story_manager = UnconstrainedStoryManager(generator)
     print("\n\n\n\n")
