@@ -2,6 +2,8 @@ from story.utils import *
 import json
 import uuid
 from subprocess import Popen
+import subprocess
+import os
 
 class Story():
 
@@ -95,7 +97,9 @@ class Story():
         f = open(file_name, "w")
         f.write(story_json)
         f.close()
-        p = Popen(['gsutil', 'cp', file_name, 'aidungeon2stories', ">", "/dev/null"])
+
+        FNULL = open(os.devnull, 'w')
+        p = Popen(['gsutil', 'cp', file_name, 'aidungeon2stories'], stdout=FNULL, stderr=subprocess.STDOUT)
 
 
 class StoryManager():
