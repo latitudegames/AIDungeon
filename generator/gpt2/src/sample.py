@@ -17,7 +17,7 @@ def penalize_used(logits, output):
 
     return tf.compat.v1.where(
             bool_tensor,
-            logits / 1.1,
+            logits / 1.15,
             logits)
 
 
