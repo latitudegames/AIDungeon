@@ -29,16 +29,6 @@ def instructions():
     text += '\n* Finally if you want to end your game and start a new one just enter "restart" for any action. '
     return text
 
-def upload_story_to_cloud(story):
-    rating = input("Please rate the story quality from 1-10: ")
-    try:
-        rating_float = float(rating)
-        story.rating = rating_float
-        story.save_to_storage()
-    except:
-        pass
-
-
 def play_aidungeon_2():
 
     save_story = input("Help improve AIDungeon by enabling story saving? (Y/n) ")
@@ -58,6 +48,9 @@ def play_aidungeon_2():
 
     while True:
 
+        if story_manager.story != None:
+            del story_manager.story
+
         print("\n\n")
         context, prompt = select_game()
         console_print(instructions())
@@ -71,12 +64,8 @@ def play_aidungeon_2():
             tcflush(sys.stdin, TCIFLUSH)
             action = input("> ")
             if action == "restart":
-                if upload_story:
-                    upload_story_to_cloud(story_manager.story)
                 break
             elif action == "quit":
-                if upload_story:
-                    upload_story_to_cloud(story_manager.story)
                 exit()
 
             if action != "" and action.lower() != "continue":
@@ -98,13 +87,9 @@ def play_aidungeon_2():
 
             if player_died(result):
                 console_print(result + "\nGAME OVER")
-                if upload_story:
-                    upload_story_to_cloud(story_manager.story)
                 break
             elif player_won(result):
                 console_print(result + "\n CONGRATS YOU WIN")
-                if upload_story:
-                    upload_story_to_cloud(story_manager.story)
                 break
             else:
                 console_print(result)
