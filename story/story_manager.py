@@ -31,7 +31,6 @@ class Story():
         self.memory = 10
 
     def __del__(self):
-        print("Before you go...")
         rating = input("Please rate the story quality from 1-10: ")
         try:
             rating_float = float(rating)
