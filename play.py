@@ -1,7 +1,6 @@
 from story.story_manager import *
 from generator.gpt2.gpt2_generator import *
 from story.utils import *
-from story.custom_story import *
 from termios import tcflush, TCIFLUSH
 import time, sys
 
