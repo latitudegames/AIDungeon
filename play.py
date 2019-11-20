@@ -11,8 +11,19 @@ def select_game():
     print("Pick a setting.")
     settings = data["settings"].keys()
     for i, setting in enumerate(settings):
-        console_print(str(i) + ") " + setting)
-    setting_key = list(settings)[get_num_options(len(settings))]
+        print_str = str(i) + ") " + setting
+        if setting == "fantasy":
+            print_str += " (recommended for new players)"
+        console_print(print_str)
+    console_print(str(len(settings)) + ") custom (for advanced players)")
+    setting_key = list(settings)[get_num_options(len(settings)+1)]
+
+    if setting_key == len(settings):
+        context = input("Enter a sentence or two that describes the context of who your character is. Ex. ' \
+                        You are a knight living in the king of Larion. You have a sword and shield. '")
+        prompt = input("Enter the first couple sentences to start your adventure off. Ex.  \
+                       'You enter the forest searching for the dragon and see' ")
+        return context, prompt
 
     print("Pick a character")
     characters = data["settings"][setting_key]["characters"]
