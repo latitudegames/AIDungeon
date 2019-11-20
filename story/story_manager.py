@@ -31,6 +31,7 @@ class Story():
         self.memory = 10
 
     def __del__(self):
+        print("Before you go...")
         rating = input("Please rate the story quality from 1-10: ")
         try:
             rating_float = float(rating)
@@ -115,6 +116,7 @@ class StoryManager():
 
     def __init__(self, generator):
         self.generator = generator
+        self.story = None
         
     def start_new_story(self, story_prompt, context="", game_state=None, upload_story=False):
         block = self.generator.generate(context + story_prompt)
