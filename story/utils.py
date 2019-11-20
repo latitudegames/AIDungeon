@@ -105,7 +105,37 @@ def replace_outside_quotes(text, current_word, repl_word):
     output = reg_expr.sub(repl_word, text)
     return output
 
-    
+
+def is_first_person(text):
+
+    count = 0
+    for pair in first_to_second_mappings:
+        variations = mapping_variation_pairs(pair)
+        for variation in variations:
+            reg_expr = re.compile(variation[0] + '(?=([^"]*"[^"]*")*[^"]*$)')
+            matches = re.findall(reg_expr, text)
+            count += len(matches)
+
+    if count > 3:
+        return True
+    else:
+        return False
+
+
+def is_second_person(text):
+    count = 0
+    for pair in second_to_first_mappings:
+        variations = mapping_variation_pairs(pair)
+        for variation in variations:
+            reg_expr = re.compile(variation[0] + '(?=([^"]*"[^"]*")*[^"]*$)')
+            matches = re.findall(reg_expr, text)
+            count += len(matches)
+
+    if count > 3:
+        return True
+    else:
+        return False
+
 
 def capitalize(word):
     return word[0].upper() + word[1:]
