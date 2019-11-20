@@ -47,7 +47,6 @@ def play_aidungeon_2():
     print(starter)
 
     while True:
-
         if story_manager.story != None:
             del story_manager.story
 
@@ -80,8 +79,6 @@ def play_aidungeon_2():
                     action = action + "."
 
                 action = "\n> " + action + "\n"
-                # action = remove_profanity(action)
-                #action = first_to_second_person(action)
 
             result = "\n" + story_manager.act(action)
 

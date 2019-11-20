@@ -25,9 +25,9 @@ class GPT2Generator:
         self.samples = 1
 
         self.enc = encoder.get_encoder(self.model_name, models_dir)
-        self.hparams = model.default_hparams()
+        hparams = model.default_hparams()
         with open(os.path.join(models_dir, self.model_name, 'hparams.json')) as f:
-            self.hparams.override_from_dict(json.load(f))
+            hparams.override_from_dict(json.load(f))
         seed = np.random.randint(0, 100000)
 
         config = tf.compat.v1.ConfigProto()
@@ -37,6 +37,13 @@ class GPT2Generator:
         self.context = tf.placeholder(tf.int32, [self.batch_size, None])
         #np.random.seed(seed)
         # tf.set_random_seed(seed)
+        self.output = sample.sample_sequence(
+            hparams=hparams, length=self.generate_num,
+            context=self.context,
+            batch_size=self.batch_size,
+            temperature=temperature, top_k=top_k, top_p=top_p
+        )
+
         saver = tf.train.Saver()
         ckpt = tf.train.latest_checkpoint(os.path.join(models_dir, self.model_name))
         saver.restore(self.sess, ckpt)
@@ -78,13 +85,6 @@ class GPT2Generator:
         return result
 
     def generate(self, prompt, options=None, seed=1):
-
-        self.output = sample.sample_sequence(
-            hparams=self.hparams, length=self.generate_num,
-            context=self.context,
-            batch_size=self.batch_size,
-            temperature=self.temp, top_p=self.top_p
-        )
 
         debug_print = False
         prefix = self.prompt_replace(prompt)
