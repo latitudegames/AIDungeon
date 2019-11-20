@@ -1,99 +1,134 @@
-prompts:
-  classic: "You enter a dungeon with your trusty sword and shield. You are searching for the evil necromancer who killed your family. You've heard that he resides at the bottom of the dungeon, guarded by legions of the undead. You enter the first door and see"
 
-  hospital: "You wake up in an old rundown hospital with no memory of how you got there. You take a look around the room and see"
+settings:
 
-  peasant: "You were kicked out of your home and have set out to see if you can find work in the next town. You step onto the road and see"
+  fantasy:
+    description: "living in the kingdom of Larion. "
+    characters:
 
-  apocalypse: "You walk for two hours and take a break. You've left the town you were in and are now in a more rural area. You look around and see "
+      noble:
+        prompts: ["You are awakened by one of your servants who tells you that your keep is under attack. You look out the window and see"]
 
-  zombies: "You're on top of a building. You look over the city and see"
+        item1: "pouch of gold"
+        item2: "small dagger"
 
-  knight: "You wake up and continue your journey towards Larion Kingdom. You enter a dark forest that you must pass through. "
+      knight:
+        prompts: ["You enter the forest where you believe the ogre that has been terrorizing your home has been hiding. You step inside and"]
 
-  necromancer: "It’s been five years since the Great Lich Lord was defeated and now it’s time to take over again.\nA messenger runs towards you and tells y that your new necromancer lord has already begun laying waste to the lands under your control. You look around at your necromancer captains and ask their advice. "
+        item1: "steel longsword"
+        item2: "wooden shield"
 
-  scifi: "You have crashlanded on an some planet. You have a laser pistol and a pack of supplies. You leave your escape pod and see"
+      squire:
+        prompts: ["You follow Sir Theo as he enters the forest, he turns to you and says"]
 
-  vague: "You are a "
+        item1: "spear"
+        item2: "pack of supplies"
 
-contexts:
-  zombies: "A few months ago a zombie infection broke out. You now are trying to survive on the ruins of what's left in the midst of zombie hordes. "
+      wizard:
+        prompts: ["You finish your long journey and finally arrive at the ruin you've been looking for. You look around and see"]
 
-  hospital: "You forgot everything before the hospital and are now trying to figure out what to do next. "
+        item1: "staff"
+        item2: "spellbook"
 
-  peasant: "You are a poor medieval peasant. "
+      ranger:
+        prompts: ["You spot the deer and are ready to finish your hunt when suddenly"]
 
-  vague: ""
+        item1: "hunting bow"
+        item2: "quiver of arrows"
 
-  apocalypse: "Long ago the bombs fell and the world ended. You are one of the few who is still alive. You are trying to survive by scavenging among the ruins of what is left behind. "
+      peasant:
+        prompts: ["You wake up and begin working in the fields. You see"]
 
-  classic: "You are a knight in a deep dungeon. "
+        item1: "pitchfork"
+        item2: "nothing else"
 
-  knight: "You are a knight on a quest to defeat the great dragon of Larion. You are armed with your sword and shield. "
+      rogue:
+        prompts: ["You successfully sneak into the merchant's house. You look around and see"]
 
-  necromancer: "You are a necromancer in a world where undead spell casters rule and fight one another for power and control. "
+        item1: "long steel dagger"
+        item2: "length of rope"
 
-  scifi: "You are a UN space marine with information crucial to the war effort that must get back to Earth. "
+  mystery:
+    description: "living in Chicago. "
+    characters:
 
-custom:
-  settings:
-#    apocalyptic:
-#      description: "You live in a post apocalyptic world trying to survive by scavenging among the ruins of what is left behind. "
-#
-#    zombies:
-#      description: "A few months ago a zombie infection broke out. You now are trying to survive on the ruins of what's left in the midst of zombie hordes. "
-#
-#    modern:
-#      description: ""
+      patient:
+        prompts: ["You wake up in an old rundown hospital with no memory of how you got there. You take a look around the room and see"]
 
-#   context is "you are [name] a [character] [description]. You have a [item1] and [item2].
+        item1: "hospital bracelet"
+        item2: "pack of bandages"
 
-    fantasy:
-      description: "living in the kingdom of Larion. "
-      characters:
+      detective:
+        prompts: ["You enter the forest where you believe the criminal you're searching for fled to. Suddenly"]
 
-        noble:
-          prompts: ["You are awakened by one of your servants who tells you that your keep is under attack. You look out the window and see"]
+        item1: "pistol"
+        item2: "police badge"
 
-          item1: "pouch of gold"
-          item2: "small dagger"
+      spy:
+        prompts: ["You listen to the russian diplomats and hear them discussing"]
 
-        knight:
-          prompts: ["You enter the forest where you believe the ogre that has been terrorizing your home has been hiding. You step inside and"]
+        item1: "concealed pistol"
+        item2: "syringe of poison"
 
-          item1: "steel longsword"
-          item2: "wooden shield"
+      manager:
+        prompt: ["It's late at night when you decide to head home after a long day of work. You step into the parking lot and suddenly"]
 
-        squire:
-          prompts: ["You follow Sir Theo as he enters the forest, he turns to you and says"]
+        item1: "wallet full of cash"
+        item2: "bowler hat"
 
-          item1: "spear"
-          item2: "pack of supplies"
+  apocalyptic:
+    description: " trying to survive in a post apocalyptic world by scavenging among the ruins of what is left. "
 
-        wizard:
-          prompts: ["You finish your long journey and finally arrive at the ruin you've been looking for. You look around and see"]
+    characters:
 
-          item1: "staff"
-          item2: "spellbook"
+      soldier:
+        prompts: ["You have lived in this military bunker since the bombs went off. You wake up and report for duty to your commanding officer and"]
 
-        ranger:
-          prompts: ["You spot the deer and are ready to finish your hunt when suddenly"]
+        item1: "automatic rifle"
+        item2: "grenade"
 
-          item1: "hunting bow"
-          item2: "quiver of arrows"
+      scavenger:
+        prompts: ["You walk for two hours and take a break. You've left your town in search of food. You look around and see "]
 
-        peasant:
-          prompts: ["You wake up and begin working in the fields. You see"]
+        item1: "rusty knife"
+        item2: "canteen"
 
-          item1: "pitchfork"
-          item2: "nothing else"
+      survivor:
+        prompts: ["You live in a small community of survivors who have managed to build a piece of civilization after
+        the bombs fell. You are talking to one of the leaders of the community when"]
 
-        rogue:
-          prompts: ["You successfully sneak into the merchant's house. You look around and see"]
+        item1: "hatchet"
+        item2: "hunting rifle"
 
-          item1: "long steel dagger"
-          item2: "length of rope"
+      courier:
+        prompts: ["It's a long and dangerous road from Boston to Charleston, but you're one of the only people who
+        knows the roads well enough to get your parcel of letters there. You set out in the morning and"]
+
+        item1: "parcel of letters"
+        item2: "small pistol"
+
+  zombies:
+    description: " trying to survive in a world filled with infected zombies everywhere. "
+
+    characters:
+      soldier:
+        prompts: ["Your unit lost a lot of men when the infection broke, but you've managed to keep the small town
+        you're stationed near safe for now. You look over the town and think"]
+
+        item1: "automatic rifle"
+        item2: "grenade"
+
+    survivor:
+      prompts: ["You have managed to survive several months avoiding zombies and scavenging food.
+       You cautiously enter a rundown store and hear"]
+
+      item1: "pistol"
+      item2: "backpack"
+
+    scientist:
+      prompts: ["You pound your fist on the table angry that you still haven't found the cure to the infection. You turn to your assistant and"]
+
+      item1: "backpack"
+      item2: "solar powered tablet"
 
 
 

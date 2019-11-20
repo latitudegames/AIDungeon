@@ -3,22 +3,32 @@ from generator.gpt2.gpt2_generator import *
 from story.utils import *
 from story.custom_story import *
 from termios import tcflush, TCIFLUSH
-import time,sys
+import time, sys
 
 def select_game():
-    print("Which game would you like to play?")
-    options = ["zombies", "hospital", "apocalypse", "classic", "knight", "necromancer", "custom"]
-    for i, option in enumerate(options):
-        console_print(str(i) + ") " + option + "\n")
+    with open(YAML_FILE, 'r') as stream:
+        data = yaml.safe_load(stream)
 
-    choice = get_num_options(len(options))
-    if options[choice] == "custom":
-        context, prompt = make_custom_story()
+    print("Pick a setting.")
+    settings = data["settings"].keys()
+    for i, setting in enumerate(settings):
+        console_print(str(i) + ") " + setting)
+    setting_key = list(settings)[get_num_options(len(settings))]
 
-    else:
-        game = options[choice]
-        prompt = get_story_start(game)
-        context = get_context(game)
+    print("Pick a character")
+    characters = data["settings"][setting_key]["characters"]
+    for i, character in enumerate(characters):
+        console_print(str(i) + ") " + character)
+    character_key = list(characters)[get_num_options(len(characters))]
+
+    name = input("What is your name? ")
+    setting_description = data["settings"][setting_key]["description"]
+    character = data["settings"][setting_key]["characters"][character_key]
+
+    context = "You are " + name + ", a " + character_key + " " + setting_description + \
+              "You have a " + character["item1"] + " and a " + character["item2"] + ". "
+    prompt_num = np.random.randint(0, len(character["prompts"]))
+    prompt = character["prompts"][prompt_num]
 
     return context, prompt
 
