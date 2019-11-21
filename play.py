@@ -56,7 +56,7 @@ def instructions():
 
 def play_aidungeon_2():
 
-    save_story = input("Help improve AIDungeon by letting us save your adventure? (Y/n) ")
+    save_story = input("Help improve AIDungeon by letting us store your adventure for improving the model? (Y/n) ")
     if save_story.lower() in ["no", "No", "n"]:
         upload_story = False
     else:
