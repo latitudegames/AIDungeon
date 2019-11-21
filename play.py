@@ -2,7 +2,8 @@ from story.story_manager import *
 from generator.gpt2.gpt2_generator import *
 from story.utils import *
 from termios import tcflush, TCIFLUSH
-import time, sys
+import time, sys, os
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
 def select_game():
     with open(YAML_FILE, 'r') as stream:
@@ -65,7 +66,7 @@ def play_aidungeon_2():
     print("\nInitializing AI Dungeon! (This might take a few minutes)\n")
     generator = GPT2Generator()
     story_manager = UnconstrainedStoryManager(generator)
-    print("\n\n\n\n")
+    print("\n")
 
     with open('opening.txt', 'r') as file:
         starter = file.read()
