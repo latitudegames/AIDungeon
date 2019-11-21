@@ -108,10 +108,7 @@ def play_aidungeon_2():
 
             result = "\n" + story_manager.act(action)
 
-            if player_died(result):
-                console_print(result + "\nGAME OVER")
-                break
-            elif player_won(result):
+            if player_won(result):
                 console_print(result + "\n CONGRATS YOU WIN")
                 break
             else:
