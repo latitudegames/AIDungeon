@@ -1,10 +1,25 @@
-MODEL_DIRECTORY=aidungeon/generator/gpt2/models/model_v4
+MODELS_DIRECTORY=generator/gpt2/models
+MODEL_VERSION=model_v4
+MODEL_NAME=model-200
+DOWNLOAD_URL=https://students.cs.byu.edu/~nickwalt
 
-if [ -d "$MODEL_DIRECTORY" ]; then
+if [ -d "${MODELS_DIRECTORY}/${MODEL_VERSION}" ]; then
     echo "AIDungeon2 is already installed"
 
 else
     echo "Downloading AIDungeon2 Model"
-    gsutil -m cp -r gs://aidungeon2model/model_v4 ./generator/gpt2/models
+    cd ${MODELS_DIRECTORY}
+    mkdir ${MODEL_VERSION}
+    cd ${MODEL_VERSION}
+    apt-get install aria2 > /dev/null
+    aria2c -x 16 -s 32 "${DOWNLOAD_URL}/${MODEL_VERSION}/${MODEL_NAME}.data-00000-of-00001"
+    wget "${DOWNLOAD_URL}/${MODEL_VERSION}/checkpoint"
+    wget "${DOWNLOAD_URL}/${MODEL_VERSION}/encoder.json"
+    wget "${DOWNLOAD_URL}/${MODEL_VERSION}/hparams.json"
+    wget "${DOWNLOAD_URL}/${MODEL_VERSION}/${MODEL_NAME}.index"
+    wget "${DOWNLOAD_URL}/${MODEL_VERSION}/${MODEL_NAME}.meta"
+    wget "${DOWNLOAD_URL}/${MODEL_VERSION}/vocab.bpe"
+    cd ../../../..
+
     pip install -r requirements.txt > /dev/null
 fi
