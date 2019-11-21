@@ -117,18 +117,18 @@ settings:
         item1: "automatic rifle"
         item2: "grenade"
 
-    survivor:
-      prompts: ["You have managed to survive several months avoiding zombies and scavenging food.
+      survivor:
+        prompts: ["You have managed to survive several months avoiding zombies and scavenging food.
        You cautiously enter a rundown store and hear"]
 
-      item1: "pistol"
-      item2: "backpack"
+        item1: "pistol"
+        item2: "backpack"
 
-    scientist:
-      prompts: ["You pound your fist on the table angry that you still haven't found the cure to the infection. You turn to your assistant and"]
+      scientist:
+        prompts: ["You pound your fist on the table angry that you still haven't found the cure to the infection. You turn to your assistant and"]
 
-      item1: "backpack"
-      item2: "solar powered tablet"
+        item1: "backpack"
+        item2: "solar powered tablet"
 
 
 
