@@ -21,7 +21,6 @@ def console_print(text, width=75):
         i += 1
     print(text)
 
-
 def get_num_options(num):
 
     while True:
@@ -34,31 +33,6 @@ def get_num_options(num):
                 print("Error invalid choice. ")
         except ValueError:
             print("Error invalid choice. ")
-
-def get_context(key):
-    with open(YAML_FILE, 'r') as stream:
-        data_loaded = yaml.safe_load(stream)
-
-    return data_loaded["contexts"][key]
-
-def get_allowed_ctrl_verbs():
-    with open(YAML_FILE, 'r') as stream:
-        data_loaded = yaml.safe_load(stream)
-
-    return data_loaded["ctrl_verbs"]["movement"] + data_loaded["ctrl_verbs"]["non_movement"]
-
-def get_story_start(key):
-    with open(YAML_FILE, 'r') as stream:
-        data_loaded = yaml.safe_load(stream)
-
-    return data_loaded["prompts"][key]
-
-
-def get_action_verbs(key):
-    with open(YAML_FILE, 'r') as stream:
-        data_loaded = yaml.safe_load(stream)
-
-    return data_loaded["action_verbs"][key]
 
 
 def player_died(text):
@@ -77,21 +51,6 @@ def player_won(text):
         if phrase in text:
             return True
     return False
-
-
-def get_ctrl_verbs(key):
-    with open(YAML_FILE, 'r') as stream:
-        data_loaded = yaml.safe_load(stream)
-
-    return data_loaded["ctrl_verbs"][key]
-
-
-def get_rooms(key):
-    with open(YAML_FILE, 'r') as stream:
-        data_loaded = yaml.safe_load(stream)
-
-    return data_loaded["rooms"][key]
-
 
 def remove_profanity(text):
     return pf.censor(text)
@@ -146,7 +105,37 @@ def replace_outside_quotes(text, current_word, repl_word):
     output = reg_expr.sub(repl_word, text)
     return output
 
-    
+
+def is_first_person(text):
+
+    count = 0
+    for pair in first_to_second_mappings:
+        variations = mapping_variation_pairs(pair)
+        for variation in variations:
+            reg_expr = re.compile(variation[0] + '(?=([^"]*"[^"]*")*[^"]*$)')
+            matches = re.findall(reg_expr, text)
+            count += len(matches)
+
+    if count > 3:
+        return True
+    else:
+        return False
+
+
+def is_second_person(text):
+    count = 0
+    for pair in second_to_first_mappings:
+        variations = mapping_variation_pairs(pair)
+        for variation in variations:
+            reg_expr = re.compile(variation[0] + '(?=([^"]*"[^"]*")*[^"]*$)')
+            matches = re.findall(reg_expr, text)
+            count += len(matches)
+
+    if count > 3:
+        return True
+    else:
+        return False
+
 
 def capitalize(word):
     return word[0].upper() + word[1:]
