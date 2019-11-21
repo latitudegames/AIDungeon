@@ -28,16 +28,17 @@ class Story():
         if game_state is None:
             game_state = dict()
         self.game_state = game_state
-        self.memory = 10
+        self.memory = 8
 
     def __del__(self):
-        rating = input("Please rate the story quality from 1-10: ")
-        try:
-            rating_float = float(rating)
-            self.rating = rating_float
-            self.save_to_storage()
-        except:
-            pass
+        if self.upload_story:
+            rating = input("Please rate the story quality from 1-10: ")
+            try:
+                rating_float = float(rating)
+                self.rating = rating_float
+                self.save_to_storage()
+            except:
+                pass
 
     def initialize_from_json(self, json_string):
         story_dict = json.loads(json_string)
