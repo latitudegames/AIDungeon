@@ -31,13 +31,13 @@ def select_game():
 
     setting_key = list(settings)[choice]
 
-    print("Pick a character")
+    print("\nPick a character")
     characters = data["settings"][setting_key]["characters"]
     for i, character in enumerate(characters):
         console_print(str(i) + ") " + character)
     character_key = list(characters)[get_num_options(len(characters))]
 
-    name = input("What is your name? ")
+    name = input("\nWhat is your name? ")
     setting_description = data["settings"][setting_key]["description"]
     character = data["settings"][setting_key]["characters"][character_key]
 
