@@ -13,12 +13,13 @@ else
     cd ${MODEL_VERSION}
     apt-get install aria2 > /dev/null
     aria2c -x 16 -s 32 "${DOWNLOAD_URL}/${MODEL_VERSION}/${MODEL_NAME}.data-00000-of-00001"
-    wget "${DOWNLOAD_URL}/${MODEL_VERSION}/checkpoint"
-    wget "${DOWNLOAD_URL}/${MODEL_VERSION}/encoder.json"
-    wget "${DOWNLOAD_URL}/${MODEL_VERSION}/hparams.json"
-    wget "${DOWNLOAD_URL}/${MODEL_VERSION}/${MODEL_NAME}.index"
-    wget "${DOWNLOAD_URL}/${MODEL_VERSION}/${MODEL_NAME}.meta"
-    wget "${DOWNLOAD_URL}/${MODEL_VERSION}/vocab.bpe"
+    wget "${DOWNLOAD_URL}/${MODEL_VERSION}/checkpoint" > /dev/null
+    wget "${DOWNLOAD_URL}/${MODEL_VERSION}/encoder.json" > /dev/null
+    wget "${DOWNLOAD_URL}/${MODEL_VERSION}/hparams.json" > /dev/null
+    wget "${DOWNLOAD_URL}/${MODEL_VERSION}/${MODEL_NAME}.index" > /dev/null
+    wget "${DOWNLOAD_URL}/${MODEL_VERSION}/${MODEL_NAME}.meta" > /dev/null
+    wget "${DOWNLOAD_URL}/${MODEL_VERSION}/vocab.bpe" > /dev/null
+    echo "Download Complete!"
     cd ../../../..
 
     pip install -r requirements.txt > /dev/null
