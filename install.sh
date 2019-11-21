@@ -7,7 +7,7 @@ if [ -d "${MODELS_DIRECTORY}/${MODEL_VERSION}" ]; then
     echo "AIDungeon2 is already installed"
 
 else
-    echo "Downloading AIDungeon2 Model"
+	echo "Downloading AIDungeon2 Model... (this may take a few minutes)"
     cd ${MODELS_DIRECTORY}
     mkdir ${MODEL_VERSION}
     cd ${MODEL_VERSION}
