@@ -10,12 +10,6 @@ settings:
         item1: "pouch of gold"
         item2: "small dagger"
 
-      princess:
-        prompts: ["You wake up in the morning and look out from your window over the land. You smile and see"]
-
-        item1: "gold tiara"
-        item2: "silver necklace"
-
       knight:
         prompts: ["You enter the forest where you believe the ogre that has been terrorizing your home has been hiding. You step inside and"]
 
@@ -47,7 +41,7 @@ settings:
         item2: "nothing else"
 
       rogue:
-        prompts: ["You successfully sneak into the merchant's house. You look around and see"]
+        prompts: ["You walk down the city street looking for somehwere to steal from. You look around and see"]
 
         item1: "long steel dagger"
         item2: "length of rope"
