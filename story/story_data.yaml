@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 settings:
 
   fantasy:
@@ -10,26 +9,6 @@ settings:
 
         item1: "pouch of gold"
         item2: "small dagger"
-      
-      princess:
-        prompts: ["You wake up in the morning and look out from your window over the land. You smile and see"]
-
-        item1: "gold tiara"
-        item2: "silver necklace"
-=======
-
-settings:
-
-  fantasy:
-    description: "living in the kingdom of Larion. "
-    characters:
-
-      noble:
-        prompts: ["You are awakened by one of your servants who tells you that your keep is under attack. You look out the window and see"]
-
-        item1: "pouch of gold"
-        item2: "small dagger"
->>>>>>> b4a9cb520ad6e85573e786fa7a967a0d74969534
 
       knight:
         prompts: ["You enter the forest where you believe the ogre that has been terrorizing your home has been hiding. You step inside and"]
@@ -90,11 +69,8 @@ settings:
         item2: "syringe of poison"
 
       manager:
-<<<<<<< HEAD
         prompts: ["It's late at night when you decide to head home after a long day of work. You step into the parking lot and suddenly"]
-=======
-        prompt: ["It's late at night when you decide to head home after a long day of work. You step into the parking lot and suddenly"]
->>>>>>> b4a9cb520ad6e85573e786fa7a967a0d74969534
+
 
         item1: "wallet full of cash"
         item2: "bowler hat"
