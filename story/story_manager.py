@@ -1,12 +1,17 @@
 from story.utils import *
 import json
-
+import uuid
+from subprocess import Popen
+import subprocess
+import os
 
 class Story():
 
-    def __init__(self, story_start, context ="", seed=None, game_state=None):
+    def __init__(self, story_start, context ="", seed=None, game_state=None, upload_story=False):
         self.story_start = story_start
         self.context = context
+        self.rating = -1
+        self.upload_story = upload_story
 
         # list of actions. First action is the prompt length should always equal that of story blocks
         self.actions = []
@@ -18,12 +23,22 @@ class Story():
         self.seed = seed
         self.choices = []
         self.possible_action_results = None
+        self.uuid = str(uuid.uuid1())
 
         if game_state is None:
             game_state = dict()
         self.game_state = game_state
-        self.memory = 10
+        self.memory = 8
 
+    def __del__(self):
+        if self.upload_story:
+            rating = input("Please rate the story quality from 1-10: ")
+            try:
+                rating_float = float(rating)
+                self.rating = rating_float
+                self.save_to_storage()
+            except:
+                pass
 
     def initialize_from_json(self, json_string):
         story_dict = json.loads(json_string)
@@ -35,6 +50,12 @@ class Story():
         self.possible_action_results = story_dict["possible_action_results"]
         self.game_state = story_dict["game_state"]
         self.context = story_dict["context"]
+        self.uuid = story_dict["uuid"]
+
+        if "rating" in story_dict.keys():
+            self.rating = story_dict["rating"]
+        else:
+            self.rating = -1
 
     def add_to_story(self, action, story_block):
         self.actions.append(action)
@@ -75,19 +96,32 @@ class Story():
         story_dict["possible_action_results"] = self.possible_action_results
         story_dict["game_state"] = self.game_state
         story_dict["context"] = self.context
+        story_dict["uuid"] = self.uuid
+        story_dict["rating"] = self.rating
 
         return json.dumps(story_dict)
+
+    def save_to_storage(self):
+        story_json = self.to_json()
+        file_name = "story" + str(self.uuid) + ".json"
+        f = open(file_name, "w")
+        f.write(story_json)
+        f.close()
+
+        FNULL = open(os.devnull, 'w')
+        p = Popen(['gsutil', 'cp', file_name, 'gs://aidungeonstories'], stdout=FNULL, stderr=subprocess.STDOUT)
 
 
 class StoryManager():
 
     def __init__(self, generator):
         self.generator = generator
+        self.story = None
         
-    def start_new_story(self, story_prompt, context="", game_state=None):
+    def start_new_story(self, story_prompt, context="", game_state=None, upload_story=False):
         block = self.generator.generate(context + story_prompt)
         block = cut_trailing_sentence(block)
-        self.story = Story(story_prompt + block, context=context, game_state=game_state)
+        self.story = Story(story_prompt + block, context=context, game_state=game_state, upload_story=upload_story)
         return self.story
     
     def load_story(self, story, from_json=False):

@@ -1,5 +1,6 @@
 import csv
 import json
+from story.utils import *
 
 
 def load_tree(filename):
@@ -7,9 +8,18 @@ def load_tree(filename):
         tree = json.load(fp)
     return tree
 
+def remove_phrase(text):
+    phrases = ["Years pass...", "Years pass"]
+    for phrase in phrases:
+        text = text.replace(phrase, "")
+    return text
+
 def make_stories(current_story, tree):
     stories = []
-    current_story += ("\n> " + tree["action"] + "\n" + tree["result"])
+    action = first_to_second_person(tree["action"])
+    action = remove_phrase(action)
+    result = remove_phrase(tree["result"])
+    current_story += ("\n> " + action + "\n" + result)
 
     action_results = tree["action_results"]
     if len(action_results) == 0 or action_results[0] is None:
