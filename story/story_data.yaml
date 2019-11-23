@@ -68,13 +68,6 @@ settings:
         item1: "concealed pistol"
         item2: "syringe of poison"
 
-      manager:
-        prompts: ["It's late at night when you decide to head home after a long day of work. You step into the parking lot and suddenly"]
-
-
-        item1: "wallet full of cash"
-        item2: "bowler hat"
-
   apocalyptic:
     description: " trying to survive in a post apocalyptic world by scavenging among the ruins of what is left. "
 
