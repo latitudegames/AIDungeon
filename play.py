@@ -14,7 +14,7 @@ def select_game():
     for i, setting in enumerate(settings):
         print_str = str(i) + ") " + setting
         if setting == "fantasy":
-            print_str += " (recommended for new players)"
+            print_str += " (best quality)"
         console_print(print_str)
     console_print(str(len(settings)) + ") custom (for advanced players)")
     choice = get_num_options(len(settings)+1)
