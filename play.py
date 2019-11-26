@@ -96,6 +96,11 @@ def play_aidungeon_2():
             elif action == "quit":
                 exit()
             elif action == "revert":
+
+                if len(story_manager.story.actions) is 0:
+                    console_print("You can't go back any farther. ")
+                    continue
+
                 story_manager.story.actions = story_manager.story.actions[:-1]
                 story_manager.story.results = story_manager.story.results[:-1]
                 console_print("Last action reverted. ")
