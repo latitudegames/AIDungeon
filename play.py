@@ -99,7 +99,10 @@ def play_aidungeon_2():
                 story_manager.story.actions = story_manager.story.actions[:-1]
                 story_manager.story.results = story_manager.story.results[:-1]
                 print("Last action reverted. ")
-                print(story_manager.story.results[-1])
+                if len(story_manager.story.results) > 0:
+                    print(story_manager.story.results[-1])
+                else:
+                    print(story_manager.story.story_start)
                 continue
             elif action[0] == '"':
                 action = "You say " + action
