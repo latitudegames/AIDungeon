@@ -102,7 +102,7 @@ def cut_trailing_sentence(text):
 
     text = cut_trailing_quotes(text)
     text = cut_trailing_action(text)
-    return action
+    return text
 
 
 def replace_outside_quotes(text, current_word, repl_word):
