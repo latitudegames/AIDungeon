@@ -78,6 +78,12 @@ def split_first_sentence(text):
         
     return text[0:split_point], text[split_point:]
 
+def cut_trailing_action(text):
+    lines = text.split("\n")
+    last_line = lines[-1]
+    if "you ask." in last_line or "You ask." in last_line or "you say." in last_line or "You say." in last_line:
+        text = "\n".join(lines[0:-1])
+    return text
     
 def cut_trailing_sentence(text):
     text = standardize_punctuation(text)
@@ -94,7 +100,9 @@ def cut_trailing_sentence(text):
     if last_punc > 0:
         text = text[0:last_punc+1]
 
-    return cut_trailing_quotes(text)
+    text = cut_trailing_quotes(text)
+    text = cut_trailing_action(text)
+    return action
 
 
 def replace_outside_quotes(text, current_word, repl_word):
