@@ -94,6 +94,11 @@ def play_aidungeon_2():
                 break
             elif action == "quit":
                 exit()
+            elif action == "revert":
+                story_manager.story.actions = story_manager.story.actions[:-1]
+                story_manager.story.results = story_manager.story.results[:-1]
+                print("Last action reverted. ")
+                print(story_manager.story.results[-1])
             
 
             if action != "":
