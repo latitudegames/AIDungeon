@@ -109,10 +109,13 @@ def play_aidungeon_2():
                 else:
                     console_print(story_manager.story.story_start)
                 continue
+            elif action == "":
+                action = ""
+
             elif action[0] == '"':
                 action = "You say " + action
 
-            elif action != "":
+            else:
                 action = action.strip()
                 action = action[0].lower() + action[1:]
 
