@@ -54,7 +54,7 @@ def instructions():
     text = "\nAI Dungeon 2 Instructions:"
     text += '\n* Enter actions starting with a verb ex. "go to the tavern" or "attack the orc."'
     text += '\n* To speak enter \'say "(thing you want to say)"\' or just "(thing you want to say)" '
-    text += '\n* Enter "revert" for any action if you want to undo the last action and result."
+    text += '\n* Enter "revert" for any action if you want to undo the last action and result.'
     text += '\n* Finally if you want to end your game and start a new one just enter "restart" for any action. '
     return text
 
@@ -102,7 +102,7 @@ def play_aidungeon_2():
                 print(story_manager.story.results[-1])
             elif action[0] == '"':
                 action = "You say " + action
-            
+
             elif action != "":
                 action = action.strip()
                 action = action[0].lower() + action[1:]
