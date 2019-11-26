@@ -133,8 +133,10 @@ def play_aidungeon_2():
                 break
             elif player_died(result):
                 action = "> You die."
-                final_result = story_manager.act(action)
+                final_result = cut_trailing_sentence(story_manager.act(action))
                 console_print(result + final_result)
+                console_print("GAME OVER")
+                break
             else:
                 console_print(result)
 
