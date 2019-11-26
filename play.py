@@ -98,11 +98,11 @@ def play_aidungeon_2():
             elif action == "revert":
                 story_manager.story.actions = story_manager.story.actions[:-1]
                 story_manager.story.results = story_manager.story.results[:-1]
-                print("Last action reverted. ")
+                console_print("Last action reverted. ")
                 if len(story_manager.story.results) > 0:
-                    print(story_manager.story.results[-1])
+                    console_print(story_manager.story.results[-1])
                 else:
-                    print(story_manager.story.story_start)
+                    console_print(story_manager.story.story_start)
                 continue
             elif action[0] == '"':
                 action = "You say " + action
@@ -126,6 +126,10 @@ def play_aidungeon_2():
             if player_won(result):
                 console_print(result + "\n CONGRATS YOU WIN")
                 break
+            elif player_died(result)
+                action = "> You die."
+                final_result = story_manager.act(action)
+                console_print(result + final_result)
             else:
                 console_print(result)
 
