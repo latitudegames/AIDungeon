@@ -94,9 +94,11 @@ def play_aidungeon_2():
                 break
             elif action == "quit":
                 exit()
+            
 
-            if action != "" and action.lower() != "continue":
+            if action != "":
                 action = action.strip()
+                action = action[0].lower() + action[1:]
 
                 action = first_to_second_person(action)
 
