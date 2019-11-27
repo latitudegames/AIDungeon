@@ -37,7 +37,7 @@ def get_num_options(num):
 
 def player_died(text):
 
-    reg_phrases = ["You[a-zA-Z ]*die", "you[a-zA-Z ]*die"]
+    reg_phrases = ["You[a-zA-Z ]* die", "you[a-zA-Z ]* die"]
 
     for phrase in reg_phrases:
         reg_expr = re.compile(phrase)
