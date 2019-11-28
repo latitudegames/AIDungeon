@@ -24,7 +24,7 @@ def select_game():
     if choice == len(settings):
 
         console_print("Enter a sentence or two that describes the context of who your character is. Ex. ' " +
-                        "You are a knight living in the king of Larion. You have a sword and shield. '")
+                        "You are a knight living in the king of Larion. You have a sword and shield.'")
         context = input("Context: ")
         console_print("Enter the first couple sentences to start your adventure off. Ex. " +
                        "'You enter the forest searching for the dragon and see' ")
@@ -53,7 +53,8 @@ def select_game():
 def instructions():
     text = "\nAI Dungeon 2 Instructions:"
     text += '\n* Enter actions starting with a verb ex. "go to the tavern" or "attack the orc."'
-    text += '\n* If you want to say something then enter \'say "(thing you want to say)"\''
+    text += '\n* To speak enter \'say "(thing you want to say)"\' or just "(thing you want to say)" '
+    text += '\n* Enter "revert" for any action if you want to undo the last action and result.'
     text += '\n* Finally if you want to end your game and start a new one just enter "restart" for any action. '
     return text
 
@@ -94,9 +95,27 @@ def play_aidungeon_2():
                 break
             elif action == "quit":
                 exit()
-            
+            elif action == "revert":
 
-            if action != "":
+                if len(story_manager.story.actions) is 0:
+                    console_print("You can't go back any farther. ")
+                    continue
+
+                story_manager.story.actions = story_manager.story.actions[:-1]
+                story_manager.story.results = story_manager.story.results[:-1]
+                console_print("Last action reverted. ")
+                if len(story_manager.story.results) > 0:
+                    console_print(story_manager.story.results[-1])
+                else:
+                    console_print(story_manager.story.story_start)
+                continue
+            elif action == "":
+                action = ""
+
+            elif action[0] == '"':
+                action = "You say " + action
+
+            else:
                 action = action.strip()
                 action = action[0].lower() + action[1:]
 
@@ -114,6 +133,10 @@ def play_aidungeon_2():
 
             if player_won(result):
                 console_print(result + "\n CONGRATS YOU WIN")
+                break
+            elif player_died(result):
+                console_print(result)
+                console_print("YOU DIED. GAME OVER")
                 break
             else:
                 console_print(result)
