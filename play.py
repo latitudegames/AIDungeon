@@ -140,7 +140,7 @@ def play_aidungeon_2():
                 if died.lower() in ["yes", "y"]:
                     console_print("YOU DIED. GAME OVER")
                     break
-                break
+                
             else:
                 console_print(result)
 
