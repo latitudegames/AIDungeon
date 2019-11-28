@@ -24,7 +24,7 @@ def select_game():
     if choice == len(settings):
 
         console_print("Enter a sentence or two that describes the context of who your character is. Ex. ' " +
-                        "You are a knight living in the king of Larion. You have a sword and shield. '")
+                        "You are a knight living in the king of Larion. You have a sword and shield.'")
         context = input("Context: ")
         console_print("Enter the first couple sentences to start your adventure off. Ex. " +
                        "'You enter the forest searching for the dragon and see' ")
