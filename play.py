@@ -136,10 +136,10 @@ def play_aidungeon_2():
                 break
             elif player_died(result):
                 console_print(result)
-                    died = input("Did you die? (y/N)")
-                    if died.lower() in ["yes", "y"]:
-                        console_print("YOU DIED. GAME OVER")
-                        break
+                died = input("Did you die? (y/N)")
+                if died.lower() in ["yes", "y"]:
+                    console_print("YOU DIED. GAME OVER")
+                    break
                 break
             else:
                 console_print(result)
