@@ -37,8 +37,16 @@ def get_num_options(num):
 
 def player_died(text):
 
+    reg_phrases = ["You[a-zA-Z ]* die.", "you[a-zA-Z ]* die.", "You[a-zA-Z ]* die ", "you[a-zA-Z ]* die ",]
+
+    for phrase in reg_phrases:
+        reg_expr = re.compile(phrase)
+        matches = re.findall(reg_expr, text)
+        if len(matches) > 0:
+            return True
+
     dead_phrases = ["you die", "You die", "you died", "you are dead", "You died", "You are dead", "You're dead",
-                    "you're dead", "you have died", "You have died"]
+                    "you're dead", "you have died", "You have died", "finish you off", "Your death", "your death"]
     for phrase in dead_phrases:
         if phrase in text:
             return True
@@ -78,6 +86,12 @@ def split_first_sentence(text):
         
     return text[0:split_point], text[split_point:]
 
+def cut_trailing_action(text):
+    lines = text.split("\n")
+    last_line = lines[-1]
+    if "you ask." in last_line or "You ask." in last_line or "you say." in last_line or "You say." in last_line:
+        text = "\n".join(lines[0:-1])
+    return text
     
 def cut_trailing_sentence(text):
     text = standardize_punctuation(text)
@@ -94,7 +108,9 @@ def cut_trailing_sentence(text):
     if last_punc > 0:
         text = text[0:last_punc+1]
 
-    return cut_trailing_quotes(text)
+    text = cut_trailing_quotes(text)
+    text = cut_trailing_action(text)
+    return text
 
 
 def replace_outside_quotes(text, current_word, repl_word):
