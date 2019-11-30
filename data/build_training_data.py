@@ -59,6 +59,7 @@ def get_stories(filename):
 output_file_path = "text_adventures.txt"
 with open(output_file_path, 'w') as output_file:
     filenames = ["stories/story" + str(i) + ".json" for i in range(0,93)]
+    #filenames = []
     for filename in filenames:
         tree = load_tree(filename)
         print('"' + tree["tree_id"] + '",')
