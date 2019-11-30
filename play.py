@@ -52,15 +52,24 @@ def select_game():
 
 def instructions():
     text = "\nAI Dungeon 2 Instructions:"
-    text += '\n* Enter actions starting with a verb ex. "go to the tavern" or "attack the orc."'
-    text += '\n* To speak enter \'say "(thing you want to say)"\' or just "(thing you want to say)" '
-    text += '\n* Enter "revert" for any action if you want to undo the last action and result.'
-    text += '\n* Finally if you want to end your game and start a new one just enter "restart" for any action. '
+    text += '\n Enter actions starting with a verb ex. "go to the tavern" or "attack the orc."'
+    text += '\n To speak enter \'say "(thing you want to say)"\' or just "(thing you want to say)" '
+    text += '\n\n The following commands can be entered for any action: '
+    text += '\n* "revert" Reverts the last action allowing you to pick a different action.'
+    text += '\n* "quit" Quits the game and saves'
+    text += '\n* "restart" Starts a new game and saves your current one'
+    text += '\n* "save" Makes a new save of your game and gives you the save ID'
+    text += '\n* "load" Asks for a save ID and loads the game if the ID is valid'
+    text += '\n* "print" Prints a transcript of your adventure (without extra newline formatting)'
+    text += '\n* "help" Prints these instructions again'
     return text
 
 def play_aidungeon_2():
 
-    save_story = input("Help AIDungeon by letting us store your adventure to improve the model? (Y/n) ")
+    console_print("If you enable game saving then your adventure will be saved to cloud storage allowing you to"
+                  + " load it again. It may also be used to train AI Dungeon's model to improve it's quality.")
+
+    save_story = input("Enable game saving? (Y/n)")
     if save_story.lower() in ["no", "No", "n"]:
         upload_story = False
     else:
@@ -93,8 +102,24 @@ def play_aidungeon_2():
             action = input("> ")
             if action == "restart":
                 break
+
             elif action == "quit":
                 exit()
+
+            elif action == "help":
+                console_print(instructions())
+
+            elif action == "save":
+                result = story_manager.story.save_to_storage()
+
+            elif action =="load":
+                load_ID = input("What is the ID of the saved game?")
+                result = story_manager.story.load_from_local(load_ID)
+                console_print(result)
+
+            elif action == "print":
+                print(str(story_manager.story))
+
             elif action == "revert":
 
                 if len(story_manager.story.actions) is 0:

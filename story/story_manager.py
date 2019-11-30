@@ -23,7 +23,7 @@ class Story():
         self.seed = seed
         self.choices = []
         self.possible_action_results = None
-        self.uuid = str(uuid.uuid1())
+        self.uuid = None
 
         if game_state is None:
             game_state = dict()
@@ -40,8 +40,7 @@ class Story():
             except:
                 pass
 
-    def initialize_from_json(self, json_string):
-        story_dict = json.loads(json_string)
+    def init_from_dict(self, story_dict):
         self.story_start = story_dict["story_start"]
         self.seed = story_dict["seed"]
         self.actions = story_dict["actions"]
@@ -56,6 +55,11 @@ class Story():
             self.rating = story_dict["rating"]
         else:
             self.rating = -1
+
+
+    def initialize_from_json(self, json_string):
+        story_dict = json.loads(json_string)
+        self.init_from_dict(story_dict)
 
     def add_to_story(self, action, story_block):
         self.actions.append(action)
@@ -81,8 +85,8 @@ class Story():
     def __str__(self):
         story_list = [self.story_start]
         for i in range(len(self.results)):
-            story_list.append(self.actions[i])
-            story_list.append(self.results[i])
+            story_list.append("\n> " + self.actions[i] + "\n")
+            story_list.append("\n" + self.results[i])
 
         return "".join(story_list)
 
@@ -101,7 +105,26 @@ class Story():
 
         return json.dumps(story_dict)
 
+    def save_to_local(self, save_name):
+        self.uuid = str(uuid.uuid1())
+        story_json = self.to_json()
+        file_name = "AIDungeonSave_" + save_name + ".json"
+        f = open(file_name, "w")
+        f.write(story_json)
+        f.close()
+
+    def load_from_local(self, save_name):
+        file_name = "AIDungeonSave_" + save_name + ".json"
+        print("Save ID that can be used to load game is: ", self.uuid)
+
+        with open(file_name, 'r') as fp:
+            game = json.load(fp)
+        self.init_from_dict(game)
+
     def save_to_storage(self):
+        self.uuid = str(uuid.uuid1())
+        print("Save ID that can be used to load game is: ", self.uuid)
+
         story_json = self.to_json()
         file_name = "story" + str(self.uuid) + ".json"
         f = open(file_name, "w")
@@ -110,6 +133,24 @@ class Story():
 
         FNULL = open(os.devnull, 'w')
         p = Popen(['gsutil', 'cp', file_name, 'gs://aidungeonstories'], stdout=FNULL, stderr=subprocess.STDOUT)
+
+    def load_from_storage(self, story_id):
+
+        file_name = "story" + story_id + "_" + str(len(self.actions)) + ".json"
+        cmd = "gsutil cp gs://aidungeonstories/" + file_name + " ."
+        os.system(cmd)
+        exists = os.path.isfile(file_name)
+
+        with open(file_name, 'r') as fp:
+            game = json.load(fp)
+        self.init_from_dict(game)
+
+        if exists:
+            return str(self)
+        else:
+            return "Error save not found."
+
+
 
 
 class StoryManager():
