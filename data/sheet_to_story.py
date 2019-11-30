@@ -31,12 +31,12 @@ def data_to_forest(filename):
 
     for i in range(1, len(rows[0])):
         tree = {}
-        tree["tree_id"] = rows[0][i]
-        tree["context"] = rows[1][i]
-        tree["first_story_block"] = rows[2][i]
+        tree["tree_id"] = "upwork" + str(i)
+        tree["context"] = ""
+        tree["first_story_block"] = rows[1][i]
         tree["action_results"] = []
         current_action_results = tree["action_results"]
-        row_ind = 3
+        row_ind = 2
         while row_ind < len(rows):
             action_result = {}
             action_result["action"] = rows[row_ind][i]
