@@ -146,13 +146,13 @@ def play_aidungeon_2():
                     action = action.strip()
                     action = action[0].lower() + action[1:]
 
-                    action = first_to_second_person(action)
-
-                    if "You" not in action:
+                    if "You" not in action[:6] and "I" not in action[:6]:
                         action = "You " + action
 
                     if action[-1] not in [".", "?", "!"]:
                         action = action + "."
+
+                    action = first_to_second_person(action)
 
                     action = "\n> " + action + "\n"
 
