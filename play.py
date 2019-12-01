@@ -138,6 +138,8 @@ def play_aidungeon_2():
             else:
                 if action == "":
                     action = ""
+                    result = story_manager.act(action)
+                    console_print(result)
 
                 elif action[0] == '"':
                     action = "You say " + action
