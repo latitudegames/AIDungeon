@@ -66,14 +66,11 @@ def instructions():
 
 def play_aidungeon_2():
 
-    console_print("\nIf you enable game saving then your adventure will be saved to cloud storage allowing you to"
-                  + " load it again. It may also be used to train AI Dungeon's model to improve it's quality.")
+    console_print("AI Dungeon 2 will save and use your actions and game to continually improve AI Dungeon."
+                  + " If you would like to disable this enter 'nosaving' for any action. This will also turn off the "
+                  + "ability to save games.")
 
-    save_story = input("Enable game saving? (Y/n) ")
-    if save_story.lower() in ["no", "No", "n"]:
-        upload_story = False
-    else:
-        upload_story = True
+    upload_story = True
 
     print("\nInitializing AI Dungeon! (This might take a few minutes)\n")
     generator = GPT2Generator()
@@ -106,11 +103,17 @@ def play_aidungeon_2():
             elif action == "quit":
                 exit()
 
+            elif action == "nosaving":
+                upload_story = False
+                story_manager.story.upload_story = False
+                console_print("Saving turned off.")
+
             elif action == "help":
                 console_print(instructions())
 
             elif action == "save":
                 result = story_manager.story.save_to_storage()
+                console_print("Game saved.")
 
             elif action =="load":
                 load_ID = input("What is the ID of the saved game?")
