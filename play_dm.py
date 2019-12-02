@@ -25,9 +25,11 @@ def play_dm():
     player = AIPlayer(generator)
 
     while True:
-        action_prompt = story_manager.story_context() + "\n> You"
+        action_prompt = story_manager.story_context() + "What do you do next? \n> You"
         action = player.get_action(action_prompt)
-        print("DEBUG Full action is ", action)
+        print("\n******DEBUG FULL ACTION*******")
+        print(action)
+        print("******END DEBUG******\n")
         action = action.split("\n")[0]
         shown_action = "> You" + action
         console_print(second_to_first_person(shown_action))
