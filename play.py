@@ -18,8 +18,9 @@ def select_game():
         else:
             print_str += " (experimental)"
         console_print(print_str)
-    console_print(str(len(settings)) + ") custom (for advanced players)")
-    choice = get_num_options(len(settings)+1)
+    console_print(str(len(settings)) + ") custom expiermental")
+    console_print(str(len(settings)+1) + ") load a game")
+    choice = get_num_options(len(settings)+2)
 
     if choice == len(settings):
 
@@ -115,13 +116,14 @@ def play_aidungeon_2():
                 if upload_story:
                     id = story_manager.story.save_to_storage()
                     console_print("Game saved.")
-                    console_print("To load the game, type 'load' and enter the following ID: ", id)
+                    console_print("To load the game, type 'load' and enter the following ID: " + id)
                 else:
                     console_print("Saving has been turned off. Cannot save.")
 
             elif action =="load":
                 load_ID = input("What is the ID of the saved game?")
                 result = story_manager.story.load_from_storage(load_ID)
+                console_print("Loading Game...")
                 console_print(result)
 
             elif action == "print":
@@ -172,10 +174,8 @@ def play_aidungeon_2():
                     break
                 elif player_died(result):
                     console_print(result)
-                    died = input("Did you die? (y/N)")
-                    if died.lower() in ["yes", "y"]:
-                        console_print("YOU DIED. GAME OVER")
-                        break
+                    console_print("YOU DIED. GAME OVER")
+                    break
 
                 else:
                     console_print(result)
