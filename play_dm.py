@@ -19,6 +19,7 @@ def play_dm():
 
     console_print("Initializing AI Dungeon DM Mode")
     generator = GPT2Generator(temperature=0.9)
+
     story_manager = UnconstrainedStoryManager(HumanDM())
     context, prompt = select_game()
     console_print(context + prompt)

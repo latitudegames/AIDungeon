@@ -72,7 +72,6 @@ class Story():
             latest_result = self.story_start
         else:
             latest_result = self.context
-
         while mem_ind > 0:
 
             if len(self.results) >= mem_ind:
