@@ -93,7 +93,7 @@ def play_aidungeon_2():
         story_manager.start_new_story(prompt, context=context, upload_story=upload_story)
 
         print("\n")
-        console_print(context + str(story_manager.story))
+        console_print(str(story_manager.story))
         while True:
             tcflush(sys.stdin, TCIFLUSH)
             action = input("> ")
