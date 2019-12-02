@@ -137,20 +137,17 @@ class Story():
     def load_from_storage(self, story_id):
 
         file_name = "story" + story_id + ".json"
-        cmd = "gsutil cp gs://aidungeonstories/" + file_name + " . >/dev/null 2>&1"
+        cmd = "gsutil cp gs://aidungeonstories/" + file_name + " ."
         os.system(cmd)
         exists = os.path.isfile(file_name)
 
-        with open(file_name, 'r') as fp:
-            game = json.load(fp)
-        self.init_from_dict(game)
-
         if exists:
+            with open(file_name, 'r') as fp:
+                game = json.load(fp)
+            self.init_from_dict(game)
             return str(self)
         else:
             return "Error save not found."
-
-
 
 
 class StoryManager():
