@@ -18,7 +18,7 @@ def select_game():
         else:
             print_str += " (experimental)"
         console_print(print_str)
-    console_print(str(len(settings)) + ") custom (for advanced players)")
+    console_print(str(len(settings)) + ") custom expiermental")
     choice = get_num_options(len(settings)+1)
 
     if choice == len(settings):
@@ -52,19 +52,25 @@ def select_game():
 
 def instructions():
     text = "\nAI Dungeon 2 Instructions:"
-    text += '\n* Enter actions starting with a verb ex. "go to the tavern" or "attack the orc."'
-    text += '\n* To speak enter \'say "(thing you want to say)"\' or just "(thing you want to say)" '
-    text += '\n* Enter "revert" for any action if you want to undo the last action and result.'
-    text += '\n* Finally if you want to end your game and start a new one just enter "restart" for any action. '
+    text += '\n Enter actions starting with a verb ex. "go to the tavern" or "attack the orc."'
+    text += '\n To speak enter \'say "(thing you want to say)"\' or just "(thing you want to say)" '
+    text += '\n\nThe following commands can be entered for any action: '
+    text += '\n  "revert"   Reverts the last action allowing you to pick a different action.'
+    text += '\n  "quit"     Quits the game and saves'
+    text += '\n  "restart"  Starts a new game and saves your current one'
+    text += '\n  "save"     Makes a new save of your game and gives you the save ID'
+    text += '\n  "load"     Asks for a save ID and loads the game if the ID is valid'
+    text += '\n  "print"    Prints a transcript of your adventure (without extra newline formatting)'
+    text += '\n  "help"     Prints these instructions again'
     return text
 
 def play_aidungeon_2():
 
-    save_story = input("Help AIDungeon by letting us store your adventure to improve the model? (Y/n) ")
-    if save_story.lower() in ["no", "No", "n"]:
-        upload_story = False
-    else:
-        upload_story = True
+    console_print("AI Dungeon 2 will save and use your actions and game to continually improve AI Dungeon."
+                  + " If you would like to disable this enter 'nosaving' for any action. This will also turn off the "
+                  + "ability to save games.")
+
+    upload_story = True
 
     print("\nInitializing AI Dungeon! (This might take a few minutes)\n")
     generator = GPT2Generator()
@@ -93,8 +99,36 @@ def play_aidungeon_2():
             action = input("> ")
             if action == "restart":
                 break
+
             elif action == "quit":
                 exit()
+
+            elif action == "nosaving":
+                upload_story = False
+                story_manager.story.upload_story = False
+                console_print("Saving turned off.")
+
+            elif action == "help":
+                console_print(instructions())
+
+            elif action == "save":
+                if upload_story:
+                    id = story_manager.story.save_to_storage()
+                    console_print("Game saved.")
+                    console_print("To load the game, type 'load' and enter the following ID: " + id)
+                else:
+                    console_print("Saving has been turned off. Cannot save.")
+
+            elif action =="load":
+                load_ID = input("What is the ID of the saved game?")
+                result = story_manager.story.load_from_storage(load_ID)
+                console_print("\nLoading Game...\n")
+                console_print(result)
+
+            elif action == "print":
+                print("\nPRINTING\n")
+                print(str(story_manager.story))
+
             elif action == "revert":
 
                 if len(story_manager.story.actions) is 0:
@@ -109,40 +143,42 @@ def play_aidungeon_2():
                 else:
                     console_print(story_manager.story.story_start)
                 continue
-            elif action == "":
-                action = ""
-
-            elif action[0] == '"':
-                action = "You say " + action
 
             else:
-                action = action.strip()
-                action = action[0].lower() + action[1:]
+                if action == "":
+                    action = ""
+                    result = story_manager.act(action)
+                    console_print(result)
 
-                action = first_to_second_person(action)
+                elif action[0] == '"':
+                    action = "You say " + action
 
-                if "You" not in action:
-                    action = "You " + action
+                else:
+                    action = action.strip()
+                    action = action[0].lower() + action[1:]
 
-                if action[-1] not in [".", "?", "!"]:
-                    action = action + "."
+                    if "You" not in action[:6] and "I" not in action[:6]:
+                        action = "You " + action
 
-                action = "\n> " + action + "\n"
+                    if action[-1] not in [".", "?", "!"]:
+                        action = action + "."
 
-            result = "\n" + story_manager.act(action)
+                    action = first_to_second_person(action)
 
-            if player_won(result):
-                console_print(result + "\n CONGRATS YOU WIN")
-                break
-            elif player_died(result):
-                console_print(result)
-                died = input("Did you die? (y/N)")
-                if died.lower() in ["yes", "y"]:
+                    action = "\n> " + action + "\n"
+
+                result = "\n" + story_manager.act(action)
+
+                if player_won(result):
+                    console_print(result + "\n CONGRATS YOU WIN")
+                    break
+                elif player_died(result):
+                    console_print(result)
                     console_print("YOU DIED. GAME OVER")
                     break
-                
-            else:
-                console_print(result)
+
+                else:
+                    console_print(result)
 
 
 if __name__ == '__main__':
