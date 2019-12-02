@@ -55,13 +55,13 @@ def instructions():
     text += '\n Enter actions starting with a verb ex. "go to the tavern" or "attack the orc."'
     text += '\n To speak enter \'say "(thing you want to say)"\' or just "(thing you want to say)" '
     text += '\n\nThe following commands can be entered for any action: '
-    text += '\n  revert: Reverts the last action allowing you to pick a different action.'
-    text += '\n  quit: Quits the game and saves'
-    text += '\n  restart: Starts a new game and saves your current one'
-    text += '\n  save: Makes a new save of your game and gives you the save ID'
-    text += '\n  load: Asks for a save ID and loads the game if the ID is valid'
-    text += '\n  print: Prints a transcript of your adventure (without extra newline formatting)'
-    text += '\n  help: Prints these instructions again'
+    text += '\n  "revert"   Reverts the last action allowing you to pick a different action.'
+    text += '\n  "quit"     Quits the game and saves'
+    text += '\n  "restart"  Starts a new game and saves your current one'
+    text += '\n  "save"     Makes a new save of your game and gives you the save ID'
+    text += '\n  "load"     Asks for a save ID and loads the game if the ID is valid'
+    text += '\n  "print"    Prints a transcript of your adventure (without extra newline formatting)'
+    text += '\n  "help"     Prints these instructions again'
     return text
 
 def play_aidungeon_2():
