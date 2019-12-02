@@ -28,7 +28,7 @@ class Story():
         if game_state is None:
             game_state = dict()
         self.game_state = game_state
-        self.memory = 8
+        self.memory = 20
 
     def __del__(self):
         if self.upload_story:
