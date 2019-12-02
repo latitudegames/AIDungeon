@@ -84,15 +84,7 @@ class GPT2Generator:
 
         return result
 
-    def generate(self, prompt, options=None, seed=1):
-
-        debug_print = False
-        prefix = self.prompt_replace(prompt)
-
-        if debug_print:
-            print("******DEBUG******")
-            print("Prompt is: ", repr(prefix))
-
+    def generate_raw(self, prompt):
         context_tokens = self.enc.encode(prompt)
         generated = 0
         for _ in range(self.samples // self.batch_size):
@@ -102,6 +94,19 @@ class GPT2Generator:
             for i in range(self.batch_size):
                 generated += 1
                 text = self.enc.decode(out[i])
+        return text
+
+
+    def generate(self, prompt, options=None, seed=1):
+
+        debug_print = False
+        prompt = self.prompt_replace(prompt)
+
+        if debug_print:
+            print("******DEBUG******")
+            print("Prompt is: ", repr(prompt))
+
+        text = self.generate_raw(prompt)
 
         if debug_print:
             print("Generated result is: ", repr(text))

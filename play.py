@@ -18,7 +18,7 @@ def select_game():
         else:
             print_str += " (experimental)"
         console_print(print_str)
-    console_print(str(len(settings)) + ") custom expiermental")
+    console_print(str(len(settings)) + ") custom experimental")
     choice = get_num_options(len(settings)+1)
 
     if choice == len(settings):
