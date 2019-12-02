@@ -138,7 +138,7 @@ class Story():
     def load_from_storage(self, story_id):
 
         file_name = "story" + story_id + ".json"
-        cmd = "gsutil cp gs://aidungeonstories/" + file_name + " ."
+        cmd = "gsutil cp gs://aidungeonstories/" + file_name + " . >/dev/null 2>&1"
         os.system(cmd)
         exists = os.path.isfile(file_name)
 

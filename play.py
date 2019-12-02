@@ -19,8 +19,7 @@ def select_game():
             print_str += " (experimental)"
         console_print(print_str)
     console_print(str(len(settings)) + ") custom expiermental")
-    console_print(str(len(settings)+1) + ") load a game")
-    choice = get_num_options(len(settings)+2)
+    choice = get_num_options(len(settings)+1)
 
     if choice == len(settings):
 
@@ -123,10 +122,11 @@ def play_aidungeon_2():
             elif action =="load":
                 load_ID = input("What is the ID of the saved game?")
                 result = story_manager.story.load_from_storage(load_ID)
-                console_print("Loading Game...")
+                console_print("\nLoading Game...\n")
                 console_print(result)
 
             elif action == "print":
+                print("\nPRINTING\n")
                 print(str(story_manager.story))
 
             elif action == "revert":
