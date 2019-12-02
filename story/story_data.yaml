@@ -11,7 +11,7 @@ settings:
         item2: "small dagger"
 
       knight:
-        prompts: ["You enter the forest where you believe the ogre that has been terrorizing your home has been hiding. You step inside and"]
+        prompts: ["You are on a quest to defeat the evil dragon of Larion. You've heard he lives up at the north of the kingdom. You set on the path to defeat him and walk into a dark forest. As you enter the forest you see"]
 
         item1: "steel longsword"
         item2: "wooden shield"
