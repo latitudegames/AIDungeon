@@ -123,7 +123,7 @@ class Story():
 
     def save_to_storage(self):
         self.uuid = str(uuid.uuid1())
-        print("Save ID that can be used to load game is: ", self.uuid)
+
 
         story_json = self.to_json()
         file_name = "story" + str(self.uuid) + ".json"
@@ -133,10 +133,11 @@ class Story():
 
         FNULL = open(os.devnull, 'w')
         p = Popen(['gsutil', 'cp', file_name, 'gs://aidungeonstories'], stdout=FNULL, stderr=subprocess.STDOUT)
+        return self.uuid
 
     def load_from_storage(self, story_id):
 
-        file_name = "story" + story_id + "_" + str(len(self.actions)) + ".json"
+        file_name = "story" + story_id + ".json"
         cmd = "gsutil cp gs://aidungeonstories/" + file_name + " ."
         os.system(cmd)
         exists = os.path.isfile(file_name)

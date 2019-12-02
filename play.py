@@ -113,8 +113,9 @@ def play_aidungeon_2():
 
             elif action == "save":
                 if upload_story:
-                    result = story_manager.story.save_to_storage()
+                    id = story_manager.story.save_to_storage()
                     console_print("Game saved.")
+                    console_print("To load the game, type 'load' and enter the following ID: ", id)
                 else:
                     console_print("Saving has been turned off. Cannot save.")
 
