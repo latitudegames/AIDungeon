@@ -67,10 +67,11 @@ class Story():
 
     def latest_result(self):
 
-        latest_result = self.context
         mem_ind = self.memory
         if len(self.results) < 2:
-            latest_result += self.story_start
+            latest_result = self.story_start
+        else:
+            latest_result = self.context
 
         while mem_ind > 0:
 
