@@ -72,7 +72,6 @@ class Story():
         if len(self.results) < 2:
             latest_result += self.story_start
 
-
         while mem_ind > 0:
 
             if len(self.results) >= mem_ind:
@@ -138,20 +137,17 @@ class Story():
     def load_from_storage(self, story_id):
 
         file_name = "story" + story_id + ".json"
-        cmd = "gsutil cp gs://aidungeonstories/" + file_name + " . >/dev/null 2>&1"
+        cmd = "gsutil cp gs://aidungeonstories/" + file_name + " ."
         os.system(cmd)
         exists = os.path.isfile(file_name)
 
-        with open(file_name, 'r') as fp:
-            game = json.load(fp)
-        self.init_from_dict(game)
-
         if exists:
+            with open(file_name, 'r') as fp:
+                game = json.load(fp)
+            self.init_from_dict(game)
             return str(self)
         else:
             return "Error save not found."
-
-
 
 
 class StoryManager():
@@ -163,7 +159,7 @@ class StoryManager():
     def start_new_story(self, story_prompt, context="", game_state=None, upload_story=False):
         block = self.generator.generate(context + story_prompt)
         block = cut_trailing_sentence(block)
-        self.story = Story(story_prompt + block, context=context, game_state=game_state, upload_story=upload_story)
+        self.story = Story(context + story_prompt + block, context=context, game_state=game_state, upload_story=upload_story)
         return self.story
     
     def load_story(self, story, from_json=False):
