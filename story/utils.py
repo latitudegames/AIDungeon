@@ -89,7 +89,7 @@ def split_first_sentence(text):
 def cut_trailing_action(text):
     lines = text.split("\n")
     last_line = lines[-1]
-    if "you ask." in last_line or "You ask." in last_line or "you say." in last_line or "You say." in last_line:
+    if "you ask" in last_line or "You ask" in last_line or "you say" in last_line or "You say" in last_line:
         text = "\n".join(lines[0:-1])
     return text
     

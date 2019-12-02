@@ -16,7 +16,10 @@ class AIPlayer:
         return self.generator.generate_raw(prompt)
 
 def play_dm():
-    generator = GPT2Generator()
+
+    console_print("Initializing AI Dungeon DM Mode")
+    generator = GPT2Generator(temperature=0.9)
+
     story_manager = UnconstrainedStoryManager(HumanDM())
     context, prompt = select_game()
     console_print(context + prompt)
@@ -31,6 +34,9 @@ def play_dm():
         print(action)
         print("******END DEBUG******\n")
         action = action.split("\n")[0]
+        punc = action.rfind(".")
+        if punc > 0:
+            action = action[:punc+1]
         shown_action = "> You" + action
         console_print(second_to_first_person(shown_action))
         story_manager.act(action)
