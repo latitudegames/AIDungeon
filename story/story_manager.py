@@ -84,7 +84,7 @@ class Story():
     def __str__(self):
         story_list = [self.story_start]
         for i in range(len(self.results)):
-            story_list.append("\n> " + self.actions[i] + "\n")
+            story_list.append("\n" + self.actions[i] + "\n")
             story_list.append("\n" + self.results[i])
 
         return "".join(story_list)
@@ -179,14 +179,14 @@ class StoryManager():
 
 class UnconstrainedStoryManager(StoryManager):
 
-    def act(self, action_choice):
+    def act(self, action_choice, temp=None):
 
-        result = self.generate_result(action_choice)
+        result = self.generate_result(action_choice, temp=temp)
         self.story.add_to_story(action_choice, result)
         return result
 
-    def generate_result(self, action):
-        block = self.generator.generate(self.story_context() + action)
+    def generate_result(self, action, temp=None):
+        block = self.generator.generate(self.story_context() + action, temp=temp)
         return block
 
 

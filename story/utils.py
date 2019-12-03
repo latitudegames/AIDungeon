@@ -1,6 +1,7 @@
-# coding: utf-8
+ # coding: utf-8
 import re
 import yaml
+from difflib import SequenceMatcher
 
 YAML_FILE = "story/story_data.yaml"
 
@@ -20,6 +21,9 @@ def console_print(text, width=75):
             last_newline += 1
         i += 1
     print(text)
+
+def get_similarity(a, b):
+    return SequenceMatcher(None, a, b).ratio()
 
 def get_num_options(num):
 

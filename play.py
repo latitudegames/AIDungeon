@@ -23,11 +23,10 @@ def select_game():
 
     if choice == len(settings):
 
-        console_print("Enter a sentence or two that describes the context of who your character is. Ex. ' " +
-                        "You are a knight living in the king of Larion. You have a sword and shield.'")
-        context = input("Context: ")
-        console_print("Enter the first couple sentences to start your adventure off. Ex. " +
-                       "'You enter the forest searching for the dragon and see' ")
+        context = ""
+        console_print("Enter a prompt that describes who you are and the first couple sentences of where you start "
+                      "out ex:\n 'You are a knight in the kingdom of Larion. You are hunting the evil dragon who has" +
+                      "terrorizied the kingdom. You enter the forest searching for the dragon and see' ")
         prompt = input("Starting Prompt: ")
         return context, prompt
 
@@ -125,6 +124,12 @@ def play_aidungeon_2():
                 console_print("\nLoading Game...\n")
                 console_print(result)
 
+            elif len(action.split(" ")) == 2 and action.split(" ")[0] == "load":
+                load_ID = action.split(" ")[1]
+                result = story_manager.story.load_from_storage(load_ID)
+                console_print("\nLoading Game...\n")
+                console_print(result)
+
             elif action == "print":
                 print("\nPRINTING\n")
                 print(str(story_manager.story))
@@ -168,6 +173,12 @@ def play_aidungeon_2():
                     action = "\n> " + action + "\n"
 
                 result = "\n" + story_manager.act(action)
+                if get_similarity(result, story_manager.story.results[-1]) > 0.9:
+                    story_manager.story.actions = story_manager.story.actions[:-1]
+                    story_manager.story.results = story_manager.story.results[:-1]
+                    result = "\n" + story_manager.act(action, temp=0.9)
+
+
 
                 if player_won(result):
                     console_print(result + "\n CONGRATS YOU WIN")
@@ -175,7 +186,16 @@ def play_aidungeon_2():
                 elif player_died(result):
                     console_print(result)
                     console_print("YOU DIED. GAME OVER")
-                    break
+                    console_print("\nOptions:")
+                    console_print('0) Start a new game')
+                    console_print('1) "I\'m not dead yet!" (If you didn\'t actually die) ')
+                    console_print('Which do you choose? ')
+                    choice = get_num_options(2)
+                    if choice == 0:
+                        break
+                    else:
+                        console_print("Sorry about that...where were we?")
+                        console_print(result)
 
                 else:
                     console_print(result)
