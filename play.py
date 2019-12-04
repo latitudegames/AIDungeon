@@ -3,7 +3,6 @@ from generator.gpt2.gpt2_generator import *
 from story.utils import *
 from termios import tcflush, TCIFLUSH
 import time, sys, os
-from IPython.display import clear_output
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
 def select_game():
@@ -134,10 +133,6 @@ def play_aidungeon_2():
             elif action == "print":
                 print("\nPRINTING\n")
                 print(str(story_manager.story))
-
-            elif action == "clear":
-                clear_output()
-                console_print(story_manager.story.results[-1])
 
             elif action == "revert":
 
