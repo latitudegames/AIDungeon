@@ -176,8 +176,7 @@ def play_aidungeon_2():
                 if get_similarity(result, story_manager.story.results[-1]) > 0.9:
                     story_manager.story.actions = story_manager.story.actions[:-1]
                     story_manager.story.results = story_manager.story.results[:-1]
-                    result = "\n" + story_manager.act(action, temp=0.9)
-
+                    console_print("Woops that action caused the model to start looping. Try a different action to prevent that.")
 
 
                 if player_won(result):

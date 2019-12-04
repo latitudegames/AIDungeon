@@ -10,16 +10,11 @@ import numpy as np
 
 class GPT2Generator:
 
-    def __init__(self,  generate_num=60, temp=None, top_k=40, top_p=0.9):
+    def __init__(self,  generate_num=60, temperature=0.4, top_k=40, top_p=0.9):
         self.generate_num=generate_num
+        self.temp = temperature
         self.top_k = top_k
         self.top_p = top_p
-
-        if temp == None:
-            self.temperature = 0.4
-        else:
-            self.temperature = temp
-
 
         self.model_name = "model_v5"
         self.model_dir = "generator/gpt2/models"
@@ -46,7 +41,7 @@ class GPT2Generator:
             hparams=hparams, length=self.generate_num,
             context=self.context,
             batch_size=self.batch_size,
-            temperature=self.temperature, top_k=top_k, top_p=top_p
+            temperature=temperature, top_k=top_k, top_p=top_p
         )
 
         saver = tf.train.Saver()

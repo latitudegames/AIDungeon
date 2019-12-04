@@ -179,14 +179,14 @@ class StoryManager():
 
 class UnconstrainedStoryManager(StoryManager):
 
-    def act(self, action_choice, temp=None):
+    def act(self, action_choice):
 
-        result = self.generate_result(action_choice, temp=temp)
+        result = self.generate_result(action_choice)
         self.story.add_to_story(action_choice, result)
         return result
 
-    def generate_result(self, action, temp=None):
-        block = self.generator.generate(self.story_context() + action, temp=temp)
+    def generate_result(self, action):
+        block = self.generator.generate(self.story_context() + action)
         return block
 
 
