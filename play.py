@@ -24,9 +24,9 @@ def select_game():
     if choice == len(settings):
 
         context = ""
-        console_print("Enter a prompt that describes who you are and the first couple sentences of where you start "
-                      "out ex:\n 'You are a knight in the kingdom of Larion. You are hunting the evil dragon who has" +
-                      "terrorizied the kingdom. You enter the forest searching for the dragon and see' ")
+        console_print("\nEnter a prompt that describes who you are and the first couple sentences of where you start "
+                      "out ex:\n 'You are a knight in the kingdom of Larion. You are hunting the evil dragon who has been " +
+                      "terrorizing the kingdom. You enter the forest searching for the dragon and see' ")
         prompt = input("Starting Prompt: ")
         return context, prompt
 
@@ -173,7 +173,8 @@ def play_aidungeon_2():
                     action = "\n> " + action + "\n"
 
                 result = "\n" + story_manager.act(action)
-                if get_similarity(result, story_manager.story.results[-1]) > 0.9:
+                similarity = get_similarity(result, story_manager.story.results[-2])
+                if  similarity > 0.9:
                     story_manager.story.actions = story_manager.story.actions[:-1]
                     story_manager.story.results = story_manager.story.results[:-1]
                     console_print("Woops that action caused the model to start looping. Try a different action to prevent that.")
