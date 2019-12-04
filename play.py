@@ -173,12 +173,13 @@ def play_aidungeon_2():
                     action = "\n> " + action + "\n"
 
                 result = "\n" + story_manager.act(action)
-                similarity = get_similarity(result, story_manager.story.results[-2])
-                if  similarity > 0.9:
-                    story_manager.story.actions = story_manager.story.actions[:-1]
-                    story_manager.story.results = story_manager.story.results[:-1]
-                    console_print("Woops that action caused the model to start looping. Try a different action to prevent that.")
-
+                if len(story_manager.story.results) >= 2:
+                    similarity = get_similarity(story_manager.story.results[-1], story_manager.story.results[-2])
+                    if similarity > 0.9:
+                        story_manager.story.actions = story_manager.story.actions[:-1]
+                        story_manager.story.results = story_manager.story.results[:-1]
+                        console_print("Woops that action caused the model to start looping. Try a different action to prevent that.")
+                        continue
 
                 if player_won(result):
                     console_print(result + "\n CONGRATS YOU WIN")
