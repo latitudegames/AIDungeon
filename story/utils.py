@@ -1,6 +1,7 @@
-# coding: utf-8
+ # coding: utf-8
 import re
 import yaml
+from difflib import SequenceMatcher
 
 YAML_FILE = "story/story_data.yaml"
 
@@ -20,6 +21,9 @@ def console_print(text, width=75):
             last_newline += 1
         i += 1
     print(text)
+
+def get_similarity(a, b):
+    return SequenceMatcher(None, a, b).ratio()
 
 def get_num_options(num):
 
@@ -99,7 +103,7 @@ def cut_trailing_sentence(text):
     if last_punc <= 0:
         last_punc = len(text)-1
 
-    et_token = text.rfind("<|endoftext|>")
+    et_token = text.rfind("<")
     if et_token > 0:
         last_punc = min(last_punc, et_token-1)
 
@@ -107,7 +111,7 @@ def cut_trailing_sentence(text):
     if act_token > 0:
         last_punc = min(last_punc, act_token-1)
 
-    text = text[:last_punc+1]
+    text = text[:last_punc]
 
     text = cut_trailing_quotes(text)
     text = cut_trailing_action(text)

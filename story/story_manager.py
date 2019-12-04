@@ -84,7 +84,7 @@ class Story():
     def __str__(self):
         story_list = [self.story_start]
         for i in range(len(self.results)):
-            story_list.append("\n> " + self.actions[i] + "\n")
+            story_list.append("\n" + self.actions[i] + "\n")
             story_list.append("\n" + self.results[i])
 
         return "".join(story_list)
