@@ -15,10 +15,9 @@ def select_game():
         print_str = str(i) + ") " + setting
         if setting == "fantasy":
             print_str += " (recommended)"
-        else:
-            print_str += " (experimental)"
+
         console_print(print_str)
-    console_print(str(len(settings)) + ") custom experimental")
+    console_print(str(len(settings)) + ") custom")
     choice = get_num_options(len(settings)+1)
 
     if choice == len(settings):
