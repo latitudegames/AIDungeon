@@ -32,13 +32,10 @@ class Story():
 
     def __del__(self):
         if self.upload_story:
-            rating = input("Please rate the story quality from 1-10: ")
-            try:
-                rating_float = float(rating)
-                self.rating = rating_float
-                self.save_to_storage()
-            except:
-                pass
+            self.save_to_storage()
+            console_print("Game saved.")
+            console_print("To load the game, type 'load' and enter the following ID: " + self.uuid)
+
 
     def init_from_dict(self, story_dict):
         self.story_start = story_dict["story_start"]

@@ -97,9 +97,15 @@ def play_aidungeon_2():
             tcflush(sys.stdin, TCIFLUSH)
             action = input("> ")
             if action == "restart":
+                rating = input("Please rate the story quality from 1-10: ")
+                rating_float = float(rating)
+                story_manager.story.rating = rating_float
                 break
 
             elif action == "quit":
+                rating = input("Please rate the story quality from 1-10: ")
+                rating_float = float(rating)
+                story_manager.story.rating = rating_float
                 exit()
 
             elif action == "nosaving":
