@@ -103,7 +103,7 @@ def cut_trailing_sentence(text):
     if last_punc <= 0:
         last_punc = len(text)-1
 
-    et_token = text.rfind("<")
+    et_token = text.find("<")
     if et_token > 0:
         last_punc = min(last_punc, et_token-1)
 
