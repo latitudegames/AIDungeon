@@ -10,6 +10,7 @@ else
     cd ${MODELS_DIRECTORY}
     	echo "Downloading AIDungeon2 Model... (this may take a few minutes)"
     gsutil -m cp -r gs://ai_dungeon_awesomeness/model_v5 .
+
     echo "Download Complete!"
     cd ../../..
 
