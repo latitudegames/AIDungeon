@@ -6,7 +6,7 @@ from difflib import SequenceMatcher
 YAML_FILE = "story/story_data.yaml"
 
 from profanityfilter import ProfanityFilter
-with open("extra_censored_words.txt", "r") as f:
+with open("story/extra_censored_words.txt", "r") as f:
     more_words = [l.replace("\n", "") for l in f.readlines()]
 
 pf = ProfanityFilter(extra_censor_list=more_words)
