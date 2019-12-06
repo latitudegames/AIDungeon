@@ -6,7 +6,10 @@ from difflib import SequenceMatcher
 YAML_FILE = "story/story_data.yaml"
 
 from profanityfilter import ProfanityFilter
-pf = ProfanityFilter()
+with open("story/extra_censored_words.txt", "r") as f:
+    more_words = [l.replace("\n", "") for l in f.readlines()]
+
+pf = ProfanityFilter(extra_censor_list=more_words)
 
 def console_print(text, width=75):
     last_newline = 0
@@ -264,17 +267,3 @@ def second_to_first_person(text):
             text = replace_outside_quotes(text, variation[0], variation[1])
 
     return capitalize_first_letters(text[1:])
-
-
-if __name__ == '__main__':
-    result = 'The only thing they can tell you is, "We have nowhere else to…"'
-    result = result.replace('."', '".')
-    result = result.replace("#", "")
-    result = result.replace("*", "")
-    result = first_to_second_person(result)
-    result = remove_profanity(result)
-
-    while ("\n \n \n " in result):
-        result = result.replace("\n \n \n ", "\n \n ")
-
-    print(result)
