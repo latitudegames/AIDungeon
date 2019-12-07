@@ -11,6 +11,7 @@ else
     cd ${MODELS_DIRECTORY}
     mkdir ${MODEL_VERSION}
     cd ${MODEL_VERSION}
+    apt-get install aria2
     aria2c -x 16 -s 32 "${DOWNLOAD_URL}/${MODEL_VERSION}/${MODEL_NAME}.data-00000-of-00001"
     wget "${DOWNLOAD_URL}/${MODEL_VERSION}/checkpoint" > /dev/null
     wget "${DOWNLOAD_URL}/${MODEL_VERSION}/encoder.json" > /dev/null
