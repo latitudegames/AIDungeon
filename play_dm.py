@@ -5,15 +5,17 @@ from story.utils import *
 from termios import tcflush, TCIFLUSH
 from play import *
 import time, sys, os
+
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
-class AIPlayer:
 
+class AIPlayer:
     def __init__(self, generator):
         self.generator = generator
 
     def get_action(self, prompt):
         return self.generator.generate_raw(prompt)
+
 
 def play_dm():
 
@@ -36,15 +38,11 @@ def play_dm():
         action = action.split("\n")[0]
         punc = action.rfind(".")
         if punc > 0:
-            action = action[:punc+1]
+            action = action[: punc + 1]
         shown_action = "> You" + action
         console_print(second_to_first_person(shown_action))
         story_manager.act(action)
 
 
-
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     play_dm()
-
-

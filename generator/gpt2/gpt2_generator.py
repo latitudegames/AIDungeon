@@ -1,17 +1,19 @@
 from story.utils import *
 import warnings
+
 warnings.filterwarnings("ignore")
 import os
 import tensorflow as tf
+
 tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 from generator.gpt2.src import sample, encoder, model
 import json
 import numpy as np
 
-class GPT2Generator:
 
-    def __init__(self,  generate_num=60, temperature=0.4, top_k=40, top_p=0.9):
-        self.generate_num=generate_num
+class GPT2Generator:
+    def __init__(self, generate_num=60, temperature=0.4, top_k=40, top_p=0.9):
+        self.generate_num = generate_num
         self.temp = temperature
         self.top_k = top_k
         self.top_p = top_p
@@ -26,7 +28,7 @@ class GPT2Generator:
 
         self.enc = encoder.get_encoder(self.model_name, models_dir)
         hparams = model.default_hparams()
-        with open(os.path.join(models_dir, self.model_name, 'hparams.json')) as f:
+        with open(os.path.join(models_dir, self.model_name, "hparams.json")) as f:
             hparams.override_from_dict(json.load(f))
         seed = np.random.randint(0, 100000)
 
@@ -35,13 +37,16 @@ class GPT2Generator:
         self.sess = tf.compat.v1.Session(config=config)
 
         self.context = tf.placeholder(tf.int32, [self.batch_size, None])
-        #np.random.seed(seed)
+        # np.random.seed(seed)
         # tf.set_random_seed(seed)
         self.output = sample.sample_sequence(
-            hparams=hparams, length=self.generate_num,
+            hparams=hparams,
+            length=self.generate_num,
             context=self.context,
             batch_size=self.batch_size,
-            temperature=temperature, top_k=top_k, top_p=top_p
+            temperature=temperature,
+            top_k=top_k,
+            top_p=top_p,
         )
 
         saver = tf.train.Saver()
@@ -54,8 +59,8 @@ class GPT2Generator:
         if len(prompt) > 0 and prompt[-1] == " ":
             prompt = prompt[:-1]
 
-        #prompt = second_to_first_person(prompt)
-        
+        # prompt = second_to_first_person(prompt)
+
         # print("\n\nAFTER PROMPT_REPLACE")
         # print(repr(prompt))
         return prompt
@@ -72,7 +77,7 @@ class GPT2Generator:
         result = result.replace("#", "")
         result = result.replace("*", "")
         result = result.replace("\n\n", "\n")
-        #result = first_to_second_person(result)
+        # result = first_to_second_person(result)
         result = remove_profanity(result)
 
         if not first_letter_capitalized:
@@ -88,14 +93,16 @@ class GPT2Generator:
         context_tokens = self.enc.encode(prompt)
         generated = 0
         for _ in range(self.samples // self.batch_size):
-            out = self.sess.run(self.output, feed_dict={
-                self.context: [context_tokens for _ in range(self.batch_size)]
-            })[:, len(context_tokens):]
+            out = self.sess.run(
+                self.output,
+                feed_dict={
+                    self.context: [context_tokens for _ in range(self.batch_size)]
+                },
+            )[:, len(context_tokens) :]
             for i in range(self.batch_size):
                 generated += 1
                 text = self.enc.decode(out[i])
         return text
-
 
     def generate(self, prompt, options=None, seed=1):
 
