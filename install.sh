@@ -1,7 +1,7 @@
 MODELS_DIRECTORY=generator/gpt2/models
 MODEL_VERSION=model_v5
 MODEL_NAME=model-550
-DOWNLOAD_URL=https://students.cs.byu.edu/~nickwalt
+DOWNLOAD_URL=http://130.211.31.182:80
 
 if [ -d "${MODELS_DIRECTORY}/${MODEL_VERSION}" ]; then
     echo "AIDungeon2 is already installed"
