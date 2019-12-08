@@ -1,7 +1,6 @@
 # AIDungeon2
 
-## The model for AI Dungeon2 is temporarily unavailable to download due to cost. We're working on a solution
-
+## The model for AI Dungeon2 is temporarily unavailable to download due to cost. We're working on a solution!
 
 
 Read more about AIDungeon2 and how it was built [here](https://pcc.cs.byu.edu/2019/11/21/ai-dungeon-2-creating-infinitely-generated-text-adventures-with-deep-learning-language-models/)
@@ -28,7 +27,7 @@ Resources:
 
 * **Website**: [aidungeon.io](http://www.aidungeon.io/)
 * **Email**: aidungeon.io@gmail.com
-* **Twitter**: [@nickwalton00](https://twitter.com/nickwalton00).
+* **Twitter**: [@nickwalton00](https://twitter.com/nickwalton00)
 
 
 Contributing
