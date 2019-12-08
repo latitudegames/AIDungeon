@@ -1,3 +1,4 @@
+#!/bin/sh
 MODELS_DIRECTORY=generator/gpt2/models
 MODEL_VERSION=model_v5
 MODEL_NAME=model-550
