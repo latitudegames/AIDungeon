@@ -22,7 +22,7 @@ else
     wget "${MODEL_TORRENT_URL}"
     unzip "${MODEL_TORRENT_BASENAME}"
     echo -e "\n\n==========================================="
-    echo "We are now starting to download the torrent."
+    echo "We are now starting to download the model."
     echo "It will take a while to get up to speed."
     echo "After download completes, we will seed this for 1 minute to ensure high availability."
     echo "DHT errors are normal."
