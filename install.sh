@@ -20,7 +20,7 @@ else
     unzip "${MODEL_TORRENT_BASENAME}"
     echo "We are now starting to download the torrent."
     echo "After download completes, we will seed this for 1 minute."
-    aria2c -x 32 -s 64 --seed-time=1 --disable-ipv6 "${MODEL_TORRENT_BASENAME%.*}"
+    aria2c -x 16 -s 64 --seed-time=1 --disable-ipv6 "${MODEL_TORRENT_BASENAME%.*}"
     echo "Download Complete!"
     cd "${BASE_DIR}"
     pip install -r requirements.txt > /dev/null
