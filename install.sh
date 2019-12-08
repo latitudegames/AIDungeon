@@ -26,12 +26,10 @@ else
     echo -e "===========================================\n"
     aria2c \
         --max-connection-per-server 16 \
-        --split 32 \
+        --split 64 \
         --bt-max-peers 300 \
-        --bt-enable-lpd \
         --seed-time=1 \
         --summary-interval=15 \
-        --disable-ipv6 \
         "${MODEL_TORRENT_BASENAME%.*}"
     echo "Download Complete!"
     cd "${BASE_DIR}"
