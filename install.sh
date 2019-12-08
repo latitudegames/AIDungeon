@@ -18,9 +18,19 @@ else
     apt-get install aria2 unzip > /dev/null
     wget "${MODEL_TORRENT_URL}"
     unzip "${MODEL_TORRENT_BASENAME}"
+    echo -e "\n\n==========================================="
     echo "We are now starting to download the torrent."
-    echo "After download completes, we will seed this for 1 minute."
-    aria2c -x 16 -s 64 --seed-time=1 --disable-ipv6 "${MODEL_TORRENT_BASENAME%.*}"
+    echo "It will take a while to get up to speed."
+    echo "After download completes, we will seed this for 1 minute to ensure high availability."
+    echo "DHT errors are normal."
+    echo -e "===========================================\n"
+    aria2c \
+        --max-connection-per-server 16 \
+        --split 64 \
+        --seed-time=1 \
+        --summary-interval=15 \
+        --disable-ipv6 \
+        "${MODEL_TORRENT_BASENAME%.*}"
     echo "Download Complete!"
     cd "${BASE_DIR}"
     pip install -r requirements.txt > /dev/null
