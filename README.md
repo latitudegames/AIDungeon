@@ -9,7 +9,7 @@ Play the game in Colab [here](http://www.aidungeon.io).
 
 To play the game locally you need a beefy GPU ~12 GB and CUDA installed.
 ```
-git clone https://github.com/nickwalton/AIDungeon/
+git clone https://github.com/AIDungeon/AIDungeon/
 cd AIDungeon
 ./install.sh
 python play.py
