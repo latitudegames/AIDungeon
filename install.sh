@@ -11,11 +11,14 @@ MODEL_TORRENT_BASENAME="$(basename "${MODEL_TORRENT_URL}")"
 if [[ -d "${MODELS_DIRECTORY}/${MODEL_VERSION}" ]]; then
     echo "AIDungeon2 is already installed"
 else
+    echo "Installing dependencies"
+    pip install -r requirements.txt > /dev/null
+    apt-get install aria2 unzip > /dev/null
+    
     echo "Downloading AIDungeon2 Model... (this may take a very, very long time)"
     mkdir -p "${MODELS_DIRECTORY}"
     cd "${MODELS_DIRECTORY}"
     mkdir "${MODEL_VERSION}"
-    apt-get install aria2 unzip > /dev/null
     wget "${MODEL_TORRENT_URL}"
     unzip "${MODEL_TORRENT_BASENAME}"
     echo -e "\n\n==========================================="
@@ -30,8 +33,7 @@ else
         --bt-max-peers 300 \
         --seed-time=1 \
         --summary-interval=15 \
+        --disable-ipv6 \
         "${MODEL_TORRENT_BASENAME%.*}"
     echo "Download Complete!"
-    cd "${BASE_DIR}"
-    pip install -r requirements.txt > /dev/null
 fi
