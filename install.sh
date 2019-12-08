@@ -26,7 +26,8 @@ else
     echo -e "===========================================\n"
     aria2c \
         --max-connection-per-server 16 \
-        --split 64 \
+        --split 32 \
+        --bt-max-peers 150 \
         --seed-time=1 \
         --summary-interval=15 \
         --disable-ipv6 \
