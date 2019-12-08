@@ -14,7 +14,7 @@ else
     apt-get install aria2 unzip > /dev/null
     wget "${MODEL_TORRENT_URL}"
     unzip "${MODEL_TORRENT_BASENAME}"
-    aria2c -x 16 -s 32 "${MODEL_TORRENT_BASENAME%.*}"
+    aria2c -x 16 -s 32 --seed-time=0 "${MODEL_TORRENT_BASENAME%.*}"
     echo "Download Complete!"
     cd ../../../..
     pip install -r requirements.txt > /dev/null
