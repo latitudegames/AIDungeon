@@ -1,39 +1,18 @@
-#!/bin/bash
-cd "$(dirname "${0}")"
-BASE_DIR="$(pwd)"
-
 MODELS_DIRECTORY=generator/gpt2/models
 MODEL_VERSION=model_v5
 MODEL_NAME=model-550
-MODEL_TORRENT_URL="https://github.com/nickwalton/AIDungeon/files/3935881/model_v5.torrent.zip"
-MODEL_TORRENT_BASENAME="$(basename "${MODEL_TORRENT_URL}")"
+DOWNLOAD_URL=https://aidungeonmodel.s3-us-west-1.amazonaws.com
 
-if [[ -d "${MODELS_DIRECTORY}/${MODEL_VERSION}" ]]; then
+if [ -d "${MODELS_DIRECTORY}/${MODEL_VERSION}" ]; then
     echo "AIDungeon2 is already installed"
+
 else
-    echo "Installing dependencies"
-    pip install -r requirements.txt > /dev/null
-    apt-get install aria2 unzip > /dev/null
-    
-    echo "Downloading AIDungeon2 Model... (this may take a very, very long time)"
-    mkdir -p "${MODELS_DIRECTORY}"
-    cd "${MODELS_DIRECTORY}"
-    mkdir "${MODEL_VERSION}"
-    wget "${MODEL_TORRENT_URL}"
-    unzip "${MODEL_TORRENT_BASENAME}"
-    echo -e "\n\n==========================================="
-    echo "We are now starting to download the model."
-    echo "It will take a while to get up to speed."
-    echo "After download completes, we will seed this for 1 minute to ensure high availability."
-    echo "DHT errors are normal."
-    echo -e "===========================================\n"
-    aria2c \
-        --max-connection-per-server 16 \
-        --split 64 \
-        --bt-max-peers 500 \
-        --seed-time=1 \
-        --summary-interval=15 \
-        --disable-ipv6 \
-        "${MODEL_TORRENT_BASENAME%.*}"
+    cd ${MODELS_DIRECTORY}
+    	echo "Downloading AIDungeon2 Model... (this may take a few minutes)"
+    gsutil -m cp -r gs://ai_dungeon_awesomeness/model_v5 .
+
     echo "Download Complete!"
+    cd ../../..
+
+    pip install -r requirements.txt > /dev/null
 fi
