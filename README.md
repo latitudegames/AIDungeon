@@ -27,7 +27,7 @@ Resources:
 
 * **Website**: [aidungeon.io](http://www.aidungeon.io/)
 * **Email**: aidungeon.io@gmail.com
-* **Twitter**: [@nickwalton00](https://twitter.com/nickwalton00)
+* **Twitter**: [@nickwalton00](https://twitter.com/nickwalton00), [@benjbay](https://twitter.com/benjbay)
 
 
 Contributing
