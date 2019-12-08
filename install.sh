@@ -30,7 +30,7 @@ else
     aria2c \
         --max-connection-per-server 16 \
         --split 64 \
-        --bt-max-peers 300 \
+        --bt-max-peers 500 \
         --seed-time=1 \
         --summary-interval=15 \
         --disable-ipv6 \
