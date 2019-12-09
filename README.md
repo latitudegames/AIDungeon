@@ -2,14 +2,13 @@
 
 ## The model for AI Dungeon2 is temporarily unavailable to download due to cost. We're working on a solution!
 
-
 Read more about AIDungeon2 and how it was built [here](https://pcc.cs.byu.edu/2019/11/21/ai-dungeon-2-creating-infinitely-generated-text-adventures-with-deep-learning-language-models/).
 
 Play the game in Colab [here](http://www.aidungeon.io).
 
-To play the game locally, it is recommended that you have an nVidia GPU with 12 GB or more of memory, and CUDA installed. If you do not have such a GPU, each turn can take a couple of minutes or more for the game to compose its response. To install and play locally:
+To play the game locally you need a beefy GPU ~12 GB and CUDA installed.
 ```
-git clone https://github.com/AIDungeon/AIDungeon/
+git clone https://github.com/nickwalton/AIDungeon/
 cd AIDungeon
 ./install.sh
 python play.py
@@ -28,7 +27,6 @@ Resources:
 * **Website**: [aidungeon.io](http://www.aidungeon.io/)
 * **Email**: aidungeon.io@gmail.com
 * **Twitter**: [@nickwalton00](https://twitter.com/nickwalton00), [@benjbay](https://twitter.com/benjbay)
-* **Reddit**: [r/AIDungeon](https://www.reddit.com/r/AIDungeon/)
 
 
 Contributing

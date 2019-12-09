@@ -43,29 +43,22 @@ def get_num_options(num):
 
 
 def player_died(text):
+    """
+    TODO: Add in more sophisticated NLP, maybe a custom classifier
+    trained on hand-labelled data that classifies second-person
+    statements as resulting in death or not.
+    """
+    lower_text = text.lower()
+    you_dead_regexps = ["you('re| are) (dead|killed|slain)", "you \w+ (die|pass away)", "you('ve| have) (died|been (killed|slain))",
+                        "you \w+ to death", "you \w+ yourself to death"]
+    return any(re.search(regexp, lower_text) for regexp in you_dead_regexps)
 
-    # reg_phrases = ["You[a-zA-Z ]* die.", "you[a-zA-Z ]* die.", "You[a-zA-Z ]* die ", "you[a-zA-Z ]* die ",]
-    #
-    # for phrase in reg_phrases:
-    #     reg_expr = re.compile(phrase)
-    #     matches = re.findall(reg_expr, text)
-    #     if len(matches) > 0:
-    #         return True
-
-    dead_phrases = ["you die", "You die", "you died", "you are dead", "You died", "You are dead", "You're dead",
-                    "you're dead", "you have died", "You have died", "you bleed out"]
-    for phrase in dead_phrases:
-        if phrase in text:
-            return True
-    return False
 
 def player_won(text):
-
+    lower_text = text.lower()
     won_phrases = ["live happily ever after", "you live forever"]
-    for phrase in won_phrases:
-        if phrase in text:
-            return True
-    return False
+    return any(re.search(regexp, lower_text) for regexp in won_phrases)
+
 
 def remove_profanity(text):
     return pf.censor(text)

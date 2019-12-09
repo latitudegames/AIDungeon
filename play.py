@@ -75,7 +75,7 @@ def play_aidungeon_2():
     story_manager = UnconstrainedStoryManager(generator)
     print("\n")
 
-    with open('opening.txt', 'r', encoding='utf-8') as file:
+    with open('opening.txt', 'r') as file:
         starter = file.read()
     print(starter)
 

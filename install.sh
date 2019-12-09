@@ -24,13 +24,14 @@ else
     echo -e "\n\n==========================================="
     echo "We are now starting to download the model."
     echo "It will take a while to get up to speed."
+    echo "After download completes, we will seed this for 1 minute to ensure high availability."
     echo "DHT errors are normal."
     echo -e "===========================================\n"
     aria2c \
         --max-connection-per-server 16 \
         --split 64 \
         --bt-max-peers 500 \
-        --seed-time=0 \
+        --seed-time=1 \
         --summary-interval=15 \
         --disable-ipv6 \
         "${MODEL_TORRENT_BASENAME%.*}"
