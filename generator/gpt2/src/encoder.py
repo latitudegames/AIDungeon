@@ -1,9 +1,10 @@
 """Byte pair encoding utilities"""
 
-import os
 import json
-import regex as re
+import os
 from functools import lru_cache
+
+import regex as re
 
 
 @lru_cache()

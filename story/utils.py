@@ -1,11 +1,12 @@
 # coding: utf-8
 import re
-import yaml
 from difflib import SequenceMatcher
+
+import yaml
+from profanityfilter import ProfanityFilter
 
 YAML_FILE = "story/story_data.yaml"
 
-from profanityfilter import ProfanityFilter
 
 with open("story/extra_censored_words.txt", "r") as f:
     more_words = [l.replace("\n", "") for l in f.readlines()]
