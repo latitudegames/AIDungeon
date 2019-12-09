@@ -1,7 +1,6 @@
 from story.story_manager import *
 from generator.gpt2.gpt2_generator import *
 from story.utils import *
-from termios import tcflush, TCIFLUSH
 import time, sys, os
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
@@ -75,7 +74,7 @@ def play_aidungeon_2():
     story_manager = UnconstrainedStoryManager(generator)
     print("\n")
 
-    with open('opening.txt', 'r') as file:
+    with open('opening.txt', 'r', encoding='utf-8') as file:
         starter = file.read()
     print(starter)
 
@@ -93,7 +92,7 @@ def play_aidungeon_2():
         print("\n")
         console_print(str(story_manager.story))
         while True:
-            tcflush(sys.stdin, TCIFLUSH)
+            sys.stdin.flush()
             action = input("> ")
             if action == "restart":
                 rating = input("Please rate the story quality from 1-10: ")
