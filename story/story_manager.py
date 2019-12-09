@@ -5,9 +5,11 @@ from subprocess import Popen
 import subprocess
 import os
 
-class Story():
 
-    def __init__(self, story_start, context ="", seed=None, game_state=None, upload_story=False):
+class Story:
+    def __init__(
+        self, story_start, context="", seed=None, game_state=None, upload_story=False
+    ):
         self.story_start = story_start
         self.context = context
         self.rating = -1
@@ -34,8 +36,9 @@ class Story():
         if self.upload_story:
             self.save_to_storage()
             console_print("Game saved.")
-            console_print("To load the game, type 'load' and enter the following ID: " + self.uuid)
-
+            console_print(
+                "To load the game, type 'load' and enter the following ID: " + self.uuid
+            )
 
     def init_from_dict(self, story_dict):
         self.story_start = story_dict["story_start"]
@@ -52,7 +55,6 @@ class Story():
             self.rating = story_dict["rating"]
         else:
             self.rating = -1
-
 
     def initialize_from_json(self, json_string):
         story_dict = json.loads(json_string)
@@ -72,7 +74,7 @@ class Story():
         while mem_ind > 0:
 
             if len(self.results) >= mem_ind:
-                latest_result += (self.actions[-mem_ind] + self.results[-mem_ind])
+                latest_result += self.actions[-mem_ind] + self.results[-mem_ind]
 
             mem_ind -= 1
 
@@ -113,13 +115,12 @@ class Story():
         file_name = "AIDungeonSave_" + save_name + ".json"
         print("Save ID that can be used to load game is: ", self.uuid)
 
-        with open(file_name, 'r') as fp:
+        with open(file_name, "r") as fp:
             game = json.load(fp)
         self.init_from_dict(game)
 
     def save_to_storage(self):
         self.uuid = str(uuid.uuid1())
-
 
         story_json = self.to_json()
         file_name = "story" + str(self.uuid) + ".json"
@@ -127,8 +128,12 @@ class Story():
         f.write(story_json)
         f.close()
 
-        FNULL = open(os.devnull, 'w')
-        p = Popen(['gsutil', 'cp', file_name, 'gs://aidungeonstories'], stdout=FNULL, stderr=subprocess.STDOUT)
+        FNULL = open(os.devnull, "w")
+        p = Popen(
+            ["gsutil", "cp", file_name, "gs://aidungeonstories"],
+            stdout=FNULL,
+            stderr=subprocess.STDOUT,
+        )
         return self.uuid
 
     def load_from_storage(self, story_id):
@@ -139,7 +144,7 @@ class Story():
         exists = os.path.isfile(file_name)
 
         if exists:
-            with open(file_name, 'r') as fp:
+            with open(file_name, "r") as fp:
                 game = json.load(fp)
             self.init_from_dict(game)
             return str(self)
@@ -147,16 +152,22 @@ class Story():
             return "Error save not found."
 
 
-class StoryManager():
-
+class StoryManager:
     def __init__(self, generator):
         self.generator = generator
         self.story = None
 
-    def start_new_story(self, story_prompt, context="", game_state=None, upload_story=False):
+    def start_new_story(
+        self, story_prompt, context="", game_state=None, upload_story=False
+    ):
         block = self.generator.generate(context + story_prompt)
         block = cut_trailing_sentence(block)
-        self.story = Story(context + story_prompt + block, context=context, game_state=game_state, upload_story=upload_story)
+        self.story = Story(
+            context + story_prompt + block,
+            context=context,
+            game_state=game_state,
+            upload_story=upload_story,
+        )
         return self.story
 
     def load_new_story(self, story_id):
@@ -166,7 +177,7 @@ class StoryManager():
         exists = os.path.isfile(file_name)
 
         if exists:
-            with open(file_name, 'r') as fp:
+            with open(file_name, "r") as fp:
                 game = json.load(fp)
             self.story = Story("")
             self.story.init_from_dict(game)
@@ -190,7 +201,6 @@ class StoryManager():
 
 
 class UnconstrainedStoryManager(StoryManager):
-
     def act(self, action_choice):
 
         result = self.generate_result(action_choice)
@@ -203,7 +213,6 @@ class UnconstrainedStoryManager(StoryManager):
 
 
 class ConstrainedStoryManager(StoryManager):
-
     def __init__(self, generator, action_verbs_key="classic"):
         super().__init__(generator)
         self.action_phrases = get_action_verbs(action_verbs_key)
@@ -211,7 +220,9 @@ class ConstrainedStoryManager(StoryManager):
         self.cacher = None
         self.seed = None
 
-    def enable_caching(self, credentials_file=None, seed=0, bucket_name="dungeon-cache"):
+    def enable_caching(
+        self, credentials_file=None, seed=0, bucket_name="dungeon-cache"
+    ):
         self.cache = True
         self.cacher = Cacher(credentials_file, bucket_name)
         self.seed = seed
@@ -220,7 +231,9 @@ class ConstrainedStoryManager(StoryManager):
         if self.cache:
             return self.start_new_story_cache(story_prompt, game_state=game_state)
         else:
-            return super().start_new_story(story_prompt, context=context, game_state=game_state)
+            return super().start_new_story(
+                story_prompt, context=context, game_state=game_state
+            )
 
     def start_new_story_generate(self, story_prompt, game_state=None):
         super().start_new_story(story_prompt, game_state=game_state)
@@ -235,7 +248,9 @@ class ConstrainedStoryManager(StoryManager):
             self.story = Story(story_start, seed=self.seed)
             self.story.possible_action_results = self.get_action_results()
         else:
-            story_start = self.start_new_story_generate(story_prompt, game_state=game_state)
+            story_start = self.start_new_story_generate(
+                story_prompt, game_state=game_state
+            )
             self.story.seed = self.seed
             self.cacher.cache_file(self.seed, [], story_start, "story")
 
@@ -249,7 +264,9 @@ class ConstrainedStoryManager(StoryManager):
         if self.story.possible_action_results is None:
             self.story.possible_action_results = self.get_action_results()
 
-        return [action_result[0] for action_result in self.story.possible_action_results]
+        return [
+            action_result[0] for action_result in self.story.possible_action_results
+        ]
 
     def act(self, action_choice_str):
 
@@ -276,11 +293,16 @@ class ConstrainedStoryManager(StoryManager):
             return self.get_action_results_generate()
 
     def get_action_results_generate(self):
-        action_results = [self.generate_action_result(self.story_context(), phrase) for phrase in self.action_phrases]
+        action_results = [
+            self.generate_action_result(self.story_context(), phrase)
+            for phrase in self.action_phrases
+        ]
         return action_results
 
     def get_action_results_cache(self):
-        response = self.cacher.retrieve_from_cache(self.story.seed, self.story.choices, "choices")
+        response = self.cacher.retrieve_from_cache(
+            self.story.seed, self.story.choices, "choices"
+        )
 
         if response is not None:
             print("Retrieved from cache")
@@ -289,11 +311,15 @@ class ConstrainedStoryManager(StoryManager):
             print("Didn't receive from cache")
             action_results = self.get_action_results_generate()
             response = json.dumps(action_results)
-            self.cacher.cache_file(self.story.seed, self.story.choices, response, "choices")
+            self.cacher.cache_file(
+                self.story.seed, self.story.choices, response, "choices"
+            )
             return action_results
 
     def generate_action_result(self, prompt, phrase, options=None):
 
-        action_result = phrase + " " + self.generator.generate(prompt + " " + phrase, options)
+        action_result = (
+            phrase + " " + self.generator.generate(prompt + " " + phrase, options)
+        )
         action, result = split_first_sentence(action_result)
         return action, result

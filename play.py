@@ -2,7 +2,9 @@ from story.story_manager import *
 from generator.gpt2.gpt2_generator import *
 from story.utils import *
 import time, sys, os
+
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
+
 
 def splash():
     print("0) New Game\n1) Load Game\n")
@@ -13,8 +15,9 @@ def splash():
     else:
         return "new"
 
+
 def select_game():
-    with open(YAML_FILE, 'r') as stream:
+    with open(YAML_FILE, "r") as stream:
         data = yaml.safe_load(stream)
 
     print("Pick a setting.")
@@ -26,14 +29,16 @@ def select_game():
 
         console_print(print_str)
     console_print(str(len(settings)) + ") custom")
-    choice = get_num_options(len(settings)+1)
+    choice = get_num_options(len(settings) + 1)
 
     if choice == len(settings):
 
         context = ""
-        console_print("\nEnter a prompt that describes who you are and the first couple sentences of where you start "
-                      "out ex:\n 'You are a knight in the kingdom of Larion. You are hunting the evil dragon who has been " +
-                      "terrorizing the kingdom. You enter the forest searching for the dragon and see' ")
+        console_print(
+            "\nEnter a prompt that describes who you are and the first couple sentences of where you start "
+            "out ex:\n 'You are a knight in the kingdom of Larion. You are hunting the evil dragon who has been "
+            + "terrorizing the kingdom. You enter the forest searching for the dragon and see' "
+        )
         prompt = input("Starting Prompt: ")
         return context, prompt
 
@@ -49,18 +54,30 @@ def select_game():
     setting_description = data["settings"][setting_key]["description"]
     character = data["settings"][setting_key]["characters"][character_key]
 
-    context = "You are " + name + ", a " + character_key + " " + setting_description + \
-              "You have a " + character["item1"] + " and a " + character["item2"] + ". "
+    context = (
+        "You are "
+        + name
+        + ", a "
+        + character_key
+        + " "
+        + setting_description
+        + "You have a "
+        + character["item1"]
+        + " and a "
+        + character["item2"]
+        + ". "
+    )
     prompt_num = np.random.randint(0, len(character["prompts"]))
     prompt = character["prompts"][prompt_num]
 
     return context, prompt
 
+
 def instructions():
     text = "\nAI Dungeon 2 Instructions:"
     text += '\n Enter actions starting with a verb ex. "go to the tavern" or "attack the orc."'
     text += '\n To speak enter \'say "(thing you want to say)"\' or just "(thing you want to say)" '
-    text += '\n\nThe following commands can be entered for any action: '
+    text += "\n\nThe following commands can be entered for any action: "
     text += '\n  "revert"   Reverts the last action allowing you to pick a different action.'
     text += '\n  "quit"     Quits the game and saves'
     text += '\n  "restart"  Starts a new game and saves your current one'
@@ -70,11 +87,14 @@ def instructions():
     text += '\n  "help"     Prints these instructions again'
     return text
 
+
 def play_aidungeon_2():
 
-    console_print("AI Dungeon 2 will save and use your actions and game to continually improve AI Dungeon."
-                  + " If you would like to disable this enter 'nosaving' for any action. This will also turn off the "
-                  + "ability to save games.")
+    console_print(
+        "AI Dungeon 2 will save and use your actions and game to continually improve AI Dungeon."
+        + " If you would like to disable this enter 'nosaving' for any action. This will also turn off the "
+        + "ability to save games."
+    )
 
     upload_story = True
 
@@ -83,7 +103,7 @@ def play_aidungeon_2():
     story_manager = UnconstrainedStoryManager(generator)
     print("\n")
 
-    with open('opening.txt', 'r', encoding='utf-8') as file:
+    with open("opening.txt", "r", encoding="utf-8") as file:
         starter = file.read()
     print(starter)
 
@@ -101,7 +121,9 @@ def play_aidungeon_2():
             console_print(instructions())
             print("\nGenerating story...")
 
-            story_manager.start_new_story(prompt, context=context, upload_story=upload_story)
+            story_manager.start_new_story(
+                prompt, context=context, upload_story=upload_story
+            )
             print("\n")
             console_print(str(story_manager.story))
 
@@ -138,11 +160,14 @@ def play_aidungeon_2():
                 if upload_story:
                     id = story_manager.story.save_to_storage()
                     console_print("Game saved.")
-                    console_print("To load the game, type 'load' and enter the following ID: " + id)
+                    console_print(
+                        "To load the game, type 'load' and enter the following ID: "
+                        + id
+                    )
                 else:
                     console_print("Saving has been turned off. Cannot save.")
 
-            elif action =="load":
+            elif action == "load":
                 load_ID = input("What is the ID of the saved game?")
                 result = story_manager.story.load_from_storage(load_ID)
                 console_print("\nLoading Game...\n")
@@ -198,11 +223,15 @@ def play_aidungeon_2():
 
                 result = "\n" + story_manager.act(action)
                 if len(story_manager.story.results) >= 2:
-                    similarity = get_similarity(story_manager.story.results[-1], story_manager.story.results[-2])
+                    similarity = get_similarity(
+                        story_manager.story.results[-1], story_manager.story.results[-2]
+                    )
                     if similarity > 0.9:
                         story_manager.story.actions = story_manager.story.actions[:-1]
                         story_manager.story.results = story_manager.story.results[:-1]
-                        console_print("Woops that action caused the model to start looping. Try a different action to prevent that.")
+                        console_print(
+                            "Woops that action caused the model to start looping. Try a different action to prevent that."
+                        )
                         continue
 
                 if player_won(result):
@@ -212,9 +241,11 @@ def play_aidungeon_2():
                     console_print(result)
                     console_print("YOU DIED. GAME OVER")
                     console_print("\nOptions:")
-                    console_print('0) Start a new game')
-                    console_print('1) "I\'m not dead yet!" (If you didn\'t actually die) ')
-                    console_print('Which do you choose? ')
+                    console_print("0) Start a new game")
+                    console_print(
+                        "1) \"I'm not dead yet!\" (If you didn't actually die) "
+                    )
+                    console_print("Which do you choose? ")
                     choice = get_num_options(2)
                     if choice == 0:
                         break
@@ -226,5 +257,5 @@ def play_aidungeon_2():
                     console_print(result)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     play_aidungeon_2()
