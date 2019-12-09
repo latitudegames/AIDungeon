@@ -2,3 +2,5 @@ google-cloud-storage
 numpy
 regex
 profanityfilter
+pyyaml
+tensorflow==1.15
