@@ -2,21 +2,21 @@ import json
 from story.utils import *
 import os
 
+
 def load_stories(file):
 
-
-        try:
-            with open(file) as fp:
-                stories = json.load(fp)
-                return stories
-        except:
-            with open(file) as fp:
-                stories = []
-                for line in fp:
-                    if len(line) > 10:
-                        story = json.loads(line)
-                        stories.append(story)
-                return stories
+    try:
+        with open(file) as fp:
+            stories = json.load(fp)
+            return stories
+    except:
+        with open(file) as fp:
+            stories = []
+            for line in fp:
+                if len(line) > 10:
+                    story = json.loads(line)
+                    stories.append(story)
+            return stories
 
 
 def modify_story(story):
@@ -32,10 +32,11 @@ def modify_story(story):
     else:
         return None
 
+
 current = os.getcwd()
 files = os.listdir(current + "/writingprompts")
 output_file_path = "writing_prompts.txt"
-with open(output_file_path, 'w') as output_file:
+with open(output_file_path, "w") as output_file:
     filenames = ["writingprompts/" + file for file in files]
     cleaned_stories = []
     for filename in filenames:
