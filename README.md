@@ -1,4 +1,5 @@
 # AIDungeon2
+[![Run on Repl.it](https://repl.it/badge/github/AIDungeon/AIDungeon)](https://repl.it/github/AIDungeon/AIDungeon)
 
 ### The model for AI Dungeon2 is temporarily unavailable to download due to cost. We're working on a solution!
 
