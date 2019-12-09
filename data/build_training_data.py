@@ -4,9 +4,10 @@ from story.utils import *
 
 
 def load_tree(filename):
-    with open(filename, 'r') as fp:
+    with open(filename, "r") as fp:
         tree = json.load(fp)
     return tree
+
 
 def remove_phrase(text):
     phrases = ["Years pass...", "Years pass"]
@@ -14,27 +15,54 @@ def remove_phrase(text):
         text = text.replace(phrase, "")
     return text
 
+
 def make_stories(current_story, tree):
     stories = []
     action = first_to_second_person(tree["action"])
     action_list = action.split(" ")
     first_word = action_list[0]
-    if first_word[-1] == '.':
+    if first_word[-1] == ".":
         first_word = first_word[:-1]
 
-    dont_add_you = ["the", "another", "next", "in", "monday", "back", "a", "years", "one",
-                    "two", "during", "months", "weeks", "seven", "three", "...", "twelve",
-                    "four","five","six", "blackness...", "you", "no", "yes", "up", "down", "onward", ]
+    dont_add_you = [
+        "the",
+        "another",
+        "next",
+        "in",
+        "monday",
+        "back",
+        "a",
+        "years",
+        "one",
+        "two",
+        "during",
+        "months",
+        "weeks",
+        "seven",
+        "three",
+        "...",
+        "twelve",
+        "four",
+        "five",
+        "six",
+        "blackness...",
+        "you",
+        "no",
+        "yes",
+        "up",
+        "down",
+        "onward",
+    ]
 
     if action[0] is '"':
         last_quote = action.rfind('"')
-        action = "You say " + action[:last_quote + 1]
+        action = "You say " + action[: last_quote + 1]
     elif first_word.lower() not in dont_add_you:
         action = "You " + action[0].lower() + action[1:]
 
     action = remove_phrase(action)
     result = remove_phrase(tree["result"])
-    current_story += ("\n> " + action + "\n" + result)
+    current_story += "\n> " + action + "\n" + result
 
     action_results = tree["action_results"]
     if len(action_results) == 0 or action_results[0] is None:
@@ -48,6 +76,7 @@ def make_stories(current_story, tree):
 
     return stories
 
+
 def get_stories(filename):
     tree = load_tree(filename)
     stories = []
@@ -57,13 +86,12 @@ def get_stories(filename):
 
 
 output_file_path = "text_adventures.txt"
-with open(output_file_path, 'w') as output_file:
-    filenames = ["stories/story" + str(i) + ".json" for i in range(0,93)]
-    #filenames = []
+with open(output_file_path, "w") as output_file:
+    filenames = ["stories/story" + str(i) + ".json" for i in range(0, 93)]
+    # filenames = []
     for filename in filenames:
         tree = load_tree(filename)
         print('"' + tree["tree_id"] + '",')
-
 
     filenames += ["stories/crowdsourcedstory" + str(i) + ".json" for i in range(0, 12)]
     stories = []
@@ -80,6 +108,3 @@ with open(output_file_path, 'w') as output_file:
         print(len(raw_text))
 
     output_file.write(raw_text)
-
-
-
