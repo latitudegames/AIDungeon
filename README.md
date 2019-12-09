@@ -7,7 +7,7 @@ Read more about AIDungeon2 and how it was built [here](https://pcc.cs.byu.edu/20
 
 Play the game in Colab [here](http://www.aidungeon.io).
 
-To play the game locally you need a beefy GPU ~12 GB and CUDA installed.
+To play the game locally, it is recommended that you have an nVidia GPU with 12 GB or more of memory, and CUDA installed. If you do not have such a GPU, each turn can take a couple of minutes or more for the game to compose its response. To install and play locally:
 ```
 git clone https://github.com/AIDungeon/AIDungeon/
 cd AIDungeon
