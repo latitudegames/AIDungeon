@@ -1,5 +1,6 @@
 **/__pychache__
 .idea
 AI-Adventure-2bb65e3a4e2f.json
-*.pyc
-*.pyo
+*.py[cod]
+data/text_adventures.txt
+venv/

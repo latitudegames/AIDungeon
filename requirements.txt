@@ -1,6 +1,7 @@
 google-cloud-storage
+gsutil
 numpy
-regex
 profanityfilter
 pyyaml
+regex
 tensorflow==1.15
