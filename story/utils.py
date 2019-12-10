@@ -70,6 +70,7 @@ def player_won(text):
         "live happily ever after",
         "(you)? live (forever|eternally|for eternity)",
         "you (are|become|turn into) (a)? (deity|god)",
+        "you ((go|get) (in)?to|arrive (at|in)) (heaven|paradise)",
     ]
     return any(re.search(regexp, lower_text) for regexp in won_phrases)
 
