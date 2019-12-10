@@ -12,7 +12,10 @@ with open("story/extra_censored_words.txt", "r") as f:
     more_words = [l.replace("\n", "") for l in f.readlines()]
 
 pf = ProfanityFilter(extra_censor_list=more_words)
-
+pf.remove_word("gay")
+pf.remove_word("gays")
+pf.remove_word("lesbian")
+pf.remove_word("Lesbian")
 
 def console_print(text, width=75):
     last_newline = 0
