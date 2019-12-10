@@ -8,10 +8,10 @@ from profanityfilter import ProfanityFilter
 YAML_FILE = "story/story_data.yaml"
 
 
-with open("story/extra_censored_words.txt", "r") as f:
-    more_words = [l.replace("\n", "") for l in f.readlines()]
+with open("story/censored_words.txt", "r") as f:
+    censored_words = [l.replace("\n", "") for l in f.readlines()]
 
-pf = ProfanityFilter(extra_censor_list=more_words)
+pf = ProfanityFilter(custom_censor_list=censored_words)
 
 
 def console_print(text, width=75):
