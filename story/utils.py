@@ -67,8 +67,8 @@ def player_died(text):
 def player_won(text):
     lower_text = text.lower()
     won_phrases = [
-        "live happily ever after",
-        "(you)? live (forever|eternally|for eternity)",
+        "you live happily ever after",
+        "you live (forever|eternally|for eternity)",
         "you (are|become|turn into) (a)? (deity|god)",
         "you ((go|get) (in)?to|arrive (at|in)) (heaven|paradise)",
     ]
