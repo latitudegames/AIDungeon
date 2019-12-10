@@ -1,9 +1,10 @@
-from story.utils import *
 import json
+import os
+import subprocess
 import uuid
 from subprocess import Popen
-import subprocess
-import os
+
+from story.utils import *
 
 
 class Story:

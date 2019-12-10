@@ -1,14 +1,15 @@
-from story.utils import *
+import json
+import os
 import warnings
 
-warnings.filterwarnings("ignore")
-import os
+import numpy as np
 import tensorflow as tf
+from generator.gpt2.src import encoder, model, sample
+from story.utils import *
+
+warnings.filterwarnings("ignore")
 
 tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
-from generator.gpt2.src import sample, encoder, model
-import json
-import numpy as np
 
 
 class GPT2Generator:
