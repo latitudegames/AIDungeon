@@ -1,7 +1,10 @@
-from story.story_manager import *
+import os
+import sys
+import time
+
 from generator.gpt2.gpt2_generator import *
+from story.story_manager import *
 from story.utils import *
-import time, sys, os
 
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 

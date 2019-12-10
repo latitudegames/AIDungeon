@@ -1,5 +1,4 @@
 import tensorflow as tf
-
 from generator.gpt2.src import model
 
 

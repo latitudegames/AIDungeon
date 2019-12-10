@@ -1,11 +1,12 @@
 # coding: utf-8
 import re
-import yaml
 from difflib import SequenceMatcher
+
+import yaml
+from profanityfilter import ProfanityFilter
 
 YAML_FILE = "story/story_data.yaml"
 
-from profanityfilter import ProfanityFilter
 
 with open("story/extra_censored_words.txt", "r") as f:
     more_words = [l.replace("\n", "") for l in f.readlines()]
@@ -47,41 +48,31 @@ def get_num_options(num):
 
 
 def player_died(text):
-
-    # reg_phrases = ["You[a-zA-Z ]* die.", "you[a-zA-Z ]* die.", "You[a-zA-Z ]* die ", "you[a-zA-Z ]* die ",]
-    #
-    # for phrase in reg_phrases:
-    #     reg_expr = re.compile(phrase)
-    #     matches = re.findall(reg_expr, text)
-    #     if len(matches) > 0:
-    #         return True
-
-    dead_phrases = [
-        "you die",
-        "You die",
-        "you died",
-        "you are dead",
-        "You died",
-        "You are dead",
-        "You're dead",
-        "you're dead",
-        "you have died",
-        "You have died",
-        "you bleed out",
+    """
+    TODO: Add in more sophisticated NLP, maybe a custom classifier
+    trained on hand-labelled data that classifies second-person
+    statements as resulting in death or not.
+    """
+    lower_text = text.lower()
+    you_dead_regexps = [
+        "you('re| are) (dead|killed|slain|no more|nonexistent)",
+        "you (die|pass away|perish|suffocate|drown|bleed out)",
+        "you('ve| have) (died|perished|suffocated|drowned|been (killed|slain))",
+        "you \w* to death",
+        "you \w+ yourself to death",
     ]
-    for phrase in dead_phrases:
-        if phrase in text:
-            return True
-    return False
+    return any(re.search(regexp, lower_text) for regexp in you_dead_regexps)
 
 
 def player_won(text):
-
-    won_phrases = ["live happily ever after", "you live forever"]
-    for phrase in won_phrases:
-        if phrase in text:
-            return True
-    return False
+    lower_text = text.lower()
+    won_phrases = [
+        "live happily ever after",
+        "(you)? live (forever|eternally|for eternity)",
+        "you (are|become|turn into) (a)? (deity|god)",
+        "you ((go|get) (in)?to|arrive (at|in)) (heaven|paradise)",
+    ]
+    return any(re.search(regexp, lower_text) for regexp in won_phrases)
 
 
 def remove_profanity(text):
