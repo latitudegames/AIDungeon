@@ -26,8 +26,9 @@ Resources:
 
 * **Website**: [aidungeon.io](http://www.aidungeon.io/)
 * **Email**: aidungeon.io@gmail.com
-* **Twitter**: [@nickwalton00](https://twitter.com/nickwalton00), [@benjbay](https://twitter.com/benjbay)
+* **Twitter**: [creator @nickwalton00](https://twitter.com/nickwalton00), [dev @benjbay](https://twitter.com/benjbay)
 * **Reddit**: [r/AIDungeon](https://www.reddit.com/r/AIDungeon/)
+* **Discord**: [aidungeon discord](https://discord.gg/Dg8Vcz6)
 
 
 Contributing
