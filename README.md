@@ -15,7 +15,6 @@ cd AIDungeon
 python3 play.py
 ```
 
-
 Community
 ------------------------
 
