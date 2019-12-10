@@ -88,6 +88,7 @@ def instructions():
     text += '\n  "load"     Asks for a save ID and loads the game if the ID is valid'
     text += '\n  "print"    Prints a transcript of your adventure (without extra newline formatting)'
     text += '\n  "help"     Prints these instructions again'
+    text += '\n  "censor off/on" to turn censoring off or on.'
     return text
 
 
@@ -158,6 +159,12 @@ def play_aidungeon_2():
 
             elif action == "help":
                 console_print(instructions())
+
+            elif action == "censor off":
+                generator.censor = False
+
+            elif action == "censor on":
+                generator.censor = True
 
             elif action == "save":
                 if upload_story:
