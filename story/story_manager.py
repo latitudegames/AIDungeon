@@ -130,7 +130,7 @@ class Story:
 
         story_json = self.to_json()
         file_name = "story" + str(self.uuid) + ".json"
-        f = open(save_path + file_name, "w")
+        f = open(os.path.join(save_path, file_name), "w")
         f.write(story_json)
         f.close()
 
@@ -151,10 +151,10 @@ class Story:
         file_name = "story" + story_id + ".json"
         cmd = "gsutil cp gs://aidungeonstories/" + file_name + " ."
         os.system(cmd)
-        exists = os.path.isfile(save_path + file_name)
+        exists = os.path.isfile(os.path.join(save_path, file_name))
 
         if exists:
-            with open(save_path + file_name, "r") as fp:
+            with open(os.path.join(save_path, file_name), "r") as fp:
                 game = json.load(fp)
             self.init_from_dict(game)
             return str(self)
