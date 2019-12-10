@@ -58,8 +58,7 @@ def player_died(text):
         "you('re| are) (dead|killed|slain|no more|nonexistent)",
         "you (die|pass away|perish|suffocate|drown|bleed out)",
         "you('ve| have) (died|perished|suffocated|drowned|been (killed|slain))",
-        "you \w* to death",
-        "you \w+ yourself to death",
+        "you (\w* )?(yourself )?to death",
     ]
     return any(re.search(regexp, lower_text) for regexp in you_dead_regexps)
 
