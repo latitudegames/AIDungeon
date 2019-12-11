@@ -136,7 +136,7 @@ class Story:
 
         FNULL = open(os.devnull, "w")
         p = Popen(
-            ["gsutil", "cp", file_name, "gs://aidungeonstories"],
+            ["gsutil", "cp", os.path.join(save_path, file_name), "gs://aidungeonstories"],
             stdout=FNULL,
             stderr=subprocess.STDOUT,
         )
@@ -149,7 +149,7 @@ class Story:
             return "Error save not found."
 
         file_name = "story" + story_id + ".json"
-        cmd = "gsutil cp gs://aidungeonstories/" + file_name + " ."
+        cmd = "gsutil cp gs://aidungeonstories/" + file_name + " " + save_path
         os.system(cmd)
         exists = os.path.isfile(os.path.join(save_path, file_name))
 
