@@ -42,6 +42,6 @@
 
     "noble_prompt": ["#noble_one#", "#noble_two#", "#noble_three#"],
 
-    "noble_context1" : "You are <NAME>, a noble from the #realm# of #fantasy_name#. You have a #noble_item1# and a #noble_item2#." 
+    "noble_context1" : "You are <NAME>, a noble from the #realm# of #fantasy_name#. You have a #noble_item1# and a #noble_item2#.",
     "noble_context" : ["#[noble_item1:#noble_item#][noble_item2:#noble_item#]noble_context1#"]
 }
