@@ -3,6 +3,7 @@ import sys
 import time
 
 from generator.gpt2.gpt2_generator import *
+from story import grammars
 from story.story_manager import *
 from story.utils import *
 
@@ -58,8 +59,8 @@ def select_game():
     character = data["settings"][setting_key]["characters"][character_key]
 
     if character_key == "noble":
-        context = story.grammars.noble("context")
-        prompt = story.grammars.noble("prompt")
+        context = grammars.noble("context")
+        prompt = grammars.noble("prompt")
     else:
         context = (
             "You are "
