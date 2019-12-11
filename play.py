@@ -57,21 +57,25 @@ def select_game():
     setting_description = data["settings"][setting_key]["description"]
     character = data["settings"][setting_key]["characters"][character_key]
 
-    context = (
-        "You are "
-        + name
-        + ", a "
-        + character_key
-        + " "
-        + setting_description
-        + "You have a "
-        + character["item1"]
-        + " and a "
-        + character["item2"]
-        + ". "
-    )
-    prompt_num = np.random.randint(0, len(character["prompts"]))
-    prompt = character["prompts"][prompt_num]
+    if character_key == "noble":
+        context = story.grammars.noble("context")
+        prompt = story.grammars.noble("prompt")
+    else:
+        context = (
+            "You are "
+            + name
+            + ", a "
+            + character_key
+            + " "
+            + setting_description
+            + "You have a "
+            + character["item1"]
+            + " and a "
+            + character["item2"]
+            + ". "
+        )
+        prompt_num = np.random.randint(0, len(character["prompts"]))
+        prompt = character["prompts"][prompt_num]
 
     return context, prompt
 
@@ -88,7 +92,6 @@ def instructions():
     text += '\n  "load"     Asks for a save ID and loads the game if the ID is valid'
     text += '\n  "print"    Prints a transcript of your adventure (without extra newline formatting)'
     text += '\n  "help"     Prints these instructions again'
-    text += '\n  "censor off/on" to turn censoring off or on.'
     return text
 
 
@@ -159,12 +162,6 @@ def play_aidungeon_2():
 
             elif action == "help":
                 console_print(instructions())
-
-            elif action == "censor off":
-                generator.censor = False
-
-            elif action == "censor on":
-                generator.censor = True
 
             elif action == "save":
                 if upload_story:
