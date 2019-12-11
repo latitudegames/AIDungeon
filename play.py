@@ -59,7 +59,7 @@ def select_game():
     character = data["settings"][setting_key]["characters"][character_key]
 
     if character_key == "noble":
-        context = grammars.noble("context")
+        context = grammars.noble("context") + "\n\n"
         context = context.replace("<NAME>", name)
         prompt = grammars.noble("prompt")
     else:
