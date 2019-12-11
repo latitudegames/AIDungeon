@@ -122,7 +122,7 @@ class Story:
 
     def save_to_storage(self):
         self.uuid = str(uuid.uuid1())
-        
+
         save_path = "./saved_stories/"
 
         if not os.path.exists(save_path):
