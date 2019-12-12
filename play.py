@@ -96,11 +96,13 @@ def play_aidungeon_2():
 
     console_print(
         "AI Dungeon 2 will save and use your actions and game to continually improve AI Dungeon."
-        + " If you would like to disable this enter 'nosaving' for any action. This will also turn off the "
+        + " If you would like to disable this enter 'nosaving' at any time. This will also turn off the "
         + "ability to save games."
+        + "Do you want to enter 'nosaving' right now?"
     )
-
-    upload_story = True
+    choice = input("1) Yes, I want to play incognito!\n-) Press enter to skip\n>")
+    if choice == "1":
+        upload_story = False
  
     # "temperature" dictates randomness. A low temperature means that the AI is
     #  more likely to go with the word that best fits the context, a high
