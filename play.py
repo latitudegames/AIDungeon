@@ -59,7 +59,7 @@ def select_game():
     character = data["settings"][setting_key]["characters"][character_key]
 
     if character_key == "noble":
-        context = grammars.noble("context")
+        context = grammars.noble("context") + "\n\n"
         context = context.replace("<NAME>", name)
         prompt = grammars.noble("prompt")
     else:
@@ -167,10 +167,18 @@ def play_aidungeon_2():
                 console_print(instructions())
 
             elif action == "censor off":
-                generator.censor = False
+                if not generator.censor:
+                    console_print("Censor is already disabled.")
+                else:
+                    generator.censor = False
+                    console_print("Censor is now disabled.")
 
             elif action == "censor on":
-                generator.censor = True
+                if generator.censor:
+                    console_print("Censor is already enabled.")
+                else:
+                    generator.censor = True
+                    console_print("Censor is now enabled.")
 
             elif action == "save":
                 if upload_story:

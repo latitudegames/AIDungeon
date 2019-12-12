@@ -67,11 +67,12 @@ def player_died(text):
 def player_won(text):
     lower_text = text.lower()
     won_phrases = [
-        "you live happily ever after",
-        "you live (forever|eternally|for eternity)",
-        "you (are|become|turn into) ((a|now) )?(deity|god|immortal)",
-        "you ((go|get) (in)?to|arrive (at|in)) (heaven|paradise)",
-        "you celebrate your (victory|triumph)",
+        "you ((\w* )*and |)live happily ever after",
+        "you ((\w* )*and |)live (forever|eternally|for eternity)",
+        "you ((\w* )*and |)(are|become|turn into) ((a|now) )?(deity|god|immortal)",
+        "you ((\w* )*and |)((go|get) (in)?to|arrive (at|in)) (heaven|paradise)",
+        "you ((\w* )*and |)celebrate your (victory|triumph)",
+        "you ((\w* )*and |)retire",
     ]
     return any(re.search(regexp, lower_text) for regexp in won_phrases)
 
