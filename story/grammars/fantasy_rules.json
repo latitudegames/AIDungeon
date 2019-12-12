@@ -1,0 +1,47 @@
+{
+    "sense" : ["see", "hear", "sense", "remember", "feel", "notice", "wonder"],
+    "to_fro" : ["to and fro", "back and forth"],
+    "two_to_ten" : ["two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"],
+    "realm" : ["realm", "kingdom", "country", "province"],
+    "fantasy_name" : ["Larion", "Vijeh", "Francia", "Paiva", "Mederos", "Radu", "Hatami", "Shirish", "Saralyn", "Leka", "Rukaj", "Nardis", "Isett", "Jacczak", "Hamma", "Narala", "Alstine", "Gimello", "Elsbury", "Rubino", "Misra", "Paterno", "Gassan", "Galardo", "Raeder", "Garriel", "Routh", "Bindi", "Renfro", "Harnid", "Enlou", "Amato", "Zurito", "Dimyan", "Arteaga", "Isgrigg", "Maida", "Mudra", "Beranek", "Aric", "Sadri", "Javan"],
+
+    "noble_item" : ["pouch of gold", "pouch of silver", "small dagger", "fine cane", "house seal", "narrow rapier", "vial of perfume", "pendant", "silk shirt", "leather purse", "map of the #realm#", "pair of spectacles", "land deed"],
+    "subordinate" : ["servant", "cook", "laborer", "groundskeeper", "housekeeper", "attendant", "serf", "hireling"],
+    "nice_home" : ["keep", "castle", "manor", "mansion", "abbey", "estate"],
+    "he_she" : ["he", "she"],
+    "a_the" : ["a", "the", "your"],
+    "attacked" : ["under attack", "being invaded", "in danger", "being surrounded"],
+    "noble_one" : ["One morning, you are awakened by one of your #subordinate.s#. #he_she.capitalize# tells you that your #nice_home# is #attacked#. You look out #a_the# window and see"],
+
+    "element" : ["fire", "water", "earth", "air"],
+    "more_element" : ["the underworld", "the sea", "the heavens"],
+    "celestial" : ["the sun", "the moon", "the stars"],
+    "domain" : ["#element#", "#more_element#", "#celestial#", "the harvest", "fertility", "war", "good fortune", "thresholds", "love"],
+    "deity" : ["god of #domain#"],
+    "group" : ["group", "bunch", "delegation", "host"],
+    "race" : ["elf", "dwarf", "gnome", "halfling"],
+    "noble_class" : ["trader", "noble", "merchant", "soldier", "captain", "aristocrat", "duke", "count", "lord", "priest"],
+    "attrib" : ["boisterous", "dignified", "stately", "drunken", "cheerful", "somber", "shifty", "tired-looking"],
+    "char" : ["#noble_class#", "#race#"],
+    "character" : ["#char#", "#attrib# #char#"],
+    "toast" : ["offers a toast", "gives a speech", "recites a prayer", "announces future plans", "loudly argues", "sings a ballad"],
+    "grand_home_adj" : ["great", "grand", "large", "spacious"],
+    "grand_home_adj_opt" : ["#grand_home_adj# ", ""],
+    "noble_location" : ["with a #group# of #character.s#", "in a #grand_home_adj_opt##nice_home#"],
+    "season" : ["spring", "summer", "winter", "autumn"],
+    "season_opt" : ["#season# ", ""],
+    "noble_two" : "Throughout the #realm# it is the #season_opt#festival of the #deity#. To celebrate, you are feasting #noble_location#. #subordinate.s.capitalize# bustle #to_fro#. As a #character# #toast#, you #sense#",
+
+    "week_month" : ["week", "fortnight", "month"],
+    "time_periods" : ["#week_month#", "#two_to_ten# #week_month.s#"],
+    "speak" : ["speak", "chat", "talk", "converse"],
+    "ask" : ["ask", "request"],
+    "noble_organization" : ["organization", "delegation", "guild"],
+    "matter" : ["about a matter of importance to the #realm#", "on behalf of a foreign #noble_organization# of #race.s#", "with information regarding a rival house", "with demands from your #subordinate.s#"],
+    "noble_three" : "Every day for the past #week_month#, a certain #character# has come to your #grand_home_adj_opt##nice_home# #ask#ing to #speak# with you, apparently #matter#. Unsure if #he_she# is trustworthy, you finally agree to meet. At the meeting, you #sense#" ,
+
+    "noble_prompt": ["#noble_one#", "#noble_two#", "#noble_three#"],
+
+    "noble_context1" : "You are <NAME>, a noble from the #realm# of #fantasy_name#. You have a #noble_item1# and a #noble_item2#.",
+    "noble_context" : ["#[noble_item1:#noble_item#][noble_item2:#noble_item#]noble_context1#"]
+}

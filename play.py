@@ -3,6 +3,7 @@ import sys
 import time
 
 from generator.gpt2.gpt2_generator import *
+from story import grammars
 from story.story_manager import *
 from story.utils import *
 
@@ -57,21 +58,26 @@ def select_game():
     setting_description = data["settings"][setting_key]["description"]
     character = data["settings"][setting_key]["characters"][character_key]
 
-    context = (
-        "You are "
-        + name
-        + ", a "
-        + character_key
-        + " "
-        + setting_description
-        + "You have a "
-        + character["item1"]
-        + " and a "
-        + character["item2"]
-        + ". "
-    )
-    prompt_num = np.random.randint(0, len(character["prompts"]))
-    prompt = character["prompts"][prompt_num]
+    if character_key == "noble":
+        context = grammars.noble("context") + "\n\n"
+        context = context.replace("<NAME>", name)
+        prompt = grammars.noble("prompt")
+    else:
+        context = (
+            "You are "
+            + name
+            + ", a "
+            + character_key
+            + " "
+            + setting_description
+            + "You have a "
+            + character["item1"]
+            + " and a "
+            + character["item2"]
+            + ". "
+        )
+        prompt_num = np.random.randint(0, len(character["prompts"]))
+        prompt = character["prompts"][prompt_num]
 
     return context, prompt
 
@@ -88,6 +94,7 @@ def instructions():
     text += '\n  "load"     Asks for a save ID and loads the game if the ID is valid'
     text += '\n  "print"    Prints a transcript of your adventure (without extra newline formatting)'
     text += '\n  "help"     Prints these instructions again'
+    text += '\n  "censor off/on" to turn censoring off or on.'
     return text
 
 
@@ -158,6 +165,20 @@ def play_aidungeon_2():
 
             elif action == "help":
                 console_print(instructions())
+
+            elif action == "censor off":
+                if not generator.censor:
+                    console_print("Censor is already disabled.")
+                else:
+                    generator.censor = False
+                    console_print("Censor is now disabled.")
+
+            elif action == "censor on":
+                if generator.censor:
+                    console_print("Censor is already enabled.")
+                else:
+                    generator.censor = True
+                    console_print("Censor is now enabled.")
 
             elif action == "save":
                 if upload_story:

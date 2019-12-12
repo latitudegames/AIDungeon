@@ -26,16 +26,18 @@ Resources:
 
 * **Website**: [aidungeon.io](http://www.aidungeon.io/)
 * **Email**: aidungeon.io@gmail.com
-* **Twitter**: [@nickwalton00](https://twitter.com/nickwalton00), [@benjbay](https://twitter.com/benjbay)
+* **Twitter**: [creator @nickwalton00](https://twitter.com/nickwalton00), [dev @benjbay](https://twitter.com/benjbay)
 * **Reddit**: [r/AIDungeon](https://www.reddit.com/r/AIDungeon/)
+* **Discord**: [aidungeon discord](https://discord.gg/Dg8Vcz6)
 
 
 Contributing
 ------------------------
-Contributing to AIDungeon is relatively easy.  Just send us a
+Contributing to AIDungeon is relatively easy! Just send us a
 [pull request](https://help.github.com/articles/using-pull-requests/) from your fork.
 When you send your request, make ``develop`` the destination branch on the
-[AIDungeon repository](https://github.com/nickwalton/AIDungeon).
+[AIDungeon repository](https://github.com/nickwalton/AIDungeon), and summarize your
+change in the "unreleased" section of [the changelog](CHANGELOG.md).
 
 We prefer PRs to be
 [PEP 8](https://www.python.org/dev/peps/pep-0008/) compliant.
