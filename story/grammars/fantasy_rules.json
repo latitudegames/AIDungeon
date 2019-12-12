@@ -1,5 +1,9 @@
 {
-    "sense" : ["see", "hear", "sense", "remember", "feel", "notice", "wonder"],
+    "rare_sense" : ["taste", "smell", "watch", "observe", "monitor", "look"],
+    "sense" : ["see", "hear", "sense", "feel", "notice", "#rare_sense#"],
+    "remember" : ["remember", "recall", "recollect"],
+    "think" : ["wonder", "decide", "#remember#", "realize", "imagine"],
+    "action" : ["#sense#", "#think#"],
     "to_fro" : ["to and fro", "back and forth"],
     "two_to_ten" : ["two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"],
     "realm" : ["realm", "kingdom", "country", "province"],
@@ -30,7 +34,7 @@
     "noble_location" : ["with a #group# of #character.s#", "in a #grand_home_adj_opt##nice_home#"],
     "season" : ["spring", "summer", "winter", "autumn"],
     "season_opt" : ["#season# ", ""],
-    "noble_two" : "Throughout the #realm# it is the #season_opt#festival of the #deity#. To celebrate, you are feasting #noble_location#. #subordinate.s.capitalize# bustle #to_fro#. As a #character# #toast#, you #sense#",
+    "noble_two" : "Throughout the #realm# it is the #season_opt#festival of the #deity#. To celebrate, you are feasting #noble_location#. #subordinate.s.capitalize# bustle #to_fro#. As a #character# #toast#, you #action#",
 
     "week_month" : ["week", "fortnight", "month"],
     "time_periods" : ["#week_month#", "#two_to_ten# #week_month.s#"],
@@ -38,7 +42,7 @@
     "ask" : ["ask", "request"],
     "noble_organization" : ["organization", "delegation", "guild"],
     "matter" : ["about a matter of importance to the #realm#", "on behalf of a foreign #noble_organization# of #race.s#", "with information regarding a rival house", "with demands from your #subordinate.s#"],
-    "noble_three" : "Every day for the past #week_month#, a certain #character# has come to your #grand_home_adj_opt##nice_home# #ask#ing to #speak# with you, apparently #matter#. Unsure if #he_she# is trustworthy, you finally agree to meet. At the meeting, you #sense#" ,
+    "noble_three" : "Every day for the past #week_month#, a certain #character# has come to your #grand_home_adj_opt##nice_home# #ask#ing to #speak# with you, apparently #matter#. Unsure if #he_she# is trustworthy, you finally agree to meet. At the meeting, you #action#" ,
 
     "noble_prompt": ["#noble_one#", "#noble_two#", "#noble_three#"],
 
