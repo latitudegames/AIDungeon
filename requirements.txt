@@ -5,3 +5,4 @@ profanityfilter
 pyyaml
 regex
 tensorflow==1.15
+tracery
