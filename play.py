@@ -1,5 +1,6 @@
 import os
 import sys
+import random
 import time
 
 from generator.gpt2.gpt2_generator import *
@@ -20,10 +21,42 @@ def splash():
         return "new"
 
 
+def random_story():
+    # random setting
+    settings = data["settings"].keys()
+    n_settings = len(settings)
+    rand_n = random.randint(0, n_settings - 1)
+    for i, setting in enumerate(settings):
+        if i == rand_n:
+            setting_key = setting
+
+    # random character
+    characters = data["settings"][setting_key]["characters"]
+    n_characters = len(characters)
+    rand_n = random.randint(0, n_characters - 1)
+    for i, character in enumerate(character):
+        if i == rand_n:
+            character_key = character
+
+    # random name
+    name = "Billy"
+    return setting_key, character_key, name
+
+
 def select_game():
     with open(YAML_FILE, "r") as stream:
         data = yaml.safe_load(stream)
 
+    # Random story?
+    print("Random story?")
+    console_print("0) yes")
+    console_print("1) no")
+    choice = get_num_options(2)
+
+    if choice == 0:
+        return random_story()
+
+    # User-selected story...
     print("Pick a setting.")
     settings = data["settings"].keys()
     for i, setting in enumerate(settings):
@@ -58,6 +91,10 @@ def select_game():
     setting_description = data["settings"][setting_key]["description"]
     character = data["settings"][setting_key]["characters"][character_key]
 
+    return setting_key, character_key, name
+
+
+def get_curated_exposition(setting_key, character_key, name):
     if character_key == "noble":
         context = grammars.noble("context") + "\n\n"
         context = context.replace("<NAME>", name)
@@ -127,7 +164,8 @@ def play_aidungeon_2():
 
         if splash_choice == "new":
             print("\n\n")
-            context, prompt = select_game()
+            setting, character, name = select_game()
+            context, prompt = get_curated_exposition(setting, character, name)
             console_print(instructions())
             print("\nGenerating story...")
 
