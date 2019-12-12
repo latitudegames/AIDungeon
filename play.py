@@ -167,10 +167,18 @@ def play_aidungeon_2():
                 console_print(instructions())
 
             elif action == "censor off":
-                generator.censor = False
+                if generator.censor == False:
+                    console_print("Censor is already disabled.")
+                else:
+                    generator.censor = False
+                    console_print("Censor is now disabled.")
 
             elif action == "censor on":
-                generator.censor = True
+                if generator.censor == True:
+                    console_print("Censor is already enabled.")
+                else:
+                    generator.censor = True
+                    console_print("Censor is now enabled.")
 
             elif action == "save":
                 if upload_story:
