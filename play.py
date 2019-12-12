@@ -114,7 +114,7 @@ def play_aidungeon_2():
     top_k = 40
  
     console_print("\nBefore we start, would you like to change the default temperature (" + str(temp) + ") and top_k (" + str(top_k) + ") value?\n")
-    choice = input("1) Lower the temp! I wanna cuddle!\n-) Press enter to skip\n>")
+    choice = input("1) Lower the temp! I want a less random story!\n-) Press enter to skip\n>")
  
     if choice == "1":
         temp = float(input("New temperature: "))
