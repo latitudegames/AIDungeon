@@ -140,33 +140,33 @@ def play_aidungeon_2():
         while True:
             sys.stdin.flush()
             action = input("> ")
-            if action == "restart":
+            if action.lower() == "restart":
                 rating = input("Please rate the story quality from 1-10: ")
                 rating_float = float(rating)
                 story_manager.story.rating = rating_float
                 break
 
-            elif action == "quit":
+            elif action.lower() == "quit":
                 rating = input("Please rate the story quality from 1-10: ")
                 rating_float = float(rating)
                 story_manager.story.rating = rating_float
                 exit()
 
-            elif action == "nosaving":
+            elif action.lower() == "nosaving":
                 upload_story = False
                 story_manager.story.upload_story = False
                 console_print("Saving turned off.")
 
-            elif action == "help":
+            elif action.lower() == "help":
                 console_print(instructions())
 
-            elif action == "censor off":
+            elif action.lower() == "censor off":
                 generator.censor = False
 
-            elif action == "censor on":
+            elif action.lower() == "censor on":
                 generator.censor = True
 
-            elif action == "save":
+            elif action.lower() == "save":
                 if upload_story:
                     id = story_manager.story.save_to_storage()
                     console_print("Game saved.")
@@ -177,23 +177,23 @@ def play_aidungeon_2():
                 else:
                     console_print("Saving has been turned off. Cannot save.")
 
-            elif action == "load":
+            elif action.lower() == "load":
                 load_ID = input("What is the ID of the saved game?")
                 result = story_manager.story.load_from_storage(load_ID)
                 console_print("\nLoading Game...\n")
                 console_print(result)
 
-            elif len(action.split(" ")) == 2 and action.split(" ")[0] == "load":
+            elif len(action.split(" ")) == 2 and action.split(" ")[0].lower() == "load":
                 load_ID = action.split(" ")[1]
                 result = story_manager.story.load_from_storage(load_ID)
                 console_print("\nLoading Game...\n")
                 console_print(result)
 
-            elif action == "print":
+            elif action.lower() == "print":
                 print("\nPRINTING\n")
                 print(str(story_manager.story))
 
-            elif action == "revert":
+            elif action.lower() == "revert":
 
                 if len(story_manager.story.actions) is 0:
                     console_print("You can't go back any farther. ")
