@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Directory `saved_stories`.
 - A few more censored words.
 - Feedback for user for the censor command.
+- iPython notebook utilities to save/load to Google Drive, and an OOM error workaround.
 
 ### Fixed
 - Loading not working on `develop`.
@@ -20,7 +21,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Made `install.sh` more robust.
 - Sorted imports.
-- Split the model downloading script into `download_model.sh` from `install.sh`
+- Split the model downloading script into `download_model.sh` from `install.sh`.
+- User commands are now case-insensitive.
 
 ## [2.0.0] - 2019-12-05
 
