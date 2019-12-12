@@ -60,9 +60,9 @@ def select_game():
 
     name_token = "<NAME>"
     if character_key == "noble" or character_key == "knight":
-        context = grammars.generate(setting_key, character, "context") + "\n\n"
+        context = grammars.generate(setting_key, character_key, "context") + "\n\n"
         context = context.replace(name_token, name)
-        prompt = grammars.generate(setting_key, character, "prompt")
+        prompt = grammars.generate(setting_key, character_key, "prompt")
         prompt = prompt.replace(name_token, name)
     else:
         context = (
