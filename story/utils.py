@@ -59,6 +59,7 @@ def player_died(text):
         "you (die|pass away|perish|suffocate|drown|bleed out)",
         "you('ve| have) (died|perished|suffocated|drowned|been (killed|slain))",
         "you (\w* )?(yourself )?to death",
+        "you (\w* )*(collapse|bleed out|chok(e|ed|ing)|drown|dissolve) (\w* )*and (die(|d)|pass away|cease to exist|(\w* )+killed)",
     ]
     return any(re.search(regexp, lower_text) for regexp in you_dead_regexps)
 
@@ -66,10 +67,12 @@ def player_died(text):
 def player_won(text):
     lower_text = text.lower()
     won_phrases = [
-        "you live happily ever after",
-        "you live (forever|eternally|for eternity)",
-        "you (are|become|turn into) (a)? (deity|god)",
-        "you ((go|get) (in)?to|arrive (at|in)) (heaven|paradise)",
+        "you ((\w* )*and |)live happily ever after",
+        "you ((\w* )*and |)live (forever|eternally|for eternity)",
+        "you ((\w* )*and |)(are|become|turn into) ((a|now) )?(deity|god|immortal)",
+        "you ((\w* )*and |)((go|get) (in)?to|arrive (at|in)) (heaven|paradise)",
+        "you ((\w* )*and |)celebrate your (victory|triumph)",
+        "you ((\w* )*and |)retire",
     ]
     return any(re.search(regexp, lower_text) for regexp in won_phrases)
 
