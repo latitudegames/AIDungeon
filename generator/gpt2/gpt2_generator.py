@@ -18,7 +18,7 @@ class GPT2Generator:
         self.temp = temperature
         self.top_k = top_k
         self.top_p = top_p
-        self.censor = censorc
+        self.censor = censor
 
         self.model_name = "model_v5"
         self.model_dir = "generator/gpt2/models"
