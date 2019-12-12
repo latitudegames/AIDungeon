@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - This changelog!
-- Formal grammars for the noble's context/prompt.
+- Formal grammars for the noble and knight contexts/prompts.
 - Better regex logic to detect terminal states.
 - Directory `saved_stories`.
 - A few more censored words.

@@ -58,10 +58,12 @@ def select_game():
     setting_description = data["settings"][setting_key]["description"]
     character = data["settings"][setting_key]["characters"][character_key]
 
-    if character_key == "noble":
-        context = grammars.noble("context") + "\n\n"
-        context = context.replace("<NAME>", name)
-        prompt = grammars.noble("prompt")
+    name_token = "<NAME>"
+    if character_key == "noble" or character_key == "knight":
+        context = grammars.generate(setting_key, character_key, "context") + "\n\n"
+        context = context.replace(name_token, name)
+        prompt = grammars.generate(setting_key, character_key, "prompt")
+        prompt = prompt.replace(name_token, name)
     else:
         context = (
             "You are "
