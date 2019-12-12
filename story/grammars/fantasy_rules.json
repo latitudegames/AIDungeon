@@ -89,7 +89,7 @@
     "artifact_description" : ["#rumored# have great power", "#rumored# aid the righteous", "#rumored# have belonged to the dead #royalty#", "#rumored# to ward away evil"],
     "artifact_quest" : "#find# the #whole_artifact#, which #artifact_description#",
 
-    "evil_role" : ["witch", "necromancer", "lich"],
+    "evil_role" : ["witch", "necromancer", "lich", "villain"],
     "evil_humanoid" : ["ogre", "troll", "giant", "orc", "goblin"],
     "kidnapper" : ["#evil_adj# #monster#", "#evil_adj# #evil_humanoid#", "#evil_adj# #evil_role#"],
     "bad_place" : ["den", "cave", "clutches", "grasp", "#nice_home#", "prison", "hall", "fortress"],
@@ -97,7 +97,8 @@
     "victim_adj" : ["young", "youthful", "beautiful", "poor", "well-loved"],
     "victim_adj_opt" : ["#victim_adj# ", ""],
     "rescue" : ["save", "rescue", "free", "liberate", "deliver", "set free"],
-    "rescue_quest" : "#rescue# the #victim_adj_opt##victim# from the #bad_place# of the #kidnapper#",
+    "bad_guys_place" : ["#bad_place# of the #kidnapper#", "#kidnapper#'s #bad_place#"],
+    "rescue_quest" : "#rescue# the #victim_adj_opt##victim# from the #bad_guys_place#",
 
     "quest_type" : ["#monster_quest#", "#artifact_quest#", "#rescue_quest#"],
     "could" : ["will", "may", "should", "could"],
