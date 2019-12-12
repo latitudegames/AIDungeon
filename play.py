@@ -101,6 +101,24 @@ def play_aidungeon_2():
     )
 
     upload_story = True
+ 
+    # "temperature" dictates randomness. A low temperature means that the AI is
+    #  more likely to go with the word that best fits the context, a high
+    #  temperature makes the AI more random and it may chose surprising less fitting words
+    # original 0.4
+    temp = 0.4
+ 
+    # lower top_k is a hard limit of "how many fitting words should I consider",
+    #  i.e. lowering this value also limits the AI in creativity
+    # original 40
+    top_k = 40
+ 
+    console_print("\nBefore we start, would you like to change the default temperature (" + str(temp) + ") and top_k (" + str(top_k) + ") value?\n")
+    choice = input("1) Lower the temp! I wanna cuddle!\n-) Press enter to skip\n>")
+ 
+    if choice == "1":
+        temp = float(input("New temperature: "))
+        top_k = int(input("New top_k: "))
 
     print("\nInitializing AI Dungeon! (This might take a few minutes)\n")
     generator = GPT2Generator()
