@@ -4,3 +4,5 @@ AI-Adventure-2bb65e3a4e2f.json
 *.py[cod]
 data/text_adventures.txt
 venv/
+.vscode/
+generator
