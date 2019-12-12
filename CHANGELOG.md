@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Made `install.sh` more robust.
 - Sorted imports.
+- Split the model downloading script into `download_model.sh` from `install.sh`
 
 ## [2.0.0] - 2019-12-05
 
