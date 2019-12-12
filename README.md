@@ -34,10 +34,10 @@ Resources:
 Contributing
 ------------------------
 Contributing to AIDungeon is easy! Just send us a
-[pull request](https://help.github.com/articles/using-pull-requests/) from your fork.
-When you send your request, make ``develop`` the destination branch on the
-[AIDungeon repository](https://github.com/AIDungeon/AIDungeon), and summarize your
-change in the [Unreleased] section of [the changelog](CHANGELOG.md).
+[pull request](https://help.github.com/articles/using-pull-requests/)
+from your fork. Before you send it, summarize your change in the
+[Unreleased] section of [the CHANGELOG](CHANGELOG.md) and make sure
+``develop`` is the destination branch.
 
 We prefer PRs to be
 [PEP 8](https://www.python.org/dev/peps/pep-0008/) compliant.
@@ -48,4 +48,5 @@ branching model.  The ``develop`` branch contains the latest
 contributions, and ``master`` is always tagged and points to the latest
 stable release.
 
-If you're a contributor, make sure you're testing and playing on `develop`. That's where all the magic is happening (and where we hope bugs stop).
+If you're a contributor, make sure you're testing and playing on `develop`.
+That's where all the magic is happening (and where we hope bugs stop).
