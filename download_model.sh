@@ -57,4 +57,6 @@ if [[ -d "${MODEL_DIRECTORY}" ]]; then
 			echo "Exiting program!"
 			exit;;
 	esac
+else
+	download_torrent
 fi
