@@ -105,7 +105,7 @@ def play_aidungeon_2():
 
     console_print(
         "AI Dungeon 2 will save and use your actions and game to continually improve AI Dungeon."
-        + " If you would like to disable this enter 'nosaving' for any action. This will also turn off the "
+        + " If you would like to disable this enter '/nosaving' as an action. This will also turn off the "
         + "ability to save games."
     )
 
