@@ -34,6 +34,7 @@ download_torrent() {
       --disable-ipv6 \
       "${MODEL_TORRENT_BASENAME%.*}"
     echo "Download Complete!"
+    fi
 }
 
 redownload () {
@@ -50,7 +51,7 @@ if [[ -d "${MODEL_DIRECTORY}" ]]; then
 	read ANSWER
 	ANSWER=$(echo $ANSWER | tr '[:upper:]' '[:lower:]')
 	case $ANSWER in
-		 [yY][eE][sS]|[yY]))
+		 [yY][eE][sS]|[yY])
 			redownload;;
 		*)
 			echo "Exiting program!"
