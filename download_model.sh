@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 cd "$(dirname "${0}")"
 BASE_DIR="$(pwd)"
 
