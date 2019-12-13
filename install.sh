@@ -2,7 +2,7 @@
 set -e
 cd "$(dirname "${0}")"
 BASE_DIR="$(pwd)"
-PACKAGES=(aria2 git unzip wget)
+PACKAGES=(aria2 git unzip wget gsutil)
 
 pip_install () {
 	if [ ! -d "./venv" ]; then
