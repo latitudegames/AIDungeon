@@ -1,8 +1,10 @@
-**/__pychache__
+**/__pycache__
 .idea
 AI-Adventure-2bb65e3a4e2f.json
 *.py[cod]
 data/text_adventures.txt
 venv/
 .vscode/
-generator
+.env/
+generator/gpt2/models/
+saved_stories/
