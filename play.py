@@ -148,42 +148,43 @@ def play_aidungeon_2():
 
         while True:
             sys.stdin.flush()
-            action = input("> ")
-            if action.lower() == "restart":
+            action = input("> ").lower()
+            normalized_action = action.lower()
+            if normalized_action == "restart":
                 rating = input("Please rate the story quality from 1-10: ")
                 rating_float = float(rating)
                 story_manager.story.rating = rating_float
                 break
 
-            elif action.lower() == "quit":
+            elif normalized_action == "quit":
                 rating = input("Please rate the story quality from 1-10: ")
                 rating_float = float(rating)
                 story_manager.story.rating = rating_float
                 exit()
 
-            elif action.lower() == "nosaving":
+            elif normalized_action == "nosaving":
                 upload_story = False
                 story_manager.story.upload_story = False
                 console_print("Saving turned off.")
 
-            elif action.lower() == "help":
+            elif normalized_action == "help":
                 console_print(instructions())
 
-            elif action.lower() == "censor off":
+            elif normalized_action == "censor off":
                 if not generator.censor:
                     console_print("Censor is already disabled.")
                 else:
                     generator.censor = False
                     console_print("Censor is now disabled.")
 
-            elif action.lower() == "censor on":
+            elif normalized_action == "censor on":
                 if generator.censor:
                     console_print("Censor is already enabled.")
                 else:
                     generator.censor = True
                     console_print("Censor is now enabled.")
 
-            elif action.lower() == "save":
+            elif normalized_action == "save":
                 if upload_story:
                     id = story_manager.story.save_to_storage()
                     console_print("Game saved.")
@@ -194,23 +195,23 @@ def play_aidungeon_2():
                 else:
                     console_print("Saving has been turned off. Cannot save.")
 
-            elif action.lower() == "load":
+            elif normalized_action == "load":
                 load_ID = input("What is the ID of the saved game?")
                 result = story_manager.story.load_from_storage(load_ID)
                 console_print("\nLoading Game...\n")
                 console_print(result)
 
-            elif len(action.split(" ")) == 2 and action.split(" ")[0].lower() == "load":
-                load_ID = action.split(" ")[1]
+            elif len(normalized_action.split(" ")) == 2 and normalized_action.split(" ")[0] == "load":
+                load_ID = normalized_action.split(" ")[1]
                 result = story_manager.story.load_from_storage(load_ID)
                 console_print("\nLoading Game...\n")
                 console_print(result)
 
-            elif action.lower() == "print":
+            elif normalized_action == "print":
                 print("\nPRINTING\n")
                 print(str(story_manager.story))
 
-            elif action.lower() == "revert":
+            elif normalized_action == "revert":
 
                 if len(story_manager.story.actions) is 0:
                     console_print("You can't go back any farther. ")
