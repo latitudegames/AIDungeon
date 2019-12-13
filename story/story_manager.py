@@ -180,7 +180,7 @@ class StoryManager:
         )
         return self.story
 
-    def load_new_story(self, story_id):
+    def load_new_story(self, story_id, upload_story=False):
         file_name = "story" + story_id + ".json"
         cmd = "gsutil cp gs://aidungeonstories/" + file_name + " ."
         os.system(cmd)
@@ -189,7 +189,7 @@ class StoryManager:
         if exists:
             with open(file_name, "r") as fp:
                 game = json.load(fp)
-            self.story = Story("")
+            self.story = Story("", upload_story=upload_story)
             self.story.init_from_dict(game)
             return str(self.story)
         else:
