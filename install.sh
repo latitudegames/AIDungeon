@@ -6,6 +6,7 @@ PACKAGES=(aria2 git unzip wget)
 
 pip_install () {
 	if [ ! -d "./venv" ]; then
+		apt-get install python3-venv
 		python3 -m venv ./venv
 	fi
 	source "${BASE_DIR}/venv/bin/activate"

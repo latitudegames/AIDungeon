@@ -8,7 +8,7 @@ Play the game in Colab [here](http://www.aidungeon.io).
 
 To play the game locally, it is recommended that you have an nVidia GPU with 12 GB or more of memory, and CUDA installed. If you do not have such a GPU, each turn can take a couple of minutes or more for the game to compose its response. To install and play locally:
 ```
-git clone https://github.com/AIDungeon/AIDungeon/
+git clone --branch master https://github.com/AIDungeon/AIDungeon/
 cd AIDungeon
 ./install.sh # Installs system packages and creates python3 virtual environment
 ./download_model.sh
