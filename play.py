@@ -142,7 +142,7 @@ def play_aidungeon_2():
 
         else:
             load_ID = input("What is the ID of the saved game? ")
-            result = story_manager.load_new_story(load_ID)
+            result = story_manager.load_new_story(load_ID, upload_story=upload_story)
             print("\nLoading Game...\n")
             print(result)
 
