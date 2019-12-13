@@ -31,3 +31,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - AiDungeon Classic, which gives players action options to choose from.
+
+[Unreleased]: https://github.com/AIDungeon/AIDungeon/compare/e6ee7c59801e4d5f68388dca7c5199e33b9a95b8...master
