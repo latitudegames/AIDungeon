@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Sorted imports.
 - Split the model downloading script into `download_model.sh` from `install.sh`.
 - User commands are now case-insensitive.
+- User commands are now denoted with the prefix `/`.
 
 ## [2.0.0] - 2019-12-05
 
