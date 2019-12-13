@@ -146,7 +146,7 @@ def play_aidungeon_2():
         while True:
             sys.stdin.flush()
             action = input("> ").strip()
-            if action[0] == "/":
+            if len(action) > 0 and action[0] == "/":
                 split = action[1:].split(" ") # removes preceding slash
                 command = split[0].lower()
                 args = split[1:]
