@@ -1,34 +1,46 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -e
 cd "$(dirname "${0}")"
 BASE_DIR="$(pwd)"
+PACKAGES=(aria2 git unzip wget)
 
-source .env
+pip_install () {
+	if [ ! -d "./venv" ]; then
+		python3 -m venv ./venv
+	fi
+	source "${BASE_DIR}/venv/bin/activate"
+	pip install --upgrade pip setuptools
+	pip install -r "${BASE_DIR}/requirements.txt"
+}
 
-if [[ -d "${MODELS_DIRECTORY}/${MODEL_VERSION}" ]]; then
-    echo "AIDungeon2 is already installed"
-else
-    echo "Installing dependencies"
-    pip install -r requirements.txt > /dev/null
-    apt-get install aria2 unzip > /dev/null
-    
-    echo "Downloading AIDungeon2 Model... (this may take a very, very long time)"
-    mkdir -p "${MODELS_DIRECTORY}"
-    cd "${MODELS_DIRECTORY}"
-    mkdir "${MODEL_VERSION}"
-    wget "${MODEL_TORRENT_URL}"
-    unzip "${MODEL_TORRENT_BASENAME}"
-    echo -e "\n\n==========================================="
-    echo "We are now starting to download the model."
-    echo "It will take a while to get up to speed."
-    echo "DHT errors are normal."
-    echo -e "===========================================\n"
-    aria2c \
-        --max-connection-per-server 16 \
-        --split 64 \
-        --bt-max-peers 500 \
-        --seed-time=0 \
-        --summary-interval=15 \
-        --disable-ipv6 \
-        "${MODEL_TORRENT_BASENAME%.*}"
-    echo "Download Complete!"
-fi
+is_command() {
+	command -v "${@}" > /dev/null
+}
+
+system_package_install() {
+	PACKAGES=(aria2 git unzip wget)
+	if is_command 'apt-get'; then
+		sudo apt-get install ${PACKAGES[@]}
+	elif is_command 'brew'; then
+		brew install ${PACKAGES[@]}
+	elif is_command 'yum'; then
+		sudo yum install ${PACKAGES[@]}
+	elif is_command 'dnf'; then
+		sudo dnf install ${PACKAGES[@]}
+	elif is_command 'packman'; then
+		sudo packman -S ${PACKAGES[@]}
+	elif is_command 'apk'; then
+		sudo apk --update add ${PACKAGES[@]}
+	else
+		echo "You do not seem to be using a supported package manager."
+		echo "Please make sure ${PACKAGES[@]} are installed then press [ENTER]"
+		read NOT_USED
+	fi
+}
+
+install_aid () {
+	pip_install
+	system_package_install
+}
+
+install_aid

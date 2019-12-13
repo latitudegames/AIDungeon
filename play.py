@@ -1,8 +1,10 @@
+#!/usr/bin/env python3
 import os
 import sys
 import time
 
 from generator.gpt2.gpt2_generator import *
+from story import grammars
 from story.story_manager import *
 from story.utils import *
 
@@ -57,21 +59,28 @@ def select_game():
     setting_description = data["settings"][setting_key]["description"]
     character = data["settings"][setting_key]["characters"][character_key]
 
-    context = (
-        "You are "
-        + name
-        + ", a "
-        + character_key
-        + " "
-        + setting_description
-        + "You have a "
-        + character["item1"]
-        + " and a "
-        + character["item2"]
-        + ". "
-    )
-    prompt_num = np.random.randint(0, len(character["prompts"]))
-    prompt = character["prompts"][prompt_num]
+    name_token = "<NAME>"
+    if character_key == "noble" or character_key == "knight":
+        context = grammars.generate(setting_key, character_key, "context") + "\n\n"
+        context = context.replace(name_token, name)
+        prompt = grammars.generate(setting_key, character_key, "prompt")
+        prompt = prompt.replace(name_token, name)
+    else:
+        context = (
+            "You are "
+            + name
+            + ", a "
+            + character_key
+            + " "
+            + setting_description
+            + "You have a "
+            + character["item1"]
+            + " and a "
+            + character["item2"]
+            + ". "
+        )
+        prompt_num = np.random.randint(0, len(character["prompts"]))
+        prompt = character["prompts"][prompt_num]
 
     return context, prompt
 
@@ -140,33 +149,41 @@ def play_aidungeon_2():
         while True:
             sys.stdin.flush()
             action = input("> ")
-            if action == "restart":
+            if action.lower() == "restart":
                 rating = input("Please rate the story quality from 1-10: ")
                 rating_float = float(rating)
                 story_manager.story.rating = rating_float
                 break
 
-            elif action == "quit":
+            elif action.lower() == "quit":
                 rating = input("Please rate the story quality from 1-10: ")
                 rating_float = float(rating)
                 story_manager.story.rating = rating_float
                 exit()
 
-            elif action == "nosaving":
+            elif action.lower() == "nosaving":
                 upload_story = False
                 story_manager.story.upload_story = False
                 console_print("Saving turned off.")
 
-            elif action == "help":
+            elif action.lower() == "help":
                 console_print(instructions())
 
-            elif action == "censor off":
-                generator.censor = False
+            elif action.lower() == "censor off":
+                if not generator.censor:
+                    console_print("Censor is already disabled.")
+                else:
+                    generator.censor = False
+                    console_print("Censor is now disabled.")
 
-            elif action == "censor on":
-                generator.censor = True
+            elif action.lower() == "censor on":
+                if generator.censor:
+                    console_print("Censor is already enabled.")
+                else:
+                    generator.censor = True
+                    console_print("Censor is now enabled.")
 
-            elif action == "save":
+            elif action.lower() == "save":
                 if upload_story:
                     id = story_manager.story.save_to_storage()
                     console_print("Game saved.")
@@ -177,23 +194,23 @@ def play_aidungeon_2():
                 else:
                     console_print("Saving has been turned off. Cannot save.")
 
-            elif action == "load":
+            elif action.lower() == "load":
                 load_ID = input("What is the ID of the saved game?")
                 result = story_manager.story.load_from_storage(load_ID)
                 console_print("\nLoading Game...\n")
                 console_print(result)
 
-            elif len(action.split(" ")) == 2 and action.split(" ")[0] == "load":
+            elif len(action.split(" ")) == 2 and action.split(" ")[0].lower() == "load":
                 load_ID = action.split(" ")[1]
                 result = story_manager.story.load_from_storage(load_ID)
                 console_print("\nLoading Game...\n")
                 console_print(result)
 
-            elif action == "print":
+            elif action.lower() == "print":
                 print("\nPRINTING\n")
                 print(str(story_manager.story))
 
-            elif action == "revert":
+            elif action.lower() == "revert":
 
                 if len(story_manager.story.actions) is 0:
                     console_print("You can't go back any farther. ")

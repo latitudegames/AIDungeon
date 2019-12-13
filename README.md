@@ -10,9 +10,12 @@ To play the game locally, it is recommended that you have an nVidia GPU with 12 
 ```
 git clone https://github.com/AIDungeon/AIDungeon/
 cd AIDungeon
-./install.sh
+./install.sh # Installs system packages and creates python3 virtual environment
+./download_model.sh
+source ./venv/bin/activate
 ./play.sh
 ```
+Use `./play.py` instead of `./play.sh` if you do not want to seed the model while playing.
 
 
 Community
@@ -33,16 +36,17 @@ Resources:
 
 Contributing
 ------------------------
-Contributing to AIDungeon is relatively easy.  Just send us a
-[pull request](https://help.github.com/articles/using-pull-requests/) from your fork.
-When you send your request, make ``develop`` the destination branch on the
-[AIDungeon repository](https://github.com/nickwalton/AIDungeon).
-
-We prefer PRs to be
-[PEP 8](https://www.python.org/dev/peps/pep-0008/) compliant.
+Contributing to AIDungeon is easy! Just send us a
+[pull request](https://help.github.com/articles/using-pull-requests/)
+from your fork. Before you send it, summarize your change in the
+[Unreleased] section of [the CHANGELOG](CHANGELOG.md) and make sure
+``develop`` is the destination branch.
 
 AIDungeon uses a rough approximation of the
 [Git Flow](http://nvie.com/posts/a-successful-git-branching-model/)
 branching model.  The ``develop`` branch contains the latest
 contributions, and ``master`` is always tagged and points to the latest
 stable release.
+
+If you're a contributor, make sure you're testing and playing on `develop`.
+That's where all the magic is happening (and where we hope bugs stop).
