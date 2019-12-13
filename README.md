@@ -10,9 +10,10 @@ To play the game locally, it is recommended that you have an nVidia GPU with 12 
 ```
 git clone https://github.com/AIDungeon/AIDungeon/
 cd AIDungeon
-./install.sh
+./install.sh # Installs system packages and creates python3 virtual environment
 ./download_model.sh
-python3 play.py
+source ./venv/bin/activate
+./play.py
 ```
 
 Community
