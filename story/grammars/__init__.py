@@ -1,4 +1,3 @@
-
 import json
 import os
 
@@ -13,7 +12,12 @@ def apply_grammar(key, rules):
 
 
 def load_rules(setting):
-    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), f"{setting}_rules.json"), 'r') as f:
+    with open(
+        os.path.join(
+            os.path.dirname(os.path.abspath(__file__)), f"{setting}_rules.json"
+        ),
+        "r",
+    ) as f:
         rules = json.load(f)
     return rules
 
@@ -25,4 +29,3 @@ def generate(setting, character_type, key):
     rules = load_rules(setting)
     artefact = apply_grammar(f"{character_type}_{key}", rules)
     return artefact
-
