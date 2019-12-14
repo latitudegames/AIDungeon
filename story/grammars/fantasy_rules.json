@@ -11,7 +11,14 @@
     "animal" : ["lion", "elk", "badger", "fox", "raven", "goat", "wolf", "dove"],
     "royalty" : ["king", "queen", "princess", "prince"],
     "nobility" : ["duke", "dutchess", "lord", "lady", "count", "countess"],
+    "from_fantasy" : "from the #realm# of #fantasy_name#",
     "fantasy_name" : ["Larion", "Vijeh", "Francia", "Paiva", "Mederos", "Radu", "Hatami", "Shirish", "Saralyn", "Leka", "Rukaj", "Nardis", "Isett", "Jacczak", "Hamma", "Narala", "Alstine", "Gimello", "Elsbury", "Rubino", "Misra", "Paterno", "Gassan", "Galardo", "Raeder", "Garriel", "Routh", "Bindi", "Renfro", "Harnid", "Enlou", "Amato", "Zurito", "Dimyan", "Arteaga", "Isgrigg", "Maida", "Mudra", "Beranek", "Aric", "Sadri", "Javan", "Wedriwin", "Umiemma", "Thaosean", "Alilawia", "Gwoia", "Galuswen", "Astedrinyth", "Wicolian", "Ziadan", "Thema", "Unirakon", "Severiveth", "Onalath", "Aaolla", "Airadan", "Legiallan", "Zayhan", "Afania", "Ibalegord", "Oligolind", "Celadon", "Alaleria", "Ocelith", "Eowaoviel", "Brigobard", "Griwen", "Frykoth", "Crilawen", "Memas", "Adrardong", "Nomaf", "Crirabeth", "Cadaed", "Broethien", "Astok", "Seraria", "Dreratlan", "Frireven", "Birahan", "Horeria", "Areriw", "Jerenia", "Alaodan", "Paeviel", "Cigowyr", "Lariesa", "Eroreth", "Sevoan", "Careg", "Thoijan", "Raywen", "Seikor", "Wilini", "Alerradon", "Unerrarith", "Agrohawyn", "Zilirith", "Brilann", "Eliawien", "Wirakor", "Gaeven", "Kiewin", "Umalia", "Prirep", "Rhalebeth", "Aaylin", "Qelindra", "Adwayder", "Rothien", "Brendabaen", "Galeliven", "Ethaykon", "Waowiel", "Qerijan", "Aavia", "Kaeinnon", "Rhycia", "Gligobard", "Zolle", "Sear", "Haeasien", "Fiakor"],
+    "town_name" : ["clearkeep", "faybury", "hazelpoint", "scorchfort", "earthpost", "mossband", "deadhelm", "dragonwick", "stormwood", "rosetide", "flatpass", "winteryard", "brinehaven", "springpost", "maplestar", "cavebell", "baregrave", "swampbrook", "wildescar", "nightwind", "oxgate", "lakeford", "cavecliff", "moonbell", "bearwater", "dimchill", "silkrun", "summerbourne", "bayvein", "rockspire", "sandbourne", "glimmerpond", "swyncoast", "snowham", "glassice", "starryholt", "ashhedge", "starryice", "estercastle", "wellpine", "fairfort", "newhill", "miststone", "glasshedge", "silveroak", "byburn", "oakpond", "whitehill", "butterway", "shadowmist", "highpond", "goldcliff", "southstone", "snowhaven", "fayham", "violetwick", "mallowdell", "bluegrass", "coldholt", "woodcourt", "ironmarsh", "brightiron", "beechhollow", "welllyn", "mallowshadow", "goldlight", "fayfall", "mormont", "wyvernburn", "greenmeadow", "wellwood", "westerrose", "westerelf", "snowdeer", "orport", "greenelf", "riverbridge", "highhedge", "mallowholt", "blueglass", "snowbeach", "goldview", "lorview", "rockhedge", "witchmoor", "fallmont", "linacre", "northby", "clearmaple", "woodbridge", "coldmaple", "vertville", "springacre", "shadowsage", "southkeep", "bymeadow", "wolfpond", "woodmallow", "flowerhall", "riverhall", "northwheat", "fallland", "brightland", "orcastle", "bymist", "aldfair", "pryborough", "fairway", "esterapple", "lochland", "newsummer", "landgate", "beachstone", "fairmere", "westwilde", "snowway", "lochoak", "esternesse", "summerriver", "starrylake", "icefort", "newrock", "landbridge", "vertlea", "courtland", "bygriffin", "byhollow", "lochmill", "brightbeach", "mallowhaven", "shadowgold", "deepcrest", "wellbarrow", "summerlake", "waterwick", "summercliff", "bluehurst", "marblerose", "dragonlake", "lightflower", "westerspring", "fairport", "lochby", "wayness", "deernesse", "greyrock", "dellmeadow", "morcliff", "mallowmarsh", "crystalmill", "normont", "fallborough", "flowerlea", "glassmerrow", "aelfort", "greydell", "mallowmarble", "deepsummer", "starryfog", "foxmoor", "deepbell", "highhaven", "seamoor", "brightton", "blackacre", "butterfox", "corburn", "butterhedge", "swynbourne", "dorbank", "shadowkeep", "wildehall", "greenburn", "eastland", "wheathall", "blueholt", "edgenesse", "courtley", "summerby", "pryshore", "edgehaven", "crystalham"],
+    "creature" : ["bugbear", "centaur", "chimera", "cockatrice", "cyclops", "demon", "devil", "dragon", "dryad", "dwarf", "elemental", "elf", "faun", "giant", "gnome", "goblin", "golem", "gorgon", "griffon", "harpy", "hell hound", "hobgoblin", "imp", "kobold", "lycanthrope", "manticore", "merfolk", "minotaur", "naga", "ogre", "pegasus", "roc", "selkie", "spectre", "troll", "unicorn", "vampire", "wight", "wraith", "zombie"],
+    "village" : ["village", "town"],
+    "village_adj" : ["charming", "sleepy", "little", "small", "bustling", "quaint", "industrious", "festive", "remote", "secluded"],
+    "village_adj_opt" : ["#village_adj# ", ""],
+    "village_full" : "the #village_adj_opt##village# of #town_name.capitalize#",
 
 
 
@@ -54,7 +61,7 @@
 
     "noble_prompt": ["#noble_one#", "#noble_two#", "#noble_three#"],
 
-    "noble_context1" : "You are <NAME>, a noble from the #realm# of #fantasy_name#. You have a #noble_item1# and a #noble_item2#.",
+    "noble_context1" : "You are <NAME>, a noble #from_fantasy#. You have a #noble_item1# and a #noble_item2#.",
     "noble_context" : ["#[noble_item1:#noble_item#][noble_item2:#noble_item#]noble_context1#"],
 
 
@@ -106,5 +113,34 @@
     "beginning" : ["going on", "beginning", "setting out on"],
     "quest" : ["You are #beginning# #adventure# to #quest_type#. You set out #towards# a #place_adj# #place# that #could# take you there.\n\nAs you approach, you #action#"],
     "knight_prompt" : "#quest#",
-    "knight_context" : "You are <NAME>, a knight from the #realm# of #fantasy_name#. You have a #knight_item# and a #knight_item#."
+    "knight_context" : "You are <NAME>, a knight #from_fantasy#. You have a #knight_item# and a #knight_item#.",
+
+
+
+
+
+
+    "shape" : ["circular", "spherical", "oval", "triangular", "pyramidal", "square", "concave","hexagonal", "octagonal"],
+    "shape_opt" : ["#shape# ", ""],
+    "encounter" : ["encounter", "come upon", "run into", "cross paths with", "see"],
+    "wood" : ["wooden", "oak"],
+    "alt_element" : ["ice", "wind", "metal"],
+    "potion_appearance" : ["ruby", "pink", "orange", "yellow", "emerald", "dark", "green", "cyan", "sky", "blue", "brilliant", "blue", "magenta", "purple-red", "puce", "milky", "swirly", "bubbly", "smoky", "cloudy", "effervescent", "black", "golden", "brown", "fizzy", "dark", "white", "murky"],
+    "wizard_animal" : ["crow", "raven", "hawk", "chameleon", "snake", "lizard", "cat", "kitten"],
+    "beaker" : ["beaker", "flask", "vessel"],
+    "potion" : ["#beaker# of #potion_appearance# liquid", "#potion_appearance# potion"],
+    "wizard_item" : ["staff", "crystal ball", "#potion#", "#book#", "cloak", "pet #wizard_animal#", "pointed hat", "quill", "#shape_opt#amulet"],
+    "magic_disaster" : "animated a tree",
+    "dnd_school" : ["abjuration", "conjuration", "divination", "enchantment", "evocation", "illusion", "necromancy", "transmutation"],
+    "magic_book" : ["spellbook", "tome", "scroll"],
+    "spellbook" : ["#magic_book# of #dnd_school#"],
+    "history" : ["history", "wars", "politics", "culture", "nuances", "complexity", "barbarism"],
+    "subject" : ["#creature.s#", "the #history# of the #realm.s# of #fantasy_name#", "the history of #creature.s# in the #realm# of #fantasy_name#"],
+    "normal_book" : ["book about #creature.s#", "book about the history of the #realm.s# of #fantasy_name#"],
+    "book" : ["#normal_book#", "#spellbook#", "book", "spellbook"],
+    "magic_discipline" : ["alchemy"],
+    "wizard_drafts" : ["After a #week_month# of travel you arrive at the ruin ", "Your apprentice has done it again; #he_she# has summoned a being "],
+    "road" : ["road", "river", "path"],
+    "wizard_prompt" : ["On the #road# to #village_full#, you #encounter# a #creature#.\n\nYou #action#"],
+    "wizard_context" : "You are <NAME>, a wizard #from_fantasy#. You have a #wizard_item# and a #wizard_item#."
 }
