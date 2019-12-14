@@ -41,7 +41,9 @@ def random_story(story_data):
 
     # random name
     name = grammars.direct(setting_key, "fantasy_name")
-    return setting_key, character_key, name
+
+    # temporarily only available in fantasy
+    return "fantasy", character_key, name
 
 
 def select_game():
