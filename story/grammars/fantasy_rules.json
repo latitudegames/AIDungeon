@@ -179,3 +179,4 @@
     "wizard_prompt" : ["#wizard_one#", "#wizard_two#", "#wizard_three#"],
     "wizard_context" : "You are <NAME>, a wizard #from_fantasy#. You have a #wizard_item# and a #wizard_item#."
 }
+

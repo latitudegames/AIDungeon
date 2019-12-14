@@ -101,7 +101,11 @@ def select_game():
 
 def get_curated_exposition(setting_key, character_key, name):
     name_token = "<NAME>"
-    if character_key == "noble" or character_key == "knight" or character_key == "wizard":
+    if (
+        character_key == "noble"
+        or character_key == "knight"
+        or character_key == "wizard"
+    ):
         context = grammars.generate(setting_key, character_key, "context") + "\n\n"
         context = context.replace(name_token, name)
         prompt = grammars.generate(setting_key, character_key, "prompt")
@@ -183,7 +187,9 @@ def play_aidungeon_2():
 
             else:
                 load_ID = input("What is the ID of the saved game? ")
-                result = story_manager.load_new_story(load_ID, upload_story=upload_story)
+                result = story_manager.load_new_story(
+                    load_ID, upload_story=upload_story
+                )
                 print("\nLoading Game...\n")
                 console_print(result)
 
@@ -191,7 +197,7 @@ def play_aidungeon_2():
             sys.stdin.flush()
             action = input("> ").strip()
             if len(action) > 0 and action[0] == "/":
-                split = action[1:].split(" ") # removes preceding slash
+                split = action[1:].split(" ")  # removes preceding slash
                 command = split[0].lower()
                 args = split[1:]
                 if command == "restart":
@@ -236,7 +242,9 @@ def play_aidungeon_2():
                     if upload_story:
                         id = story_manager.story.save_to_storage()
                         console_print("Game saved.")
-                        console_print(f"To load the game, type 'load' and enter the following ID: {id}")
+                        console_print(
+                            f"To load the game, type 'load' and enter the following ID: {id}"
+                        )
                     else:
                         console_print("Saving has been turned off. Cannot save.")
 
