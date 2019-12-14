@@ -28,8 +28,8 @@ system_package_install() {
 		sudo yum install ${PACKAGES[@]}
 	elif is_command 'dnf'; then
 		sudo dnf install ${PACKAGES[@]}
-	elif is_command 'packman'; then
-		sudo packman -S ${PACKAGES[@]}
+	elif is_command 'pacman'; then
+		sudo pacman -S ${PACKAGES[@]}
 	elif is_command 'apk'; then
 		sudo apk --update add ${PACKAGES[@]}
 	else
