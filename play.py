@@ -22,9 +22,9 @@ def splash():
         return "new"
 
 
-def random_story():
+def random_story(story_data):
     # random setting
-    settings = data["settings"].keys()
+    settings = story_data["settings"].keys()
     n_settings = len(settings)
     rand_n = random.randint(0, n_settings - 1)
     for i, setting in enumerate(settings):
@@ -32,7 +32,7 @@ def random_story():
             setting_key = setting
 
     # random character
-    characters = data["settings"][setting_key]["characters"]
+    characters = story_data["settings"][setting_key]["characters"]
     n_characters = len(characters)
     rand_n = random.randint(0, n_characters - 1)
     for i, character in enumerate(character):
@@ -55,7 +55,7 @@ def select_game():
     choice = get_num_options(2)
 
     if choice == 0:
-        return random_story()
+        return random_story(data)
 
     # User-selected story...
     print("Pick a setting.")
