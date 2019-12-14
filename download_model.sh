@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 cd "$(dirname "${0}")"
 BASE_DIR="$(pwd)"
 
@@ -6,7 +6,7 @@ BASE_DIR="$(pwd)"
 MODELS_DIRECTORY=generator/gpt2/models
 MODEL_VERSION=model_v5
 
-MODEL_DIRECTORY="${MODELS_DIRECTORY}/${MODEL_VERSION}"
+MODEL_DIRECTORY="${MODELS_DIRECTORY}"
 
 MODEL_NAME=model-550
 MODEL_TORRENT_URL="https://github.com/AIDungeon/AIDungeon/files/3935881/model_v5.torrent.zip"
@@ -34,6 +34,7 @@ download_torrent() {
       --disable-ipv6 \
       "${MODEL_TORRENT_BASENAME%.*}"
     echo "Download Complete!"
+    fi
 }
 
 redownload () {
@@ -50,10 +51,12 @@ if [[ -d "${MODEL_DIRECTORY}" ]]; then
 	read ANSWER
 	ANSWER=$(echo $ANSWER | tr '[:upper:]' '[:lower:]')
 	case $ANSWER in
-		 [yY][eE][sS]|[yY]))
+		 [yY][eE][sS]|[yY])
 			redownload;;
 		*)
 			echo "Exiting program!"
 			exit;;
 	esac
+else
+	download_torrent
 fi

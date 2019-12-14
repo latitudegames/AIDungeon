@@ -104,7 +104,7 @@
     "could" : ["will", "may", "should", "could"],
     "adventure" : ["an adventure", "a quest", "a journey", "a crusade"],
     "beginning" : ["going on", "beginning", "setting out on"],
-    "quest" : ["You are #beginning# #adventure# to #quest_type#. You set out #towards# a #place_adj# #place# that #could# take you there. As you approach, you #action#"],
+    "quest" : ["You are #beginning# #adventure# to #quest_type#. You set out #towards# a #place_adj# #place# that #could# take you there.\nAs you approach, you #action#"],
     "knight_prompt" : "#quest#",
     "knight_context" : "You are <NAME>, a knight from the #realm# of #fantasy_name#. You have a #knight_item# and a #knight_item#."
 }

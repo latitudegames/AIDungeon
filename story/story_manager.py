@@ -104,22 +104,6 @@ class Story:
 
         return json.dumps(story_dict)
 
-    def save_to_local(self, save_name):
-        self.uuid = str(uuid.uuid1())
-        story_json = self.to_json()
-        file_name = "AIDungeonSave_" + save_name + ".json"
-        f = open(file_name, "w")
-        f.write(story_json)
-        f.close()
-
-    def load_from_local(self, save_name):
-        file_name = "AIDungeonSave_" + save_name + ".json"
-        print("Save ID that can be used to load game is: ", self.uuid)
-
-        with open(file_name, "r") as fp:
-            game = json.load(fp)
-        self.init_from_dict(game)
-
     def save_to_storage(self):
         self.uuid = str(uuid.uuid1())
 
@@ -180,7 +164,7 @@ class StoryManager:
         )
         return self.story
 
-    def load_new_story(self, story_id):
+    def load_new_story(self, story_id, upload_story=False):
         file_name = "story" + story_id + ".json"
         cmd = "gsutil cp gs://aidungeonstories/" + file_name + " ."
         os.system(cmd)
@@ -189,7 +173,7 @@ class StoryManager:
         if exists:
             with open(file_name, "r") as fp:
                 game = json.load(fp)
-            self.story = Story("")
+            self.story = Story("", upload_story=upload_story)
             self.story.init_from_dict(game)
             return str(self.story)
         else:

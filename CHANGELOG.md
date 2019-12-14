@@ -17,12 +17,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Loading not working on `develop`.
+- [No Save Game on Quit for Loaded Games](https://github.com/AIDungeon/AIDungeon/issues/97)
 
 ### Changed
 - Made `install.sh` more robust.
 - Sorted imports.
 - Split the model downloading script into `download_model.sh` from `install.sh`.
 - User commands are now case-insensitive.
+- User commands are now denoted with the prefix `/`.
 
 ## [2.0.0] - 2019-12-05
 
