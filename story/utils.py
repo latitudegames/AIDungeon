@@ -112,7 +112,7 @@ def cut_trailing_action(text):
         or "You ask" in last_line
         or "you say" in last_line
         or "You say" in last_line
-    ) and len(lines) > 1:
+    ):
         text = "\n".join(lines[0:-1])
     return text
 

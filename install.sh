@@ -5,9 +5,9 @@ BASE_DIR="$(pwd)"
 PACKAGES=(aria2 git unzip wget)
 # Tensorflow states 3.4.0 as the minimum version.
 # This is also the minimum version with venv support.
-# 3.8.0 and up only includes tensorflow 2.0 and not 1.15
+# 3.7.0 and up only includes tensorflow 2.0 and not 1.15
 MIN_PYTHON_VERS="3.4.0"
-MAX_PYTHON_VERS="3.7.9"
+MAX_PYTHON_VERS="3.6.9"
 
 version_check () {
 	MAX_VERS=$(echo -e "$(python3 --version | cut -d' ' -f2)\n$MAX_PYTHON_VERS\n$MIN_PYTHON_VERS"\
