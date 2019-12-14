@@ -39,7 +39,7 @@ settings:
         item2: "police badge"
 
       spy:
-        prompts: ["You listen to the russian diplomats and hear them discussing"]
+        prompts: ["You listen to the Russian diplomats and hear them discussing"]
 
         item1: "concealed pistol"
         item2: "syringe of poison"
@@ -94,7 +94,7 @@ settings:
         item2: "backpack"
 
       scientist:
-        prompts: ["You pound your fist on the table angry that you still haven't found the cure to the infection. You turn to your assistant and"]
+        prompts: ["You pound your fist on the table, angry that you still haven't found the cure to the infection. You turn to your assistant and"]
 
         item1: "backpack"
         item2: "solar powered tablet"
