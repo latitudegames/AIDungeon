@@ -24,6 +24,7 @@ A clear and concise description of what you expected to happen.
 If applicable, add screenshots to help explain your problem.
 
 **Additional context**
-- OS, environment
-- Game settings
-- Add any other context about the problem here.
+- Colab or local machine?
+- master or develop?
+- game state
+- (add any other context about the problem here)
