@@ -162,7 +162,7 @@ class StoryManager:
             game_state=game_state,
             upload_story=upload_story,
         )
-        return self.story
+        return str(self.story)
 
     def load_new_story(self, story_id, upload_story=False):
         file_name = "story" + story_id + ".json"

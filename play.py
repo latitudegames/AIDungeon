@@ -124,9 +124,8 @@ def play_aidungeon_2():
         if story_manager.story != None:
             del story_manager.story
 
-        print("\n\n")
-
         while story_manager.story is None: 
+            print("\n\n")
             splash_choice = splash()
 
             if splash_choice == "new":
@@ -135,11 +134,11 @@ def play_aidungeon_2():
                 console_print(instructions())
                 print("\nGenerating story...")
 
-                story_manager.start_new_story(
+                result = story_manager.start_new_story(
                     prompt, context=context, upload_story=upload_story
                 )
                 print("\n")
-                console_print(str(story_manager.story))
+                console_print(result)
 
             else:
                 load_ID = input("What is the ID of the saved game? ")
