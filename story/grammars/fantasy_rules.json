@@ -120,6 +120,8 @@
 
 
 
+    "looks_like" : ["what looks like", "what appears to be"],
+    "looks_like_opt" : ["#looks_like# ", ""],
     "shape" : ["circular", "spherical", "oval", "triangular", "pyramidal", "square", "concave","hexagonal", "octagonal"],
     "shape_opt" : ["#shape# ", ""],
     "encounter" : ["encounter", "come upon", "run into", "cross paths with", "see"],
@@ -141,6 +143,6 @@
     "magic_discipline" : ["alchemy"],
     "wizard_drafts" : ["After a #week_month# of travel you arrive at the ruin ", "Your apprentice has done it again; #he_she# has summoned a being "],
     "road" : ["road", "river", "path"],
-    "wizard_prompt" : ["On the #road# to #village_full#, you #encounter# a #creature#.\n\nYou #action#"],
+    "wizard_prompt" : ["On the #road# to #village_full#, you #encounter# #looks_like_opt#a #creature#.\n\nYou #action#"],
     "wizard_context" : "You are <NAME>, a wizard #from_fantasy#. You have a #wizard_item# and a #wizard_item#."
 }
