@@ -119,7 +119,9 @@
 
 
 
-
+    "random_object" : ["#animal#", "#evil_role#", "#evil_humanoid#", "#monster#", "#humanoid#", "#noble_class#", "#subordinate#"],
+    "mind" : ["mind", "head", "memory", "consciousness"],
+    "flicker" : ["flicker", "echo", "dance", "flit", "jump"],
     "looks_like" : ["what looks like", "what appears to be"],
     "looks_like_opt" : ["#looks_like# ", ""],
     "shape" : ["circular", "spherical", "oval", "triangular", "pyramidal", "square", "concave","hexagonal", "octagonal"],
@@ -141,8 +143,9 @@
     "normal_book" : ["book about #creature.s#", "book about the history of the #realm.s# of #fantasy_name#"],
     "book" : ["#normal_book#", "#spellbook#", "book", "spellbook"],
     "magic_discipline" : ["alchemy"],
-    "wizard_drafts" : ["After a #week_month# of travel you arrive at the ruin ", "Your apprentice has done it again; #he_she# has summoned a being "],
+    "through" : ["through", "across", "throughout", "about"],
+    "wizard_drafts" : ["After a #week_month# of travel you arrive at the ruin ", "Your apprentice has done it again; #he_she# has summoned a being "], 
     "road" : ["road", "river", "path"],
-    "wizard_prompt" : ["On the #road# to #village_full#, you #encounter# #looks_like_opt#a #creature#.\n\nYou #action#"],
+    "wizard_prompt" : ["On the #road# to #village_full#, you #encounter# #looks_like_opt#a #creature#.\n\nYou #action#", "You face a #place_adj# #place# as images of #random_object.s# #flicker# #through# your #mind#. Though old and wise, your memory only extends a few #week_month.s# back. Now you wander, trying to #remember# what happened. You #action#"],
     "wizard_context" : "You are <NAME>, a wizard #from_fantasy#. You have a #wizard_item# and a #wizard_item#."
 }
