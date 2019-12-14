@@ -31,6 +31,9 @@ def random_story(story_data):
         if i == rand_n:
             setting_key = setting
 
+    # temporarily only available in fantasy
+    setting_key = "fantasy"
+
     # random character
     characters = story_data["settings"][setting_key]["characters"]
     n_characters = len(characters)
@@ -42,8 +45,7 @@ def random_story(story_data):
     # random name
     name = grammars.direct(setting_key, "fantasy_name")
 
-    # temporarily only available in fantasy
-    return "fantasy", character_key, name
+    return setting_key , character_key, name
 
 
 def select_game():
