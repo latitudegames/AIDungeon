@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Loading not working on `develop`.
 - Loading now print properly
 - [No Save Game on Quit for Loaded Games](https://github.com/AIDungeon/AIDungeon/issues/97)
+- install.sh no longer tries calling apt-get on distributions without it.
 
 ### Changed
 - Made `install.sh` more robust.
