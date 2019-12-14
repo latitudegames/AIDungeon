@@ -16,35 +16,11 @@ settings:
         item1: "steel longsword"
         item2: "wooden shield"
 
-      squire:
-        prompts: ["You follow Sir Theo as he enters the forest, he turns to you and says"]
-
-        item1: "spear"
-        item2: "pack of supplies"
-
       wizard:
         prompts: ["You finish your long journey and finally arrive at the ruin you've been looking for. You look around and see"]
 
         item1: "staff"
         item2: "spellbook"
-
-      ranger:
-        prompts: ["You spot the deer and are ready to finish your hunt when suddenly"]
-
-        item1: "hunting bow"
-        item2: "quiver of arrows"
-
-      peasant:
-        prompts: ["You wake up and begin working in the fields. You see"]
-
-        item1: "pitchfork"
-        item2: "nothing else"
-
-      rogue:
-        prompts: ["You walk down the city street looking for somehwere to steal from. You look around and see"]
-
-        item1: "long steel dagger"
-        item2: "length of rope"
 
   mystery:
     description: "living in Chicago. "

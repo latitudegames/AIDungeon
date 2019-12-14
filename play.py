@@ -101,7 +101,7 @@ def select_game():
 
 def get_curated_exposition(setting_key, character_key, name):
     name_token = "<NAME>"
-    if character_key == "noble" or character_key == "knight":
+    if character_key == "noble" or character_key == "knight" or character_key == "wizard":
         context = grammars.generate(setting_key, character_key, "context") + "\n\n"
         context = context.replace(name_token, name)
         prompt = grammars.generate(setting_key, character_key, "prompt")
