@@ -42,7 +42,7 @@
     "noble_location" : ["with a #group# of #character.s#", "in a #grand_home_adj_opt##nice_home#"],
     "festival" : ["#season# festival", "festival of the #deity#", "festival of the year of the #animal#"],
     "season_opt" : ["#season# ", ""],
-    "noble_two" : "Throughout the #realm# it is the #festival#. To celebrate, you are feasting #noble_location#. #subordinate.s.capitalize# bustle #to_fro#. As a #character# #toast#, you #action#",
+    "noble_two" : "Throughout the #realm# it is the #festival#. To celebrate, you are feasting #noble_location#. #subordinate.s.capitalize# bustle #to_fro#.\n\nAs a #character# #toast#, you #action#",
 
     "week_month" : ["week", "fortnight", "month"],
     "time_periods" : ["#week_month#", "#two_to_ten# #week_month.s#"],
@@ -50,7 +50,7 @@
     "ask" : ["ask", "request"],
     "noble_organization" : ["organization", "delegation", "guild"],
     "matter" : ["about a matter of importance to the #realm#", "on behalf of a foreign #noble_organization# of #humanoid.s#", "with information regarding a rival house", "with demands from your #subordinate.s#"],
-    "noble_three" : "Every day for the past #week_month#, a certain #character# has come to your #grand_home_adj_opt##nice_home# #ask#ing to #speak# with you, apparently #matter#. Unsure if #he_she# is trustworthy, you finally agree to meet. At the meeting, you #action#" ,
+    "noble_three" : "Every day for the past #week_month#, a certain #character# has come to your #grand_home_adj_opt##nice_home# #ask#ing to #speak# with you, apparently #matter#. Unsure if #he_she# is trustworthy, you finally agree to meet.\n\nAt the meeting, you #action#" ,
 
     "noble_prompt": ["#noble_one#", "#noble_two#", "#noble_three#"],
 
@@ -104,7 +104,7 @@
     "could" : ["will", "may", "should", "could"],
     "adventure" : ["an adventure", "a quest", "a journey", "a crusade"],
     "beginning" : ["going on", "beginning", "setting out on"],
-    "quest" : ["You are #beginning# #adventure# to #quest_type#. You set out #towards# a #place_adj# #place# that #could# take you there.\nAs you approach, you #action#"],
+    "quest" : ["You are #beginning# #adventure# to #quest_type#. You set out #towards# a #place_adj# #place# that #could# take you there.\n\nAs you approach, you #action#"],
     "knight_prompt" : "#quest#",
     "knight_context" : "You are <NAME>, a knight from the #realm# of #fantasy_name#. You have a #knight_item# and a #knight_item#."
 }
