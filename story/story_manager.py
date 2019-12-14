@@ -170,14 +170,14 @@ class StoryManager:
         os.system(cmd)
         exists = os.path.isfile(file_name)
 
-        if exists:
-            with open(file_name, "r") as fp:
-                game = json.load(fp)
-            self.story = Story("", upload_story=upload_story)
-            self.story.init_from_dict(game)
-            return str(self.story)
-        else:
-            return "Error: save not found."
+        if not exists:
+            return "Error save not found."
+
+        with open(file_name, "r") as fp:
+            game = json.load(fp)
+        self.story = Story("", upload_story=upload_story)
+        self.story.init_from_dict(game)
+        return str(self.story)
 
     def load_story(self, story, from_json=False):
         if from_json:

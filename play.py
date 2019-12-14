@@ -126,25 +126,26 @@ def play_aidungeon_2():
 
         print("\n\n")
 
-        splash_choice = splash()
+        while story_manager.story is None: 
+            splash_choice = splash()
 
-        if splash_choice == "new":
-            print("\n\n")
-            context, prompt = select_game()
-            console_print(instructions())
-            print("\nGenerating story...")
+            if splash_choice == "new":
+                print("\n\n")
+                context, prompt = select_game()
+                console_print(instructions())
+                print("\nGenerating story...")
 
-            story_manager.start_new_story(
-                prompt, context=context, upload_story=upload_story
-            )
-            print("\n")
-            console_print(str(story_manager.story))
+                story_manager.start_new_story(
+                    prompt, context=context, upload_story=upload_story
+                )
+                print("\n")
+                console_print(str(story_manager.story))
 
-        else:
-            load_ID = input("What is the ID of the saved game? ")
-            result = story_manager.load_new_story(load_ID, upload_story=upload_story)
-            print("\nLoading Game...\n")
-            console_print(result)
+            else:
+                load_ID = input("What is the ID of the saved game? ")
+                result = story_manager.load_new_story(load_ID, upload_story=upload_story)
+                print("\nLoading Game...\n")
+                console_print(result)
 
         while True:
             sys.stdin.flush()
