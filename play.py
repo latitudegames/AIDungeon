@@ -251,7 +251,7 @@ def play_aidungeon_2():
                     print(str(story_manager.story))
 
                 elif command == "revert":
-                    if len(story_manager.story.actions) is 0:
+                    if len(story_manager.story.actions) == 0:
                         console_print("You can't go back any farther. ")
                         continue
 
