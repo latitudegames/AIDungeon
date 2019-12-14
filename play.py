@@ -35,7 +35,7 @@ def random_story(story_data):
     characters = story_data["settings"][setting_key]["characters"]
     n_characters = len(characters)
     rand_n = random.randint(0, n_characters - 1)
-    for i, character in enumerate(character):
+    for i, character in enumerate(characters):
         if i == rand_n:
             character_key = character
 
