@@ -126,7 +126,7 @@ def play_aidungeon_2():
 
     while True:
         if story_manager.story != None:
-            del story_manager.story
+            story_manager.story = None
 
         while story_manager.story is None:
             print("\n\n")
