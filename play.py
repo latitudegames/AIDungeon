@@ -45,7 +45,7 @@ def random_story(story_data):
     # random name
     name = grammars.direct(setting_key, "fantasy_name")
 
-    return setting_key , character_key, name
+    return setting_key, character_key, name
 
 
 def select_game():
@@ -96,10 +96,10 @@ def select_game():
     setting_description = data["settings"][setting_key]["description"]
     character = data["settings"][setting_key]["characters"][character_key]
 
-    return setting_key, character_key, name
+    return setting_key, character_key, name, character, setting_description
 
 
-def get_curated_exposition(setting_key, character_key, name):
+def get_curated_exposition(setting_key, character_key, name, character, setting_description):
     name_token = "<NAME>"
     if (
         character_key == "noble"
@@ -175,7 +175,8 @@ def play_aidungeon_2():
 
             if splash_choice == "new":
                 print("\n\n")
-                context, prompt = select_game()
+                setting_key, character_key, name, character, setting_description = select_game()
+                context, prompt = get_curated_exposition(setting_key, character_key, name, character, setting_description)
                 console_print(instructions())
                 print("\nGenerating story...")
 
