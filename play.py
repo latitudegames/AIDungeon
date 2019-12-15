@@ -160,15 +160,27 @@ def play_aidungeon_2():
                 command = split[0].lower()
                 args = split[1:]
                 if command == "restart":
-                    rating = input("Please rate the story quality from 1-10: ")
-                    rating_float = float(rating)
-                    story_manager.story.rating = rating_float
+                    while True:
+                        try:
+                            rating = input("Please rate the story quality from 1-10: ")
+                            rating_float = max(min(float(rating), 10), 1)
+                        except ValueError:
+                            print("Please return a valid number.")
+                        else:
+                            story_manager.story.rating = rating_float
+                            break
                     break
 
                 elif command == "quit":
-                    rating = input("Please rate the story quality from 1-10: ")
-                    rating_float = float(rating)
-                    story_manager.story.rating = rating_float
+                    while True:
+                        try:
+                            rating = input("Please rate the story quality from 1-10: ")
+                            rating_float = max(min(float(rating), 10), 1)
+                        except ValueError:
+                            print("Please return a valid number.")
+                        else:
+                            story_manager.story.rating = rating_float
+                            break
                     exit()
 
                 elif command == "nosaving":
