@@ -192,7 +192,12 @@ def play_aidungeon_2():
                     console_print(instructions())
 
                 elif command == "censor":
-                    if args[0] == "off":
+                    if len(args) == 0:
+                        if generator.censor:
+                            console_print("Censor is enabled.")
+                        else:
+                            console_print("Censor is disabled.")
+                    elif args[0] == "off":
                         if not generator.censor:
                             console_print("Censor is already disabled.")
                         else:
