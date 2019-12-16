@@ -27,6 +27,6 @@ If applicable, add screenshots to help explain your problem.
 
 **Additional context**
 - Colab or local machine?
-- master or develop?
+- `master` or `develop` branch?
 - game state
 - (add any other context about the problem here)
