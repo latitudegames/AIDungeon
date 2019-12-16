@@ -29,3 +29,10 @@ def generate(setting, character_type, key):
     rules = load_rules(setting)
     artefact = apply_grammar(f"{character_type}_{key}", rules)
     return artefact
+
+
+def direct(setting, key):
+    rules = load_rules(setting)
+    artefact = apply_grammar(key, rules)
+    return artefact
+

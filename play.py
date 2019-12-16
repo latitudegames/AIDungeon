@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import os
 import sys
+import random
 import time
 
 from generator.gpt2.gpt2_generator import *
@@ -21,11 +22,47 @@ def splash():
         return "new"
 
 
+def random_story(story_data):
+    # random setting
+    settings = story_data["settings"].keys()
+    n_settings = len(settings)
+    rand_n = random.randint(0, n_settings - 1)
+    for i, setting in enumerate(settings):
+        if i == rand_n:
+            setting_key = setting
+
+    # temporarily only available in fantasy
+    setting_key = "fantasy"
+
+    # random character
+    characters = story_data["settings"][setting_key]["characters"]
+    n_characters = len(characters)
+    rand_n = random.randint(0, n_characters - 1)
+    for i, character in enumerate(characters):
+        if i == rand_n:
+            character_key = character
+
+    # random name
+    name = grammars.direct(setting_key, "fantasy_name")
+
+    return setting_key, character_key, name, None, None
+
+
 def select_game():
     with open(YAML_FILE, "r") as stream:
         data = yaml.safe_load(stream)
 
-    print("Pick a setting.")
+    # Random story?
+    print("Random story?")
+    console_print("0) yes")
+    console_print("1) no")
+    choice = get_num_options(2)
+
+    if choice == 0:
+        return random_story(data)
+
+    # User-selected story...
+    print("\n\nPick a setting.")
     settings = data["settings"].keys()
     for i, setting in enumerate(settings):
         print_str = str(i) + ") " + setting
@@ -59,6 +96,10 @@ def select_game():
     setting_description = data["settings"][setting_key]["description"]
     character = data["settings"][setting_key]["characters"][character_key]
 
+    return setting_key, character_key, name, character, setting_description
+
+
+def get_curated_exposition(setting_key, character_key, name, character, setting_description):
     name_token = "<NAME>"
     if (
         character_key == "noble"
@@ -134,7 +175,8 @@ def play_aidungeon_2():
 
             if splash_choice == "new":
                 print("\n\n")
-                context, prompt = select_game()
+                setting_key, character_key, name, character, setting_description = select_game()
+                context, prompt = get_curated_exposition(setting_key, character_key, name, character, setting_description)
                 console_print(instructions())
                 print("\nGenerating story...")
 
@@ -233,7 +275,7 @@ def play_aidungeon_2():
                     print(str(story_manager.story))
 
                 elif command == "revert":
-                    if len(story_manager.story.actions) is 0:
+                    if len(story_manager.story.actions) == 0:
                         console_print("You can't go back any farther. ")
                         continue
 
