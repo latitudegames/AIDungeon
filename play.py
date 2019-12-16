@@ -62,7 +62,7 @@ def select_game():
         return random_story(data)
 
     # User-selected story...
-    print("Pick a setting.")
+    print("\n\nPick a setting.")
     settings = data["settings"].keys()
     for i, setting in enumerate(settings):
         print_str = str(i) + ") " + setting
