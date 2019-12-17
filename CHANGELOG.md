@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - install.sh no longer tries calling `apt-get` on distributions without it.
 - Arch Linux now works with install.sh (with pyenv is used or python3.6 is set as python3).
 - A bug that caused game to crash if given an incorrect game ID to load.
+- Fixed bug preventing `Custom` game setting selection from working.
 
 ### Changed
 - Made `install.sh` more robust.

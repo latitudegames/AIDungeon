@@ -35,4 +35,3 @@ def direct(setting, key):
     rules = load_rules(setting)
     artefact = apply_grammar(key, rules)
     return artefact
-
