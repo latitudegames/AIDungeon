@@ -91,6 +91,17 @@ def select_game():
     return setting_key, character_key, name, character, setting_description
 
 
+def get_custom_prompt():
+    context = ""
+    console_print(
+        "\nEnter a prompt that describes who you are and the first couple sentences of where you start "
+        "out ex:\n 'You are a knight in the kingdom of Larion. You are hunting the evil dragon who has been "
+        + "terrorizing the kingdom. You enter the forest searching for the dragon and see' "
+    )
+    prompt = input("Starting Prompt: ")
+    return context, prompt
+
+
 def get_curated_exposition(setting_key, character_key, name, character, setting_description):
     name_token = "<NAME>"
     if (
@@ -121,15 +132,6 @@ def get_curated_exposition(setting_key, character_key, name, character, setting_
 
     return context, prompt
 
-def get_custom_prompt():
-    context = ""
-    console_print(
-        "\nEnter a prompt that describes who you are and the first couple sentences of where you start "
-        "out ex:\n 'You are a knight in the kingdom of Larion. You are hunting the evil dragon who has been "
-        + "terrorizing the kingdom. You enter the forest searching for the dragon and see' "
-    )
-    prompt = input("Starting Prompt: ")
-    return context, prompt
 
 def instructions():
     text = "\nAI Dungeon 2 Instructions:"
@@ -180,6 +182,7 @@ def play_aidungeon_2():
 
                 if setting_key == "custom":
                     context, prompt = get_custom_prompt()
+
                 else:
                     context, prompt = get_curated_exposition(setting_key, character_key, name, character, setting_description)
 
