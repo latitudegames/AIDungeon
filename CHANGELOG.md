@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [[Unreleased]](https://github.com/AIDungeon/AIDungeon/compare/master...develop)
 
+
+## [2.1.0] - 2019-12-16
+
 ### Added
 - This changelog!
 - Formal grammars for the noble, knight, and wizard contexts/prompts.
