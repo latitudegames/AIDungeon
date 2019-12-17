@@ -120,7 +120,12 @@ class Story:
 
         FNULL = open(os.devnull, "w")
         p = Popen(
-            ["gsutil", "cp", os.path.join(save_path, file_name), "gs://aidungeonstories"],
+            [
+                "gsutil",
+                "cp",
+                os.path.join(save_path, file_name),
+                "gs://aidungeonstories",
+            ],
             stdout=FNULL,
             stderr=subprocess.STDOUT,
         )

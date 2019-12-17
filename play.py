@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import os
-import sys
 import random
+import sys
 import time
 
 from generator.gpt2.gpt2_generator import *
@@ -102,7 +102,9 @@ def get_custom_prompt():
     return context, prompt
 
 
-def get_curated_exposition(setting_key, character_key, name, character, setting_description):
+def get_curated_exposition(
+    setting_key, character_key, name, character, setting_description
+):
     name_token = "<NAME>"
     if (
         character_key == "noble"
@@ -178,13 +180,21 @@ def play_aidungeon_2():
 
             if splash_choice == "new":
                 print("\n\n")
-                setting_key, character_key, name, character, setting_description = select_game()
+                (
+                    setting_key,
+                    character_key,
+                    name,
+                    character,
+                    setting_description,
+                ) = select_game()
 
                 if setting_key == "custom":
                     context, prompt = get_custom_prompt()
 
                 else:
-                    context, prompt = get_curated_exposition(setting_key, character_key, name, character, setting_description)
+                    context, prompt = get_curated_exposition(
+                        setting_key, character_key, name, character, setting_description
+                    )
 
                 console_print(instructions())
                 print("\nGenerating story...")
