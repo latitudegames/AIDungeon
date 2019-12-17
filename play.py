@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import os
 import sys
+import random
 import time
 
 from generator.gpt2.gpt2_generator import *
@@ -21,11 +22,47 @@ def splash():
         return "new"
 
 
+def random_story(story_data):
+    # random setting
+    settings = story_data["settings"].keys()
+    n_settings = len(settings)
+    rand_n = random.randint(0, n_settings - 1)
+    for i, setting in enumerate(settings):
+        if i == rand_n:
+            setting_key = setting
+
+    # temporarily only available in fantasy
+    setting_key = "fantasy"
+
+    # random character
+    characters = story_data["settings"][setting_key]["characters"]
+    n_characters = len(characters)
+    rand_n = random.randint(0, n_characters - 1)
+    for i, character in enumerate(characters):
+        if i == rand_n:
+            character_key = character
+
+    # random name
+    name = grammars.direct(setting_key, "fantasy_name")
+
+    return setting_key, character_key, name, None, None
+
+
 def select_game():
     with open(YAML_FILE, "r") as stream:
         data = yaml.safe_load(stream)
 
-    print("Pick a setting.")
+    # Random story?
+    print("Random story?")
+    console_print("0) yes")
+    console_print("1) no")
+    choice = get_num_options(2)
+
+    if choice == 0:
+        return random_story(data)
+
+    # User-selected story...
+    print("\n\nPick a setting.")
     settings = data["settings"].keys()
     for i, setting in enumerate(settings):
         print_str = str(i) + ") " + setting
@@ -59,8 +96,16 @@ def select_game():
     setting_description = data["settings"][setting_key]["description"]
     character = data["settings"][setting_key]["characters"][character_key]
 
+    return setting_key, character_key, name, character, setting_description
+
+
+def get_curated_exposition(setting_key, character_key, name, character, setting_description):
     name_token = "<NAME>"
-    if character_key == "noble" or character_key == "knight":
+    if (
+        character_key == "noble"
+        or character_key == "knight"
+        or character_key == "wizard"
+    ):
         context = grammars.generate(setting_key, character_key, "context") + "\n\n"
         context = context.replace(name_token, name)
         prompt = grammars.generate(setting_key, character_key, "prompt")
@@ -124,13 +169,14 @@ def play_aidungeon_2():
         if story_manager.story != None:
             story_manager.story = None
 
-        while story_manager.story is None: 
+        while story_manager.story is None:
             print("\n\n")
             splash_choice = splash()
 
             if splash_choice == "new":
                 print("\n\n")
-                context, prompt = select_game()
+                setting_key, character_key, name, character, setting_description = select_game()
+                context, prompt = get_curated_exposition(setting_key, character_key, name, character, setting_description)
                 console_print(instructions())
                 print("\nGenerating story...")
 
@@ -142,7 +188,9 @@ def play_aidungeon_2():
 
             else:
                 load_ID = input("What is the ID of the saved game? ")
-                result = story_manager.load_new_story(load_ID, upload_story=upload_story)
+                result = story_manager.load_new_story(
+                    load_ID, upload_story=upload_story
+                )
                 print("\nLoading Game...\n")
                 console_print(result)
 
@@ -150,19 +198,31 @@ def play_aidungeon_2():
             sys.stdin.flush()
             action = input("> ").strip()
             if len(action) > 0 and action[0] == "/":
-                split = action[1:].split(" ") # removes preceding slash
+                split = action[1:].split(" ")  # removes preceding slash
                 command = split[0].lower()
                 args = split[1:]
                 if command == "restart":
-                    rating = input("Please rate the story quality from 1-10: ")
-                    rating_float = float(rating)
-                    story_manager.story.rating = rating_float
+                    while True:
+                        try:
+                            rating = input("Please rate the story quality from 1-10: ")
+                            rating_float = max(min(float(rating), 10), 1)
+                        except ValueError:
+                            print("Please return a valid number.")
+                        else:
+                            story_manager.story.rating = rating_float
+                            break
                     break
 
                 elif command == "quit":
-                    rating = input("Please rate the story quality from 1-10: ")
-                    rating_float = float(rating)
-                    story_manager.story.rating = rating_float
+                    while True:
+                        try:
+                            rating = input("Please rate the story quality from 1-10: ")
+                            rating_float = max(min(float(rating), 10), 1)
+                        except ValueError:
+                            print("Please return a valid number.")
+                        else:
+                            story_manager.story.rating = rating_float
+                            break
                     exit()
 
                 elif command == "nosaving":
@@ -174,7 +234,12 @@ def play_aidungeon_2():
                     console_print(instructions())
 
                 elif command == "censor":
-                    if args[0] == "off":
+                    if len(args) == 0:
+                        if generator.censor:
+                            console_print("Censor is enabled.")
+                        else:
+                            console_print("Censor is disabled.")
+                    elif args[0] == "off":
                         if not generator.censor:
                             console_print("Censor is already disabled.")
                         else:
@@ -195,7 +260,9 @@ def play_aidungeon_2():
                     if upload_story:
                         id = story_manager.story.save_to_storage()
                         console_print("Game saved.")
-                        console_print(f"To load the game, type 'load' and enter the following ID: {id}")
+                        console_print(
+                            f"To load the game, type 'load' and enter the following ID: {id}"
+                        )
                     else:
                         console_print("Saving has been turned off. Cannot save.")
 
@@ -213,7 +280,7 @@ def play_aidungeon_2():
                     print(str(story_manager.story))
 
                 elif command == "revert":
-                    if len(story_manager.story.actions) is 0:
+                    if len(story_manager.story.actions) == 0:
                         console_print("You can't go back any farther. ")
                         continue
 
