@@ -74,15 +74,7 @@ def select_game():
     choice = get_num_options(len(settings) + 1)
 
     if choice == len(settings):
-
-        context = ""
-        console_print(
-            "\nEnter a prompt that describes who you are and the first couple sentences of where you start "
-            "out ex:\n 'You are a knight in the kingdom of Larion. You are hunting the evil dragon who has been "
-            + "terrorizing the kingdom. You enter the forest searching for the dragon and see' "
-        )
-        prompt = input("Starting Prompt: ")
-        return context, prompt
+        return "custom", None, None, None, None
 
     setting_key = list(settings)[choice]
 
@@ -110,6 +102,14 @@ def get_curated_exposition(setting_key, character_key, name, character, setting_
         context = context.replace(name_token, name)
         prompt = grammars.generate(setting_key, character_key, "prompt")
         prompt = prompt.replace(name_token, name)
+    elif setting_key == "custom":
+        context = ""
+        console_print(
+            "\nEnter a prompt that describes who you are and the first couple sentences of where you start "
+            "out ex:\n 'You are a knight in the kingdom of Larion. You are hunting the evil dragon who has been "
+            + "terrorizing the kingdom. You enter the forest searching for the dragon and see' "
+        )
+        prompt = input("Starting Prompt: ")
     else:
         context = (
             "You are "
