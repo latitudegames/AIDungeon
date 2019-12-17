@@ -74,15 +74,7 @@ def select_game():
     choice = get_num_options(len(settings) + 1)
 
     if choice == len(settings):
-
-        context = ""
-        console_print(
-            "\nEnter a prompt that describes who you are and the first couple sentences of where you start "
-            "out ex:\n 'You are a knight in the kingdom of Larion. You are hunting the evil dragon who has been "
-            + "terrorizing the kingdom. You enter the forest searching for the dragon and see' "
-        )
-        prompt = input("Starting Prompt: ")
-        return context, prompt
+        return "custom", None, None, None, None
 
     setting_key = list(settings)[choice]
 
@@ -129,6 +121,15 @@ def get_curated_exposition(setting_key, character_key, name, character, setting_
 
     return context, prompt
 
+def get_custom_prompt():
+    context = ""
+    console_print(
+        "\nEnter a prompt that describes who you are and the first couple sentences of where you start "
+        "out ex:\n 'You are a knight in the kingdom of Larion. You are hunting the evil dragon who has been "
+        + "terrorizing the kingdom. You enter the forest searching for the dragon and see' "
+    )
+    prompt = input("Starting Prompt: ")
+    return context, prompt
 
 def instructions():
     text = "\nAI Dungeon 2 Instructions:"
@@ -176,7 +177,12 @@ def play_aidungeon_2():
             if splash_choice == "new":
                 print("\n\n")
                 setting_key, character_key, name, character, setting_description = select_game()
-                context, prompt = get_curated_exposition(setting_key, character_key, name, character, setting_description)
+
+                if setting_key == "custom":
+                    context, prompt = get_custom_prompt()
+                else:
+                    context, prompt = get_curated_exposition(setting_key, character_key, name, character, setting_description)
+
                 console_print(instructions())
                 print("\nGenerating story...")
 
