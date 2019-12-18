@@ -41,7 +41,7 @@
     "more_element" : ["the underworld", "the sea", "the heavens"],
     "celestial" : ["the sun", "the moon", "the stars"],
     "domain" : ["#element#", "#more_element#", "#celestial#", "harvest", "fertility", "war", "good fortune", "thresholds", "love", "wisdom", "#profession.s#"],
-    "god" : ["god", "deity", "godess"],
+    "god" : ["god", "deity", "goddess"],
     "deity" : ["#god# of #domain#"],
     "group" : ["group", "bunch", "delegation", "host"],
     "humanoid" : ["elf", "dwarf", "gnome", "halfling", "hobbit", "goblin"],
