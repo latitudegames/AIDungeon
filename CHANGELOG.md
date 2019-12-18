@@ -10,11 +10,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `/reset` is a new command with the same functionality as the
 old `/restart`, saving the old and beginning a brand new game.
+- Ratings after death and winning
+- `get_rating` function to `Story` objects.
+- Some new word to fantasy grammar.
 
 ### Fixed
 
 - Typos in story grammar.
 - AI no longer sees `You you` when the user inputs commands beginning with `You` or `I`.
+- Some caption issues with actions.
 
 ### Changed
 
