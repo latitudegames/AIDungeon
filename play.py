@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import os
-import sys
 import random
+import sys
 import time
 
 from generator.gpt2.gpt2_generator import *
@@ -74,15 +74,7 @@ def select_game():
     choice = get_num_options(len(settings) + 1)
 
     if choice == len(settings):
-
-        context = ""
-        console_print(
-            "\nEnter a prompt that describes who you are and the first couple sentences of where you start "
-            "out ex:\n 'You are a knight in the kingdom of Larion. You are hunting the evil dragon who has been "
-            + "terrorizing the kingdom. You enter the forest searching for the dragon and see' "
-        )
-        prompt = input("Starting Prompt: ")
-        return context, prompt
+        return "custom", None, None, None, None
 
     setting_key = list(settings)[choice]
 
@@ -99,7 +91,20 @@ def select_game():
     return setting_key, character_key, name, character, setting_description
 
 
-def get_curated_exposition(setting_key, character_key, name, character, setting_description):
+def get_custom_prompt():
+    context = ""
+    console_print(
+        "\nEnter a prompt that describes who you are and the first couple sentences of where you start "
+        "out ex:\n 'You are a knight in the kingdom of Larion. You are hunting the evil dragon who has been "
+        + "terrorizing the kingdom. You enter the forest searching for the dragon and see' "
+    )
+    prompt = input("Starting Prompt: ")
+    return context, prompt
+
+
+def get_curated_exposition(
+    setting_key, character_key, name, character, setting_description
+):
     name_token = "<NAME>"
     if (
         character_key == "noble"
@@ -175,8 +180,22 @@ def play_aidungeon_2():
 
             if splash_choice == "new":
                 print("\n\n")
-                setting_key, character_key, name, character, setting_description = select_game()
-                context, prompt = get_curated_exposition(setting_key, character_key, name, character, setting_description)
+                (
+                    setting_key,
+                    character_key,
+                    name,
+                    character,
+                    setting_description,
+                ) = select_game()
+
+                if setting_key == "custom":
+                    context, prompt = get_custom_prompt()
+
+                else:
+                    context, prompt = get_curated_exposition(
+                        setting_key, character_key, name, character, setting_description
+                    )
+
                 console_print(instructions())
                 print("\nGenerating story...")
 
@@ -202,27 +221,11 @@ def play_aidungeon_2():
                 command = split[0].lower()
                 args = split[1:]
                 if command == "restart":
-                    while True:
-                        try:
-                            rating = input("Please rate the story quality from 1-10: ")
-                            rating_float = max(min(float(rating), 10), 1)
-                        except ValueError:
-                            print("Please return a valid number.")
-                        else:
-                            story_manager.story.rating = rating_float
-                            break
+                    story_manager.story.get_rating()
                     break
 
                 elif command == "quit":
-                    while True:
-                        try:
-                            rating = input("Please rate the story quality from 1-10: ")
-                            rating_float = max(min(float(rating), 10), 1)
-                        except ValueError:
-                            print("Please return a valid number.")
-                        else:
-                            story_manager.story.rating = rating_float
-                            break
+                    story_manager.story.get_rating()
                     exit()
 
                 elif command == "nosaving":
@@ -307,10 +310,10 @@ def play_aidungeon_2():
 
                 else:
                     action = action.strip()
-                    action = action[0].lower() + action[1:]
+                    action = action[0].upper() + action[1:]
 
-                    if "You" not in action[:6] and "I" not in action[:6]:
-                        action = "You " + action
+                    if "You" not in action[:6] and "you" not in action[:6] and "I" not in action[:6]:
+                        action = "You " + action[0].lower() + action[1:]
 
                     if action[-1] not in [".", "?", "!"]:
                         action = action + "."
@@ -334,6 +337,7 @@ def play_aidungeon_2():
 
                 if player_won(result):
                     console_print(result + "\n CONGRATS YOU WIN")
+                    story_manager.story.get_rating()
                     break
                 elif player_died(result):
                     console_print(result)
@@ -346,6 +350,7 @@ def play_aidungeon_2():
                     console_print("Which do you choose? ")
                     choice = get_num_options(2)
                     if choice == 0:
+                        story_manager.story.get_rating()
                         break
                     else:
                         console_print("Sorry about that...where were we?")

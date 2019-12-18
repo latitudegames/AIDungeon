@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [[Unreleased]](https://github.com/AIDungeon/AIDungeon/compare/master...develop)
 
 
+## [2.1.1] - 2019-12-17
+
+### Fixed
+
+- Bug preventing `Custom` game setting selection from working.
+- Code style.
+
 ## [2.1.0] - 2019-12-16
 
 ### Added
