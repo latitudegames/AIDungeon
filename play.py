@@ -142,7 +142,8 @@ def instructions():
     text += "\n\nThe following commands can be entered for any action: "
     text += '\n  "/revert"   Reverts the last action allowing you to pick a different action.'
     text += '\n  "/quit"     Quits the game and saves'
-    text += '\n  "/restart"  Starts a new game and saves your current one'
+    text += '\n  "/reset"    Starts a new game and saves your current one'
+    text += '\n  "/restart"  Starts the game from beginning with same settings'
     text += '\n  "/save"     Makes a new save of your game and gives you the save ID'
     text += '\n  "/load"     Asks for a save ID and loads the game if the ID is valid'
     text += '\n  "/print"    Prints a transcript of your adventure (without extra newline formatting)'
@@ -220,9 +221,16 @@ def play_aidungeon_2():
                 split = action[1:].split(" ")  # removes preceding slash
                 command = split[0].lower()
                 args = split[1:]
-                if command == "restart":
+                if command == "reset":
                     story_manager.story.get_rating()
                     break
+
+                elif command == "restart":
+                    story_manager.story.actions = []
+                    story_manager.story.results = []
+                    console_print("Game restarted.")
+                    console_print(story_manager.story.story_start)
+                    continue
 
                 elif command == "quit":
                     story_manager.story.get_rating()
