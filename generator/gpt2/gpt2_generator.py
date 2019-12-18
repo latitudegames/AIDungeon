@@ -3,6 +3,7 @@ import os
 import warnings
 
 import numpy as np
+
 import tensorflow as tf
 from generator.gpt2.src import encoder, model, sample
 from story.utils import *
