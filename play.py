@@ -221,27 +221,11 @@ def play_aidungeon_2():
                 command = split[0].lower()
                 args = split[1:]
                 if command == "restart":
-                    while True:
-                        try:
-                            rating = input("Please rate the story quality from 1-10: ")
-                            rating_float = max(min(float(rating), 10), 1)
-                        except ValueError:
-                            print("Please return a valid number.")
-                        else:
-                            story_manager.story.rating = rating_float
-                            break
+                    story_manager.story.get_rating()
                     break
 
                 elif command == "quit":
-                    while True:
-                        try:
-                            rating = input("Please rate the story quality from 1-10: ")
-                            rating_float = max(min(float(rating), 10), 1)
-                        except ValueError:
-                            print("Please return a valid number.")
-                        else:
-                            story_manager.story.rating = rating_float
-                            break
+                    story_manager.story.get_rating()
                     exit()
 
                 elif command == "nosaving":
@@ -353,6 +337,7 @@ def play_aidungeon_2():
 
                 if player_won(result):
                     console_print(result + "\n CONGRATS YOU WIN")
+                    story_manager.story.get_rating()
                     break
                 elif player_died(result):
                     console_print(result)
@@ -365,6 +350,7 @@ def play_aidungeon_2():
                     console_print("Which do you choose? ")
                     choice = get_num_options(2)
                     if choice == 0:
+                        story_manager.story.get_rating()
                         break
                     else:
                         console_print("Sorry about that...where were we?")
