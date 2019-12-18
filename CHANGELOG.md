@@ -6,9 +6,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [[Unreleased]](https://github.com/AIDungeon/AIDungeon/compare/master...develop)
 
+### Added
+
+- `/reset` is a new command with the same functionality as the
+old `/restart`, saving the old and beginning a brand new game.
+
 ### Fixed
 
 - Typos in story grammar.
+
+### Changed
+
+- `/restart` now restarts from the beginning of the same game.
 
 ## [2.1.1] - 2019-12-17
 
