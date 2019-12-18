@@ -310,10 +310,10 @@ def play_aidungeon_2():
 
                 else:
                     action = action.strip()
-                    action = action[0].lower() + action[1:]
+                    action = action[0].upper() + action[1:]
 
-                    if "You" not in action[:6] and "I" not in action[:6]:
-                        action = "You " + action
+                    if "You" not in action[:6] and "you" not in action[:6] and "I" not in action[:6]:
+                        action = "You " + action[0].lower() + action[1:]
 
                     if action[-1] not in [".", "?", "!"]:
                         action = action + "."
