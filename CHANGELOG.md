@@ -14,6 +14,7 @@ old `/restart`, saving the old and beginning a brand new game.
 ### Fixed
 
 - Typos in story grammar.
+- AI no longer sees `You you` when the user inputs commands beginning with `You` or `I`.
 
 ### Changed
 
