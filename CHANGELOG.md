@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [[Unreleased]](https://github.com/AIDungeon/AIDungeon/compare/master...develop)
 
+### Fixed
+
+- Typos in story grammar.
 
 ## [2.1.1] - 2019-12-17
 
