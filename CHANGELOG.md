@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [[Unreleased]](https://github.com/AIDungeon/AIDungeon/compare/master...develop)
 
+## [2.2.0] - 2019-12-19
+
 ### Added
 
 - `/reset` is a new command with the same functionality as the
