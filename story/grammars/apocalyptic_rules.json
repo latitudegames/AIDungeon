@@ -14,15 +14,21 @@
   "plague" : ["plague", "sickness", "epidemic", "pandemic"],
   "old_metal_adj" : ["old", "rusty", "broken", "crappy"],
   "old_cloth_adj" : ["old", "torn", "crappy", "dirty"],
+  "adverb" : ["finally", "suddenly", "surprisingly", "a day later"],
+  "end_sentence" : ["You #action#", "#adverb.capitalize#, you #action#"],
 
   "day" : ["long day", "long #time#", "few hours", "routine #time#"],
+  "stay_time" : ["the evening", "#few# of hourse", "#few# days"],
   "time" : ["morning", "afternoon", "evening"],
   "abandoned_adj" : ["abandoned", "old", "forsaken"],
+  "few" : ["a couple of", "some", "a few"],
+  "colony" : ["colony", "city", "village", "town", "metropolis"],
   "scaveged_item" : ["car", "truck", "cottage", "house", "bunker"],
   "food_type" : ["meat", "bean", "corn"],
   "worthy_metal" : ["gold", "silver", "platinum", "silicium"],
-  "found_item" : ["nothing", "a few cans of #food_type#", "a few pieces of #worthy_metal#"],
+  "found_item" : ["nothing", "#few# cans of #food_type#", "#few# pieces of #worthy_metal#"],
+  "scavenger_action" : ["You decide to stay there for #stay_time#." , "You head toward the nearby #colony#."],
   "scavenger_item" : ["a #old_metal_adj# crowbar", "a #old_metal_adj# handspike", "a #old_metal_adj# knife", "a #old_metal_adj# rifle", "a #old_metal_adj# gun", "a #old_cloth_adj# backpack", "a #old_metal_adj# canteen", "a #old_cloth_adj# gas mask", "a #old_metal_adj# lockpick", "a #old_cloth_adj# cloak"],
   "scavenger_context" : "You are <NAME>, a lonely scavenger trying to survive after #apocalypse_reason#. You have #scavenger_item# and #scavenger_item#.",
-  "scavenger_prompt" : "You send a #day# trying to get out as much as you can from a #abandoned_adj##scaveged_item#. At the end you find #found_item#. You decide to stay there for the night. You wake up and #action#"
+  "scavenger_prompt" : "You send a #day# trying to get out as much as you can from a #abandoned_adj# #scaveged_item#. At the end you find #found_item#. #scavenger_action# #end_sentence#"
 }
