@@ -13,7 +13,7 @@ old `/restart`, saving the old and beginning a brand new game.
 - Ratings after death and winning
 - `get_rating` function to `Story` objects.
 - Some new word to fantasy grammar.
-- Formal grammars for the peasant contexts/prompts.
+- Formal grammars for peasant and rogue contexts/prompts.
 
 ### Fixed
 

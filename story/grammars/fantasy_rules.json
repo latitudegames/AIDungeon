@@ -180,7 +180,7 @@
 
 
     "peasant_item" : ["a #metal_adj_opt#pitchfork", "the shirt on your back", "a #metal_adj_opt#shovel", "a dirty rag", "a #metal_adj_opt#spade", "a #metal_adj_opt#sickle", "shears", "a basket", "a plough", "a #metal_adj_opt#scythe", "a dirty hat"],
-    "farm_animal" : ["pig", "cow", "chicken", "llama", "goat"],
+    "farm_animal" : ["pig", "cow", "chicken", "llama", "goat", "horse", "donkey", "rabbit", "hog", "mule", "sow"],
     "farm_animal_sing" : ["sheep", "livestock", "cattle"],
     "farm_animal_type" : ["#farm_animal.s#", "#farm_animal_sing#"],
     "woolen" : ["sheep", "goats", "llamas"],
@@ -192,6 +192,34 @@
     "begin" : ["begin", "go about", "start", "get to", "get about"],
     "second_thing" : ["For a while, you have wanted to run away.", "In the distance, your master is yelling at some other workers.", "The sun beats down upon you.", "This has been your daily routine since you were young."],
     "peasant_prompt" : "You wake up #morning_time# and #begin# #peasant_work#. #second_thing# You #action#",
-    "peasant_context" : "You are <NAME>, a peasant #from_fantasy#. You have #peasant_item# and #peasant_item#."
+    "peasant_context" : "You are <NAME>, a peasant #from_fantasy#. You have #peasant_item# and #peasant_item#.",
+
+
+
+    "rogue_item" : ["a pair of gloves", "a cloak", "a deck of cards", "a dagger", "lockpick", "a mask", "a shawl", "a pipe", "a key", "a length of rope", "darts", "a sickle", "a mace"],
+    "walk" : ["walk","go"],
+    "street" : ["street", "streets", "square", "road"],
+    "city" : ["city", "town", "village", "market"],
+    "steal" : ["steal from", "shoplift", "burgle", "break into"],
+    "rob" : ["steal from", "rob", "jump", "pickpocket", "con"],
+    "target" : ["someplace to #steal#", "someone to #rob#"],
+    "along" : ["along", "down"],
+    "townsfolk" : ["townsfolk", "local vendors", "people", "crowd", "populace"],
+    "amongst" : ["amongst", "in the midst of", "among"],
+    "rogue_location" : ["#along# the #city# #street#", "#amongst# the #townsfolk#"],
+    "seeking" : ["seeking", "looking for", "searching for", "in search of"],
+    "sense" : ["see", "hear", "sense", "remember", "feel", "notice"],
+    "action" : ["look around and see", "#sense#"],
+    "rogue_one" : "You #walk# #rogue_location# #seeking# #target#. You #action#",
+
+    "position" : ["at the doorstep", "along the way", "suddenly", "before long", "out of the blue", "once in your room"],
+    "time" : ["morning", "afternoon", "evening"],
+    "day" : ["long day", "long #time#", "few hours", "routine #time#"],
+    "stealing" : ["stealing", "mischief", "pickpocketing"],
+    "inn_adj" : ["your favorite", "a nearby", "a crowded", "a busy", "a cheap"],
+    "rogue_two" : "After a #day# of #stealing#, you head towards #inn_adj# inn to stay for the night. #position.capitalize# you #action#",
+    "rogue_three" : "Today you decided that simple #stealing# isn't enough anymore. You long for a more ambitious goal: taking for yourself #whole_artifact#. You #action#",
+    "rogue_prompt" : ["#rogue_one#","#rogue_two#", "#rogue_three#"],
+    "rogue_context" : "You are <NAME>, a rogue #from_fantasy#. You have #rogue_item# and #rogue_item#."
 }
 
