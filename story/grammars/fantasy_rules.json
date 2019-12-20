@@ -75,7 +75,7 @@
 
     "crest" : ["crest of the #deity#", "#animal# crest"],
     "old_paper_adj" : ["wrinkled", "torn", "tattered", "creased"],
-    "metal_adj" : ["rusty", "shiny", "steel", "iron", "bronze", "tarnished", "gleaming", "spiked"],
+    "metal_adj" : ["rusty", "shiny", "steel", "iron", "bronze", "tarnished", "gleaming"],
     "metal_adj_opt" : ["#metal_adj# ", "#old_object_adj# ", ""],
     "old_object_adj" : ["old", "worn", "dusty"],
     "good_object_adj" : ["sturdy", "trusty"],
@@ -142,7 +142,6 @@
     "beaker" : ["beaker", "flask", "vessel"],
     "potion" : ["#beaker# of #potion_appearance# liquid", "#potion_appearance# potion"],
     "wizard_item" : ["staff", "crystal ball", "#potion#", "#book#", "cloak", "pet #wizard_animal#", "pointed hat", "quill", "#shape_opt#amulet"],
-    "magic_disaster" : "animated a tree",
     "dnd_school" : ["abjuration", "conjuration", "divination", "enchantment", "evocation", "illusion", "necromancy", "transmutation"],
     "magic_book" : ["spellbook", "tome", "scroll"],
     "spellbook" : ["#magic_book# of #dnd_school#"],
@@ -177,6 +176,22 @@
     "order" : ["order", "command", "remind", "direct", "demand"],
     "wizard_three" : "You are apprentice to the #great# #magical_role# #fantasy_name#. Before leaving on an errand, they #order.ed# you to never enter their #private# #chamber#... but your curiosity has gotten the best of you.\n\nAs you #go_near# the door, you #action#",
     "wizard_prompt" : ["#wizard_one#", "#wizard_two#", "#wizard_three#"],
-    "wizard_context" : "You are <NAME>, a wizard #from_fantasy#. You have a #wizard_item# and a #wizard_item#."
+    "wizard_context" : "You are <NAME>, a wizard #from_fantasy#. You have a #wizard_item# and a #wizard_item#.",
+
+
+    "peasant_item" : ["a #metal_adj_opt#pitchfork", "the shirt on your back", "a #metal_adj_opt#shovel", "a dirty rag", "a #metal_adj_opt#spade", "a #metal_adj_opt#sickle", "shears", "a basket", "a plough", "a #metal_adj_opt#scythe", "a dirty hat"],
+    "farm_animal" : ["pig", "cow", "chicken", "llama", "goat"],
+    "farm_animal_sing" : ["sheep", "livestock", "cattle"],
+    "farm_animal_type" : ["#farm_animal.s#", "#farm_animal_sing#"],
+    "woolen" : ["sheep", "goats", "llamas"],
+    "milky" : ["cows", "goats"],
+    "working" : ["working", "toiling", "laboring", "sweating"],
+    "morning_time" : ["at the break of dawn", "at daybreak", "early", "early in the morning"],
+    "field_verb" : ["plowing", "tilling", "cultivating", "caring for"],
+    "peasant_work" : ["feeding the #farm_animal_type#", "#field_verb# the fields", "harvesting the crops", "planting new crops", "#working# in the fields", "shearing the #woolen#", "milking the #milky#"], 
+    "begin" : ["begin", "go about", "start", "get to", "get about"],
+    "second_thing" : ["For a while, you have wanted to run away.", "In the distance, your master is yelling at some other workers.", "The sun beats down upon you.", "This has been your daily routine since you were young."],
+    "peasant_prompt" : "You wake up #morning_time# and #begin# #peasant_work#. #second_thing# You #action#",
+    "peasant_context" : "You are <NAME>, a peasant #from_fantasy#. You have #peasant_item# and #peasant_item#."
 }
 
