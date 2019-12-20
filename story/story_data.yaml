@@ -21,6 +21,18 @@ settings:
 
         item1: "staff"
         item2: "spellbook"
+        
+      peasant:
+        prompts: ["You wake up and begin working in the fields. You see"]
+
+        item1: "pitchfork"
+        item2: "nothing else"
+
+      rogue:
+        prompts: ["You walk down the city street looking for somewhere to steal from. You look around and see"]
+
+        item1: "long steel dagger"
+        item2: "length of rope"
 
   mystery:
     description: "living in Chicago. "
