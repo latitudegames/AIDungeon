@@ -110,6 +110,8 @@ def get_curated_exposition(
         character_key == "noble"
         or character_key == "knight"
         or character_key == "wizard"
+        or character_key == "peasant"
+        or character_key == "rogue"
     ):
         context = grammars.generate(setting_key, character_key, "context") + "\n\n"
         context = context.replace(name_token, name)
