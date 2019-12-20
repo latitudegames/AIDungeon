@@ -1,0 +1,28 @@
+{
+  "rare_sense" : ["taste", "smell", "watch", "observe", "monitor", "look"],
+  "sense" : ["see", "hear", "sense", "feel", "notice", "#rare_sense#"],
+  "remember" : ["remember", "recall", "recollect"],
+  "think" : ["wonder", "decide", "#remember#", "realize", "imagine"],
+  "action" : ["#sense#", "#think#"],
+  "apocalypse_reason" : ["#mystic_reason#", "#real_reason#"],
+  "mystic_reason" : ["the gods punished the humanity for its sins", "the Hell came to the Earth", "the Prophecy of the Apocalypse turned out to be true"],
+  "real_reason" : ["the #bombader# bombed your country to the ground", "the environmental catastrophe of the #catastrophe_adj# #environmental_catastrophe#", "the #catastrophe_adj# #plague#"],
+  "bombader" : ["its own government", "American", "Chinese", "Russian", "French", "British", "Indian", "North-Korean", "#evil_adj# scientist", "#evil_adj# businessman"],
+  "evil_adj" : ["evil", "ruthless", "mad", "lunatic", "reckless", "cruel"],
+  "environmental_catastrophe" : ["floods", "hurricans", "earthquakes"],
+  "catastrophe_adj" : ["deadly", "unstopable", "great"],
+  "plague" : ["plague", "sickness", "epidemic", "pandemic"],
+  "old_metal_adj" : ["old", "rusty", "broken", "crappy"],
+  "old_cloth_adj" : ["old", "torn", "crappy", "dirty"],
+
+  "day" : ["long day", "long #time#", "few hours", "routine #time#"],
+  "time" : ["morning", "afternoon", "evening"],
+  "abandoned_adj" : ["abandoned", "old", "forsaken"],
+  "scaveged_item" : ["car", "truck", "cottage", "house", "bunker"],
+  "food_type" : ["meat", "bean", "corn"],
+  "worthy_metal" : ["gold", "silver", "platinum", "silicium"],
+  "found_item" : ["nothing", "a few cans of #food_type#", "a few pieces of #worthy_metal#"],
+  "scavenger_item" : ["a #old_metal_adj# crowbar", "a #old_metal_adj# handspike", "a #old_metal_adj# knife", "a #old_metal_adj# rifle", "a #old_metal_adj# gun", "a #old_cloth_adj# backpack", "a #old_metal_adj# canteen", "a #old_cloth_adj# gas mask", "a #old_metal_adj# lockpick", "a #old_cloth_adj# cloak"],
+  "scavenger_context" : "You are <NAME>, a lonely scavenger trying to survive after #apocalypse_reason#. You have #scavenger_item# and #scavenger_item#.",
+  "scavenger_prompt" : "You send a #day# trying to get out as much as you can from a #abandoned_adj##scaveged_item#. At the end you find #found_item#. You decide to stay there for the night. You wake up and #action#"
+}
