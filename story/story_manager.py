@@ -150,6 +150,17 @@ class Story:
         else:
             return "Error save not found."
 
+    def get_rating(self):
+        while True:
+            try:
+                rating = input("Please rate the story quality from 1-10: ")
+                rating_float = max(min(float(rating), 10), 1)
+            except ValueError:
+                print("Please return a valid number.")
+            else:
+                self.rating = rating_float
+                return
+
 
 class StoryManager:
     def __init__(self, generator):

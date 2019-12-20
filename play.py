@@ -110,6 +110,8 @@ def get_curated_exposition(
         character_key == "noble"
         or character_key == "knight"
         or character_key == "wizard"
+        or character_key == "peasant"
+        or character_key == "rogue"
     ):
         context = grammars.generate(setting_key, character_key, "context") + "\n\n"
         context = context.replace(name_token, name)
@@ -142,7 +144,8 @@ def instructions():
     text += "\n\nThe following commands can be entered for any action: "
     text += '\n  "/revert"   Reverts the last action allowing you to pick a different action.'
     text += '\n  "/quit"     Quits the game and saves'
-    text += '\n  "/restart"  Starts a new game and saves your current one'
+    text += '\n  "/reset"    Starts a new game and saves your current one'
+    text += '\n  "/restart"  Starts the game from beginning with same settings'
     text += '\n  "/save"     Makes a new save of your game and gives you the save ID'
     text += '\n  "/load"     Asks for a save ID and loads the game if the ID is valid'
     text += '\n  "/print"    Prints a transcript of your adventure (without extra newline formatting)'
@@ -220,28 +223,19 @@ def play_aidungeon_2():
                 split = action[1:].split(" ")  # removes preceding slash
                 command = split[0].lower()
                 args = split[1:]
-                if command == "restart":
-                    while True:
-                        try:
-                            rating = input("Please rate the story quality from 1-10: ")
-                            rating_float = max(min(float(rating), 10), 1)
-                        except ValueError:
-                            print("Please return a valid number.")
-                        else:
-                            story_manager.story.rating = rating_float
-                            break
+                if command == "reset":
+                    story_manager.story.get_rating()
                     break
 
+                elif command == "restart":
+                    story_manager.story.actions = []
+                    story_manager.story.results = []
+                    console_print("Game restarted.")
+                    console_print(story_manager.story.story_start)
+                    continue
+
                 elif command == "quit":
-                    while True:
-                        try:
-                            rating = input("Please rate the story quality from 1-10: ")
-                            rating_float = max(min(float(rating), 10), 1)
-                        except ValueError:
-                            print("Please return a valid number.")
-                        else:
-                            story_manager.story.rating = rating_float
-                            break
+                    story_manager.story.get_rating()
                     exit()
 
                 elif command == "nosaving":
@@ -326,9 +320,9 @@ def play_aidungeon_2():
 
                 else:
                     action = action.strip()
-                    action = action[0].lower() + action[1:]
 
-                    if "You" not in action[:6] and "I" not in action[:6]:
+                    if "you" not in action[:6].lower() and "I" not in action[:6]:
+                        action = action[0].lower() + action[1:]
                         action = "You " + action
 
                     if action[-1] not in [".", "?", "!"]:
@@ -353,6 +347,7 @@ def play_aidungeon_2():
 
                 if player_won(result):
                     console_print(result + "\n CONGRATS YOU WIN")
+                    story_manager.story.get_rating()
                     break
                 elif player_died(result):
                     console_print(result)
@@ -365,6 +360,7 @@ def play_aidungeon_2():
                     console_print("Which do you choose? ")
                     choice = get_num_options(2)
                     if choice == 0:
+                        story_manager.story.get_rating()
                         break
                     else:
                         console_print("Sorry about that...where were we?")

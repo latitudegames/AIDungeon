@@ -6,6 +6,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [[Unreleased]](https://github.com/AIDungeon/AIDungeon/compare/master...develop)
 
+### Added
+
+- `/reset` is a new command with the same functionality as the
+old `/restart`, saving the old and beginning a brand new game.
+- Ratings after death and winning
+- `get_rating` function to `Story` objects.
+- Some new word to fantasy grammar.
+- Formal grammars for peasant and rogue contexts/prompts.
+
+### Fixed
+
+- Typos in story grammar.
+- AI no longer sees `You you` when the user inputs commands beginning with `You` or `I`.
+- Some caption issues with actions.
+
+### Changed
+
+- `/restart` now restarts from the beginning of the same game.
 
 ## [2.1.1] - 2019-12-17
 
