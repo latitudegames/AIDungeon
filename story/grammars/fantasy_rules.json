@@ -209,7 +209,6 @@
     "rogue_location" : ["#along# the #city# #street#", "#amongst# the #townsfolk#"],
     "seeking" : ["seeking", "looking for", "searching for", "in search of"],
     "sense" : ["see", "hear", "sense", "remember", "feel", "notice"],
-    "action" : ["look around and see", "#sense#"],
     "rogue_one" : "You #walk# #rogue_location# #seeking# #target#. You #action#",
 
     "position" : ["at the doorstep", "along the way", "suddenly", "before long", "out of the blue", "once in your room"],
