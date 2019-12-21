@@ -57,10 +57,10 @@
     "toast" : ["offers a toast", "gives a speech", "recites a prayer", "announces future plans", "loudly argues", "sings a ballad"],
     "grand_home_adj" : ["great", "grand", "large", "spacious"],
     "grand_home_adj_opt" : ["#grand_home_adj# ", ""],
-    "noble_location" : ["with a #group# of #character.s#", "in a #grand_home_adj_opt##nice_home#"],
+    "noble_location" : ["with #group.a# of #character.s#", "in a #grand_home_adj_opt##nice_home#"],
     "festival" : ["#season# festival", "festival of the #deity#", "festival of the #animal#", "festival of the year of the #animal#"],
     "season_opt" : ["#season# ", ""],
-    "noble_two" : "Throughout the #realm# it is the #festival#. To celebrate, you are feasting #noble_location#. #subordinate.s.capitalize# bustle #to_fro#.\n\nAs a #character# #toast#, you #action#",
+    "noble_two" : "Throughout the #realm# it is the #festival#. To celebrate, you are feasting #noble_location#. #subordinate.s.capitalize# bustle #to_fro#.\n\nAs #character.a# #toast#, you #action#",
 
     "week_month" : ["week", "fortnight", "month"],
     "week_months" : ["weeks", "fortnights", "months"],
@@ -76,8 +76,7 @@
 
     "noble_prompt": ["#noble_one#", "#noble_two#", "#noble_three#", "#noble_four##"],
 
-    "noble_context1" : "You are <NAME>, a noble #from_fantasy#. You have a #noble_item1# and a #noble_item2#.",
-    "noble_context" : ["#[noble_item1:#noble_item#][noble_item2:#noble_item#]noble_context1#"],
+    "noble_context" : "You are <NAME>, a noble #from_fantasy#. You have #noble_item.a# and #noble_item.a#.",
 
 
 
@@ -125,11 +124,11 @@
 
     "quest_type" : ["#monster_quest#", "#artifact_quest#", "#rescue_quest#"],
     "could" : ["will", "may", "should", "could"],
-    "adventure" : ["an adventure", "a quest", "a journey", "a crusade"],
+    "adventure" : ["adventure", "quest", "journey", "crusade"],
     "beginning" : ["going on", "beginning", "setting out on"],
-    "quest" : ["You are #beginning# #adventure# to #quest_type#. You set out #towards# a #place_adj# #place# that #could# take you there.\n\nAs you approach, you #action#"],
+    "quest" : ["You are #beginning# #adventure.a# to #quest_type#. You set out #towards# #place_adj.a# #place# that #could# take you there.\n\nAs you approach, you #action#"],
     "knight_prompt" : "#quest#",
-    "knight_context" : "You are <NAME>, a knight #from_fantasy#. You have a #knight_item# and a #knight_item#.",
+    "knight_context" : "You are <NAME>, a knight #from_fantasy#. You have #knight_item.a# and #knight_item.a#.",
 
 
 
@@ -159,7 +158,7 @@
     "book" : ["#normal_book#", "#spellbook#", "book", "spellbook"],
     "magic_discipline" : ["alchemy"],
     "through" : ["through", "across", "throughout", "about"],
-    "wizard_drafts" : ["After a #week_month# of travel you arrive at the ruin ", "Your apprentice has done it again; #he_she# has summoned a being "], 
+    "wizard_drafts" : ["After #week_month.a# of travel you arrive at the ruin ", "Your apprentice has done it again; #he_she# has summoned a being "], 
     "road" : ["road", "river", "path"],
     "wizard_exchange" : ["notes", "spells", "gossip", "goods", "research", "banter", "knowledge"],
     "wizard_colleage" : ["another wizard", "a fellow wizard", "a sorcerer", "a #evil_role#", "a #attrib# #char#"],
@@ -169,12 +168,12 @@
     "wandering_opt" : ["#wandering# ", ""],
     "troupe" : ["group", "band", "troupe", "crew", "gang", "party"],
     "dancer" : ["dancer", "actor", "entertainer"],
-    "road_encounter" : ["#encounter# #looks_like_opt#a #creature#", "#encounter# a #wandering_opt#troupe of #profession.s#"],
+    "road_encounter" : ["#encounter# #looks_like_opt##creature.a#", "#encounter# a #wandering_opt#troupe of #profession.s#"],
     "wizard_one" : ["You are #on_the_way# #towards# #village_full# to exchange #wizard_exchange# with #wizard_colleage#. You #road_encounter#.\n\nYou #action#"],
     "old" : ["old", "aged", "experienced", "elderly", "venerable"],
     "around_opt" : [" about", " around", ""],
     "wizard_pos" : ["wise", "intelligent", "crafty", "powerful", "magical"],
-    "wizard_two" : ["You face a #place_adj# #place# as images of #random_object.s# #flicker# #through# your #mind#. What was that? Though #old# and #wizard_pos#, your memory extends only a few #week_months# back. Now you #wander##around_opt#, trying to #remember# what happened.\n\nYou #action#"],
+    "wizard_two" : ["You face #place_adj.a# #place# as images of #random_object.s# #flicker# #through# your #mind#. What was that? Though #old# and #wizard_pos#, your memory extends only a few #week_months# back. Now you #wander##around_opt#, trying to #remember# what happened.\n\nYou #action#"],
     "great" : ["great", "renowned", "world-famous", "legendary"],
     "stare" : ["look", "stare", "gaze"],
     "sneak" : ["sneak", "creep", "inch", "move", "go"],
@@ -185,10 +184,10 @@
     "order" : ["order", "command", "remind", "direct", "demand"],
     "wizard_three" : "You are apprentice to the #great_wizard#. Before leaving on an errand, they #order.ed# you to never enter their #private# #chamber#... but your curiosity has gotten the best of you.\n\nAs you #go_near# the door, you #action#",
     "wizard_prompt" : ["#wizard_one#", "#wizard_two#", "#wizard_three#"],
-    "wizard_context" : "You are <NAME>, a wizard #from_fantasy#. You have a #wizard_item# and a #wizard_item#.",
+    "wizard_context" : "You are <NAME>, a wizard #from_fantasy#. You have #wizard_item.a# and #wizard_item.a#.",
 
 
-    "peasant_item" : ["a #metal_adj_opt#pitchfork", "the shirt on your back", "a #metal_adj_opt#shovel", "a dirty rag", "a #metal_adj_opt#spade", "a #metal_adj_opt#sickle", "shears", "a basket", "a plough", "a #metal_adj_opt#scythe", "a dirty hat"],
+    "peasant_item" : ["#metal_adj_opt#pitchfork", "shirt on your back", "#metal_adj_opt#shovel", "dirty rag", "#metal_adj_opt#spade", "#metal_adj_opt#sickle", "shears", "basket", "plough", "#metal_adj_opt#scythe", "dirty hat"],
     "farm_animal" : ["pig", "cow", "chicken", "llama", "goat", "horse", "donkey", "rabbit", "hog", "mule", "sow"],
     "farm_animal_sing" : ["sheep", "livestock", "cattle"],
     "farm_animal_type" : ["#farm_animal.s#", "#farm_animal_sing#"],
@@ -201,11 +200,11 @@
     "begin" : ["begin", "go about", "start", "get to", "get about"],
     "second_thing" : ["For a while, you have wanted to run away.", "In the distance, your master is yelling at some other workers.", "The sun beats down upon you.", "This has been your daily routine since you were young.", "You mutter a prayer to the #deity#."],
     "peasant_prompt" : "You wake up #morning_time# and #begin# #peasant_work#. #second_thing# You #action#",
-    "peasant_context" : "You are <NAME>, a peasant #from_fantasy#. You have #peasant_item# and #peasant_item#.",
+    "peasant_context" : "You are <NAME>, a peasant #from_fantasy#. You have #peasant_item.a# and #peasant_item.a#.",
 
 
 
-    "rogue_item" : ["a pair of gloves", "a cloak", "a deck of cards", "a dagger", "lockpick", "a mask", "a shawl", "a pipe", "a key", "a length of rope", "darts", "a sickle", "a mace"],
+    "rogue_item" : ["pair of gloves", "cloak", "deck of cards", "dagger", "lockpick", "mask", "shawl", "pipe", "key", "length of rope", "bundle of darts", "sickle", "mace"],
     "walk" : ["walk","go"],
     "street" : ["street", "streets", "square", "road"],
     "city" : ["city", "town", "village", "market"],
@@ -232,6 +231,6 @@
     "simple" : ["simple", "basic", "general", "standard"],
     "rogue_three" : "This #time# you decided that #simple# #stealing# #not_enough#. You long for a more ambitious goal: taking for yourself #whole_artifact#.\n\nYou #action#",
     "rogue_prompt" : ["#rogue_one#","#rogue_two#", "#rogue_three#"],
-    "rogue_context" : "You are <NAME>, a rogue #from_fantasy#. You have #rogue_item# and #rogue_item#."
+    "rogue_context" : "You are <NAME>, a rogue #from_fantasy#. You have #rogue_item.a# and #rogue_item.a#."
 }
 
