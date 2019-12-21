@@ -26,13 +26,11 @@ def random_story(story_data):
     # random setting
     settings = story_data["settings"].keys()
     n_settings = len(settings)
+    n_settings = 2
     rand_n = random.randint(0, n_settings - 1)
     for i, setting in enumerate(settings):
         if i == rand_n:
             setting_key = setting
-
-    # temporarily only available in fantasy
-    setting_key = "fantasy"
 
     # random character
     characters = story_data["settings"][setting_key]["characters"]
@@ -43,7 +41,7 @@ def random_story(story_data):
             character_key = character
 
     # random name
-    name = grammars.direct(setting_key, "fantasy_name")
+    name = grammars.direct(setting_key, "character_name")
 
     return setting_key, character_key, name, None, None
 
