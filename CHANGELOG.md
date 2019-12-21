@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [[Unreleased]](https://github.com/AIDungeon/AIDungeon/compare/master...develop)
 
+- Removed f-strings for python 3.4 and 3.5 compatibility
+- Removed trailing comma in function args for 3.5 compatibility
+
 ### Added
 
 - `/reset` is a new command with the same functionality as the
