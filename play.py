@@ -267,14 +267,15 @@ def play_aidungeon_2():
                             console_print("Censor is now enabled.")
 
                     else:
-                        console_print(f"Invalid argument: {args[0]}")
+                        console_print("Invalid argument: {}".format(args[0]))
 
                 elif command == "save":
                     if upload_story:
                         id = story_manager.story.save_to_storage()
                         console_print("Game saved.")
                         console_print(
-                            f"To load the game, type 'load' and enter the following ID: {id}"
+                            "To load the game, type 'load' and enter the "
+                            "following ID: {}".format(id)
                         )
                     else:
                         console_print("Saving has been turned off. Cannot save.")
@@ -307,7 +308,7 @@ def play_aidungeon_2():
                     continue
 
                 else:
-                    console_print(f"Unknown command: {command}")
+                    console_print("Unknown command: {}".format(command))
 
             else:
                 if action == "":
