@@ -16,6 +16,7 @@
   "old_cloth_adj" : ["old", "torn", "crappy", "dirty"],
   "adverb" : ["finally", "suddenly", "surprisingly", "a day later"],
   "end_sentence" : ["You #action#", "#adverb.capitalize#, you #action#"],
+  "apocalypse_context" : "You are <NAME>, a #character_type# trying to survive after #apocalypse_reason#. You have #item1# and #item2#.",
 
   "day" : ["long day", "long #time#", "few hours", "routine #time#"],
   "stay_time" : ["the evening", "#few# of hourse", "#few# days"],
@@ -29,6 +30,31 @@
   "found_item" : ["nothing", "#few# cans of #food_type#", "#few# pieces of #worthy_metal#"],
   "scavenger_action" : ["You decide to stay there for #stay_time#." , "You head toward the nearby #colony#."],
   "scavenger_item" : ["a #old_metal_adj# crowbar", "a #old_metal_adj# handspike", "a #old_metal_adj# knife", "a #old_metal_adj# rifle", "a #old_metal_adj# gun", "a #old_cloth_adj# backpack", "a #old_metal_adj# canteen", "a #old_cloth_adj# gas mask", "a #old_metal_adj# lockpick", "a #old_cloth_adj# cloak"],
-  "scavenger_context" : "You are <NAME>, a lonely scavenger trying to survive after #apocalypse_reason#. You have #scavenger_item# and #scavenger_item#.",
-  "scavenger_prompt" : "You send a #day# trying to get out as much as you can from a #abandoned_adj# #scaveged_item#. At the end you find #found_item#. #scavenger_action# #end_sentence#"
+  "scavenger_context" : "#[character_type:lonely scavenger][item1:#scavenger_item#][item2:#scavenger_item#]apocalypse_context#",
+  "scavenger_prompt" : "You send a #day# trying to get out as much as you can from a #abandoned_adj# #scaveged_item#. At the end you find #found_item#. #scavenger_action# #end_sentence#",
+
+  "body_side" : ["left", "right"],
+  "finger_number" : ["two", "three", "four", "six", "seven", "eight"],
+  "young_age" : ["eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen"],
+  "since_young_age" : "since you were #young_age#",
+  "body_side_or_double" : ["#body_side# #part#", "#part.s#"],
+  "body_part" : ["#[part:hand]body_side_or_double#", "#[part:#arm_or_leg#]body_side_or_double#", "face", "back", "whole body", "chest"],
+  "fingers_or_toes" : ["#finger_number# fingers on your #[part:hand]body_side_or_double#", "#finger_number# toes on your #[part:leg]body_side_or_double#"],
+  "arm_or_leg" : ["arm", "leg"],
+  "mistakes" : ["misbehaving", "mistakes", "faults"],
+  "master" : ["guard", "master", "supervisor"],
+  "subject" : ["science", "history", "literature", "maths"],
+  "god" : ["god", "deity", "divine being"],
+  "bad_treatment" : ["But you manage to escape today from your #master#.", "You get flagged today for your #mistakes# by your #master#.", "You don't get any food for your #mistakes# today from your #master#."],
+  "mutant_condition" : ["#fingers_or_toes#", "fur on your #body_part#", "feather on your #body_part#", "scales on your #body_part#", "glandular skin on your #body_part#", "a third #arm_or_leg#"],
+  "mutant_bad_prompt_reason" : ["a sin", "a curse", "a punishment", "a crime", "an atrocity", "a scandal", "a sign of inferiority"],
+  "mutant_bad_prompt_effect" : ["enslaved #since_young_age#. #bad_treatment#", "in prison #since_young_age#. #bad_treatment#", "banished #since_young_age#. After a long journey, you find a #abandoned_adj# #scaveged_item#."],
+  "mutant_bad_prompt" : "#mutant_bad_prompt_reason#, and you have been #mutant_bad_prompt_effect#",
+  "mutant_good_prompt_reason" : ["a virtue", "a blessing", "a sign of supremacy", "a praise"],
+  "mutant_good_prompt_effect" : ["get the best education possible. You go to #subject# class today.", "are treated as a #god#. You prepare for a holy ceremony."],
+  "mutant_good_prompt" : "#mutant_good_prompt_reason#, and you #mutant_good_prompt_effect#",
+  "mutant_bad_or_good_prompt" : ["#mutant_bad_prompt#", "#mutant_good_prompt#"],
+  "mutant_prompt" : "In the #colony# you were born in, your strange condition was considered #mutant_bad_or_good_prompt# #end_sentence#",
+  "mutant_context" : "#[character_type:mutant][item1:#mutant_condition#][item2:#mutant_condition#]apocalypse_context#"
+
 }
