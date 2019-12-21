@@ -28,6 +28,7 @@
     "color" : ["black", "white", "red", "gray", "blue", "#uncommon_color#"],
     "uncommon_color" : ["green", "brown", "green", "brown", "golden", "silver", "scarlet"],
     "weapon" : ["staff", "sword", "spear", "flail", "mace", "dagger", "bow", "arrow", "lance"],
+    "relative" : ["father", "mother", "brother", "sister", "cousin", "uncle", "aunt"],
 
 
 
@@ -180,7 +181,7 @@
     "go_near" : ["#stare# at", "#sneak# towards", "approach"],
     "private" : ["private", "restricted", "forbidden", "confidential", "secure", "secret", "personal"],
     "chamber" : ["chamber", "study", "office", "antechamber", "room", "basement", "attic"],
-    "great_wizard" : ["#great# #magical_role# #fantasy_name#", "#fantasy_name# the #color#"],
+    "great_wizard" : ["#great# #magical_role# #fantasy_name#", "#fantasy_name# the #color.capitalize#"],
     "order" : ["order", "command", "remind", "direct", "demand"],
     "wizard_three" : "You are apprentice to the #great_wizard#. Before leaving on an errand, they #order.ed# you to never enter their #private# #chamber#... but your curiosity has gotten the best of you.\n\nAs you #go_near# the door, you #action#",
     "wizard_prompt" : ["#wizard_one#", "#wizard_two#", "#wizard_three#"],
@@ -194,7 +195,7 @@
     "woolen" : ["sheep", "goats", "llamas"],
     "milky" : ["cows", "goats"],
     "working" : ["working", "toiling", "laboring", "sweating"],
-    "morning_time" : ["at the break of dawn", "at daybreak", "early", "early in the morning"],
+    "morning_time" : ["at the break of dawn", "at daybreak", "early", "early in the morning", "at the cock's crow"],
     "field_verb" : ["plowing", "tilling", "cultivating", "caring for"],
     "peasant_work" : ["feeding the #farm_animal_type#", "#field_verb# the fields", "harvesting the crops", "planting new crops", "#working# in the fields", "shearing the #woolen#", "milking the #milky#", "shoveling dung"], 
     "begin" : ["begin", "go about", "start", "get to", "get about"],
@@ -210,7 +211,7 @@
     "city" : ["city", "town", "village", "market"],
     "steal" : ["steal from", "shoplift", "burgle", "break into"],
     "rob" : ["steal from", "rob", "jump", "pickpocket", "con"],
-    "target" : ["someplace to #steal#", "someone to #rob#", "a #profession# to #rob#"],
+    "target" : ["someplace to #steal#", "someone to #rob#", "some #profession# to #rob#"],
     "along" : ["along", "down"],
     "townsfolk" : ["townsfolk", "local vendors", "people", "crowd", "populace"],
     "amongst" : ["amongst", "in the midst of", "among"],
