@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Formal grammars for apocalyptic setting, mutant and scavenger contexts/prompts
+- Formal grammars for apocalyptic setting: scavenger, mutant and headhunter contexts/prompts
 
 
 ## [2.2.0] - 2019-12-19
