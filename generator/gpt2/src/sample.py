@@ -62,7 +62,7 @@ def sample_sequence(
     context=None,
     temperature=1,
     top_k=0,
-    top_p=1,
+    top_p=1
 ):
     if start_token is None:
         assert context is not None, "Specify exactly one of start_token and context!"
