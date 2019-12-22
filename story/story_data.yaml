@@ -50,6 +50,12 @@ settings:
 
         item1: "scales on your face"
         item2: "third leg"
+    
+      headhunter:
+        prompts: ["You are driving your rusty motorbike. You go past many abandoned bunkers. You arrive at a colony and stop the engine. You take a look around and see"]
+
+        item1: "binoculars"
+        item2: "crappy shotgun"
 
   mystery:
     description: "living in Chicago. "
