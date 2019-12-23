@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [[Unreleased]](https://github.com/AIDungeon/AIDungeon/compare/master...develop)
 
-## [2.2.0] - 2019-12-19
+## [2.2.0] - 2019-12-23
 
 ### Added
 
@@ -14,8 +14,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 old `/restart`, saving the old and beginning a brand new game.
 - Ratings after death and winning
 - `get_rating` function to `Story` objects.
-- Some new word to fantasy grammar.
+- New content in fantasy grammar.
 - Formal grammars for peasant and rogue contexts/prompts.
+
+## Removed
+
+- F-strings for python 3.4 and 3.5 compatibility
+- Trailing comma in function args for 3.5 compatibility
 
 ### Fixed
 
