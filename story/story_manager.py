@@ -105,6 +105,8 @@ class Story:
         return json.dumps(story_dict)
 
     def save_to_storage(self):
+        print("Saving to storage has been disabled due to abuse of the cloud bucket. Save will now be stored locally.")
+              
         self.uuid = str(uuid.uuid1())
 
         save_path = "./saved_stories/"
@@ -117,18 +119,6 @@ class Story:
         f = open(os.path.join(save_path, file_name), "w")
         f.write(story_json)
         f.close()
-
-        FNULL = open(os.devnull, "w")
-        p = Popen(
-            [
-                "gsutil",
-                "cp",
-                os.path.join(save_path, file_name),
-                "gs://aidungeonstories",
-            ],
-            stdout=FNULL,
-            stderr=subprocess.STDOUT,
-        )
         return self.uuid
 
     def load_from_storage(self, story_id):
@@ -138,17 +128,26 @@ class Story:
             return "Error save not found."
 
         file_name = "story" + story_id + ".json"
-        cmd = "gsutil cp gs://aidungeonstories/" + file_name + " " + save_path
-        os.system(cmd)
         exists = os.path.isfile(os.path.join(save_path, file_name))
-
         if exists:
             with open(os.path.join(save_path, file_name), "r") as fp:
                 game = json.load(fp)
-            self.init_from_dict(game)
-            return str(self)
+                self.init_from_dict(game)
+                return str(self)
         else:
-            return "Error save not found."
+            print("Save not found locally. Trying in the cloud bucket (only valid for saves before Dec 24 2019)")
+            cmd = "gsutil cp gs://aidungeonstories/" + file_name + " " + save_path
+            os.system(cmd)
+            exists = os.path.isfile(os.path.join(save_path, file_name))
+        
+
+            if exists:
+                with open(os.path.join(save_path, file_name), "r") as fp:
+                    game = json.load(fp)
+                self.init_from_dict(game)
+                return str(self)
+            else:
+                return "Error save not found locally or in the cloud."
 
     def get_rating(self):
         while True:
