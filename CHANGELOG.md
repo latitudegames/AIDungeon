@@ -10,6 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Formal grammars for apocalyptic setting: scavenger, mutant and headhunter contexts/prompts
+
+
+## [2.2.0] - 2019-12-19
+
+### Added
+
 - `/reset` is a new command with the same functionality as the
 old `/restart`, saving the old and beginning a brand new game.
 - Ratings after death and winning
