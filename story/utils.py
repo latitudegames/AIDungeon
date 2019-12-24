@@ -73,6 +73,7 @@ def player_won(text):
         "you ((\w* )*and |)((go|get) (in)?to|arrive (at|in)) (heaven|paradise)",
         "you ((\w* )*and |)celebrate your (victory|triumph)",
         "you ((\w* )*and |)retire",
+        "The rest is history...",
     ]
     return any(re.search(regexp, lower_text) for regexp in won_phrases)
 
