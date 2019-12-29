@@ -34,6 +34,29 @@ settings:
         item1: "long steel dagger"
         item2: "length of rope"
 
+  apocalyptic:
+    description: " trying to survive in a post apocalyptic world by scavenging among the ruins of what is left. "
+
+    characters:
+    
+      scavenger:
+        prompts: ["You walk for two hours and take a break. You've left your town in search of food. You look around and see "]
+
+        item1: "rusty knife"
+        item2: "canteen"
+
+      mutant:
+        prompts: ["In the colony you were born in, your strange condition was considered a curse, and you has been banished since you were sixteen. After a long journey, you find an abandoned bunker. You see"]
+
+        item1: "scales on your face"
+        item2: "third leg"
+    
+      headhunter:
+        prompts: ["You are driving your rusty motorbike. You go past many abandoned bunkers. You arrive at a colony and stop the engine. You take a look around and see"]
+
+        item1: "binoculars"
+        item2: "crappy shotgun"
+
   mystery:
     description: "living in Chicago. "
     characters:
@@ -55,37 +78,6 @@ settings:
 
         item1: "concealed pistol"
         item2: "syringe of poison"
-
-  apocalyptic:
-    description: " trying to survive in a post apocalyptic world by scavenging among the ruins of what is left. "
-
-    characters:
-
-      soldier:
-        prompts: ["You have lived in this military bunker since the bombs went off. You wake up and report for duty to your commanding officer and"]
-
-        item1: "automatic rifle"
-        item2: "grenade"
-
-      scavenger:
-        prompts: ["You walk for two hours and take a break. You've left your town in search of food. You look around and see "]
-
-        item1: "rusty knife"
-        item2: "canteen"
-
-      survivor:
-        prompts: ["You live in a small community of survivors who have managed to build a piece of civilization after
-        the bombs fell. You are talking to one of the leaders of the community when"]
-
-        item1: "hatchet"
-        item2: "hunting rifle"
-
-      courier:
-        prompts: ["It's a long and dangerous road from Boston to Charleston, but you're one of the only people who
-        knows the roads well enough to get your parcel of letters there. You set out in the morning and"]
-
-        item1: "parcel of letters"
-        item2: "small pistol"
 
   zombies:
     description: " trying to survive in a world filled with infected zombies everywhere. "
