@@ -6,12 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [[Unreleased]](https://github.com/AIDungeon/AIDungeon/compare/master...develop)
 
-## [2.2.0] - 2019-12-23
-
 ### Added
 
 - Formal grammars for apocalyptic setting: scavenger, mutant and headhunter contexts/prompts
-
+- 'Finetune the model yourself' section in README.md
 
 ## [2.2.0] - 2019-12-19
 
