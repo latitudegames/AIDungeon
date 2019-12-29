@@ -16,7 +16,7 @@ source ./venv/bin/activate
 ./play.py
 ```
 
-## Finetuning the Model Yourself
+## Finetune the model yourself
 
 Formatting the data. After scraping the data I formatted text adventures into a json dict structure that looked like the following:
 ```
