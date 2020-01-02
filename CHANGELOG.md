@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Formal grammars for apocalyptic setting: scavenger, mutant and headhunter contexts/prompts
 - 'Finetune the model yourself' section in README.md
 
+### Fixed
+
+- `install.sh` will only use `sudo` if the user is not root
+
 ## [2.2.0] - 2019-12-19
 
 ### Added
@@ -22,7 +26,7 @@ old `/restart`, saving the old and beginning a brand new game.
 - New content in fantasy grammar.
 - Formal grammars for peasant and rogue contexts/prompts.
 
-## Removed
+### Removed
 
 - F-strings for python 3.4 and 3.5 compatibility
 - Trailing comma in function args for 3.5 compatibility

@@ -43,19 +43,24 @@ is_command() {
 }
 
 system_package_install() {
+	SUDO=''
+	if (( $EUID != 0 )); then
+		SUDO='sudo'
+	fi
+	
 	PACKAGES=(aria2 git unzip wget)
 	if is_command 'apt-get'; then
-		sudo apt-get install ${PACKAGES[@]}
+		$SUDO apt-get install ${PACKAGES[@]}
 	elif is_command 'brew'; then
 		brew install ${PACKAGES[@]}
 	elif is_command 'yum'; then
-		sudo yum install ${PACKAGES[@]}
+		$SUDO yum install ${PACKAGES[@]}
 	elif is_command 'dnf'; then
-		sudo dnf install ${PACKAGES[@]}
+		$SUDO dnf install ${PACKAGES[@]}
 	elif is_command 'pacman'; then
-		sudo pacman -S ${PACKAGES[@]}
+		$SUDO pacman -S ${PACKAGES[@]}
 	elif is_command 'apk'; then
-		sudo apk --update add ${PACKAGES[@]}
+		$SUDO apk --update add ${PACKAGES[@]}
 	else
 		echo "You do not seem to be using a supported package manager."
 		echo "Please make sure ${PACKAGES[@]} are installed then press [ENTER]"
