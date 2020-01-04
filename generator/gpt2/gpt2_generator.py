@@ -14,7 +14,7 @@ tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
 
 class GPT2Generator:
-    def __init__(self, generate_num=60, temperature=0.4, top_k=40, top_p=0.9, censor=True):
+    def __init__(self, generate_num=60, temperature=0.4, top_k=40, top_p=0.9, censor=True, force_cpu=False):
         self.generate_num = generate_num
         self.temp = temperature
         self.top_k = top_k
@@ -35,8 +35,14 @@ class GPT2Generator:
             hparams.override_from_dict(json.load(f))
         seed = np.random.randint(0, 100000)
 
-        config = tf.compat.v1.ConfigProto()
-        config.gpu_options.allow_growth = True
+        config = None
+        if force_cpu:
+            config = tf.compat.v1.ConfigProto(
+                device_count={"GPU": 0}
+            )
+        else:
+            config = tf.compat.v1.ConfigProto()
+            config.gpu_options.allow_growth = True
         self.sess = tf.compat.v1.Session(config=config)
 
         self.context = tf.placeholder(tf.int32, [self.batch_size, None])
