@@ -180,15 +180,20 @@ class StoryManager:
         return str(self.story)
 
     def load_new_story(self, story_id, upload_story=False):
+        save_path = "./saved_stories/"
         file_name = "story" + story_id + ".json"
-        cmd = "gsutil cp gs://aidungeonstories/" + file_name + " ."
-        os.system(cmd)
-        exists = os.path.isfile(file_name)
+        exists = os.path.isfile(os.path.join(save_path, file_name))
 
         if not exists:
-            return "Error save not found."
+            print("Save not found locally. Trying in the cloud bucket (only valid for saves before Dec 24 2019)")
+            cmd = "gsutil cp gs://aidungeonstories/" + file_name + " " + save_path
+            os.system(cmd)
+            exists = os.path.isfile(os.path.join(save_path, file_name))
 
-        with open(file_name, "r") as fp:
+        if not exists:
+            return "Error save not found locally or on the cloud."
+
+        with open(os.path.join(save_path, file_name), "r") as fp:
             game = json.load(fp)
         self.story = Story("", upload_story=upload_story)
         self.story.init_from_dict(game)
