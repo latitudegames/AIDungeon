@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Formal grammars for apocalyptic setting: scavenger, mutant and headhunter contexts/prompts
 - 'Finetune the model yourself' section in README.md
+- Command line argument `--cpu` which forces use of the CPU instead of a GPU.
 
 ### Fixed
 

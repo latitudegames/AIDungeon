@@ -3,6 +3,7 @@ import os
 import random
 import sys
 import time
+import argparse
 
 from generator.gpt2.gpt2_generator import *
 from story import grammars
@@ -10,6 +11,13 @@ from story.story_manager import *
 from story.utils import *
 
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
+
+parser = argparse.ArgumentParser("Play AIDungeon 2")
+parser.add_argument(
+    "--cpu",
+    action="store_true",
+    help="Force using CPU instead of GPU."
+)
 
 
 def splash():
@@ -146,7 +154,14 @@ def instructions():
     return text
 
 
-def play_aidungeon_2():
+def play_aidungeon_2(args):
+    """
+    Entry/main function for starting AIDungeon 2
+
+    Arguments:
+        args (namespace): Arguments returned by the
+                          ArgumentParser
+    """
 
     console_print(
         "AI Dungeon 2 will save and use your actions and game to continually improve AI Dungeon."
@@ -157,7 +172,7 @@ def play_aidungeon_2():
     upload_story = True
 
     print("\nInitializing AI Dungeon! (This might take a few minutes)\n")
-    generator = GPT2Generator()
+    generator = GPT2Generator(force_cpu=args.cpu)
     story_manager = UnconstrainedStoryManager(generator)
     print("\n")
 
@@ -364,4 +379,5 @@ def play_aidungeon_2():
 
 
 if __name__ == "__main__":
-    play_aidungeon_2()
+    args = parser.parse_args()
+    play_aidungeon_2(args)
