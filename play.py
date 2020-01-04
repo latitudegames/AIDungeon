@@ -21,11 +21,13 @@ parser.add_argument(
 
 
 def splash():
-    print("0) New Game\n1) Load Game\n")
-    choice = get_num_options(2)
+    print("0) New Game\n1) Load Game (Cloud)\n2) Load Game (Local)")
+    choice = get_num_options(3)
 
     if choice == 1:
-        return "load"
+        return "load_cloud"
+    elif choice == 2:
+        return "load_local"
     else:
         return "new"
 
@@ -215,13 +217,22 @@ def play_aidungeon_2(args):
                 print("\n")
                 console_print(result)
 
-            else:
+            elif splash_choice == "load_cloud":
                 load_ID = input("What is the ID of the saved game? ")
-                result = story_manager.load_new_story(
+                result = story_manager.load_from_cloud(
                     load_ID, upload_story=upload_story
                 )
                 print("\nLoading Game...\n")
                 console_print(result)
+            
+            else:
+                load_ID = input("What is the ID of the saved game? ")
+                result = story_manager.load_from_local(
+                    load_ID, upload_story=upload_story
+                )
+                print("\nLoading Game...\n")
+                console_print(result)
+
 
         while True:
             sys.stdin.flush()

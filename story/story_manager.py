@@ -121,34 +121,6 @@ class Story:
         f.close()
         return self.uuid
 
-    def load_from_storage(self, story_id):
-        save_path = "./saved_stories/"
-
-        if not os.path.exists(save_path):
-            return "Error save not found."
-
-        file_name = "story" + story_id + ".json"
-        exists = os.path.isfile(os.path.join(save_path, file_name))
-        if exists:
-            with open(os.path.join(save_path, file_name), "r") as fp:
-                game = json.load(fp)
-                self.init_from_dict(game)
-                return str(self)
-        else:
-            print("Save not found locally. Trying in the cloud bucket (only valid for saves before Dec 24 2019)")
-            cmd = "gsutil cp gs://aidungeonstories/" + file_name + " " + save_path
-            os.system(cmd)
-            exists = os.path.isfile(os.path.join(save_path, file_name))
-        
-
-            if exists:
-                with open(os.path.join(save_path, file_name), "r") as fp:
-                    game = json.load(fp)
-                self.init_from_dict(game)
-                return str(self)
-            else:
-                return "Error save not found locally or in the cloud."
-
     def get_rating(self):
         while True:
             try:
@@ -159,7 +131,6 @@ class Story:
             else:
                 self.rating = rating_float
                 return
-
 
 class StoryManager:
     def __init__(self, generator):
@@ -179,16 +150,29 @@ class StoryManager:
         )
         return str(self.story)
 
-    def load_new_story(self, story_id, upload_story=False):
+    def load_from_cloud(self, story_id, upload_story=False):
         file_name = "story" + story_id + ".json"
         cmd = "gsutil cp gs://aidungeonstories/" + file_name + " ."
         os.system(cmd)
         exists = os.path.isfile(file_name)
 
         if not exists:
-            return "Error save not found."
+            return "Error cloud-save not found."
 
         with open(file_name, "r") as fp:
+            game = json.load(fp)
+        self.story = Story("", upload_story=upload_story)
+        self.story.init_from_dict(game)
+        return str(self.story)
+
+    def load_from_local(self, story_id, upload_story=False):
+        file_name = "story" + story_id + ".json"
+        exists = os.path.isfile("./saved_stories/" + file_name)
+
+        if not exists:
+            return "Error local-save not found."
+
+        with open("./saved_stories/" + file_name, "r") as fp:
             game = json.load(fp)
         self.story = Story("", upload_story=upload_story)
         self.story.init_from_dict(game)
