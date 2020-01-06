@@ -131,7 +131,7 @@ class Story:
             else:
                 self.rating = rating_float
                 return
-
+                
 class StoryManager:
     def __init__(self, generator):
         self.generator = generator
