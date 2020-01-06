@@ -7,7 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [[Unreleased]](https://github.com/AIDungeon/AIDungeon/compare/master...develop)
 
 ### Added
+- A way to Select to Load from Local Storage or Load from Google cloud (Both using ID)
 
+### Fixed
+- Not being able to Load a Local savefile from the Splash screen
+
+## [2.1.1] - 2019-12-17
+
+### Added
 - Formal grammars for apocalyptic setting: scavenger, mutant and headhunter contexts/prompts
 - 'Finetune the model yourself' section in README.md
 - Command line argument `--cpu` which forces use of the CPU instead of a GPU.
