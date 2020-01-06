@@ -152,14 +152,12 @@ class StoryManager:
 
     def load_from_cloud(self, story_id, upload_story=False):
         file_name = "story" + story_id + ".json"
-        cmd = "gsutil cp gs://aidungeonstories/" + file_name + " ."
-        os.system(cmd)
-        exists = os.path.isfile(file_name)
+        exists = os.path.isfile(os.path.join(save_path, file_name))
 
         if not exists:
             return "Error cloud-save not found."
-
-        with open(file_name, "r") as fp:
+          
+        with open(os.path.join(save_path, file_name), "r") as fp:
             game = json.load(fp)
         self.story = Story("", upload_story=upload_story)
         self.story.init_from_dict(game)
