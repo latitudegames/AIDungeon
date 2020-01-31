@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `install.sh` will only use `sudo` if the user is not root
 - Fix loading saved games from the title splash to use the new local save path.
+- Fix ending punctuation being chopped off of generated text.
 
 ## [2.2.0] - 2019-12-19
 

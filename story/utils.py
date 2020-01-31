@@ -132,7 +132,7 @@ def cut_trailing_sentence(text):
     if act_token > 0:
         last_punc = min(last_punc, act_token - 1)
 
-    text = text[:last_punc]
+    text = text[:last_punc+1]
 
     text = cut_trailing_quotes(text)
     text = cut_trailing_action(text)
