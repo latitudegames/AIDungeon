@@ -326,8 +326,8 @@ def play_aidungeon_2(args):
                     else:
                         console_print(story_manager.story.story_start)
                     console_print("Redo last action: ")
-                    console_print(last_action)
-                    result = story_manager.act(action)
+                    console_print("> " + last_action)
+                    result = story_manager.act(last_action)
                     console_print(result)
                     continue
 
