@@ -314,6 +314,23 @@ def play_aidungeon_2(args):
                         console_print(story_manager.story.story_start)
                     continue
 
+                elif command == "redo":
+                    if len(story_manager.story.actions) == 0:
+                        console_print("You can't redo. ")
+                        continue
+                    last_action = story_manager.story.actions[-1]
+                    story_manager.story.actions = story_manager.story.actions[:-1]
+                    story_manager.story.results = story_manager.story.results[:-1]
+                    if len(story_manager.story.results) > 0:
+                        console_print(story_manager.story.results[-1])
+                    else:
+                        console_print(story_manager.story.story_start)
+                    console_print("Redo last action: ")
+                    console_print("> " + last_action)
+                    result = story_manager.act(last_action)
+                    console_print(result)
+                    continue
+
                 else:
                     console_print("Unknown command: {}".format(command))
 
