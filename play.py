@@ -143,6 +143,9 @@ def instructions():
     text += '\n To speak enter \'say "(thing you want to say)"\' or just "(thing you want to say)" '
     text += "\n\nThe following commands can be entered for any action: "
     text += '\n  "/revert"   Reverts the last action allowing you to pick a different action.'
+    text += '\n  "/context"  Shows the story\'s context.'
+    text += '\n  "/remember memory" Adds to the story\'s context.'
+    text += '\n  "/forget memory id" Removes from the story\'s context.'
     text += '\n  "/quit"     Quits the game and saves'
     text += '\n  "/reset"    Starts a new game and saves your current one'
     text += '\n  "/restart"  Starts the game from beginning with same settings'
