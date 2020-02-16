@@ -81,7 +81,6 @@ class Story:
 
         return latest_result
 
-
     def __str__(self):
         story_list = [self.story_start]
         for i in range(len(self.results)):
