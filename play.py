@@ -314,6 +314,64 @@ def play_aidungeon_2(args):
                         console_print(story_manager.story.story_start)
                     continue
 
+                elif command == "remember":
+                    if len(args) == 0:
+                        console_print("You provided nothing to remember. ")
+                    else:
+                        context = " ".join(args)
+                        context = context.strip()
+                        if context[-1] != ".":
+                            context += "."
+                        story_manager.story.context += " " + context
+                        story_manager.story.context = story_manager.story.context.replace("\n", "")
+                        story_manager.story.context += "\n\n"
+                        story_manager.story.context = " ".join(story_manager.story.context.split())
+                        console_print("... and then you remembered. ")
+                
+                elif command == "forget":
+                    if len(args) == 0:
+                        console_print("You provided nothing to forget. ")
+                    else:
+                        try:
+                            index = int(args[0])
+                        except:
+                            console_print("Provide an integer of context to forget. ")
+                            continue
+                        context_as_list = story_manager.story.context.replace("\n", "").split(". ")
+                        if len(context_as_list) == 0:
+                            console_print("You have nothing to forget. ")
+                            continue
+                        if context_as_list[0] == "":
+                            console_print("You have nothing to forget. ")
+                            continue
+                        try:
+                            context_as_list.pop(index)
+                        except:
+                            console_print("The value you provided does not exist. Use /context to see the story's context. ")
+                            continue
+                        story_manager.story.context = ". ".join(context_as_list)
+                        if "." not in story_manager.story.context[-2:]:
+                            story_manager.story.context += ". "
+                        if story_manager.story.context[-1] != " ":
+                            story_manager.story.context += " "
+                        story_manager.story.context += "\n\n"
+                        story_manager.story.context = " ".join(story_manager.story.context.split())
+                        if len(story_manager.story.context) < 3:
+                            story_manager.story.context = ""
+                        console_print("... and then you forgot. ")
+                        
+                elif command == "context":
+                    context_as_list = story_manager.story.context.replace("\n", "").split(". ")
+                    filter_object = filter(lambda ele: ele != "", context_as_list)
+                    context_as_list = list(filter_object)
+                    string = ""
+                    if len(context_as_list) == 0:
+                        console_print("Your story has no context. ")
+                        continue
+                    for i, context in enumerate(context_as_list):
+                        string += str(i) + ") " + context + "\n"
+                    console_print(string.strip("\n").rstrip("."))
+                
                 else:
                     console_print("Unknown command: {}".format(command))
 
