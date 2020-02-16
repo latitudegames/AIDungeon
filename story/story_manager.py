@@ -78,8 +78,9 @@ class Story:
                 latest_result += self.actions[-mem_ind] + self.results[-mem_ind]
 
             mem_ind -= 1
-            
+
         return latest_result
+
 
     def __str__(self):
         story_list = [self.story_start]
