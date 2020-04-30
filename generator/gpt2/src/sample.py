@@ -65,9 +65,11 @@ def sample_sequence(
     top_p=1
 ):
     if start_token is None:
-        assert context is not None, "Specify exactly one of start_token and context!"
+        if context is None:
+            raise AssertionError("Specify exactly one of start_token and context!")
     else:
-        assert context is None, "Specify exactly one of start_token and context!"
+        if context is not None:
+            raise AssertionError("Specify exactly one of start_token and context!")
         context = tf.fill([batch_size, 1], start_token)
 
     def step(hparams, tokens, past=None):
