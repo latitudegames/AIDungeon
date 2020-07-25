@@ -35,7 +35,7 @@ pip_install () {
 		python3 -m venv ./venv
 	fi
 	source "${BASE_DIR}/venv/bin/activate"
-	pip install --upgrade pip setuptools
+	pip install --upgrade pip setuptools wheel
 	pip install -r "${BASE_DIR}/requirements.txt"
 }
 
