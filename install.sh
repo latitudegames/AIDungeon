@@ -29,6 +29,7 @@ pip_install () {
 	if [ ! -d "./venv" ]; then
 		# Some distros have venv built into python so this isn't always needed.
 		if is_command 'apt-get'; then
+            apt-get update
 			apt-get install python3-venv
 		fi
 		python3 -m venv ./venv
